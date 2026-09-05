@@ -19,6 +19,64 @@ const log = logger.module('AI:CustomOpenAI');
 
 export const DEFAULT_CUSTOM_OPENAI_BASE_URL = 'https://api.openai.com/v1';
 
+export function normalizeBaseUrl(url: string): string {
+  let u = url?.trim() || DEFAULT_CUSTOM_OPENAI_BASE_URL;
+  u = u.replace(/\/+$/, '');
+  if (u.endsWith('/chat/completions')) {
+    u = u.slice(0, -'/chat/completions'.length).replace(/\/+$/, '');
+  }
+  return u;
+}
+
+export function formatCustomOpenAIError(error: unknown, baseUrl: string): string {
+  const err = error as { status?: number; message?: string; name?: string };
+  const message = err?.message || String(error);
+  const normalized = normalizeBaseUrl(baseUrl);
+
+  const isConnectionError =
+    err?.name === 'APIConnectionError' ||
+    message.includes('Connection error') ||
+    message.includes('Failed to fetch') ||
+    message.includes('NetworkError') ||
+    message.includes('CORS');
+
+  if (isConnectionError) {
+    const isOfficialOpenAI = normalized.includes('api.openai.com');
+    const isMixedContent =
+      typeof window !== 'undefined' &&
+      window.location.protocol === 'https:' &&
+      normalized.startsWith('http://');
+
+    if (isOfficialOpenAI) {
+      return '连接失败 (CORS 跨域拦截)：OpenAI 官方接口 (api.openai.com) 不支持在浏览器前端直接跨域调用。如果您使用的是官方 Key，请使用支持 CORS 的第三方代理/中转 URL（如 OneAPI、NewAPI、Cloudflare Workers 等），或切换至支持浏览器调用的服务商（如 OpenRouter、Anthropic）。';
+    }
+
+    if (isMixedContent) {
+      return `连接失败 (Mixed Content 混合内容拦截)：当前网站使用 HTTPS，浏览器安全策略禁止直接向 HTTP 接口 (${normalized}) 发送请求。请将 Base URL 升级为 HTTPS 或使用 HTTPS 反向代理。`;
+    }
+
+    return `连接失败 (Connection error)：无法访问 ${normalized}。常见原因：\n1. 服务端跨域未开启 (CORS)：需在服务端配置 Access-Control-Allow-Origin: * 并响应 OPTIONS 预检；\n2. 路径不全：检查是否缺少 /v1（通常为 https://your-proxy.com/v1）；\n3. 服务不可达：请检查服务端网络连接或证书是否有效。`;
+  }
+
+  if (err?.status === 401 || message.includes('Incorrect API key') || message.includes('401')) {
+    return 'API 密钥无效或未授权 (401 Unauthorized)。请检查 API Key 是否填写正确。';
+  }
+
+  if (err?.status === 429 || message.includes('rate limit')) {
+    return '接口请求频率超限 (429 Rate Limit) 或并发过高。';
+  }
+
+  if (err?.status === 402 || message.includes('quota') || message.includes('balance') || message.includes('insufficient')) {
+    return '接口账户余额不足或额度耗尽 (402/Quota Exceeded)。';
+  }
+
+  if (err?.status === 404 || message.includes('model')) {
+    return '未找到该模型 (404 Not Found)。请检查所填写的模型 ID 是否存在于该提供商中。';
+  }
+
+  return message || '未知错误';
+}
+
 const METADATA: AIProviderMetadata = {
   id: 'custom-openai',
   name: 'Custom OpenAI',
@@ -120,8 +178,7 @@ export class CustomOpenAIProvider implements AIProvider {
       return;
     }
 
-    let normalizedUrl = this.baseUrl?.trim() || DEFAULT_CUSTOM_OPENAI_BASE_URL;
-    normalizedUrl = normalizedUrl.replace(/\/+$/, '');
+    const normalizedUrl = normalizeBaseUrl(this.baseUrl);
 
     this.client = new OpenAI({
       apiKey: this.apiKey,
@@ -202,10 +259,9 @@ export class CustomOpenAIProvider implements AIProvider {
       return { success: false, error: '请先填写 API Key 密钥后再进行测试。' };
     }
 
-    try {
-      let normalizedUrl = this.baseUrl?.trim() || DEFAULT_CUSTOM_OPENAI_BASE_URL;
-      normalizedUrl = normalizedUrl.replace(/\/+$/, '');
+    const normalizedUrl = normalizeBaseUrl(this.baseUrl);
 
+    try {
       const testClient = new OpenAI({
         apiKey: key,
         baseURL: normalizedUrl,
@@ -223,7 +279,7 @@ export class CustomOpenAIProvider implements AIProvider {
       this.addCustomModel(targetModel);
       return { success: true, reply };
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : String(error);
+      const message = formatCustomOpenAIError(error, normalizedUrl);
       log.error('Custom OpenAI testModel failed', { error });
       return { success: false, error: message };
     }
@@ -231,8 +287,7 @@ export class CustomOpenAIProvider implements AIProvider {
 
   async validateApiKey(apiKey: string, modelId?: string): Promise<boolean> {
     try {
-      let normalizedUrl = this.baseUrl?.trim() || DEFAULT_CUSTOM_OPENAI_BASE_URL;
-      normalizedUrl = normalizedUrl.replace(/\/+$/, '');
+      const normalizedUrl = normalizeBaseUrl(this.baseUrl);
 
       const testClient = new OpenAI({
         apiKey: apiKey,
@@ -350,46 +405,12 @@ export class CustomOpenAIProvider implements AIProvider {
         };
       }
     } catch (error: unknown) {
-      const err = error as { status?: number; message?: string };
-
-      if (err?.status === 401 || err?.message?.includes('Incorrect API key') || err?.message?.includes('401')) {
-        throw new ProviderError(
-          ProviderErrorType.INVALID_API_KEY,
-          '自定义 OpenAI API 密钥无效或未授权。',
-          'custom-openai'
-        );
-      } else if (err?.status === 429 || err?.message?.includes('rate limit')) {
-        throw new ProviderError(
-          ProviderErrorType.RATE_LIMIT,
-          '自定义接口速率超限 (429 Rate Limit)。',
-          'custom-openai',
-          true
-        );
-      } else if (err?.status === 402 || err?.message?.includes('quota') || err?.message?.includes('balance')) {
-        throw new ProviderError(
-          ProviderErrorType.QUOTA_EXCEEDED,
-          '自定义接口余额不足或额度耗尽。',
-          'custom-openai'
-        );
-      } else if (err?.status === 404 || err?.message?.includes('model')) {
-        throw new ProviderError(
-          ProviderErrorType.MODEL_NOT_FOUND,
-          `在当前接口未找到模型 "${model}"。`,
-          'custom-openai'
-        );
-      } else if (err?.message?.includes('CORS') || err?.message?.includes('Failed to fetch')) {
-        throw new ProviderError(
-          ProviderErrorType.NETWORK_ERROR,
-          `网络请求或跨域(CORS)错误：无法访问 ${this.baseUrl}。请检查 Base URL 是否正确，以及服务端是否允许跨域。`,
-          'custom-openai'
-        );
-      } else {
-        throw new ProviderError(
-          ProviderErrorType.UNKNOWN,
-          `自定义 OpenAI 接口错误: ${err?.message || '未知错误'}`,
-          'custom-openai'
-        );
-      }
+      const formatted = formatCustomOpenAIError(error, this.baseUrl);
+      throw new ProviderError(
+        ProviderErrorType.UNKNOWN,
+        `自定义 OpenAI 接口错误: ${formatted}`,
+        'custom-openai'
+      );
     }
   }
 }

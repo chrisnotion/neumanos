@@ -384,9 +384,12 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                             type="text"
                             value={baseUrlInput}
                             onChange={(e) => setBaseUrlInput(e.target.value)}
-                            placeholder="例如: https://api.openai.com/v1 或您的反代/本地接口地址"
+                            placeholder="例如: https://api.your-proxy.com/v1"
                             className="w-full px-2.5 py-1.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary text-xs"
                           />
+                          <p className="text-[10px] text-text-light-tertiary dark:text-text-dark-tertiary leading-tight">
+                            ⚠️ 提示：OpenAI 官方域名 (api.openai.com) 禁用浏览器直接跨域访问；需使用支持 CORS 的第三方代理/中转 URL，且必须与本站同为 HTTPS 协议。
+                          </p>
                         </div>
 
                         <div className="space-y-1">
