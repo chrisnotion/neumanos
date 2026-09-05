@@ -39,7 +39,7 @@ export const UpcomingEventsWidget: React.FC = () => {
     .slice(0, 3);
 
   return (
-    <BaseWidget title="Upcoming Events" icon="📅" subtitle="Next 3 events">
+    <BaseWidget title="近期日程" icon="📅" subtitle="未来最近 3 项日程">
       <div className="flex flex-col h-full min-h-[160px]">
         {upcomingEvents.length > 0 ? (
           <div className="space-y-2 mb-4">
@@ -55,7 +55,7 @@ export const UpcomingEventsWidget: React.FC = () => {
                       // Parse date from YYYY-M-D format (standard date key)
                       const [year, month, day] = event.date.split('-').map(Number);
                       const date = new Date(year, month - 1, day);
-                      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                      return date.toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' });
                     })()}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -71,16 +71,16 @@ export const UpcomingEventsWidget: React.FC = () => {
         ) : (
           <WidgetEmptyState
             icon="📅"
-            message="No upcoming events"
-            hint="Your calendar is clear - add an event to get started"
-            action={{ label: 'Open Calendar', onClick: () => navigate('/schedule') }}
+            message="近期无待办日程"
+            hint="日程表空空如也，添加一项事件开始规划"
+            action={{ label: '打开日历', onClick: () => navigate('/schedule') }}
           />
         )}
         <button
           onClick={() => navigate('/schedule')}
           className="w-full mt-auto px-4 py-2.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-button text-sm font-medium transition-all duration-standard ease-smooth"
         >
-          View Calendar →
+          查看完整日程日历 →
         </button>
       </div>
     </BaseWidget>

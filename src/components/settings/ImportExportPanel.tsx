@@ -508,11 +508,11 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
         <div className="flex items-center gap-3 mb-1">
           <Upload className="w-5 h-5 text-accent-primary" />
           <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Import Data
+            导入数据
           </h2>
         </div>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-6">
-          Import notes and tasks from other productivity tools.
+          从主流笔记与任务管理工具中迁移历史数据。
         </p>
 
         {/* Import Source Selection (when idle) */}
@@ -524,7 +524,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
               <div>
                 <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Notion</p>
                 <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-1">
-                  ZIP or CSV export
+                  ZIP 归档包或 CSV 导出
                 </p>
               </div>
               <input
@@ -543,7 +543,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
               <div>
                 <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Obsidian</p>
                 <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-1">
-                  Vault folder (.md files)
+                  Vault 库文件夹 (.md 文件)
                 </p>
               </div>
               <input
@@ -563,7 +563,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
               <div>
                 <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Todoist</p>
                 <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-1">
-                  CSV export
+                  CSV 导出文件
                 </p>
               </div>
               <input
@@ -588,7 +588,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
               />
             </div>
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-              Parsing {importProgress.current} of {importProgress.total} files...
+              正在解析文件 {importProgress.current} / {importProgress.total}...
             </p>
             <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-1 truncate">
               {importProgress.file}
@@ -607,61 +607,61 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
               {/* Notion Preview */}
               {importSource === 'notion' && (
                 <ImportPreview
-                  title="Notion Import Preview"
+                  title="Notion 导入预览"
                   stats={[
-                    { label: 'Notes', value: notionEntries.filter((e) => e.type === 'note').length, icon: FileText },
-                    { label: 'Tasks', value: notionEntries.filter((e) => e.type === 'task').length, icon: CheckSquare },
+                    { label: '笔记', value: notionEntries.filter((e) => e.type === 'note').length, icon: FileText },
+                    { label: '任务', value: notionEntries.filter((e) => e.type === 'task').length, icon: CheckSquare },
                   ]}
                   errors={notionErrors}
                   samples={notionEntries.slice(0, 5).map((e) => ({
                     title: e.title,
-                    subtitle: `${e.type} ${e.tags.length > 0 ? `| Tags: ${e.tags.join(', ')}` : ''}`,
+                    subtitle: `${e.type === 'note' ? '笔记' : '任务'} ${e.tags.length > 0 ? `| 标签: ${e.tags.join(', ')}` : ''}`,
                   }))}
                   totalItems={notionEntries.length}
                   onConfirm={handleNotionConfirmImport}
                   onCancel={resetImport}
-                  confirmLabel={`Import ${notionEntries.length} Items`}
+                  confirmLabel={`导入 ${notionEntries.length} 个项目`}
                 />
               )}
 
               {/* Obsidian Preview */}
               {importSource === 'obsidian' && (
                 <ImportPreview
-                  title="Obsidian Import Preview"
+                  title="Obsidian 导入预览"
                   stats={[
-                    { label: 'Notes', value: obsidianNotes.length, icon: FileText },
-                    { label: 'Wiki Links', value: obsidianStats.wikiLinks, icon: FileText },
-                    { label: 'Attachments Skipped', value: obsidianStats.attachmentsSkipped, icon: FileText },
+                    { label: '笔记文档', value: obsidianNotes.length, icon: FileText },
+                    { label: '双链关联', value: obsidianStats.wikiLinks, icon: FileText },
+                    { label: '跳过附件', value: obsidianStats.attachmentsSkipped, icon: FileText },
                   ]}
                   errors={obsidianErrors}
                   samples={obsidianNotes.slice(0, 5).map((n) => ({
                     title: n.title,
-                    subtitle: `${n.folderPath || 'Root'} ${n.tags.length > 0 ? `| Tags: ${n.tags.join(', ')}` : ''}`,
+                    subtitle: `${n.folderPath || '根目录'} ${n.tags.length > 0 ? `| 标签: ${n.tags.join(', ')}` : ''}`,
                   }))}
                   totalItems={obsidianNotes.length}
                   onConfirm={handleObsidianConfirmImport}
                   onCancel={resetImport}
-                  confirmLabel={`Import ${obsidianNotes.length} Notes`}
+                  confirmLabel={`导入 ${obsidianNotes.length} 篇笔记`}
                 />
               )}
 
               {/* Todoist Preview */}
               {importSource === 'todoist' && (
                 <ImportPreview
-                  title="Todoist Import Preview"
+                  title="Todoist 导入预览"
                   stats={[
-                    { label: 'Tasks', value: todoistTasks.length, icon: CheckSquare },
-                    { label: 'Projects', value: todoistProjects.length, icon: FolderOpen },
+                    { label: '待办任务', value: todoistTasks.length, icon: CheckSquare },
+                    { label: '所属项目', value: todoistProjects.length, icon: FolderOpen },
                   ]}
                   errors={todoistErrors}
                   samples={todoistTasks.slice(0, 5).map((t) => ({
                     title: t.title,
-                    subtitle: `${t.priority} priority ${t.projectName ? `| ${t.projectName}` : ''} ${t.dueDate ? `| Due: ${t.dueDate}` : ''}`,
+                    subtitle: `${t.priority} 优先级 ${t.projectName ? `| ${t.projectName}` : ''} ${t.dueDate ? `| 到期: ${t.dueDate}` : ''}`,
                   }))}
                   totalItems={todoistTasks.length}
                   onConfirm={handleTodoistConfirmImport}
                   onCancel={resetImport}
-                  confirmLabel={`Import ${todoistTasks.length} Tasks`}
+                  confirmLabel={`导入 ${todoistTasks.length} 项任务`}
                 />
               )}
             </motion.div>
@@ -679,7 +679,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
               />
             </div>
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-              Creating item {importedCount} of {totalImportItems}...
+              正在写入第 {importedCount} 项（共 {totalImportItems} 项）...
             </p>
           </div>
         )}
@@ -689,16 +689,16 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
           <div className="text-center py-8">
             <Check className="w-12 h-12 mx-auto mb-4 text-accent-green" />
             <p className="text-sm text-text-light-primary dark:text-text-dark-primary font-medium mb-2">
-              Import Complete
+              导入顺利完成
             </p>
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-4">
-              {importedCount} items imported successfully
+              成功导入 {importedCount} 条记录
             </p>
             <button
               onClick={resetImport}
               className="px-4 py-2.5 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-lg font-medium transition-colors border border-border-light dark:border-border-dark"
             >
-              Import More
+              继续导入其他数据
             </button>
           </div>
         )}
@@ -709,46 +709,46 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
         <div className="flex items-center gap-3 mb-1">
           <Download className="w-5 h-5 text-accent-primary" />
           <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Export by Module
+            按模块导出
           </h2>
         </div>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-6">
-          Export individual modules in standard formats for use with other tools.
+          将各模块数据导出为通用开放格式，方便在其他工具或设备中流转。
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <ExportButton
             icon={FileText}
-            label="Notes"
-            format="Markdown ZIP"
+            label="笔记文档"
+            format="Markdown 压缩包"
             isExporting={isExporting === 'notes'}
             onClick={() => handleExport('notes', exportNotesAsMarkdown)}
           />
           <ExportButton
             icon={CheckSquare}
-            label="Tasks"
-            format="CSV"
+            label="待办任务"
+            format="CSV 表格"
             isExporting={isExporting === 'tasks'}
             onClick={() => handleExport('tasks', () => exportTasksAsCSV())}
           />
           <ExportButton
             icon={Calendar}
-            label="Calendar"
-            format="ICS"
+            label="日历日程"
+            format="iCalendar (.ics)"
             isExporting={isExporting === 'calendar'}
             onClick={() => handleExport('calendar', () => exportCalendarAsICS())}
           />
           <ExportButton
             icon={Clock}
-            label="Time Entries"
-            format="CSV"
+            label="工时明细"
+            format="CSV 表格"
             isExporting={isExporting === 'time'}
             onClick={() => handleExport('time', () => exportTimeEntriesAsCSV())}
           />
           <ExportButton
             icon={BarChart3}
-            label="Habits"
-            format="CSV"
+            label="习惯打卡"
+            format="CSV 表格"
             isExporting={isExporting === 'habits'}
             onClick={() => handleExport('habits', () => exportHabitsAsCSV())}
           />
@@ -760,13 +760,13 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
         <div className="flex items-center gap-3 mb-1">
           <HardDrive className="w-5 h-5 text-accent-primary" />
           <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Automated Backups
+            自动本地快照备份
           </h2>
         </div>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-6">
           {isFileSystemAccessSupported()
-            ? 'Automatically save backups to a folder on your computer.'
-            : 'Your browser does not support folder selection. Use the download button for manual backups.'}
+            ? '配置本地存储目录后，系统可在后台自动生成周期性数据快照。'
+            : '当前浏览器环境不支持直接选取本地目录，请通过点击下方按钮进行手动备份下载。'}
         </p>
 
         {/* Backup Folder Selection */}
@@ -774,14 +774,15 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-3">
               <div className="flex-1 p-3 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg">
-                <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">Backup Folder</p>
+                <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">备份存储目录</p>
                 <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-                  {backupFolderName || 'Not configured'}
+                  {backupFolderName || '未配置备份目录'}
                 </p>
               </div>
               <button
                 onClick={handleSelectBackupFolder}
                 className="px-4 py-2.5 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-lg font-medium transition-colors border border-border-light dark:border-border-dark"
+                title="选择存储文件夹"
               >
                 <FolderOpen className="w-4 h-4" />
               </button>
@@ -789,7 +790,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
                 <button
                   onClick={handleClearBackupFolder}
                   className="px-4 py-2.5 text-status-error hover:bg-status-error-bg dark:hover:bg-status-error-bg-dark rounded-lg transition-colors"
-                  title="Clear backup folder"
+                  title="解绑当前备份目录"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -802,7 +803,7 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
                 {/* Enable toggle */}
                 <label className="flex items-center justify-between">
                   <span className="text-sm text-text-light-primary dark:text-text-dark-primary">
-                    Enable automatic backups
+                    启用自动备份
                   </span>
                   <input
                     type="checkbox"
@@ -815,43 +816,43 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
                 {/* Frequency */}
                 <div className="flex items-center gap-3">
                   <span className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                    Backup every
+                    自动备份间隔
                   </span>
                   <select
                     value={backupConfig.frequencyMinutes}
                     onChange={(e) => handleUpdateBackupConfig({ frequencyMinutes: parseInt(e.target.value, 10) })}
                     className="px-3 py-1.5 bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary"
                   >
-                    <option value="30">30 minutes</option>
-                    <option value="60">1 hour</option>
-                    <option value="120">2 hours</option>
-                    <option value="360">6 hours</option>
-                    <option value="720">12 hours</option>
-                    <option value="1440">24 hours</option>
+                    <option value="30">每 30 分钟</option>
+                    <option value="60">每 1 小时</option>
+                    <option value="120">每 2 小时</option>
+                    <option value="360">每 6 小时</option>
+                    <option value="720">每 12 小时</option>
+                    <option value="1440">每 24 小时</option>
                   </select>
                 </div>
 
                 {/* Max backups */}
                 <div className="flex items-center gap-3">
                   <span className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                    Keep last
+                    保留历史快照数
                   </span>
                   <select
                     value={backupConfig.maxBackups}
                     onChange={(e) => handleUpdateBackupConfig({ maxBackups: parseInt(e.target.value, 10) })}
                     className="px-3 py-1.5 bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary"
                   >
-                    <option value="3">3 backups</option>
-                    <option value="5">5 backups</option>
-                    <option value="10">10 backups</option>
-                    <option value="20">20 backups</option>
+                    <option value="3">保留最近 3 份</option>
+                    <option value="5">保留最近 5 份</option>
+                    <option value="10">保留最近 10 份</option>
+                    <option value="20">保留最近 20 份</option>
                   </select>
                 </div>
 
                 {/* Last backup info */}
                 {backupConfig.lastBackupTime && (
                   <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-                    Last backup: {new Date(backupConfig.lastBackupTime).toLocaleString()}
+                    上次备份时间：{new Date(backupConfig.lastBackupTime).toLocaleString()}
                     {backupConfig.lastBackupFilename && ` (${backupConfig.lastBackupFilename})`}
                   </p>
                 )}
@@ -872,10 +873,10 @@ export const ImportExportPanel: React.FC<ImportExportPanelProps> = ({ onMessage 
             <Download className="w-4 h-4" />
           )}
           {isBackingUp
-            ? 'Backing up...'
+            ? '正在备份...'
             : isFileSystemAccessSupported() && backupFolderName
-              ? 'Backup Now'
-              : 'Download Backup'}
+              ? '立即执行备份'
+              : '下载备份快照包'}
         </button>
       </div>
     </div>
@@ -940,7 +941,7 @@ const ImportPreview: React.FC<ImportPreviewProps> = ({
     {samples.length > 0 && (
       <div className="mb-6">
         <h4 className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-          Sample Items (first {Math.min(samples.length, 5)})
+          预览条目抽样（前 {Math.min(samples.length, 5)} 条）
         </h4>
         <div className="space-y-2">
           {samples.map((item, i) => (
@@ -954,7 +955,7 @@ const ImportPreview: React.FC<ImportPreviewProps> = ({
           ))}
           {totalItems > 5 && (
             <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary text-center">
-              ...and {totalItems - 5} more
+              ...以及其余 {totalItems - 5} 项
             </p>
           )}
         </div>
@@ -975,7 +976,7 @@ const ImportPreview: React.FC<ImportPreviewProps> = ({
         onClick={onCancel}
         className="px-4 py-2.5 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-lg font-medium transition-colors border border-border-light dark:border-border-dark"
       >
-        Cancel
+        取消
       </button>
     </div>
   </div>

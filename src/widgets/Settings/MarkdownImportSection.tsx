@@ -181,11 +181,11 @@ export const MarkdownImportSection: React.FC<MarkdownImportSectionProps> = ({
       <div className="flex items-center gap-3 mb-1">
         <FileText className="w-5 h-5 text-accent-primary" />
         <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-          Markdown / Obsidian Import
+          Markdown / Obsidian 文件夹导入
         </h2>
       </div>
       <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-6">
-        Import a folder of .md files as notes. Supports YAML frontmatter, [[wiki-links]], and #tags.
+        将本地文件夹中的全部 .md 笔记一键批量导入。全面支持 YAML Frontmatter 元数据、[[双链]]语法与 #标签识别。
       </p>
 
       {/* Idle State */}
@@ -193,11 +193,11 @@ export const MarkdownImportSection: React.FC<MarkdownImportSectionProps> = ({
         <div className="border-2 border-dashed border-border-light dark:border-border-dark rounded-lg p-8 text-center">
           <FolderOpen className="w-12 h-12 mx-auto mb-4 text-text-light-tertiary dark:text-text-dark-tertiary" />
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-4">
-            Select a folder containing markdown (.md) files to import
+            选择包含 Markdown (.md) 笔记的本地文件夹进行批量导入
           </p>
           <label className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-medium cursor-pointer transition-colors">
             <Upload className="w-4 h-4" />
-            Select Folder
+            选择笔记文件夹
             <input
               ref={fileInputRef}
               type="file"
@@ -209,7 +209,7 @@ export const MarkdownImportSection: React.FC<MarkdownImportSectionProps> = ({
             />
           </label>
           <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-3">
-            Non-.md files will be skipped. Hidden files/folders are excluded.
+            系统将自动跳过非 .md 文件，并忽略隐藏文件与隐藏文件夹。
           </p>
         </div>
       )}

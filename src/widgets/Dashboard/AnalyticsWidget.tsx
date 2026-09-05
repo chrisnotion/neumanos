@@ -66,7 +66,7 @@ export default function AnalyticsWidget() {
   }, [tasks, timeEntries, calendarEvents, notes, dateRange]);
 
   return (
-    <BaseWidget title="Personal Analytics" icon="📊">
+    <BaseWidget title="个人效能统计分析" icon="📊">
       <div className="flex flex-col h-full">
         {/* Period Selector */}
         <div className="mb-4">
@@ -76,64 +76,64 @@ export default function AnalyticsWidget() {
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <MetricCard
-            title="Completion Rate"
+            title="任务完成率"
             value={`${metrics.completionRate}%`}
             icon={CheckCircle2}
             color="success"
-            subtitle="Tasks completed"
+            subtitle="周期内已完成任务"
           />
 
           <MetricCard
-            title="Time Tracked"
+            title="累计投入工时"
             value={`${metrics.totalTimeHours}h`}
             icon={Clock}
             color="info"
-            subtitle="Total hours"
+            subtitle="专注与记录总时长"
           />
 
           <MetricCard
-            title="Events"
+            title="日程事件数"
             value={metrics.eventCount}
             icon={CalendarIcon}
             color="cyan"
-            subtitle="Calendar events"
+            subtitle="日历日程项"
           />
 
           <MetricCard
-            title="Notes Created"
+            title="新建笔记篇数"
             value={metrics.notesCount}
             icon={FileText}
             color="magenta"
-            subtitle="New notes"
+            subtitle="产出笔记文档"
           />
 
           <MetricCard
-            title="Overdue Tasks"
+            title="逾期未完成任务"
             value={metrics.overdueCount}
             icon={AlertCircle}
             color="warning"
-            subtitle="Need attention"
+            subtitle="需重点关注"
           />
 
           <MetricCard
-            title="Productivity"
+            title="综合效能指数"
             value="--"
             icon={TrendingUp}
             color="success"
-            subtitle="Coming soon"
+            subtitle="算法评估中"
           />
         </div>
 
         {/* Task Analytics Charts */}
         <div className="mt-6">
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
-            Task Analytics
+            任务统计分析
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Completion Rate Trend */}
             <div className="bento-card p-4">
               <h4 className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wide mb-3">
-                Completion Rate Trend
+                任务完成率趋势
               </h4>
               <CompletionRateChart tasks={tasks} dateRange={dateRange} />
             </div>
@@ -141,7 +141,7 @@ export default function AnalyticsWidget() {
             {/* Priority Distribution */}
             <div className="bento-card p-4">
               <h4 className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wide mb-3">
-                Priority Distribution
+                任务优先级分布
               </h4>
               <PriorityDistribution tasks={tasks} dateRange={dateRange} />
             </div>
@@ -149,7 +149,7 @@ export default function AnalyticsWidget() {
             {/* Status Breakdown */}
             <div className="bento-card p-4 lg:col-span-2">
               <h4 className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wide mb-3">
-                Status Breakdown
+                任务流转状态分布
               </h4>
               <StatusBreakdown tasks={tasks} dateRange={dateRange} />
             </div>
@@ -159,13 +159,13 @@ export default function AnalyticsWidget() {
         {/* Time Tracking Analytics Charts */}
         <div className="mt-6">
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
-            Time Tracking Analytics
+            工时与专注分析
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Time by Project */}
             <div className="bento-card p-4">
               <h4 className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wide mb-3">
-                Time by Project
+                各项目投入工时占比
               </h4>
               <TimeByProjectChart entries={timeEntries} dateRange={dateRange} />
             </div>
@@ -173,7 +173,7 @@ export default function AnalyticsWidget() {
             {/* Hourly Distribution Heatmap */}
             <div className="bento-card p-4">
               <h4 className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wide mb-3">
-                Hourly Distribution
+                24 小时工作时段热力分布
               </h4>
               <HourlyHeatmap entries={timeEntries} dateRange={dateRange} />
             </div>
@@ -181,7 +181,7 @@ export default function AnalyticsWidget() {
             {/* Session Duration Trend */}
             <div className="bento-card p-4 lg:col-span-2">
               <h4 className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wide mb-3">
-                Average Session Duration Trend
+                单次专注会话时长趋势
               </h4>
               <SessionDurationChart entries={timeEntries} dateRange={dateRange} />
             </div>
@@ -191,13 +191,13 @@ export default function AnalyticsWidget() {
         {/* Calendar & Notes Analytics Charts */}
         <div className="mt-6">
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
-            Calendar & Notes Analytics
+            日程与笔记文档分析
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Meeting vs Focus Time */}
             <div className="bento-card p-4">
               <h4 className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wide mb-3">
-                Meeting vs Focus Time
+                会议沟通 vs 深度专注时长对比
               </h4>
               <MeetingVsFocusChart events={calendarEvents} dateRange={dateRange} />
             </div>
@@ -205,7 +205,7 @@ export default function AnalyticsWidget() {
             {/* Tag Frequency */}
             <div className="bento-card p-4">
               <h4 className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wide mb-3">
-                Most Used Tags
+                高频标签排行榜
               </h4>
               <TagFrequencyChart notes={notes} dateRange={dateRange} limit={10} />
             </div>

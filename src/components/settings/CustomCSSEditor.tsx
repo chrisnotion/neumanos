@@ -56,7 +56,7 @@ export const CustomCSSEditor: React.FC = () => {
       {/* Warning Banner */}
       <div className="p-3 rounded-lg bg-status-warning-bg dark:bg-status-warning-bg-dark border border-status-warning-border dark:border-status-warning-border-dark">
         <p className="text-sm text-status-warning-text dark:text-status-warning-text-dark">
-          Custom CSS may break the UI. Use at your own risk. Certain patterns (imports, external URLs) are stripped for security.
+          自定义 CSS 样式可能会影响或破坏应用界面的正常排版渲染，请谨慎编写。为确保本地沙箱安全，外链字体与外部远程资源会被自动剔除。
         </p>
       </div>
 
@@ -73,10 +73,10 @@ export const CustomCSSEditor: React.FC = () => {
         >
           <div
             className={`w-3 h-3 rounded-full transition-colors ${
-              enabled ? 'bg-accent-primary' : 'bg-text-light-tertiary dark:bg-text-dark-tertiary'
+              enabled ? 'bg-accent-primary' : 'bg-text-light-tertiary dark:text-text-dark-tertiary'
             }`}
           />
-          {enabled ? 'Enabled' : 'Disabled'}
+          {enabled ? '已启用样式' : '已停用'}
         </button>
 
         {/* Live Preview Toggle */}
@@ -87,7 +87,7 @@ export const CustomCSSEditor: React.FC = () => {
             onChange={(e) => setLivePreview(e.target.checked)}
             className="rounded"
           />
-          Live preview
+          实时即时预览
         </label>
 
         {/* Snippets Dropdown */}
@@ -97,7 +97,7 @@ export const CustomCSSEditor: React.FC = () => {
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary border border-border-light dark:border-border-dark hover:border-accent-primary/50 transition-colors"
           >
             <Code className="w-3.5 h-3.5" />
-            Snippets
+            预置样式片段
             <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showSnippets ? 'rotate-180' : ''}`} />
           </button>
 
@@ -136,7 +136,7 @@ export const CustomCSSEditor: React.FC = () => {
           disabled={!isDirty || isOverLimit}
           className="px-4 py-1.5 rounded-lg text-sm font-medium bg-accent-primary text-white hover:bg-accent-primary/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
-          Save
+          保存样式
         </button>
 
         {/* Reset Button */}

@@ -300,11 +300,11 @@ export const WeatherMap: React.FC = () => {
           {/* Location name */}
           <div className="h-4 w-px bg-border-light dark:bg-border-dark"></div>
           <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-            📍 {city || 'Unknown Location'}
+            📍 {city || '未知地理位置'}
           </span>
         </>
       ) : loading ? (
-        <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary">Loading...</div>
+        <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary">正在获取天气...</div>
       ) : null}
     </div>
   );
@@ -312,7 +312,7 @@ export const WeatherMap: React.FC = () => {
   return (
     <Widget
       id="weathermap"
-      title="Weather & Location"
+      title="气象与地理位置"
       headerAccessory={weatherStatsDisplay}
       draggable={false}
     >
@@ -344,7 +344,7 @@ export const WeatherMap: React.FC = () => {
                     type="text"
                     value={cityInput}
                     onChange={(e) => setCityInput(e.target.value)}
-                    placeholder="Enter city..."
+                    placeholder="输入城市或地区名称..."
                     className="flex-1 min-w-0 px-3 py-2 text-sm border border-border-light dark:border-border-dark rounded-lg bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary shadow-lg"
                   />
                   <button
@@ -352,7 +352,7 @@ export const WeatherMap: React.FC = () => {
                     className="px-3 py-2 text-sm bg-accent-primary text-white rounded-lg hover:bg-accent-primary-hover shadow-lg"
                     disabled={loading}
                   >
-                    {loading ? '...' : 'Go'}
+                    {loading ? '...' : '查询'}
                   </button>
                   <button
                     type="button"
@@ -361,7 +361,7 @@ export const WeatherMap: React.FC = () => {
                       getUserLocation();
                     }}
                     className="px-3 py-2 text-sm bg-surface-light dark:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary rounded-lg hover:bg-surface-light-elevated dark:hover:bg-surface-dark shadow-lg"
-                    title="Use my location"
+                    title="定位到我的当前位置"
                   >
                     📍
                   </button>
@@ -372,7 +372,7 @@ export const WeatherMap: React.FC = () => {
                 onClick={() => setShowCityInput(true)}
                 className="absolute top-4 left-4 z-10 px-3 py-2 text-sm bg-surface-light dark:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark hover:text-accent-primary transition-colors rounded-lg shadow-lg border border-border-light dark:border-border-dark"
               >
-                📍 {city || 'Set Location'} ✏️
+                📍 {city || '设置位置'} ✏️
               </button>
             )}
 
@@ -381,7 +381,7 @@ export const WeatherMap: React.FC = () => {
               onClick={getUserLocation}
               disabled={loading}
               className="absolute bottom-4 right-4 z-10 p-3 bg-surface-light dark:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary rounded-full shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-border-light dark:border-border-dark hover:scale-110"
-              title="Use my current location"
+              title="定位到我的当前位置"
             >
               <span className="text-2xl">📍</span>
             </button>
@@ -391,11 +391,11 @@ export const WeatherMap: React.FC = () => {
         {/* Right: 5-Day Forecast Section (auto-width based on content) */}
         <div className="forecast-section flex-shrink-0 min-h-[240px] lg:min-h-[400px] overflow-y-auto p-2">
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3 text-right">
-            5-Day Forecast
+            未来 5 日天气预报
           </h3>
           {forecastLoading ? (
             <div className="flex items-center justify-center h-32">
-              <p className="text-text-light-secondary dark:text-text-dark-secondary">Loading forecast...</p>
+              <p className="text-text-light-secondary dark:text-text-dark-secondary">正在加载预报数据...</p>
             </div>
           ) : forecast.length > 0 ? (
             <div className="space-y-3 flex flex-col items-start">
@@ -418,7 +418,7 @@ export const WeatherMap: React.FC = () => {
             </div>
           ) : (
             <div className="flex items-center justify-center h-32">
-              <p className="text-text-light-secondary dark:text-text-dark-secondary">No forecast data available</p>
+              <p className="text-text-light-secondary dark:text-text-dark-secondary">暂无天气预报数据</p>
             </div>
           )}
         </div>
@@ -429,35 +429,35 @@ export const WeatherMap: React.FC = () => {
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  return date.toLocaleDateString('zh-CN', { weekday: 'short', month: 'numeric', day: 'numeric' });
 }
 
 function getWeatherDescription(code: number): string {
   const descriptions: Record<number, string> = {
-    0: 'Clear',
-    1: 'Mostly Clear',
-    2: 'Partly Cloudy',
-    3: 'Overcast',
-    45: 'Foggy',
-    48: 'Foggy',
-    51: 'Light Drizzle',
-    53: 'Drizzle',
-    55: 'Heavy Drizzle',
-    61: 'Light Rain',
-    63: 'Rain',
-    65: 'Heavy Rain',
-    71: 'Light Snow',
-    73: 'Snow',
-    75: 'Heavy Snow',
-    77: 'Snow Grains',
-    80: 'Rain Showers',
-    81: 'Rain Showers',
-    82: 'Heavy Rain Showers',
-    85: 'Snow Showers',
-    86: 'Heavy Snow Showers',
-    95: 'Thunderstorm',
-    96: 'Thunderstorm',
-    99: 'Severe Thunderstorm',
+    0: '晴朗',
+    1: '晴间多云',
+    2: '多云',
+    3: '阴天',
+    45: '有雾',
+    48: '浓雾',
+    51: '微量细雨',
+    53: '小毛毛雨',
+    55: '浓毛毛雨',
+    61: '小雨',
+    63: '中雨',
+    65: '大雨',
+    71: '小雪',
+    73: '中雪',
+    75: '暴雪',
+    77: '雪粒',
+    80: '阵雨',
+    81: '强阵雨',
+    82: '狂暴阵雨',
+    85: '阵雪',
+    86: '大阵雪',
+    95: '雷阵雨',
+    96: '雷雨伴有微量冰雹',
+    99: '强雷暴伴有冰雹',
   };
-  return descriptions[code] || 'Unknown';
+  return descriptions[code] || '未知天气';
 }

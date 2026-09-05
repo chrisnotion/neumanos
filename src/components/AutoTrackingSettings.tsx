@@ -43,10 +43,10 @@ export function AutoTrackingSettings() {
         <Activity className="w-6 h-6 text-accent-primary" />
         <div>
           <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Automatic Time Tracking
+            自动工时追踪
           </h2>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-            Track time automatically based on your activity
+            根据前台活动与停留时间自动开启工时记录，免去手动打卡之扰
           </p>
         </div>
       </div>
@@ -56,18 +56,18 @@ export function AutoTrackingSettings() {
         <Info className="w-5 h-5 text-accent-blue dark:text-accent-blue flex-shrink-0 mt-0.5" />
         <div className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
           <p className="font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-            How it works
+            工作原理说明
           </p>
           <p>
-            When enabled, NeumanOS will automatically start tracking time when you:
+            开启后，NeumanOS 将在满足下列条件时智能启动工时计时：
           </p>
           <ul className="list-disc list-inside mt-2 space-y-1 ml-2">
-            <li>Stay on a page for the threshold duration</li>
-            <li>Focus on a specific task or note</li>
-            <li>Keep working without going idle</li>
+            <li>在某一具体功能页面持续停留超过预设门限秒数</li>
+            <li>专注处理某一项具体的任务卡片或长篇笔记</li>
+            <li>保持持续键鼠交互，未触发闲置状态</li>
           </ul>
           <p className="mt-2">
-            Entries are tagged with "Automatic" so you can easily identify them.
+            自动记录生成的条目会带有“自动”标签，便于你在工时日志中检索复核。
           </p>
         </div>
       </div>
@@ -78,10 +78,10 @@ export function AutoTrackingSettings() {
         <div className="flex items-center justify-between p-4 bg-surface-light-secondary/50 dark:bg-surface-dark-secondary/50 rounded-lg border border-border-light dark:border-border-dark">
           <div>
             <p className="font-medium text-text-light-primary dark:text-text-dark-primary">
-              Enable Automatic Tracking
+              启用自动追踪
             </p>
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-              Start tracking time automatically when you work
+              在日常办公与沉浸专注时自动捕获工时
             </p>
           </div>
           <button
@@ -106,15 +106,15 @@ export function AutoTrackingSettings() {
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-text-light-secondary dark:text-text-dark-secondary" />
               <p className="font-medium text-text-light-primary dark:text-text-dark-primary">
-                Auto-Start Threshold
+                自动启动等待门限
               </p>
             </div>
             <span className="text-sm font-mono text-accent-primary">
-              {threshold}s
+              {threshold}秒
             </span>
           </div>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-3">
-            How long to stay in a context before automatically starting a timer
+            在某个任务或上下文停留多久后正式启动计时器
           </p>
           <input
             type="range"
@@ -127,9 +127,9 @@ export function AutoTrackingSettings() {
             className="w-full h-2 bg-surface-light-tertiary dark:bg-surface-dark-tertiary rounded-lg appearance-none cursor-pointer accent-accent-primary disabled:opacity-50"
           />
           <div className="flex justify-between text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
-            <span>10s (Immediate)</span>
-            <span>60s (Balanced)</span>
-            <span>120s (Patient)</span>
+            <span>10秒 (敏捷即时)</span>
+            <span>60秒 (平衡适度)</span>
+            <span>120秒 (沉着从容)</span>
           </div>
         </div>
 
@@ -137,10 +137,10 @@ export function AutoTrackingSettings() {
         <div className="flex items-center justify-between p-4 bg-surface-light-secondary/50 dark:bg-surface-dark-secondary/50 rounded-lg border border-border-light dark:border-border-dark">
           <div>
             <p className="font-medium text-text-light-primary dark:text-text-dark-primary">
-              Stop on Idle
+              闲置时自动停止
             </p>
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-              Automatically stop tracking when you go idle
+              当检测到长时间离开电脑或无操作时自动暂停或终止计时
             </p>
           </div>
           <button
@@ -165,11 +165,11 @@ export function AutoTrackingSettings() {
       {enabled && (
         <div className="p-4 bg-accent-green/10 border border-accent-green/20 rounded-lg">
           <p className="text-sm font-medium text-accent-green dark:text-accent-green mb-2">
-            ✓ Automatic tracking is active
+            ✓ 自动追踪已就绪运行中
           </p>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-            Stay on a page or task for {threshold} seconds to automatically start tracking.
-            {stopOnIdle && ' Timer will stop when you go idle.'}
+            在某个页面或任务保持专注停留超过 {threshold} 秒即可自动激活计时。
+            {stopOnIdle && ' 离开或闲置时将自动为您保全时长。'}
           </p>
         </div>
       )}

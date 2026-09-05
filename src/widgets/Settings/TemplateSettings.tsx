@@ -42,10 +42,10 @@ export function TemplateSettings() {
       <div>
         <h3 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-2 flex items-center gap-2">
           <FileText className="w-5 h-5" />
-          Note Templates
+          笔记模板管理
         </h3>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-          Manage custom note templates. Templates can include variables like {'{date}'}, {'{time}'}, {'{title}'}, and {'{user}'}.
+          创建与维护个性化笔记模版。模版支持嵌入动态插值变量，如 {'{date}'}、{'{time}'}、{'{title}'} 及 {'{user}'} 等。
         </p>
       </div>
 
@@ -55,14 +55,14 @@ export function TemplateSettings() {
           onClick={() => setShowTemplateLibrary(true)}
           className="px-4 py-2 bg-accent-blue text-white rounded-lg hover:bg-accent-blue-hover transition-colors font-medium"
         >
-          Manage Templates
+          打开模板库
         </button>
         <button
           onClick={() => setShowVariableReference(!showVariableReference)}
-          className="px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-primary dark:text-text-dark-primary rounded-lg hover:bg-border-light dark:hover:bg-border-dark transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-primary dark:text-text-dark-primary border border-border-light dark:border-border-dark rounded-lg hover:bg-surface-light dark:hover:bg-surface-dark transition-colors font-medium flex items-center gap-2"
         >
           <BookOpen className="w-4 h-4" />
-          {showVariableReference ? 'Hide' : 'Show'} Variable Reference
+          {showVariableReference ? '隐藏变量语法' : '查看变量语法'}
         </button>
       </div>
 

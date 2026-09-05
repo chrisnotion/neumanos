@@ -7,17 +7,17 @@ import React, { useState } from 'react';
 import { BaseWidget } from './BaseWidget';
 
 const shortcuts = [
-  { category: 'Navigation', items: [
-    { keys: '⌘ D', action: 'Dashboard' },
-    { keys: '⌘ N', action: 'Notes' },
-    { keys: '⌘ P', action: 'Planning' },
-    { keys: '⌘ T', action: 'Tasks' },
-    { keys: '⌘ S', action: 'Settings' },
+  { category: '页面导航', items: [
+    { keys: '⌘ D', action: '打开中枢仪表盘' },
+    { keys: '⌘ N', action: '打开知识笔记' },
+    { keys: '⌘ P', action: '打开计划规划' },
+    { keys: '⌘ T', action: '打开任务看板' },
+    { keys: '⌘ S', action: '打开系统设置' },
   ]},
-  { category: 'General', items: [
-    { keys: '⌘ B', action: 'Toggle Sidebar' },
-    { keys: '⌘ K', action: 'Quick Search' },
-    { keys: 'Esc', action: 'Close Modal' },
+  { category: '通用操作', items: [
+    { keys: '⌘ B', action: '展开/收起侧边栏' },
+    { keys: '⌘ K', action: '全局快速搜索' },
+    { keys: 'Esc', action: '关闭当前弹窗' },
   ]},
 ];
 
@@ -33,13 +33,13 @@ export const ShortcutsWidget: React.FC = () => {
   })).filter(cat => cat.items.length > 0);
 
   return (
-    <BaseWidget title="Keyboard Shortcuts" icon="⌨️">
+    <BaseWidget title="键盘快捷键速查" icon="⌨️">
       <div className="space-y-3">
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search shortcuts..."
+          placeholder="搜索快捷键或动作..."
           className="w-full px-3 py-2 text-sm rounded-button bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue transition-all duration-standard ease-smooth"
         />
 

@@ -31,12 +31,12 @@ export const QuickActionsSection: React.FC<QuickActionsSectionProps> = ({
   return (
     <div className="bento-card p-6">
       <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
-        Quick Actions
+        快捷备份动作
       </h2>
 
       {timeSinceLastBackup && (
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-4">
-          Last backup: {timeSinceLastBackup}
+          上次完整备份时间：{timeSinceLastBackup}
         </p>
       )}
 
@@ -52,11 +52,11 @@ export const QuickActionsSection: React.FC<QuickActionsSectionProps> = ({
           <div className="flex items-center justify-center gap-3 mb-2">
             <span className="text-2xl">📦</span>
             <span className="text-lg font-semibold">
-              {isExporting ? 'Exporting...' : 'Export Brain'}
+              {isExporting ? '正在打包备份...' : '导出 .brain 档案'}
             </span>
           </div>
           <p className="text-sm opacity-90">
-            Download all your data as a .brain file
+            将当前所有模块与设置一键打包导出为单个独立文件
           </p>
         </motion.button>
 
@@ -71,11 +71,11 @@ export const QuickActionsSection: React.FC<QuickActionsSectionProps> = ({
           <div className="flex items-center justify-center gap-3 mb-2">
             <span className="text-2xl">📥</span>
             <span className="text-lg font-semibold">
-              {isImporting ? 'Importing...' : 'Import Brain'}
+              {isImporting ? '正在还原数据...' : '还原 .brain 档案'}
             </span>
           </div>
           <p className="text-sm opacity-90">
-            Restore data from a .brain file
+            从已备份的 .brain 归档文件中完整恢复系统工作区
           </p>
         </motion.button>
 

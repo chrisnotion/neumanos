@@ -44,44 +44,44 @@ interface ExportModule {
 const DEFAULT_MODULES: Omit<ExportModule, 'checked'>[] = [
   {
     key: 'notes-storage',
-    label: 'Notes',
-    description: 'All notes, folders, and note metadata',
+    label: '灵感笔记',
+    description: '全量笔记正文、多级文件夹及元数据',
     icon: FileText,
   },
   {
     key: 'kanban-tasks',
-    label: 'Tasks',
-    description: 'Tasks, columns, checklists, and comments',
+    label: '任务看板',
+    description: '任务卡片、状态列、检查清单与评论留言',
     icon: CheckSquare,
   },
   {
     key: 'calendar-events',
-    label: 'Calendar',
-    description: 'Events, recurrences, and reminders',
+    label: '日程日历',
+    description: '日程活动、周期循环规则及到期提醒',
     icon: Calendar,
   },
   {
     key: 'time-tracking',
-    label: 'Time Tracking',
-    description: 'Time entries, projects, and timers',
+    label: '工时追踪',
+    description: '时间日志记录、项目归类及计时数据',
     icon: Clock,
   },
   {
     key: 'habits-storage',
-    label: 'Habits',
-    description: 'Habit definitions, completions, and streaks',
+    label: '习惯养成',
+    description: '习惯定义、连续打卡历史及例程统计',
     icon: BarChart3,
   },
   {
     key: 'settings-storage',
-    label: 'Settings',
-    description: 'App preferences and configuration',
+    label: '系统设置',
+    description: '应用偏好配置及自定义字段参数',
     icon: Settings,
   },
   {
     key: 'theme-preferences',
-    label: 'Theme',
-    description: 'Theme and color mode preferences',
+    label: '外观主题',
+    description: '深浅明暗模式及个性化配色预设',
     icon: Palette,
   },
 ];
@@ -220,11 +220,11 @@ export const SelectiveExportSection: React.FC<SelectiveExportSectionProps> = ({
       <div className="flex items-center gap-3 mb-1">
         <Package className="w-5 h-5 text-accent-primary" />
         <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-          Selective Export
+          模块定向导出
         </h2>
       </div>
       <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-6">
-        Export specific modules instead of everything. Useful for partial backups or migrating individual sections.
+        自主勾选需要导出的特定业务模块。适用于局部数据归档、跨设备部分迁移或模块独立备份。
       </p>
 
       {/* Select All / None */}
@@ -233,17 +233,17 @@ export const SelectiveExportSection: React.FC<SelectiveExportSectionProps> = ({
           onClick={selectAll}
           className="text-xs text-accent-primary hover:underline"
         >
-          Select All
+          全选
         </button>
         <span className="text-text-light-tertiary dark:text-text-dark-tertiary">|</span>
         <button
           onClick={selectNone}
           className="text-xs text-accent-primary hover:underline"
         >
-          Select None
+          取消全选
         </button>
         <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary ml-auto">
-          {selectedCount} of {modules.length} selected
+          已选中 {selectedCount} / {modules.length} 个模块
         </span>
       </div>
 
@@ -289,7 +289,7 @@ export const SelectiveExportSection: React.FC<SelectiveExportSectionProps> = ({
       {/* Format Selection */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">
-          Export Format
+          导出格式
         </label>
         <div className="flex gap-2">
           <button
@@ -300,7 +300,7 @@ export const SelectiveExportSection: React.FC<SelectiveExportSectionProps> = ({
                 : 'bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-primary dark:text-text-dark-primary hover:bg-border-light dark:hover:bg-border-dark'
             }`}
           >
-            .brain (compressed)
+            .brain 压缩归档包
           </button>
           <button
             onClick={() => setExportFormat('json')}
@@ -310,7 +310,7 @@ export const SelectiveExportSection: React.FC<SelectiveExportSectionProps> = ({
                 : 'bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-primary dark:text-text-dark-primary hover:bg-border-light dark:hover:bg-border-dark'
             }`}
           >
-            .json (readable)
+            .json 明文数据
           </button>
         </div>
       </div>
@@ -323,8 +323,8 @@ export const SelectiveExportSection: React.FC<SelectiveExportSectionProps> = ({
       >
         <Download className="w-4 h-4" />
         {isExporting
-          ? 'Exporting...'
-          : `Export ${selectedCount} Module${selectedCount !== 1 ? 's' : ''}`}
+          ? '正在导出...'
+          : `导出选中的 ${selectedCount} 个模块`}
       </button>
     </div>
   );

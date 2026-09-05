@@ -247,14 +247,14 @@ export function TimeTrackingPanel() {
         <div className="flex items-center gap-2">
           <span className="text-lg">⏱️</span>
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Time Tracking
+            工时追踪
           </h3>
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={togglePanelCollapsed}
             className="p-1 rounded-buttonhover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary transition-all duration-standard ease-smooth"
-            aria-label={isPanelCollapsed ? 'Expand panel' : 'Collapse panel'}
+            aria-label={isPanelCollapsed ? '展开面板' : '收起面板'}
           >
             {isPanelCollapsed ? (
               <ChevronUp className="w-4 h-4" />
@@ -265,7 +265,7 @@ export function TimeTrackingPanel() {
           <button
             onClick={() => setShowSettingsModal(true)}
             className="p-1 rounded-buttonhover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary transition-all duration-standard ease-smooth"
-            aria-label="Time tracking settings"
+            aria-label="工时追踪设置"
           >
             <Settings className="w-4 h-4" />
           </button>
@@ -285,7 +285,7 @@ export function TimeTrackingPanel() {
                 </div>
                 {activeEntry.isPaused && (
                   <div className="text-xs text-status-warning font-medium mt-1">
-                    Paused
+                    已暂停
                   </div>
                 )}
               </div>
@@ -296,7 +296,7 @@ export function TimeTrackingPanel() {
               type="text"
               value={description}
               onChange={handleDescriptionChange}
-              placeholder="What are you working on?"
+              placeholder="此刻正在专注于什么？"
               className="w-full px-3 py-2 mb-2 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-buttonfocus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary"
             />
 
@@ -305,7 +305,7 @@ export function TimeTrackingPanel() {
               <ProjectSelector
                 value={selectedProjectId}
                 onChange={setSelectedProjectId}
-                placeholder="📁 Select Project"
+                placeholder="📁 选择关联项目"
                 showNoProject={true}
               />
             </div>
@@ -319,7 +319,7 @@ export function TimeTrackingPanel() {
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-accent-primary text-white dark:text-dark-background rounded-buttonfont-medium hover:opacity-90 transition-opacity"
                   >
                     <Play className="w-4 h-4" />
-                    Start Timer
+                    开始计时
                   </button>
                 ) : (
                 <>
@@ -330,12 +330,12 @@ export function TimeTrackingPanel() {
                     {activeEntry?.isPaused ? (
                       <>
                         <Play className="w-4 h-4" />
-                        Resume
+                        继续
                       </>
                     ) : (
                       <>
                         <Pause className="w-4 h-4" />
-                        Pause
+                        暂停
                       </>
                     )}
                   </button>
@@ -344,7 +344,7 @@ export function TimeTrackingPanel() {
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-status-error text-white rounded-buttonfont-medium hover:opacity-90 transition-opacity"
                   >
                     <Square className="w-4 h-4" />
-                    Stop
+                    结束
                   </button>
                 </>
               )}
@@ -356,7 +356,7 @@ export function TimeTrackingPanel() {
                 className="w-full flex items-center justify-center gap-2 px-3 py-1.5 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-buttontext-text-light-primary dark:text-text-dark-primary font-medium hover:bg-surface-light dark:hover:bg-surface-dark transition-all duration-standard ease-smooth"
               >
                 <Plus className="w-4 h-4" />
-                Add Manual Entry
+                补记工时
               </button>
             </div>
           </div>
@@ -368,12 +368,12 @@ export function TimeTrackingPanel() {
               style={{ height: `${recentEntriesHeight}px` }}
             >
               <h4 className="text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary mb-2">
-                Recent Entries (Last 48h)
+                近 48 小时记录
               </h4>
               <div className="overflow-y-auto" style={{ height: `calc(100% - 24px)` }}>
                 {recentEntries.length === 0 ? (
                   <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary italic">
-                    No entries yet. Start your first timer!
+                    暂无工时记录，开启你的第一段专注吧！
                   </p>
                 ) : (
                   <div className="space-y-1">
@@ -419,7 +419,7 @@ export function TimeTrackingPanel() {
             <div className="px-3 py-3 border-t border-border-light dark:border-border-dark">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary">
-                  Today's Total:
+                  今日累计工时：
                 </span>
                 <span className="text-sm font-mono font-bold text-accent-primary">
                   {formatDuration(todayTotal, { showSeconds: false })}
@@ -429,7 +429,7 @@ export function TimeTrackingPanel() {
                 onClick={handleViewAll}
                 className="w-full px-3 py-2 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-buttonhover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated text-text-light-primary dark:text-text-dark-primary font-medium transition-all duration-standard ease-smooth"
               >
-                View All →
+                查看全部工时 →
               </button>
             </div>
           )}

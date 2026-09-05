@@ -10,21 +10,21 @@ import { useSettingsStore } from '../../stores/useSettingsStore';
 import type { DefaultViews } from '../../stores/useSettingsStore';
 
 const TASK_VIEWS: { value: DefaultViews['tasks']; label: string }[] = [
-  { value: 'board', label: 'Board (Kanban)' },
-  { value: 'list', label: 'List' },
-  { value: 'eisenhower', label: 'Eisenhower Matrix' },
-  { value: 'gantt', label: 'Gantt Chart' },
+  { value: 'board', label: '看板视图 (Kanban)' },
+  { value: 'list', label: '列表视图' },
+  { value: 'eisenhower', label: '四象限矩阵' },
+  { value: 'gantt', label: '甘特图' },
 ];
 
 const CALENDAR_VIEWS: { value: DefaultViews['calendar']; label: string }[] = [
-  { value: 'month', label: 'Month' },
-  { value: 'week', label: 'Week' },
-  { value: 'day', label: 'Day' },
+  { value: 'month', label: '月视图' },
+  { value: 'week', label: '周视图' },
+  { value: 'day', label: '日视图' },
 ];
 
 const NOTES_VIEWS: { value: DefaultViews['notes']; label: string }[] = [
-  { value: 'list', label: 'List' },
-  { value: 'grid', label: 'Grid' },
+  { value: 'list', label: '列表排列' },
+  { value: 'grid', label: '网格平铺' },
 ];
 
 export const DefaultViewsSection: React.FC = () => {
@@ -36,18 +36,18 @@ export const DefaultViewsSection: React.FC = () => {
       <div className="flex items-center gap-3 mb-1">
         <Layout className="w-5 h-5 text-accent-primary" />
         <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-          Default Views
+          模块默认视图
         </h2>
       </div>
       <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-6">
-        Set the default view when opening each module.
+        设定打开各个核心模块时的默认初始呈现视图。
       </p>
 
       <div className="space-y-4">
         {/* Tasks Default View */}
         <div>
           <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">
-            Tasks
+            任务模块
           </label>
           <select
             value={defaultViews?.tasks ?? 'board'}
@@ -63,7 +63,7 @@ export const DefaultViewsSection: React.FC = () => {
         {/* Calendar Default View */}
         <div>
           <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">
-            Calendar
+            日程日历
           </label>
           <select
             value={defaultViews?.calendar ?? 'month'}
@@ -79,7 +79,7 @@ export const DefaultViewsSection: React.FC = () => {
         {/* Notes Default View */}
         <div>
           <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">
-            Notes
+            灵感笔记
           </label>
           <select
             value={defaultViews?.notes ?? 'list'}

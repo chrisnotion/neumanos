@@ -141,10 +141,10 @@ export function BackupSettings() {
       {/* Header */}
       <div>
         <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-          Backup & Sync
+          自动快照与同步
         </h2>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">
-          Automatically backup your data to a cloud-synced folder (iCloud, Google Drive, OneDrive, Proton Drive, Dropbox)
+          将本地数据自动定时存入云盘同步目录（支持 iCloud、Google Drive、OneDrive、Proton Drive、Dropbox 本地映射文件夹）
         </p>
       </div>
 
@@ -153,16 +153,16 @@ export function BackupSettings() {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-              Auto-Save Status
+              自动保存状态
             </span>
             {backupPreferences.autoSaveEnabled && (
               <span className="px-2 py-0.5 text-xs font-medium bg-accent-green/10 text-accent-green rounded-button">
-                Enabled
+                已启用
               </span>
             )}
             {!backupPreferences.autoSaveEnabled && (
               <span className="px-2 py-0.5 text-xs font-medium bg-accent-yellow/10 text-accent-yellow rounded-button">
-                Disabled
+                已停用
               </span>
             )}
           </div>
@@ -187,8 +187,8 @@ export function BackupSettings() {
         {/* Folder Path */}
         {backupPreferences.hasBackupFolder && (
           <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-            <span className="font-medium">Folder: </span>
-            {backupPreferences.backupFolderPath || 'Not set'}
+            <span className="font-medium">当前目标文件夹： </span>
+            {backupPreferences.backupFolderPath || '未配置'}
           </div>
         )}
       </div>
@@ -196,7 +196,7 @@ export function BackupSettings() {
       {/* Folder Picker */}
       <div className="space-y-3">
         <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-          Backup Folder
+          备份存储目录
         </label>
         <div className="flex gap-2">
           <button
@@ -204,7 +204,7 @@ export function BackupSettings() {
             disabled={isSelecting}
             className="px-4 py-2.5 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-standard ease-smooth"
           >
-            {isSelecting ? 'Selecting...' : backupPreferences.hasBackupFolder ? 'Change Folder' : 'Choose Folder'}
+            {isSelecting ? '正在选择...' : backupPreferences.hasBackupFolder ? '更改存储文件夹' : '指定存储文件夹'}
           </button>
 
           {backupPreferences.hasBackupFolder && (
@@ -213,7 +213,7 @@ export function BackupSettings() {
               disabled={isTesting || !backupPreferences.autoSaveEnabled}
               className="px-4 py-2.5 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded-button text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-standard ease-smooth border border-border-light dark:border-border-dark"
             >
-              {isTesting ? 'Saving...' : 'Test Auto-Save'}
+              {isTesting ? '正在保存...' : '测试自动写入'}
             </button>
           )}
         </div>

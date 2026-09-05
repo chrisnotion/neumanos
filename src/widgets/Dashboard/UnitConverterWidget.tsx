@@ -62,8 +62,14 @@ export const UnitConverterWidget: React.FC = () => {
 
   const units = Object.keys(conversionRules[category]);
 
+  const categoryLabels: Record<UnitCategory, string> = {
+    temperature: '温度',
+    length: '长度',
+    weight: '重量',
+  };
+
   return (
-    <BaseWidget title="Unit Converter" icon="📏">
+    <BaseWidget title="单位换算器" icon="📏">
       <div className="space-y-3">
         {/* Category Selector */}
         <div className="flex gap-2">
@@ -72,14 +78,14 @@ export const UnitConverterWidget: React.FC = () => {
               key={cat}
               onClick={() => setCategory(cat)}
               className={`
-                flex-1 px-3 py-1.5 rounded-button text-sm font-medium capitalize transition-all duration-standard ease-smooth
+                flex-1 px-3 py-1.5 rounded-button text-sm font-medium transition-all duration-standard ease-smooth
                 ${category === cat
                   ? 'bg-accent-blue text-white'
                   : 'bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light dark:hover:bg-surface-dark'
                 }
               `}
             >
-              {cat}
+              {categoryLabels[cat]}
             </button>
           ))}
         </div>
@@ -87,7 +93,7 @@ export const UnitConverterWidget: React.FC = () => {
         {/* From Unit */}
         <div>
           <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1 block">
-            From
+            换算原单位
           </label>
           <div className="flex gap-2">
             <input
@@ -120,7 +126,7 @@ export const UnitConverterWidget: React.FC = () => {
               setToUnit(temp);
             }}
             className="p-2 rounded-button bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary transition-all duration-standard ease-smooth"
-            title="Swap units"
+            title="对调单位"
           >
             ⇅
           </button>
@@ -129,7 +135,7 @@ export const UnitConverterWidget: React.FC = () => {
         {/* To Unit */}
         <div>
           <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1 block">
-            To
+            换算目标单位
           </label>
           <div className="flex gap-2">
             <input

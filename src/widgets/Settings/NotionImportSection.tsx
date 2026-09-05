@@ -262,11 +262,11 @@ export const NotionImportSection: React.FC<NotionImportSectionProps> = ({
       <div className="flex items-center gap-3 mb-1">
         <FileSpreadsheet className="w-5 h-5 text-accent-primary" />
         <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-          Notion Import
+          Notion 数据导入
         </h2>
       </div>
       <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-6">
-        Import notes from a Notion CSV export. In Notion, open a database, click (...) then "Export" and choose CSV.
+        从 Notion 导出的 CSV 数据表中导入笔记。在 Notion 中打开数据表页面，点击右上角（...）- 选择“Export”并指定导出为 CSV 格式即可。
       </p>
 
       {/* Idle State */}
@@ -274,11 +274,11 @@ export const NotionImportSection: React.FC<NotionImportSectionProps> = ({
         <div className="border-2 border-dashed border-border-light dark:border-border-dark rounded-lg p-8 text-center">
           <FileSpreadsheet className="w-12 h-12 mx-auto mb-4 text-text-light-tertiary dark:text-text-dark-tertiary" />
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-4">
-            Select a CSV file exported from Notion
+            选择从 Notion 导出的 CSV 表格文件
           </p>
           <label className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-medium cursor-pointer transition-colors">
             <Upload className="w-4 h-4" />
-            Select CSV File
+            选择 CSV 文件
             <input
               ref={fileInputRef}
               type="file"
@@ -288,7 +288,7 @@ export const NotionImportSection: React.FC<NotionImportSectionProps> = ({
             />
           </label>
           <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-3">
-            Supports columns: Title/Name, Content/Body, Tags, Created Time, Last Edited Time
+            已智能映射字段：Title/Name、Content/Body、Tags、创建时间及最近编辑时间
           </p>
         </div>
       )}
