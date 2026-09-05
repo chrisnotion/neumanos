@@ -52,6 +52,16 @@ function scrollToHeading(editor: LexicalEditor, headingKey: string): void {
   }
 }
 
+function areTocHeadingsEqual(a: TocEntry[], b: TocEntry[]): boolean {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i].key !== b[i].key || a[i].text !== b[i].text || a[i].level !== b[i].level) {
+      return false;
+    }
+  }
+  return true;
+}
+
 /**
  * TOC React Component rendered by the DecoratorNode
  */
@@ -59,35 +69,26 @@ function TableOfContentsComponent({ nodeKey }: { nodeKey: NodeKey }) {
   const [editor] = useLexicalComposerContext();
   const [headings, setHeadings] = useState<TocEntry[]>([]);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const lastHeadingsRef = React.useRef<TocEntry[]>([]);
 
   useEffect(() => {
+    const updateHeadings = () => {
+      const next = collectHeadings(editor);
+      if (!areTocHeadingsEqual(next, lastHeadingsRef.current)) {
+        lastHeadingsRef.current = next;
+        setHeadings(next);
+      }
+    };
+
     // Initial collection
-    setHeadings(collectHeadings(editor));
+    updateHeadings();
 
-    // Listen for mutations on HeadingNode
-    const unregister = editor.registerMutationListener(
-      // We use a generic approach: listen for all updates
-      // since registerMutationListener requires a node class
-      editor.getEditorState().read(() => {
-        // We need to get the HeadingNode class
-        // Since we can't import it in the mutation listener setup,
-        // we listen to update events instead
-        return undefined as unknown as typeof DecoratorNode;
-      }) as unknown as typeof DecoratorNode,
-      () => {
-        setHeadings(collectHeadings(editor));
-      },
-    );
-
-    // Also listen to general updates for heading text changes
+    // Listen to general updates for heading changes
     const unregisterUpdate = editor.registerUpdateListener(() => {
-      setHeadings(collectHeadings(editor));
+      updateHeadings();
     });
 
     return () => {
-      if (typeof unregister === 'function') {
-        unregister();
-      }
       unregisterUpdate();
     };
   }, [editor]);

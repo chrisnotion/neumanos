@@ -118,6 +118,16 @@ export class AIProviderRouter {
   }
 
   /**
+   * Add a single custom model for a provider
+   */
+  addProviderCustomModel(providerId: string, modelId: string): void {
+    const loadedProvider = getLoadedProvider(providerId);
+    if (loadedProvider && loadedProvider.addCustomModel) {
+      loadedProvider.addCustomModel(modelId);
+    }
+  }
+
+  /**
    * Clear API key for a provider
    */
   clearProviderApiKey(providerId: string): void {

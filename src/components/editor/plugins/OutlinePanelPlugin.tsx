@@ -4,7 +4,7 @@
  * Listens for editor updates and extracts heading hierarchy for the outline panel.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $isHeadingNode } from '@lexical/rich-text';
 import type { LexicalEditor } from 'lexical';
@@ -13,6 +13,16 @@ export interface OutlineHeading {
   key: string;
   text: string;
   level: number;
+}
+
+function areHeadingsEqual(a: OutlineHeading[], b: OutlineHeading[]): boolean {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i].key !== b[i].key || a[i].text !== b[i].text || a[i].level !== b[i].level) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function collectHeadings(editor: LexicalEditor): OutlineHeading[] {
@@ -47,18 +57,32 @@ interface OutlinePanelPluginProps {
 
 export default function OutlinePanelPlugin({ onHeadingsChange }: OutlinePanelPluginProps) {
   const [editor] = useLexicalComposerContext();
+  const lastHeadingsRef = useRef<OutlineHeading[]>([]);
+  const onHeadingsChangeRef = useRef(onHeadingsChange);
 
   useEffect(() => {
+    onHeadingsChangeRef.current = onHeadingsChange;
+  }, [onHeadingsChange]);
+
+  useEffect(() => {
+    const syncHeadings = () => {
+      const newHeadings = collectHeadings(editor);
+      if (!areHeadingsEqual(newHeadings, lastHeadingsRef.current)) {
+        lastHeadingsRef.current = newHeadings;
+        onHeadingsChangeRef.current(newHeadings);
+      }
+    };
+
     // Initial collection
-    onHeadingsChange(collectHeadings(editor));
+    syncHeadings();
 
     // Listen for updates
     const unregister = editor.registerUpdateListener(() => {
-      onHeadingsChange(collectHeadings(editor));
+      syncHeadings();
     });
 
     return unregister;
-  }, [editor, onHeadingsChange]);
+  }, [editor]);
 
   return null;
 }

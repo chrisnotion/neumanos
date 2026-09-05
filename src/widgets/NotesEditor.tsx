@@ -152,14 +152,25 @@ const CodeHighlightPlugin: React.FC = () => {
  */
 const WordCountPlugin: React.FC<{ onUpdate: (words: number, chars: number) => void }> = ({ onUpdate }) => {
   const [editor] = useLexicalComposerContext();
+  const lastWordsRef = useRef<number>(-1);
+  const lastCharsRef = useRef<number>(-1);
+  const onUpdateRef = useRef(onUpdate);
+
+  useEffect(() => {
+    onUpdateRef.current = onUpdate;
+  }, [onUpdate]);
 
   useEffect(() => {
     return editor.registerTextContentListener((textContent) => {
       const words = textContent.trim().split(/\s+/).filter(Boolean).length;
       const chars = textContent.length;
-      onUpdate(words, chars);
+      if (words !== lastWordsRef.current || chars !== lastCharsRef.current) {
+        lastWordsRef.current = words;
+        lastCharsRef.current = chars;
+        onUpdateRef.current(words, chars);
+      }
     });
-  }, [editor, onUpdate]);
+  }, [editor]);
 
   return null;
 };
@@ -925,8 +936,9 @@ const AutoSavePlugin: React.FC<{ noteId: string }> = ({ noteId }) => {
 
   // Track timeout ID and last saved content to prevent redundant saves
   const timeoutIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lastContentRef = useRef<string>('');
-  const lastTextRef = useRef<string>('');
+  const existingNote = useNotesStore.getState().notes[noteId];
+  const lastContentRef = useRef<string>(existingNote?.content || '');
+  const lastTextRef = useRef<string>(existingNote?.contentText || '');
   const lastVersionSaveRef = useRef<number>(0);
 
   const handleChange = useCallback((editorState: EditorState) => {
@@ -1201,7 +1213,7 @@ const NoteCustomFields: React.FC<{ noteId: string; note: ReturnType<typeof useNo
  * Notes Editor Component
  */
 export const NotesEditor: React.FC<NotesEditorProps> = ({ noteId, blockId }) => {
-  const note = useNotesStore((state) => state.getNote(noteId));
+  const note = useNotesStore((state) => state.notes[noteId]);
   const notes = useNotesStore((state) => state.notes);
   const notesArray = useMemo(() => Object.values(notes), [notes]);
   const [wordCount, setWordCount] = useState(0);

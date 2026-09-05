@@ -169,6 +169,8 @@ export interface AIProvider {
   setBaseUrl?(baseUrl: string): void;
   getBaseUrl?(): string | null;
   setCustomModels?(models: AIModel[]): void;
+  addCustomModel?(modelId: string, name?: string): void;
+  testModel?(modelId: string, apiKey?: string): Promise<{ success: boolean; reply?: string; error?: string }>;
 }
 
 /**

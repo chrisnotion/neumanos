@@ -169,28 +169,67 @@ export class CustomOpenAIProvider implements AIProvider {
     const trimmedId = modelId.trim();
     if (!trimmedId) return;
 
-    if (!this.models.some((m) => m.id === trimmedId)) {
-      const newModel: AIModel = {
-        id: trimmedId,
-        name: name?.trim() || trimmedId,
-        provider: 'custom-openai',
-        speedRating: 4,
-        qualityRating: 4,
-        contextWindow: 128000,
-        maxOutputTokens: 8192,
-        supportsStreaming: true,
-        supportsVision: true,
-        supportsFunctionCalling: true,
-        isFree: false,
-        requiresApiKey: true,
-        useCases: ['chat', 'code', 'general'],
-        description: `自定义模型 ${trimmedId}`,
-      };
-      this.models = [newModel, ...this.models];
+    const existingIndex = this.models.findIndex((m) => m.id === trimmedId);
+    if (existingIndex >= 0) {
+      const existing = this.models[existingIndex];
+      this.models.splice(existingIndex, 1);
+      this.models = [existing, ...this.models];
+      return;
+    }
+
+    const newModel: AIModel = {
+      id: trimmedId,
+      name: name?.trim() || trimmedId,
+      provider: 'custom-openai',
+      speedRating: 4,
+      qualityRating: 4,
+      contextWindow: 128000,
+      maxOutputTokens: 8192,
+      supportsStreaming: true,
+      supportsVision: true,
+      supportsFunctionCalling: true,
+      isFree: false,
+      requiresApiKey: true,
+      useCases: ['chat', 'code', 'general'],
+      description: `自定义模型 ${trimmedId}`,
+    };
+    this.models = [newModel, ...this.models];
+  }
+
+  async testModel(modelId: string, apiKey?: string): Promise<{ success: boolean; reply?: string; error?: string }> {
+    const key = apiKey || this.apiKey;
+    if (!key) {
+      return { success: false, error: '请先填写 API Key 密钥后再进行测试。' };
+    }
+
+    try {
+      let normalizedUrl = this.baseUrl?.trim() || DEFAULT_CUSTOM_OPENAI_BASE_URL;
+      normalizedUrl = normalizedUrl.replace(/\/+$/, '');
+
+      const testClient = new OpenAI({
+        apiKey: key,
+        baseURL: normalizedUrl,
+        dangerouslyAllowBrowser: true,
+      });
+
+      const targetModel = modelId.trim() || this.models[0]?.id || 'gpt-4o-mini';
+      const completion = await testClient.chat.completions.create({
+        model: targetModel,
+        messages: [{ role: 'user', content: 'hi' }],
+        max_tokens: 80,
+      });
+
+      const reply = completion.choices[0]?.message?.content || '(无文本回复)';
+      this.addCustomModel(targetModel);
+      return { success: true, reply };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      log.error('Custom OpenAI testModel failed', { error });
+      return { success: false, error: message };
     }
   }
 
-  async validateApiKey(apiKey: string): Promise<boolean> {
+  async validateApiKey(apiKey: string, modelId?: string): Promise<boolean> {
     try {
       let normalizedUrl = this.baseUrl?.trim() || DEFAULT_CUSTOM_OPENAI_BASE_URL;
       normalizedUrl = normalizedUrl.replace(/\/+$/, '');
@@ -201,17 +240,13 @@ export class CustomOpenAIProvider implements AIProvider {
         dangerouslyAllowBrowser: true,
       });
 
-      try {
-        await testClient.models.list();
-        return true;
-      } catch {
-        await testClient.chat.completions.create({
-          model: this.models[0]?.id || 'gpt-4o-mini',
-          messages: [{ role: 'user', content: 'hi' }],
-          max_tokens: 1,
-        });
-        return true;
-      }
+      const targetModel = modelId?.trim() || this.models[0]?.id || 'gpt-4o-mini';
+      await testClient.chat.completions.create({
+        model: targetModel,
+        messages: [{ role: 'user', content: 'hi' }],
+        max_tokens: 5,
+      });
+      return true;
     } catch (error: unknown) {
       log.error('Custom OpenAI API key validation failed', { error });
       return false;

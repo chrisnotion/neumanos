@@ -144,6 +144,7 @@ interface TerminalState {
   activeProvider: string; // Currently selected provider
   activeModel: string; // Currently selected model
   customOpenAIBaseUrl: string; // Custom Base URL for custom-openai
+  customOpenAIModel: string; // Custom model ID for custom-openai
   customOpenAIModels: string[]; // Custom model list for custom-openai
 
   // Fallback Configuration
@@ -207,6 +208,7 @@ interface TerminalState {
   clearProviderApiKey: (providerId: string) => void;
   setActiveProvider: (providerId: string, modelId: string) => void;
   setCustomOpenAIBaseUrl: (url: string) => void;
+  setCustomOpenAIModel: (model: string) => void;
   setCustomOpenAIModels: (models: string[]) => void;
 
   // Encryption Actions
@@ -299,6 +301,7 @@ export const useTerminalStore = create<TerminalState>()(
       activeProvider: 'gemini', // Default to Gemini for backward compatibility
       activeModel: 'gemini-1.5-flash',
       customOpenAIBaseUrl: 'https://api.openai.com/v1',
+      customOpenAIModel: 'gpt-4o-mini',
       customOpenAIModels: ['gpt-4o', 'gpt-4o-mini', 'deepseek-chat', 'deepseek-reasoner'],
 
       // Fallback Configuration
@@ -429,6 +432,10 @@ export const useTerminalStore = create<TerminalState>()(
 
       setCustomOpenAIBaseUrl: (url: string) => {
         set({ customOpenAIBaseUrl: url });
+      },
+
+      setCustomOpenAIModel: (model: string) => {
+        set({ customOpenAIModel: model });
       },
 
       setCustomOpenAIModels: (models: string[]) => {
@@ -876,6 +883,7 @@ export const useTerminalStore = create<TerminalState>()(
         activeProvider: state.activeProvider,
         activeModel: state.activeModel,
         customOpenAIBaseUrl: state.customOpenAIBaseUrl,
+        customOpenAIModel: state.customOpenAIModel,
         customOpenAIModels: state.customOpenAIModels,
 
         // Persist fallback configuration

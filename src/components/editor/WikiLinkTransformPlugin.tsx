@@ -9,7 +9,7 @@
  * 5. Handles clicks on broken links to create notes
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $getRoot,
@@ -35,6 +35,11 @@ export default function WikiLinkTransformPlugin({ notes }: WikiLinkTransformPlug
   const [pendingLinkTitle, setPendingLinkTitle] = useState<string>('');
   const createNote = useNotesStore((state) => state.createNote);
   const navigate = useNavigate();
+
+  const notesRef = useRef(notes);
+  useEffect(() => {
+    notesRef.current = notes;
+  }, [notes]);
 
   useEffect(() => {
     const removeTransform = editor.registerNodeTransform(TextNode, (textNode) => {
@@ -70,7 +75,7 @@ export default function WikiLinkTransformPlugin({ notes }: WikiLinkTransformPlug
 
         // Parse block reference
         const blockRef = parseBlockReference(linkMatch.title);
-        const isBroken = isLinkBroken(blockRef.noteTitle, notes);
+        const isBroken = isLinkBroken(blockRef.noteTitle, notesRef.current);
         const wikiLinkNode = $createWikiLinkNode(
           blockRef.noteTitle,
           isBroken,
@@ -95,9 +100,29 @@ export default function WikiLinkTransformPlugin({ notes }: WikiLinkTransformPlug
     });
 
     return removeTransform;
-  }, [editor, notes]);
+  }, [editor]);
 
   useEffect(() => {
+    let hasChanges = false;
+    editor.getEditorState().read(() => {
+      const root = $getRoot();
+      root.getChildren().forEach((node) => {
+        if ('getChildren' in node && typeof node.getChildren === 'function') {
+          (node.getChildren() as LexicalNode[]).forEach((child: LexicalNode) => {
+            if ($isWikiLinkNode(child)) {
+              const linkTitle = child.getLinkTitle();
+              const isBroken = isLinkBroken(linkTitle, notes);
+              if (child.getIsBroken() !== isBroken) {
+                hasChanges = true;
+              }
+            }
+          });
+        }
+      });
+    });
+
+    if (!hasChanges) return;
+
     editor.update(() => {
       const root = $getRoot();
 

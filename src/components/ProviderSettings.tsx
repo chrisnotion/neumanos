@@ -40,20 +40,35 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
     setEnableCrossModuleContext,
     customOpenAIBaseUrl,
     setCustomOpenAIBaseUrl,
+    customOpenAIModel,
+    setCustomOpenAIModel,
   } = useTerminalStore();
 
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<string | null>(null);
   const [apiKeyInputs, setApiKeyInputs] = useState<Record<string, string>>({});
   const [baseUrlInput, setBaseUrlInput] = useState<string>(customOpenAIBaseUrl || 'https://api.openai.com/v1');
+  const [customModelInput, setCustomModelInput] = useState<string>(customOpenAIModel || 'gpt-4o-mini');
   const [showApiKeys, setShowApiKeys] = useState<Record<string, boolean>>({});
   const [validating, setValidating] = useState<Record<string, boolean>>({});
   const [validationResults, setValidationResults] = useState<Record<string, boolean | null>>({});
+  const [testingModel, setTestingModel] = useState<boolean>(false);
+  const [testReply, setTestReply] = useState<string | null>(null);
   const [providerToClear, setProviderToClear] = useState<string | null>(null);
 
   // Get provider metadata (sync - no SDK loading needed for display)
   const providerMetadataList = PROVIDER_METADATA;
   const providerStatus = router.getProviderStatus();
+
+  // Sync inputs with persisted store values
+  useEffect(() => {
+    if (customOpenAIBaseUrl) {
+      setBaseUrlInput(customOpenAIBaseUrl);
+    }
+    if (customOpenAIModel) {
+      setCustomModelInput(customOpenAIModel);
+    }
+  }, [customOpenAIBaseUrl, customOpenAIModel]);
 
   // Check if password is needed
   useEffect(() => {
@@ -77,8 +92,11 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
     try {
       if (providerId === 'custom-openai') {
         const trimmedBaseUrl = baseUrlInput.trim() || 'https://api.openai.com/v1';
+        const trimmedModel = customModelInput.trim() || 'gpt-4o-mini';
         setCustomOpenAIBaseUrl(trimmedBaseUrl);
+        setCustomOpenAIModel(trimmedModel);
         router.setProviderBaseUrl(providerId, trimmedBaseUrl);
+        router.addProviderCustomModel(providerId, trimmedModel);
       }
 
       await setProviderApiKey(providerId, apiKey, password);
@@ -91,10 +109,14 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
       // Try to load provider and set as active
       const provider = await router.getProvider(providerId);
       if (provider) {
-        // Auto-switch to this provider after saving
-        const defaultModel = provider.getDefaultModel();
-        if (defaultModel) {
-          setActiveProvider(providerId, defaultModel.id);
+        if (providerId === 'custom-openai') {
+          const trimmedModel = customModelInput.trim() || 'gpt-4o-mini';
+          setActiveProvider(providerId, trimmedModel);
+        } else {
+          const defaultModel = provider.getDefaultModel();
+          if (defaultModel) {
+            setActiveProvider(providerId, defaultModel.id);
+          }
         }
       }
     } catch (error) {
@@ -166,6 +188,66 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
       toast.error('Validation error', message);
     } finally {
       setValidating((prev) => ({ ...prev, [providerId]: false }));
+    }
+  };
+
+  const handleOneClickTest = async (providerId: string) => {
+    let apiKey = apiKeyInputs[providerId]?.trim();
+    if (!apiKey) {
+      if (encryptionPassword && !isPasswordExpired()) {
+        const savedKey = await useTerminalStore.getState().getProviderApiKey(providerId, encryptionPassword);
+        if (savedKey) apiKey = savedKey;
+      }
+    }
+
+    if (!apiKey) {
+      toast.warning('请先输入 API 密钥', '需要输入 API Key 以测试模型是否真实可用。');
+      return;
+    }
+
+    setTestingModel(true);
+    setTestReply(null);
+
+    try {
+      const trimmedBaseUrl = baseUrlInput.trim() || 'https://api.openai.com/v1';
+      const trimmedModel = customModelInput.trim() || 'gpt-4o-mini';
+
+      router.setProviderBaseUrl(providerId, trimmedBaseUrl);
+      router.setProviderApiKey(providerId, apiKey);
+
+      const provider = await router.getProvider(providerId);
+      if (!provider) {
+        throw new Error('未找到服务商实例');
+      }
+
+      if (provider.testModel) {
+        const result = await provider.testModel(trimmedModel, apiKey);
+        if (result.success) {
+          setValidationResults((prev) => ({ ...prev, [providerId]: true }));
+          setTestReply(result.reply || '(无返回文本)');
+          toast.success('一键测试成功！', `模型 [${trimmedModel}] 可用。回复: ${result.reply?.slice(0, 60)}`);
+        } else {
+          setValidationResults((prev) => ({ ...prev, [providerId]: false }));
+          setTestReply(`测试失败: ${result.error}`);
+          toast.error('模型测试失败', result.error || '无法与模型完成对话。');
+        }
+      } else {
+        const response = await provider.sendMessage(trimmedModel, {
+          prompt: 'hi',
+          maxTokens: 50,
+        });
+        setValidationResults((prev) => ({ ...prev, [providerId]: true }));
+        setTestReply(response.content || '(无返回文本)');
+        toast.success('一键测试成功！', `模型 [${trimmedModel}] 可用。回复: ${response.content.slice(0, 60)}`);
+      }
+    } catch (error: unknown) {
+      console.error('One-click test error:', error);
+      const msg = error instanceof Error ? error.message : '未知错误';
+      setValidationResults((prev) => ({ ...prev, [providerId]: false }));
+      setTestReply(`测试失败: ${msg}`);
+      toast.error('一键测试失败', msg);
+    } finally {
+      setTestingModel(false);
     }
   };
 
@@ -293,17 +375,32 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                   {/* API Key Input & Base URL */}
                   <div className="space-y-1.5">
                     {providerId === 'custom-openai' && (
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-medium text-text-light-secondary dark:text-text-dark-secondary">
-                          Base URL (兼容 OpenAI 接口地址)
-                        </label>
-                        <input
-                          type="text"
-                          value={baseUrlInput}
-                          onChange={(e) => setBaseUrlInput(e.target.value)}
-                          placeholder="例如: https://api.openai.com/v1 或您的反代/本地接口地址"
-                          className="w-full px-2.5 py-1.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary text-xs"
-                        />
+                      <div className="space-y-1.5">
+                        <div className="space-y-1">
+                          <label className="block text-[11px] font-medium text-text-light-secondary dark:text-text-dark-secondary">
+                            Base URL (兼容 OpenAI 接口地址)
+                          </label>
+                          <input
+                            type="text"
+                            value={baseUrlInput}
+                            onChange={(e) => setBaseUrlInput(e.target.value)}
+                            placeholder="例如: https://api.openai.com/v1 或您的反代/本地接口地址"
+                            className="w-full px-2.5 py-1.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary text-xs"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="block text-[11px] font-medium text-text-light-secondary dark:text-text-dark-secondary">
+                            模型 ID (Model ID)
+                          </label>
+                          <input
+                            type="text"
+                            value={customModelInput}
+                            onChange={(e) => setCustomModelInput(e.target.value)}
+                            placeholder="例如: gpt-4o-mini, deepseek-chat, qwen-max, claude-3-5-sonnet 等"
+                            className="w-full px-2.5 py-1.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary text-xs"
+                          />
+                        </div>
                       </div>
                     )}
 
@@ -334,7 +431,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-1.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       <button
                         onClick={() => handleSaveApiKey(providerId)}
                         disabled={!apiKeyInputs[providerId]?.trim()}
@@ -343,13 +440,24 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                         {isConfigured ? '更新保存' : '保存'}
                       </button>
 
-                      <button
-                        onClick={() => handleTestApiKey(providerId)}
-                        disabled={!apiKeyInputs[providerId]?.trim() || validating[providerId]}
-                        className="px-2.5 py-1 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark disabled:opacity-50 disabled:cursor-not-allowed border border-border-light dark:border-border-dark rounded-button text-xs text-text-light-primary dark:text-text-dark-primary transition-all duration-standard ease-smooth"
-                      >
-                        {validating[providerId] ? '检测中...' : '测试连通性'}
-                      </button>
+                      {providerId === 'custom-openai' ? (
+                        <button
+                          onClick={() => handleOneClickTest(providerId)}
+                          disabled={testingModel}
+                          className="px-2.5 py-1 bg-accent-primary/10 hover:bg-accent-primary/20 text-accent-primary border border-accent-primary/30 rounded-button text-xs font-medium transition-all duration-standard ease-smooth flex items-center gap-1"
+                          title="发送 prompt: hi 测试模型是否真实可用"
+                        >
+                          {testingModel ? '测试中 (发送 hi)...' : '⚡ 一键测试 (hi)'}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleTestApiKey(providerId)}
+                          disabled={!apiKeyInputs[providerId]?.trim() || validating[providerId]}
+                          className="px-2.5 py-1 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark disabled:opacity-50 disabled:cursor-not-allowed border border-border-light dark:border-border-dark rounded-button text-xs text-text-light-primary dark:text-text-dark-primary transition-all duration-standard ease-smooth"
+                        >
+                          {validating[providerId] ? '检测中...' : '测试连通性'}
+                        </button>
+                      )}
 
                       {isConfigured && (
                         <button
@@ -373,6 +481,14 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                         </span>
                       )}
                     </div>
+
+                    {/* Test Reply Display for custom-openai */}
+                    {providerId === 'custom-openai' && testReply && (
+                      <div className="mt-1.5 p-2 rounded bg-surface-light dark:bg-surface-dark text-[11px] text-text-light-secondary dark:text-text-dark-secondary border border-border-light dark:border-border-dark break-all">
+                        <span className="font-medium text-text-light-primary dark:text-text-dark-primary">测试结果：</span>
+                        {testReply}
+                      </div>
+                    )}
                   </div>
                 </div>
               );
