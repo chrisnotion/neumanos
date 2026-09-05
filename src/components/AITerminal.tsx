@@ -114,6 +114,7 @@ export const AITerminal: React.FC = () => {
     saveCurrentConversation,
     customSystemPrompt,
     recordTokenUsage,
+    customOpenAIBaseUrl,
   } = useTerminalStore();
 
   const [input, setInput] = useState('');
@@ -412,9 +413,19 @@ export const AITerminal: React.FC = () => {
     });
   }, [activeProvider, activeModel, fallbackEnabled, router]);
 
-  // Initialize provider API keys from encrypted storage
+  // Initialize provider API keys and settings from encrypted storage
+  useEffect(() => {
+    if (customOpenAIBaseUrl) {
+      router.setProviderBaseUrl('custom-openai', customOpenAIBaseUrl);
+    }
+  }, [customOpenAIBaseUrl, router]);
+
   useEffect(() => {
     const initializeApiKeys = async () => {
+      if (customOpenAIBaseUrl) {
+        router.setProviderBaseUrl('custom-openai', customOpenAIBaseUrl);
+      }
+
       if (encryptionPassword && !isPasswordExpired()) {
         const allProviderIds = Object.keys(router.getAllProviderMetadata());
         for (const providerId of allProviderIds) {
@@ -439,7 +450,7 @@ export const AITerminal: React.FC = () => {
     };
 
     initializeApiKeys();
-  }, [encryptionPassword, isPasswordExpired, providers, router]);
+  }, [encryptionPassword, isPasswordExpired, providers, router, customOpenAIBaseUrl]);
 
   // Keyboard shortcuts
   useEffect(() => {

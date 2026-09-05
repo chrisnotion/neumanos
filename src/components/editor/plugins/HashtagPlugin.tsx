@@ -97,9 +97,16 @@ export default function HashtagPlugin({ onHashtagsChange, onHashtagClick }: Hash
     return removeTransform;
   }, [editor]);
 
+  const onHashtagsChangeRef = useRef(onHashtagsChange);
+  useEffect(() => {
+    onHashtagsChangeRef.current = onHashtagsChange;
+  }, [onHashtagsChange]);
+
+  const lastTagsRef = useRef<string[]>([]);
+
   // Extract and sync hashtags to note.tags (debounced)
   const extractAndSyncHashtags = useCallback(() => {
-    if (!onHashtagsChange) return;
+    if (!onHashtagsChangeRef.current) return;
 
     editor.getEditorState().read(() => {
       const root = $getRoot();
@@ -108,10 +115,19 @@ export default function HashtagPlugin({ onHashtagsChange, onHashtagClick }: Hash
       // Extract all hashtags from content
       const tags = extractHashtags(textContent);
       
-      // Notify parent component
-      onHashtagsChange(tags);
+      // Only notify if tags actually changed
+      const prevTags = lastTagsRef.current;
+      if (
+        tags.length === prevTags.length &&
+        tags.every((t, i) => t === prevTags[i])
+      ) {
+        return;
+      }
+
+      lastTagsRef.current = tags;
+      onHashtagsChangeRef.current?.(tags);
     });
-  }, [editor, onHashtagsChange]);
+  }, [editor]);
 
   // Listen to editor updates and extract hashtags (debounced)
   useEffect(() => {

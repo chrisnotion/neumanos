@@ -143,6 +143,8 @@ interface TerminalState {
   providers: Record<string, ProviderConfig>; // API keys per provider
   activeProvider: string; // Currently selected provider
   activeModel: string; // Currently selected model
+  customOpenAIBaseUrl: string; // Custom Base URL for custom-openai
+  customOpenAIModels: string[]; // Custom model list for custom-openai
 
   // Fallback Configuration
   fallbackEnabled: boolean;
@@ -204,6 +206,8 @@ interface TerminalState {
   getProviderApiKey: (providerId: string, password: string) => Promise<string | null>;
   clearProviderApiKey: (providerId: string) => void;
   setActiveProvider: (providerId: string, modelId: string) => void;
+  setCustomOpenAIBaseUrl: (url: string) => void;
+  setCustomOpenAIModels: (models: string[]) => void;
 
   // Encryption Actions
   setEncryptionPassword: (password: string, passwordHash: string, duration: 'daily' | 'weekly' | 'monthly') => void;
@@ -294,6 +298,8 @@ export const useTerminalStore = create<TerminalState>()(
       providers: {},
       activeProvider: 'gemini', // Default to Gemini for backward compatibility
       activeModel: 'gemini-1.5-flash',
+      customOpenAIBaseUrl: 'https://api.openai.com/v1',
+      customOpenAIModels: ['gpt-4o', 'gpt-4o-mini', 'deepseek-chat', 'deepseek-reasoner'],
 
       // Fallback Configuration
       fallbackEnabled: true,
@@ -419,6 +425,14 @@ export const useTerminalStore = create<TerminalState>()(
           activeProvider: providerId,
           activeModel: modelId,
         });
+      },
+
+      setCustomOpenAIBaseUrl: (url: string) => {
+        set({ customOpenAIBaseUrl: url });
+      },
+
+      setCustomOpenAIModels: (models: string[]) => {
+        set({ customOpenAIModels: models });
       },
 
       // Encryption Actions
@@ -861,6 +875,8 @@ export const useTerminalStore = create<TerminalState>()(
         // Persist active selection
         activeProvider: state.activeProvider,
         activeModel: state.activeModel,
+        customOpenAIBaseUrl: state.customOpenAIBaseUrl,
+        customOpenAIModels: state.customOpenAIModels,
 
         // Persist fallback configuration
         fallbackEnabled: state.fallbackEnabled,

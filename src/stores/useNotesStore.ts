@@ -320,6 +320,30 @@ export const useNotesStore = create<NotesStore>()(
           return;
         }
 
+        // Check if any property in updates has actually changed
+        let hasChanges = false;
+        for (const [key, value] of Object.entries(updates) as [keyof typeof updates, any][]) {
+          if (key === 'tags' && Array.isArray(value) && Array.isArray(note.tags)) {
+            if (value.length !== note.tags.length || value.some((t, i) => t !== note.tags[i])) {
+              hasChanges = true;
+              break;
+            }
+          } else if (key === 'aliases' && Array.isArray(value)) {
+            const currentAliases = note.aliases || [];
+            if (value.length !== currentAliases.length || value.some((a, i) => a !== currentAliases[i])) {
+              hasChanges = true;
+              break;
+            }
+          } else if (note[key as keyof typeof note] !== value) {
+            hasChanges = true;
+            break;
+          }
+        }
+
+        if (!hasChanges) {
+          return;
+        }
+
         // Only update timestamp if content/title/tags actually changed
         // Skip timestamp update for UI-only changes (like folderId without content change)
         const shouldUpdateTimestamp =

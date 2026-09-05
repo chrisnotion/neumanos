@@ -38,11 +38,14 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
     setActiveProvider,
     enableCrossModuleContext,
     setEnableCrossModuleContext,
+    customOpenAIBaseUrl,
+    setCustomOpenAIBaseUrl,
   } = useTerminalStore();
 
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<string | null>(null);
   const [apiKeyInputs, setApiKeyInputs] = useState<Record<string, string>>({});
+  const [baseUrlInput, setBaseUrlInput] = useState<string>(customOpenAIBaseUrl || 'https://api.openai.com/v1');
   const [showApiKeys, setShowApiKeys] = useState<Record<string, boolean>>({});
   const [validating, setValidating] = useState<Record<string, boolean>>({});
   const [validationResults, setValidationResults] = useState<Record<string, boolean | null>>({});
@@ -72,6 +75,12 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
 
   const saveProviderKey = async (providerId: string, apiKey: string, password: string) => {
     try {
+      if (providerId === 'custom-openai') {
+        const trimmedBaseUrl = baseUrlInput.trim() || 'https://api.openai.com/v1';
+        setCustomOpenAIBaseUrl(trimmedBaseUrl);
+        router.setProviderBaseUrl(providerId, trimmedBaseUrl);
+      }
+
       await setProviderApiKey(providerId, apiKey, password);
       setApiKeyInputs((prev) => ({ ...prev, [providerId]: '' }));
       setValidationResults((prev) => ({ ...prev, [providerId]: null }));
@@ -131,6 +140,11 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
     setValidating((prev) => ({ ...prev, [providerId]: true }));
 
     try {
+      if (providerId === 'custom-openai') {
+        const trimmedBaseUrl = baseUrlInput.trim() || 'https://api.openai.com/v1';
+        router.setProviderBaseUrl(providerId, trimmedBaseUrl);
+      }
+
       // Load provider SDK on-demand for validation
       const provider = await router.getProvider(providerId);
       if (!provider) {
@@ -276,8 +290,23 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                     </div>
                   </div>
 
-                  {/* API Key Input */}
+                  {/* API Key Input & Base URL */}
                   <div className="space-y-1.5">
+                    {providerId === 'custom-openai' && (
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-medium text-text-light-secondary dark:text-text-dark-secondary">
+                          Base URL (兼容 OpenAI 接口地址)
+                        </label>
+                        <input
+                          type="text"
+                          value={baseUrlInput}
+                          onChange={(e) => setBaseUrlInput(e.target.value)}
+                          placeholder="例如: https://api.openai.com/v1 或您的反代/本地接口地址"
+                          className="w-full px-2.5 py-1.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary text-xs"
+                        />
+                      </div>
+                    )}
+
                     <div className="flex gap-1.5">
                       <div className="flex-1 relative">
                         <input

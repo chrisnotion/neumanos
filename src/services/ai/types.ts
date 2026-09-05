@@ -164,6 +164,11 @@ export interface AIProvider {
 
   // Usage tracking
   getUsage?(): Promise<{ requestsToday: number; tokensToday: number; limitReached: boolean }>;
+
+  // Custom Provider Configuration (optional)
+  setBaseUrl?(baseUrl: string): void;
+  getBaseUrl?(): string | null;
+  setCustomModels?(models: AIModel[]): void;
 }
 
 /**

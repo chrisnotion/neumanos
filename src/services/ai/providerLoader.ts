@@ -174,6 +174,20 @@ export const PROVIDER_METADATA: Record<string, AIProviderMetadata> = {
     websiteUrl: 'https://deepseek.com',
     docsUrl: 'https://platform.deepseek.com/docs',
   },
+  'custom-openai': {
+    id: 'custom-openai',
+    name: 'Custom OpenAI',
+    displayName: '自定义 OpenAI 接口',
+    description: '兼容 OpenAI 协议的自定义接口。支持自定义 Base URL 与模型名称（适用于第三方反代、中转、Ollama、vLLM 等）。',
+    requiresApiKey: true,
+    apiKeyLabel: 'API Key',
+    hasFreeModels: false,
+    supportsCORS: true,
+    requiresProxy: false,
+    supportsStreaming: true,
+    websiteUrl: 'https://platform.openai.com',
+    docsUrl: 'https://platform.openai.com/docs/api-reference',
+  },
 };
 
 /**
@@ -272,6 +286,72 @@ export const PROVIDER_MODELS: Record<string, AIModel[]> = {
   anthropic: [],
   xai: [],
   deepseek: [],
+  'custom-openai': [
+    {
+      id: 'gpt-4o',
+      name: 'GPT-4o',
+      provider: 'custom-openai',
+      speedRating: 4,
+      qualityRating: 5,
+      contextWindow: 128000,
+      maxOutputTokens: 16384,
+      supportsStreaming: true,
+      supportsVision: true,
+      supportsFunctionCalling: true,
+      isFree: false,
+      requiresApiKey: true,
+      useCases: ['chat', 'code', 'reasoning', 'multimodal'],
+      description: '默认通用主力模型。',
+    },
+    {
+      id: 'gpt-4o-mini',
+      name: 'GPT-4o Mini',
+      provider: 'custom-openai',
+      speedRating: 5,
+      qualityRating: 4,
+      contextWindow: 128000,
+      maxOutputTokens: 16384,
+      supportsStreaming: true,
+      supportsVision: true,
+      supportsFunctionCalling: true,
+      isFree: false,
+      requiresApiKey: true,
+      useCases: ['chat', 'code', 'quick-tasks'],
+      description: '轻量高速模型。',
+    },
+    {
+      id: 'deepseek-chat',
+      name: 'DeepSeek Chat',
+      provider: 'custom-openai',
+      speedRating: 4,
+      qualityRating: 5,
+      contextWindow: 64000,
+      maxOutputTokens: 8192,
+      supportsStreaming: true,
+      supportsVision: false,
+      supportsFunctionCalling: true,
+      isFree: false,
+      requiresApiKey: true,
+      useCases: ['chat', 'code', 'reasoning'],
+      description: '深度求索对话模型。',
+    },
+    {
+      id: 'deepseek-reasoner',
+      name: 'DeepSeek Reasoner (R1)',
+      provider: 'custom-openai',
+      speedRating: 3,
+      qualityRating: 5,
+      contextWindow: 64000,
+      maxOutputTokens: 8192,
+      supportsStreaming: true,
+      supportsVision: false,
+      supportsFunctionCalling: false,
+      isFree: false,
+      requiresApiKey: true,
+      useCases: ['reasoning', 'code', 'math'],
+      description: '深度求索推理模型。',
+    },
+  ],
 };
 
 /**
@@ -347,6 +427,11 @@ export async function loadProvider(providerId: string): Promise<AIProvider> {
       case 'deepseek': {
         const { deepseekProvider } = await import('./deepseekProvider');
         provider = deepseekProvider;
+        break;
+      }
+      case 'custom-openai': {
+        const { customOpenAIProvider } = await import('./customOpenAIProvider');
+        provider = customOpenAIProvider;
         break;
       }
       default:

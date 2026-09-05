@@ -1242,6 +1242,22 @@ export const NotesEditor: React.FC<NotesEditorProps> = ({ noteId, blockId }) => 
     setOutlineOpen((prev) => !prev);
   }, []);
 
+  const handleHashtagsChange = useCallback(
+    (tags: string[]) => {
+      const currentNote = useNotesStore.getState().notes[noteId];
+      if (!currentNote) return;
+      const currentTags = currentNote.tags || [];
+      if (
+        tags.length === currentTags.length &&
+        tags.every((t, i) => t === currentTags[i])
+      ) {
+        return;
+      }
+      useNotesStore.getState().updateNote(noteId, { tags });
+    },
+    [noteId]
+  );
+
   if (!note) {
     return (
       <div className="flex-1 min-h-0 flex items-center justify-center text-text-light-secondary dark:text-text-dark-secondary">
@@ -1345,11 +1361,7 @@ export const NotesEditor: React.FC<NotesEditorProps> = ({ noteId, blockId }) => 
             <HoverPreviewPlugin notes={notes} />
             <BlockReferencePlugin targetBlockId={blockId} />
             {viewMode === 'edit' && (
-              <HashtagPlugin
-                onHashtagsChange={(tags) => {
-                  useNotesStore.getState().updateNote(noteId, { tags });
-                }}
-              />
+              <HashtagPlugin onHashtagsChange={handleHashtagsChange} />
             )}
             </div>
           </div>

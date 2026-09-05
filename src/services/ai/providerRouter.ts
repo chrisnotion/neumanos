@@ -58,6 +58,8 @@ export class AIProviderRouter {
   private config: ProviderRouterConfig;
   private onFallback?: FallbackCallback;
   private apiKeys: Map<string, string> = new Map();
+  private baseUrls: Map<string, string> = new Map();
+  private customModels: Map<string, AIModel[]> = new Map();
 
   constructor(config: ProviderRouterConfig, onFallback?: FallbackCallback) {
     this.config = config;
@@ -85,6 +87,37 @@ export class AIProviderRouter {
   }
 
   /**
+   * Store Base URL for a provider (e.g. custom-openai)
+   */
+  setProviderBaseUrl(providerId: string, baseUrl: string): void {
+    this.baseUrls.set(providerId, baseUrl);
+
+    const loadedProvider = getLoadedProvider(providerId);
+    if (loadedProvider && loadedProvider.setBaseUrl) {
+      loadedProvider.setBaseUrl(baseUrl);
+    }
+  }
+
+  /**
+   * Get Base URL for a provider
+   */
+  getProviderBaseUrl(providerId: string): string | null {
+    return this.baseUrls.get(providerId) ?? null;
+  }
+
+  /**
+   * Set custom models for a provider
+   */
+  setProviderCustomModels(providerId: string, models: AIModel[]): void {
+    this.customModels.set(providerId, models);
+
+    const loadedProvider = getLoadedProvider(providerId);
+    if (loadedProvider && loadedProvider.setCustomModels) {
+      loadedProvider.setCustomModels(models);
+    }
+  }
+
+  /**
    * Clear API key for a provider
    */
   clearProviderApiKey(providerId: string): void {
@@ -106,6 +139,18 @@ export class AIProviderRouter {
 
     try {
       const provider = await loadProvider(providerId);
+
+      // Apply stored Base URL if supported
+      const storedBaseUrl = this.baseUrls.get(providerId);
+      if (storedBaseUrl && provider.setBaseUrl) {
+        provider.setBaseUrl(storedBaseUrl);
+      }
+
+      // Apply custom models if supported
+      const storedModels = this.customModels.get(providerId);
+      if (storedModels && provider.setCustomModels) {
+        provider.setCustomModels(storedModels);
+      }
 
       // Apply stored API key if we have one
       const storedKey = this.apiKeys.get(providerId);
