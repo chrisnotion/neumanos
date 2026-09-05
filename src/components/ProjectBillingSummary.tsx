@@ -149,16 +149,17 @@ export function ProjectBillingSummary({ projectId }: ProjectBillingSummaryProps)
   // Copy summary to clipboard
   const handleCopyToClipboard = async () => {
     const { start, end } = getDateRange(dateRangePreset);
-    const dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    const startStr = `${start.getFullYear()}年${start.getMonth() + 1}月${start.getDate()}日`;
+    const endStr = `${end.getFullYear()}年${end.getMonth() + 1}月${end.getDate()}日`;
 
-    const text = `Billing Summary
-${project ? `Project: ${project.name}` : 'All Projects'}
-Period: ${start.toLocaleDateString('en-US', dateFormat)} - ${end.toLocaleDateString('en-US', dateFormat)}
+    const text = `工时汇总与计费报表
+${project ? `项目: ${project.name}` : '全部项目'}
+统计周期: ${startStr} - ${endStr}
 
-Billable: ${formatHours(summary.billableHours * 3600)} hours @ avg ${formatCurrency(summary.avgRate, billingCurrency)}/hr
-Non-billable: ${formatHours(summary.nonBillableHours * 3600)} hours
+计费工时: ${formatHours(summary.billableHours * 3600)} 小时 (平均费率 ${formatCurrency(summary.avgRate, billingCurrency)}/小时)
+非计费工时: ${formatHours(summary.nonBillableHours * 3600)} 小时
 
-Total: ${formatCurrency(summary.totalAmount, billingCurrency)}`;
+合计金额: ${formatCurrency(summary.totalAmount, billingCurrency)}`;
 
     try {
       await navigator.clipboard.writeText(text);
@@ -170,7 +171,7 @@ Total: ${formatCurrency(summary.totalAmount, billingCurrency)}`;
   };
 
   const { start, end } = getDateRange(dateRangePreset);
-  const dateFormat: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+  const periodDisplay = `${start.getMonth() + 1}月${start.getDate()}日 – ${end.getMonth() + 1}月${end.getDate()}日`;
 
   return (
     <div className="p-6 bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark">
@@ -182,10 +183,10 @@ Total: ${formatCurrency(summary.totalAmount, billingCurrency)}`;
           </div>
           <div>
             <h3 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-              {project ? project.name : 'All Projects'} Billing
+              {project ? project.name : '全部项目'} 账单与费率汇总
             </h3>
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-              {start.toLocaleDateString('en-US', dateFormat)} – {end.toLocaleDateString('en-US', dateFormat)}
+              {periodDisplay}
             </p>
           </div>
         </div>
@@ -194,17 +195,17 @@ Total: ${formatCurrency(summary.totalAmount, billingCurrency)}`;
         <button
           onClick={handleCopyToClipboard}
           className="flex items-center gap-2 px-3 py-1.5 text-sm bg-surface-light-secondary dark:bg-surface-dark-secondary rounded-lg hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated transition-colors border border-border-light dark:border-border-dark"
-          aria-label="Copy summary to clipboard"
+          aria-label="复制汇总信息到剪贴板"
         >
           {copied ? (
             <>
               <Check className="w-4 h-4 text-accent-green" />
-              <span className="text-accent-green">Copied!</span>
+              <span className="text-accent-green">已复制！</span>
             </>
           ) : (
             <>
               <Copy className="w-4 h-4 text-text-light-secondary dark:text-text-dark-secondary" />
-              <span className="text-text-light-secondary dark:text-text-dark-secondary">Copy</span>
+              <span className="text-text-light-secondary dark:text-text-dark-secondary">复制报表</span>
             </>
           )}
         </button>
@@ -224,10 +225,10 @@ Total: ${formatCurrency(summary.totalAmount, billingCurrency)}`;
                   : 'bg-surface-light-secondary dark:bg-surface-dark-secondary text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
               }`}
             >
-              {preset === 'today' && 'Today'}
-              {preset === 'this-week' && 'This Week'}
-              {preset === 'this-month' && 'This Month'}
-              {preset === 'last-month' && 'Last Month'}
+              {preset === 'today' && '今天'}
+              {preset === 'this-week' && '本周'}
+              {preset === 'this-month' && '本月'}
+              {preset === 'last-month' && '上月'}
             </button>
           ))}
         </div>
@@ -240,14 +241,14 @@ Total: ${formatCurrency(summary.totalAmount, billingCurrency)}`;
           <div className="flex items-center gap-2 mb-2">
             <Clock className="w-4 h-4 text-accent-green" />
             <span className="text-xs font-medium text-accent-green uppercase tracking-wide">
-              Billable
+              计费工时
             </span>
           </div>
           <p className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
             {formatHours(summary.billableHours * 3600)}
           </p>
           <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-            hours @ avg {formatCurrency(summary.avgRate, billingCurrency)}/hr
+            小时（平均 {formatCurrency(summary.avgRate, billingCurrency)}/小时）
           </p>
         </div>
 
@@ -256,14 +257,14 @@ Total: ${formatCurrency(summary.totalAmount, billingCurrency)}`;
           <div className="flex items-center gap-2 mb-2">
             <Clock className="w-4 h-4 text-text-light-tertiary dark:text-text-dark-tertiary" />
             <span className="text-xs font-medium text-text-light-tertiary dark:text-text-dark-tertiary uppercase tracking-wide">
-              Non-Billable
+              非计费工时
             </span>
           </div>
           <p className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
             {formatHours(summary.nonBillableHours * 3600)}
           </p>
           <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-            hours tracked
+            小时已记录
           </p>
         </div>
 
@@ -272,14 +273,14 @@ Total: ${formatCurrency(summary.totalAmount, billingCurrency)}`;
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="w-4 h-4 text-accent-primary" />
             <span className="text-xs font-medium text-accent-primary uppercase tracking-wide">
-              Total
+              应计金额
             </span>
           </div>
           <p className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
             {formatCurrency(summary.totalAmount, billingCurrency)}
           </p>
           <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-            from {summary.entryCount} entries
+            来源于 {summary.entryCount} 条工时记录
           </p>
         </div>
       </div>
@@ -288,9 +289,9 @@ Total: ${formatCurrency(summary.totalAmount, billingCurrency)}`;
       {summary.entryCount === 0 && (
         <div className="text-center py-8 text-text-light-secondary dark:text-text-dark-secondary">
           <Clock className="w-12 h-12 mx-auto mb-3 opacity-30" />
-          <p className="text-sm">No time entries found for this period.</p>
+          <p className="text-sm">当前统计周期内暂无工时记录。</p>
           <p className="text-xs mt-1">
-            Start tracking time to see billing summaries.
+            开始计时或添加记录即可查看账单汇总报表。
           </p>
         </div>
       )}

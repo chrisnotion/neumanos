@@ -24,11 +24,11 @@ export function IdleDetectionSettings() {
   };
 
   const THRESHOLD_OPTIONS = [
-    { value: 3, label: '3 minutes' },
-    { value: 5, label: '5 minutes' },
-    { value: 10, label: '10 minutes' },
-    { value: 15, label: '15 minutes' },
-    { value: 30, label: '30 minutes' },
+    { value: 3, label: '3 分钟' },
+    { value: 5, label: '5 分钟' },
+    { value: 10, label: '10 分钟' },
+    { value: 15, label: '15 分钟' },
+    { value: 30, label: '30 分钟' },
   ];
 
   return (
@@ -38,10 +38,10 @@ export function IdleDetectionSettings() {
         <Eye className="w-6 h-6 text-accent-primary" />
         <div>
           <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Idle Detection
+            闲置空闲检测
           </h2>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-            Detect when you step away and handle idle time in running timers
+            当您暂时离开电脑时智能识别并提供闲置工时扣除处理建议
           </p>
         </div>
       </div>
@@ -51,9 +51,8 @@ export function IdleDetectionSettings() {
         <Info className="w-5 h-5 text-accent-blue flex-shrink-0 mt-0.5" />
         <div className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
           <p>
-            When enabled and a timer is running, NeumanOS will track mouse and
-            keyboard activity. After the configured idle period, you will see a
-            prompt asking whether to keep or discard the idle time.
+            启用后且计时器正在运行时，NeumanOS 会持续感知鼠标与键盘交互。
+            当连续无操作时长超过设定阈值后，返回时会主动弹出提示，供您选择保留或扣除该段离开时间。
           </p>
         </div>
       </div>
@@ -62,10 +61,10 @@ export function IdleDetectionSettings() {
       <div className="flex items-center justify-between p-4 bg-surface-light-secondary/50 dark:bg-surface-dark-secondary/50 rounded-lg border border-border-light dark:border-border-dark">
         <div>
           <p className="font-medium text-text-light-primary dark:text-text-dark-primary">
-            Enable Idle Detection
+            启用闲置空闲检测
           </p>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-            Monitor activity when a timer is running
+            计时器运行期间自动监测用户活动状态
           </p>
         </div>
         <button
@@ -89,11 +88,11 @@ export function IdleDetectionSettings() {
         <div className="flex items-center gap-2 mb-3">
           <Clock className="w-4 h-4 text-text-light-secondary dark:text-text-dark-secondary" />
           <p className="font-medium text-text-light-primary dark:text-text-dark-primary">
-            Idle Threshold
+            判定为闲置的静止阈值
           </p>
         </div>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-3">
-          How long without activity before showing the idle prompt
+          无任何操作持续达到多久后，返回时弹出闲置时间处理弹窗
         </p>
         <div className="space-y-2">
           {THRESHOLD_OPTIONS.map((option) => (
@@ -132,12 +131,10 @@ export function IdleDetectionSettings() {
       {settings.enabled && (
         <div className="p-4 bg-accent-green/10 border border-accent-green/20 rounded-lg">
           <p className="text-sm font-medium text-accent-green mb-1">
-            Idle detection is active
+            闲置空闲检测已开启
           </p>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-            When a timer is running and no activity is detected for{' '}
-            {settings.thresholdMinutes} minutes, you will be prompted to handle
-            the idle time.
+            当前计时器运行中连续无交互达到 {settings.thresholdMinutes} 分钟后，返回时将提示您处理该段离开工时。
           </p>
         </div>
       )}

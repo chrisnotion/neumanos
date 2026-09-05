@@ -110,15 +110,15 @@ export function GanttTimeline({
   const getStatusLabel = (status: TaskStatus): string => {
     switch (status) {
       case 'backlog':
-        return 'Backlog';
+        return '待办积压';
       case 'todo':
-        return 'To Do';
+        return '待处理';
       case 'inprogress':
-        return 'In Progress';
+        return '进行中';
       case 'review':
-        return 'In Review';
+        return '审核中';
       case 'done':
-        return 'Done';
+        return '已完成';
       default:
         return status;
     }
@@ -258,7 +258,7 @@ export function GanttTimeline({
             className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-accent-primary text-white dark:text-dark-background rounded-lg hover:bg-accent-primary-dark transition-colors"
           >
             <Download className="w-4 h-4" />
-            Export
+            导出图表
           </button>
         </div>
 
@@ -387,7 +387,7 @@ export function GanttTimeline({
           >
             <div className="absolute -top-1 -left-2 w-4 h-4 bg-accent-primary rounded-full" />
             <div className="absolute -top-6 -left-6 text-xs font-semibold text-accent-primary whitespace-nowrap">
-              Today
+              今天
             </div>
           </div>
         )}
@@ -396,8 +396,8 @@ export function GanttTimeline({
         {tasks.filter((t) => t.startDate || t.dueDate).length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center text-text-light-tertiary dark:text-text-dark-tertiary">
-              <p className="text-sm">No tasks with dates to display</p>
-              <p className="text-xs mt-1">Add start or due dates to your tasks to see them on the timeline</p>
+              <p className="text-sm">暂无包含起止日期的任务</p>
+              <p className="text-xs mt-1">为任务设置开始日期或截止日期后即可在时间线中显示</p>
             </div>
           </div>
         )}

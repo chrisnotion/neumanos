@@ -109,8 +109,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'open-help-f1',
     keys: ['f1'],
-    label: 'Open help',
-    description: 'Show keyboard shortcuts and documentation',
+    label: '打开快捷键与帮助',
+    description: '显示全部键盘快捷键及帮助文档',
     handler: useCallback(() => setShowSupportModal(true), []),
     priority: 50,
   });
@@ -118,8 +118,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'open-help-slash',
     keys: ['mod', '/'],
-    label: 'Open help',
-    description: 'Show keyboard shortcuts and documentation',
+    label: '打开快捷键与帮助',
+    description: '显示全部键盘快捷键及帮助文档',
     handler: useCallback(() => setShowSupportModal(true), []),
     priority: 50,
   });
@@ -127,8 +127,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'toggle-project-context',
     keys: ['mod', 'shift', 'p'],
-    label: 'Toggle project context',
-    description: 'Open project context dropdown',
+    label: '切换项目上下文',
+    description: '打开项目上下文筛选下拉菜单',
     handler: toggleProjectDropdown,
     priority: 50,
   });
@@ -136,8 +136,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'quick-add-task',
     keys: ['c'],
-    label: 'Quick add task',
-    description: 'Create a new task from anywhere',
+    label: '快捷新建任务',
+    description: '随时随地快速创建任务',
     handler: useCallback(() => setShowQuickAddTask(true), []),
     priority: 40,
   });
@@ -146,8 +146,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'nav-dashboard',
     keys: ['mod', '1'],
-    label: 'Go to Dashboard',
-    description: 'Navigate to Dashboard',
+    label: '前往控制台',
+    description: '导航跳转至控制台仪表盘',
     handler: useCallback(() => navigate('/'), [navigate]),
     priority: 30,
   });
@@ -155,8 +155,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'nav-today',
     keys: ['mod', '2'],
-    label: 'Go to Today',
-    description: 'Navigate to Today page',
+    label: '前往今日视图',
+    description: '导航跳转至今日焦点视图',
     handler: useCallback(() => navigate('/today'), [navigate]),
     priority: 30,
   });
@@ -164,8 +164,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'nav-notes',
     keys: ['mod', '3'],
-    label: 'Go to Notes',
-    description: 'Navigate to Notes',
+    label: '前往笔记列表',
+    description: '导航跳转至笔记本与文档列表',
     handler: useCallback(() => navigate('/notes'), [navigate]),
     priority: 30,
   });
@@ -173,8 +173,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'nav-tasks',
     keys: ['mod', '4'],
-    label: 'Go to Tasks',
-    description: 'Navigate to Tasks',
+    label: '前往任务看板',
+    description: '导航跳转至任务看板与甘特图',
     handler: useCallback(() => navigate('/tasks'), [navigate]),
     priority: 30,
   });
@@ -182,8 +182,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'nav-schedule',
     keys: ['mod', '5'],
-    label: 'Go to Schedule',
-    description: 'Navigate to Schedule',
+    label: '前往日程日历',
+    description: '导航跳转至日程日历视图',
     handler: useCallback(() => navigate('/schedule'), [navigate]),
     priority: 30,
   });
@@ -191,8 +191,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'nav-create',
     keys: ['mod', '6'],
-    label: 'Go to Create',
-    description: 'Navigate to Create page',
+    label: '前往白板创作',
+    description: '导航跳转至思维导图与架构白板',
     handler: useCallback(() => navigate('/create'), [navigate]),
     priority: 30,
   });
@@ -200,8 +200,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'nav-links',
     keys: ['mod', '7'],
-    label: 'Go to Links',
-    description: 'Navigate to Link Library',
+    label: '前往资源外链',
+    description: '导航跳转至资源链接收藏库',
     handler: useCallback(() => navigate('/links'), [navigate]),
     priority: 30,
   });
@@ -209,8 +209,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'nav-settings',
     keys: ['mod', '8'],
-    label: 'Go to Settings',
-    description: 'Navigate to Settings',
+    label: '前往全局设置',
+    description: '导航跳转至设置偏好面板',
     handler: useCallback(() => navigate('/settings'), [navigate]),
     priority: 30,
   });
@@ -219,8 +219,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'create-new-note',
     keys: ['mod', 'n'],
-    label: 'New note',
-    description: 'Create a new note',
+    label: '新建笔记',
+    description: '快速创建一篇新笔记',
     handler: useCallback(() => {
       const { createNote, setActiveNote } = useNotesStore.getState();
       const note = createNote({ title: '', content: '', contentText: '', tags: [] });
@@ -233,8 +233,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'create-new-task',
     keys: ['mod', 't'],
-    label: 'New task',
-    description: 'Quick add a new task',
+    label: '新建任务',
+    description: '呼出全局弹窗快速添加任务',
     handler: useCallback(() => setShowQuickAddTask(true), []),
     priority: 45,
     allowInInput: false,
@@ -243,8 +243,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   useShortcut({
     id: 'create-new-event',
     keys: ['mod', 'e'],
-    label: 'New event',
-    description: 'Navigate to calendar to create event',
+    label: '新建日程',
+    description: '跳转到日程日历视图新建事件',
     handler: useCallback(() => navigate('/schedule'), [navigate]),
     priority: 45,
   });

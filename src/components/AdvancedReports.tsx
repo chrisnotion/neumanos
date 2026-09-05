@@ -28,12 +28,12 @@ import {
  */
 
 const REPORT_TYPES: { value: ReportType; label: string }[] = [
-  { value: 'time-by-project', label: 'Time by Project' },
-  { value: 'time-by-date', label: 'Time by Date' },
-  { value: 'time-by-tag', label: 'Time by Tag' },
-  { value: 'billable-vs-nonbillable', label: 'Billable vs Non-Billable' },
-  { value: 'rate-analysis', label: 'Rate Analysis' },
-  { value: 'trends', label: 'Trends' }
+  { value: 'time-by-project', label: '按项目统计工时' },
+  { value: 'time-by-date', label: '按日期趋势统计' },
+  { value: 'time-by-tag', label: '按标签分类统计' },
+  { value: 'billable-vs-nonbillable', label: '计费 vs 非计费对比' },
+  { value: 'rate-analysis', label: '费率水平分析' },
+  { value: 'trends', label: '长期工时与增长趋势' }
 ];
 
 const COLORS = ['#E879F9', '#06B6D4', '#8B5CF6', '#F59E0B', '#10B981', '#EF4444'];

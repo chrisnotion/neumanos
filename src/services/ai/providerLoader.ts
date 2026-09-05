@@ -21,6 +21,8 @@ export const PROVIDER_METADATA: Record<string, AIProviderMetadata> = {
     apiKeyLabel: 'OpenRouter API Key',
     hasFreeModels: true,
     freeModelIds: [
+      'google/gemini-2.0-flash-exp:free',
+      'meta-llama/llama-3.1-8b-instruct:free',
       'meta-llama/llama-3.3-70b-instruct:free',
       'google/gemma-2-9b-it:free',
       'mistralai/mistral-7b-instruct:free',
@@ -180,6 +182,32 @@ export const PROVIDER_METADATA: Record<string, AIProviderMetadata> = {
  */
 export const PROVIDER_MODELS: Record<string, AIModel[]> = {
   openrouter: [
+    {
+      id: 'google/gemini-2.0-flash-exp:free',
+      name: 'Gemini 2.0 Flash (Free)',
+      provider: 'openrouter',
+      speedRating: 5,
+      qualityRating: 4,
+      contextWindow: 1000000,
+      supportsStreaming: true,
+      isFree: true,
+      requiresApiKey: true,
+      useCases: ['chat', 'code', 'creative', 'multimodal'],
+      description: 'Google\'s fastest model with 1M token context.',
+    },
+    {
+      id: 'meta-llama/llama-3.1-8b-instruct:free',
+      name: 'Llama 3.1 8B (Free)',
+      provider: 'openrouter',
+      speedRating: 5,
+      qualityRating: 4,
+      contextWindow: 128000,
+      supportsStreaming: true,
+      isFree: true,
+      requiresApiKey: true,
+      useCases: ['chat', 'code', 'quick-tasks'],
+      description: 'Fast, lightweight Llama 3.1 model.',
+    },
     {
       id: 'meta-llama/llama-3.3-70b-instruct:free',
       name: 'Llama 3.3 70B (Free)',

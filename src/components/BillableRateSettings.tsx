@@ -70,10 +70,10 @@ export function BillableRateSettings() {
         <DollarSign className="w-6 h-6 text-accent-primary" />
         <div>
           <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Billable Rate Settings
+            计费费率设置
           </h2>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-            Configure hourly rates for billing and invoicing
+            配置用于工时计费与账单发票的时薪费率规则
           </p>
         </div>
       </div>
@@ -83,15 +83,15 @@ export function BillableRateSettings() {
         <Info className="w-5 h-5 text-accent-blue flex-shrink-0 mt-0.5" />
         <div className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
           <p className="font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-            Rate Hierarchy
+            费率生效优先级规则
           </p>
           <p>
-            Billable amounts are calculated using this priority:
+            工时记录的计费金额按以下优先级判定计算：
           </p>
           <ol className="list-decimal list-inside mt-2 space-y-1 ml-2">
-            <li><strong>Entry rate</strong> — Rate set on individual time entry</li>
-            <li><strong>Project rate</strong> — Default rate for the project</li>
-            <li><strong>Default rate</strong> — Global fallback rate (below)</li>
+            <li><strong>单项记录费率</strong> — 单独为某条工时指定的专属时薪</li>
+            <li><strong>项目专属费率</strong> — 关联项目设定的项目默认时薪</li>
+            <li><strong>全局默认费率</strong> — 下方设置的全局通用基准时薪</li>
           </ol>
         </div>
       </div>
@@ -101,7 +101,7 @@ export function BillableRateSettings() {
         <div className="flex items-center gap-2 mb-3">
           <Settings2 className="w-4 h-4 text-text-light-secondary dark:text-text-dark-secondary" />
           <p className="font-medium text-text-light-primary dark:text-text-dark-primary">
-            Currency
+            计费币种
           </p>
         </div>
         <select
@@ -123,15 +123,15 @@ export function BillableRateSettings() {
           <div className="flex items-center gap-2">
             <DollarSign className="w-4 h-4 text-text-light-secondary dark:text-text-dark-secondary" />
             <p className="font-medium text-text-light-primary dark:text-text-dark-primary">
-              Default Hourly Rate
+              默认基准时薪
             </p>
           </div>
           <span className="text-sm font-mono text-accent-primary">
-            {currentCurrency.symbol}{rate.toFixed(2)}/hr
+            {currentCurrency.symbol}{rate.toFixed(2)}/小时
           </span>
         </div>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-3">
-          Applied to all billable entries without a project or entry-specific rate
+          适用于未设置专属费率的项目或单条工时记录
         </p>
         <div className="flex items-center gap-3">
           <span className="text-text-light-secondary dark:text-text-dark-secondary">
@@ -146,7 +146,7 @@ export function BillableRateSettings() {
             className="flex-1 p-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
             placeholder="0.00"
           />
-          <span className="text-text-light-secondary dark:text-text-dark-secondary">/hr</span>
+          <span className="text-text-light-secondary dark:text-text-dark-secondary">/小时</span>
         </div>
       </div>
 
@@ -155,16 +155,16 @@ export function BillableRateSettings() {
         <div className="flex items-center gap-2 mb-3">
           <Briefcase className="w-4 h-4 text-text-light-secondary dark:text-text-dark-secondary" />
           <p className="font-medium text-text-light-primary dark:text-text-dark-primary">
-            Project Rates
+            项目专属费率
           </p>
         </div>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-4">
-          Override the default rate for specific projects
+          针对特定项目覆盖全局基准费率
         </p>
 
         {activeProjects.length === 0 ? (
           <p className="text-sm text-text-light-tertiary dark:text-text-dark-tertiary italic">
-            No active projects. Create projects in the Projects tab.
+            暂无活跃项目。可在「项目归属」栏目中创建项目。
           </p>
         ) : (
           <div className="space-y-2">
@@ -206,27 +206,27 @@ export function BillableRateSettings() {
                       onClick={() => handleProjectRateSave(project.id)}
                       className="px-2 py-1 text-xs bg-accent-green/20 text-accent-green rounded hover:bg-accent-green/30 transition-colors"
                     >
-                      Save
+                      保存
                     </button>
                     <button
                       onClick={() => setEditingProjectId(null)}
                       className="px-2 py-1 text-xs bg-surface-light-tertiary dark:bg-surface-dark-tertiary text-text-light-secondary dark:text-text-dark-secondary rounded hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated transition-colors"
                     >
-                      Cancel
+                      取消
                     </button>
                   </div>
                 ) : (
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-mono text-text-light-secondary dark:text-text-dark-secondary">
                       {project.hourlyRate
-                        ? `${currentCurrency.symbol}${project.hourlyRate.toFixed(2)}/hr`
-                        : 'Using default'}
+                        ? `${currentCurrency.symbol}${project.hourlyRate.toFixed(2)}/小时`
+                        : '沿用全局基准'}
                     </span>
                     <button
                       onClick={() => startEditingProject(project.id, project.hourlyRate)}
                       className="px-2 py-1 text-xs bg-accent-primary/10 text-accent-primary rounded hover:bg-accent-primary/20 transition-colors"
                     >
-                      Edit
+                      修改
                     </button>
                   </div>
                 )}
@@ -240,11 +240,11 @@ export function BillableRateSettings() {
       {rate > 0 && (
         <div className="p-4 bg-accent-green/10 border border-accent-green/20 rounded-lg">
           <p className="text-sm font-medium text-accent-green mb-2">
-            Billing Active
+            计费功能已激活
           </p>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-            Time entries marked as billable will be calculated at {currentCurrency.symbol}
-            {rate.toFixed(2)}/hr unless a project-specific rate is set.
+            所有标记为「计费工时」的记录，若未指定项目费率，将默认按 {currentCurrency.symbol}
+            {rate.toFixed(2)}/小时计算收益。
           </p>
         </div>
       )}

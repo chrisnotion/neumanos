@@ -32,8 +32,9 @@ const METADATA: AIProviderMetadata = {
 
   hasFreeModels: true,
   freeModelIds: [
-    'meta-llama/llama-3.3-70b-instruct:free',
     'google/gemini-2.0-flash-exp:free',
+    'meta-llama/llama-3.1-8b-instruct:free',
+    'meta-llama/llama-3.3-70b-instruct:free',
     'mistralai/mistral-7b-instruct:free',
   ],
 
@@ -55,6 +56,35 @@ const METADATA: AIProviderMetadata = {
  * Popular free models on OpenRouter
  */
 const FREE_MODELS: AIModel[] = [
+  {
+    id: 'google/gemini-2.0-flash-exp:free',
+    name: 'Gemini 2.0 Flash (Free)',
+    provider: 'openrouter',
+    speedRating: 5,
+    qualityRating: 4,
+    contextWindow: 1000000,
+    maxOutputTokens: 8192,
+    supportsStreaming: true,
+    supportsVision: true,
+    isFree: true,
+    requiresApiKey: true,
+    useCases: ['chat', 'code', 'creative', 'multimodal'],
+    description: 'Google\'s fastest model with 1M token context. Great for long documents.',
+  },
+  {
+    id: 'meta-llama/llama-3.1-8b-instruct:free',
+    name: 'Llama 3.1 8B Instruct (Free)',
+    provider: 'openrouter',
+    speedRating: 5,
+    qualityRating: 4,
+    contextWindow: 128000,
+    maxOutputTokens: 4096,
+    supportsStreaming: true,
+    isFree: true,
+    requiresApiKey: true,
+    useCases: ['chat', 'code', 'quick-tasks'],
+    description: 'Fast, lightweight Llama 3.1 model with strong general capabilities.',
+  },
   {
     id: 'meta-llama/llama-3.3-70b-instruct:free',
     name: 'Llama 3.3 70B Instruct (Free)',

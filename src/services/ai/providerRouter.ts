@@ -562,7 +562,7 @@ export function createDefaultRouter(
 ): AIProviderRouter {
   const config: ProviderRouterConfig = {
     primaryProvider: 'openrouter',
-    primaryModel: 'meta-llama/llama-3.3-70b-instruct:free',
+    primaryModel: 'google/gemini-2.0-flash-exp:free',
     fallbackEnabled: true,
     fallbackOrder: DEFAULT_FALLBACK_ORDER,
     notifyOnFallback: true,

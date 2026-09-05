@@ -15,8 +15,10 @@ import { useState, useEffect } from 'react';
  * Hook that returns true if the media query matches
  */
 export function useMediaQuery(query: string): boolean {
-  // Default to false during SSR
-  const [matches, setMatches] = useState(false);
+  // Initialize with current match status if in browser
+  const [matches, setMatches] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(query).matches : false
+  );
 
   useEffect(() => {
     const mediaQueryList = window.matchMedia(query);

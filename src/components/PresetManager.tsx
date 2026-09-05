@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Modal } from './Modal';
 import { useWidgetStore } from '../stores/useWidgetStore';
 import { toast } from '../stores/useToastStore';
 
@@ -209,149 +210,135 @@ export const PresetManager: React.FC<PresetManagerProps> = ({ isOpen, onClose })
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-surface-light dark:bg-surface-dark rounded-button shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-border-light dark:border-border-dark">
-          <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary">
-            布局预设方案
-          </h2>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="布局预设方案"
+      maxWidth="2xl"
+    >
+      <div className="space-y-6">
+        {/* Save Current Layout Button */}
+        <div>
           <button
-            onClick={onClose}
-            className="text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary"
-            aria-label="关闭预设方案管理"
+            onClick={() => setShowSaveDialog(true)}
+            className="w-full px-4 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-button font-medium transition-all duration-standard ease-smooth"
           >
-            ✕
+            💾 保存当前布局方案
           </button>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
-          {/* Save Current Layout Button */}
-          <div className="mb-6">
-            <button
-              onClick={() => setShowSaveDialog(true)}
-              className="w-full px-4 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-button font-medium transition-all duration-standard ease-smooth"
-            >
-              💾 保存当前布局方案
-            </button>
+        {/* Save Dialog */}
+        {showSaveDialog && (
+          <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-button border border-border-light dark:border-border-dark">
+            <h3 className="text-lg font-medium text-text-light-primary dark:text-text-dark-primary mb-3">
+              保存当前布局方案
+            </h3>
+            <input
+              type="text"
+              value={presetName}
+              onChange={(e) => setPresetName(e.target.value)}
+              placeholder="预设名称（例如：我的专属工作流）"
+              className="w-full px-3 py-2 mb-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button text-text-light-primary dark:text-text-dark-primary"
+            />
+            <textarea
+              value={presetDescription}
+              onChange={(e) => setPresetDescription(e.target.value)}
+              placeholder="方案描述（可选）"
+              rows={2}
+              className="w-full px-3 py-2 mb-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button text-text-light-primary dark:text-text-dark-primary"
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={savePreset}
+                disabled={!presetName.trim()}
+                className="px-4 py-2 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-button font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                保存
+              </button>
+              <button
+                onClick={() => {
+                  setShowSaveDialog(false);
+                  setPresetName('');
+                  setPresetDescription('');
+                }}
+                className="px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded-button font-medium"
+              >
+                取消
+              </button>
+            </div>
           </div>
+        )}
 
-          {/* Save Dialog */}
-          {showSaveDialog && (
-            <div className="mb-6 p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-button border border-border-light dark:border-border-dark">
-              <h3 className="text-lg font-medium text-text-light-primary dark:text-text-dark-primary mb-3">
-                保存当前布局方案
-              </h3>
-              <input
-                type="text"
-                value={presetName}
-                onChange={(e) => setPresetName(e.target.value)}
-                placeholder="预设名称（例如：我的专属工作流）"
-                className="w-full px-3 py-2 mb-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button text-text-light-primary dark:text-text-dark-primary"
-              />
-              <textarea
-                value={presetDescription}
-                onChange={(e) => setPresetDescription(e.target.value)}
-                placeholder="方案描述（可选）"
-                rows={2}
-                className="w-full px-3 py-2 mb-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button text-text-light-primary dark:text-text-dark-primary"
-              />
-              <div className="flex gap-2">
+        {/* Import Preset Button */}
+        <div>
+          <label className="block w-full px-4 py-3 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded-button font-medium transition-all duration-standard ease-smooth cursor-pointer text-center">
+            📥 导入预设方案
+            <input
+              type="file"
+              accept=".json"
+              onChange={importPreset}
+              className="hidden"
+            />
+          </label>
+        </div>
+
+        {/* Preset List */}
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary uppercase">
+            可用预设方案
+          </h3>
+          {presets.map((preset) => (
+            <div
+              key={preset.id}
+              className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-button border border-border-light dark:border-border-dark"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex-1">
+                  <h4 className="text-base font-medium text-text-light-primary dark:text-text-dark-primary">
+                    {preset.name}
+                    {preset.isDefault && (
+                      <span className="ml-2 text-xs px-2 py-0.5 bg-accent-primary/20 text-accent-primary rounded">
+                        默认
+                      </span>
+                    )}
+                  </h4>
+                  {preset.description && (
+                    <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">
+                      {preset.description}
+                    </p>
+                  )}
+                  <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
+                    {preset.enabledWidgets.length} 个小组件
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-2 mt-3">
                 <button
-                  onClick={savePreset}
-                  disabled={!presetName.trim()}
-                  className="px-4 py-2 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-button font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={() => loadPreset(preset)}
+                  className="px-3 py-1.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-button text-sm font-medium"
                 >
-                  保存
+                  加载应用
                 </button>
                 <button
-                  onClick={() => {
-                    setShowSaveDialog(false);
-                    setPresetName('');
-                    setPresetDescription('');
-                  }}
-                  className="px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded-button font-medium"
+                  onClick={() => exportPreset(preset)}
+                  className="px-3 py-1.5 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded-button text-sm font-medium"
                 >
-                  取消
+                  导出方案
                 </button>
+                {!preset.isDefault && (
+                  <button
+                    onClick={() => deletePreset(preset.id)}
+                    className="px-3 py-1.5 bg-accent-red hover:bg-accent-red-hover text-white rounded-button text-sm font-medium"
+                  >
+                    删除
+                  </button>
+                )}
               </div>
             </div>
-          )}
-
-          {/* Import Preset Button */}
-          <div className="mb-6">
-            <label className="block w-full px-4 py-3 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded-button font-medium transition-all duration-standard ease-smooth cursor-pointer text-center">
-              📥 导入预设方案
-              <input
-                type="file"
-                accept=".json"
-                onChange={importPreset}
-                className="hidden"
-              />
-            </label>
-          </div>
-
-          {/* Preset List */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary uppercase">
-              可用预设方案
-            </h3>
-            {presets.map((preset) => (
-              <div
-                key={preset.id}
-                className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-button border border-border-light dark:border-border-dark"
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <h4 className="text-base font-medium text-text-light-primary dark:text-text-dark-primary">
-                      {preset.name}
-                      {preset.isDefault && (
-                        <span className="ml-2 text-xs px-2 py-0.5 bg-accent-primary/20 text-accent-primary rounded">
-                          默认
-                        </span>
-                      )}
-                    </h4>
-                    {preset.description && (
-                      <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">
-                        {preset.description}
-                      </p>
-                    )}
-                    <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
-                      {preset.enabledWidgets.length} 个小组件
-                    </p>
-                  </div>
-                </div>
-                <div className="flex gap-2 mt-3">
-                  <button
-                    onClick={() => loadPreset(preset)}
-                    className="px-3 py-1.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-button text-sm font-medium"
-                  >
-                    加载应用
-                  </button>
-                  <button
-                    onClick={() => exportPreset(preset)}
-                    className="px-3 py-1.5 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded-button text-sm font-medium"
-                  >
-                    导出方案
-                  </button>
-                  {!preset.isDefault && (
-                    <button
-                      onClick={() => deletePreset(preset.id)}
-                      className="px-3 py-1.5 bg-accent-red hover:bg-accent-red-hover text-white rounded-button text-sm font-medium"
-                    >
-                      删除
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
-    </div>
+    </Modal>
   );
 };

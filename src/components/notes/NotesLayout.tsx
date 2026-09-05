@@ -17,6 +17,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useSettingsStore, type NotesLayoutStyle } from '../../stores/useSettingsStore';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { ThreeColumnLayout } from './ThreeColumnLayout';
 import { FileTreeLayout } from './FileTreeLayout';
 import { TabbedSidebarLayout } from './TabbedSidebarLayout';
@@ -115,109 +116,13 @@ export const NotesLayout: React.FC<NotesLayoutProps> = ({
     onOpenLayoutSettings: openLayoutSettings,
   };
 
-  // Render the appropriate layout based on user preference
-  const renderLayout = () => {
-    // On mobile, always show mobile drawer + editor
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  // Responsive breakpoint detection
+  const isMobile = useMediaQuery('(max-width: 767px)');
 
-    if (isMobile) {
-      return (
-        <div className="flex-1 flex flex-col min-h-0 overflow-hidden relative">
-          {/* Mobile menu button */}
-          <button
-            onClick={toggleMobileDrawer}
-            className="fixed top-20 left-4 z-30 p-2 bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-lg shadow-lg hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors"
-            aria-label="Open sidebar menu"
-          >
-            <Menu className="w-5 h-5 text-text-light-secondary dark:text-text-dark-secondary" />
-          </button>
-
-          {/* Mobile drawer overlay */}
-          <AnimatePresence>
-            {isMobileDrawerOpen && (
-              <>
-                {/* Backdrop */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="fixed inset-0 bg-black/50 z-40"
-                  onClick={closeMobileDrawer}
-                  aria-hidden="true"
-                />
-
-                {/* Drawer */}
-                <motion.div
-                  initial={{ x: '-100%' }}
-                  animate={{ x: 0 }}
-                  exit={{ x: '-100%' }}
-                  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                  className="fixed left-0 top-0 bottom-0 w-80 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark z-50 flex flex-col"
-                >
-                  {/* Close button */}
-                  <button
-                    onClick={closeMobileDrawer}
-                    className="absolute top-4 right-4 p-1.5 hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated rounded-lg transition-colors"
-                    aria-label="Close sidebar menu"
-                  >
-                    <X className="w-5 h-5 text-text-light-secondary dark:text-text-dark-secondary" />
-                  </button>
-
-                  {/* Mobile sidebar content */}
-                  <div className="flex-1 flex flex-col min-h-0 pt-12">
-                    <div className="h-1/2 overflow-hidden border-b border-border-light dark:border-border-dark">
-                      <FolderSidebar
-                        activeTags={activeTags}
-                        onAddTag={onAddTag}
-                        onRemoveTag={onRemoveTag}
-                        onClearAllTags={onClearAllTags}
-                        onOpenTagManager={onOpenTagManager}
-                      />
-                    </div>
-                    <div className="h-1/2 min-h-0 overflow-hidden">
-                      <NotesList
-                        activeTags={activeTags}
-                        onOpenTemplateLibrary={onOpenTemplateLibrary}
-                        onOpenExportModal={onOpenExportModal}
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-
-          {/* Editor */}
-          <div className="flex-1 overflow-hidden">
-            {children}
-          </div>
-        </div>
-      );
-    }
-
-    // Desktop: render selected layout
-    switch (layoutStyle) {
-      case 'three-column':
-        return <ThreeColumnLayout {...layoutProps} />;
-      case 'file-tree':
-        return <FileTreeLayout {...layoutProps} />;
-      case 'tabbed-sidebar':
-        return <TabbedSidebarLayout {...layoutProps} />;
-      default:
-        return <ThreeColumnLayout {...layoutProps} />;
-    }
-  };
-
-  return (
-    <>
-      {/* Desktop layout detection wrapper */}
-      <div className="hidden md:flex flex-1 min-h-0 overflow-hidden">
-        {renderLayout()}
-      </div>
-
-      {/* Mobile layout (always uses drawer) */}
-      <div className="md:hidden flex-1 flex flex-col min-h-0 overflow-hidden relative">
+  // If mobile viewport, render single mobile drawer layout with editor
+  if (isMobile) {
+    return (
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden relative">
         {/* Mobile menu button */}
         <button
           onClick={toggleMobileDrawer}
@@ -287,13 +192,42 @@ export const NotesLayout: React.FC<NotesLayoutProps> = ({
         <div className="flex-1 overflow-hidden">
           {children}
         </div>
+
+        {/* Layout Switcher Modal */}
+        <LayoutSwitcher
+          isOpen={isLayoutSwitcherOpen}
+          onClose={() => setIsLayoutSwitcherOpen(false)}
+        />
       </div>
+    );
+  }
+
+  // Desktop: render selected layout
+  let desktopLayout: React.ReactNode;
+  switch (layoutStyle) {
+    case 'three-column':
+      desktopLayout = <ThreeColumnLayout {...layoutProps} />;
+      break;
+    case 'file-tree':
+      desktopLayout = <FileTreeLayout {...layoutProps} />;
+      break;
+    case 'tabbed-sidebar':
+      desktopLayout = <TabbedSidebarLayout {...layoutProps} />;
+      break;
+    default:
+      desktopLayout = <ThreeColumnLayout {...layoutProps} />;
+      break;
+  }
+
+  return (
+    <div className="flex-1 flex min-h-0 overflow-hidden">
+      {desktopLayout}
 
       {/* Layout Switcher Modal */}
       <LayoutSwitcher
         isOpen={isLayoutSwitcherOpen}
         onClose={() => setIsLayoutSwitcherOpen(false)}
       />
-    </>
+    </div>
   );
 };

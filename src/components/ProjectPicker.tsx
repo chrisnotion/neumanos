@@ -247,10 +247,10 @@ export const ProjectPicker: React.FC<ProjectPickerProps> = ({
             <div className="p-4 text-center">
               <FolderPlus className="w-8 h-8 mx-auto mb-2 text-text-light-tertiary dark:text-text-dark-tertiary" />
               <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                No projects yet
+                暂无项目
               </p>
               <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-1">
-                Create projects in Settings → Projects
+                可在 设置 → 项目管理 中创建项目
               </p>
             </div>
           ) : (
