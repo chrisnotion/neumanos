@@ -17,17 +17,17 @@ interface CustomWidgetBuilderProps {
 }
 
 const DATA_SOURCE_OPTIONS: { type: DataSourceType; label: string; description: string; icon: string }[] = [
-  { type: 'json-api', label: 'JSON API', description: 'Fetch data from a REST API endpoint', icon: '{ }' },
-  { type: 'rss', label: 'RSS Feed', description: 'Display items from an RSS/Atom feed', icon: 'RSS' },
-  { type: 'markdown', label: 'Markdown', description: 'Static markdown content', icon: 'Md' },
-  { type: 'store-query', label: 'App Data', description: 'Query notes, tasks, events, or time entries', icon: 'DB' },
+  { type: 'json-api', label: 'JSON API 接口', description: '从 REST API 接口获取数据', icon: '{ }' },
+  { type: 'rss', label: 'RSS 订阅源', description: '解析展示 RSS/Atom 订阅源条目', icon: 'RSS' },
+  { type: 'markdown', label: 'Markdown 文本', description: '静态自定义 Markdown 内容', icon: 'Md' },
+  { type: 'store-query', label: '应用内置数据', description: '查询笔记、任务、日程或工时记录', icon: 'DB' },
 ];
 
 const LAYOUT_OPTIONS: { type: LayoutType; label: string; description: string; icon: string }[] = [
-  { type: 'number', label: 'Big Number', description: 'Display a single prominent value', icon: '#' },
-  { type: 'list', label: 'List', description: 'Show items as a scrollable list', icon: '=' },
-  { type: 'chart', label: 'Chart', description: 'Visualize numeric data as a chart', icon: '~' },
-  { type: 'markdown', label: 'Rich Text', description: 'Render markdown content', icon: 'T' },
+  { type: 'number', label: '醒目大数字', description: '展示单个核心数值指标', icon: '#' },
+  { type: 'list', label: '列表流', description: '以可滚动的列表形式展示条目', icon: '=' },
+  { type: 'chart', label: '统计图表', description: '将数值数据可视化为图表', icon: '~' },
+  { type: 'markdown', label: '富文本排版', description: '渲染 Markdown 排版格式', icon: 'T' },
 ];
 
 const EMOJI_SUGGESTIONS = ['📊', '📈', '📉', '📋', '📌', '🔔', '🌐', '⚡', '🎯', '📦', '🔧', '📡', '💡', '🏷️', '📐', '🧩'];
@@ -78,11 +78,11 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
       return;
     }
     if (dataSource.type === 'store-query') {
-      setPreviewData('Store queries render live data from the app.');
+      setPreviewData('应用内置查询将在小组件中实时展示系统数据。');
       return;
     }
     if (!dataSource.url) {
-      setPreviewError('Enter a URL first');
+      setPreviewError('请先输入接口 URL');
       return;
     }
     setPreviewLoading(true);
@@ -101,7 +101,7 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
         setPreviewData(json);
       }
     } catch (err) {
-      setPreviewError(err instanceof Error ? err.message : 'Failed to fetch');
+      setPreviewError(err instanceof Error ? err.message : '获取数据失败');
     } finally {
       setPreviewLoading(false);
     }
@@ -109,7 +109,7 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
 
   const handleSave = () => {
     if (!name.trim()) {
-      toast.error('Widget name is required');
+      toast.error('请输入组件名称');
       return;
     }
 
@@ -124,10 +124,10 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
 
     if (editingWidget) {
       updateCustomWidget(editingWidget.id, config);
-      toast.success(`Widget "${name}" updated`);
+      toast.success(`组件「${name}」已更新`);
     } else {
       createCustomWidget(config);
-      toast.success(`Widget "${name}" created and added to dashboard`);
+      toast.success(`组件「${name}」已创建并添加到看板`);
     }
     onClose();
   };
@@ -142,14 +142,14 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={editingWidget ? 'Edit Custom Widget' : 'Create Custom Widget'}
+      title={editingWidget ? '编辑自定义小组件' : '新建自定义小组件'}
       maxWidth="2xl"
     >
       <div className="space-y-6">
         {/* Section 1: Data Source */}
         <section>
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3 uppercase tracking-wider">
-            1. Data Source
+            1. 选择数据来源 (DATA SOURCE)
           </h3>
           <div className="grid grid-cols-2 gap-2">
             {DATA_SOURCE_OPTIONS.map((opt) => (
@@ -177,14 +177,14 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
         {/* Section 2: Configure Data Source */}
         <section>
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3 uppercase tracking-wider">
-            2. Configure Source
+            2. 配置数据源 (CONFIGURE SOURCE)
           </h3>
 
           {(dataSource.type === 'json-api' || dataSource.type === 'rss') && (
             <div className="space-y-3">
               <div>
                 <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                  URL
+                  请求接口 URL
                 </label>
                 <input
                   type="url"
@@ -197,7 +197,7 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
               {dataSource.type === 'json-api' && (
                 <div>
                   <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                    JSON Path (optional)
+                    JSON 数据提取路径 (可选)
                   </label>
                   <input
                     type="text"
@@ -207,7 +207,7 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
                     className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
                   />
                   <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-1">
-                    Extract nested data. Example: $.data.results
+                    用于从深层嵌套对象中提取数组或值。例如：$.data.results
                   </p>
                 </div>
               )}
@@ -216,7 +216,7 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
                 disabled={!dataSource.url || previewLoading}
                 className="px-3 py-1.5 text-sm font-medium bg-accent-primary/10 text-accent-primary rounded-lg hover:bg-accent-primary/20 disabled:opacity-50 transition-colors"
               >
-                {previewLoading ? 'Fetching...' : 'Test Connection'}
+                {previewLoading ? '正在请求...' : '测试接口连通性'}
               </button>
             </div>
           )}
@@ -224,12 +224,12 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
           {dataSource.type === 'markdown' && (
             <div>
               <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Markdown Content
+                Markdown 内容
               </label>
               <textarea
                 value={dataSource.markdown || ''}
                 onChange={(e) => setDataSource({ ...dataSource, markdown: e.target.value })}
-                placeholder="# My Widget\n\n- Item one\n- Item two"
+                placeholder="# 我的专属小组件\n\n- 备忘条目一\n- 备忘条目二"
                 rows={6}
                 className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary font-mono resize-y"
               />
@@ -240,7 +240,7 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
             <div className="space-y-3">
               <div>
                 <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                  Data Store
+                  内置数据集合
                 </label>
                 <select
                   value={dataSource.storeQuery?.store || 'notes'}
@@ -255,15 +255,15 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
                   }
                   className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
                 >
-                  <option value="notes">Notes</option>
-                  <option value="tasks">Tasks</option>
-                  <option value="events">Events</option>
-                  <option value="time-entries">Time Entries</option>
+                  <option value="notes">笔记 (Notes)</option>
+                  <option value="tasks">任务 (Tasks)</option>
+                  <option value="events">日程事件 (Events)</option>
+                  <option value="time-entries">工时记录 (Time Entries)</option>
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                  Limit
+                  最大拉取条数
                 </label>
                 <input
                   type="number"
@@ -294,7 +294,7 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
           )}
           {previewData != null && !previewError && (
             <div className="mt-3 p-3 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg border border-border-light dark:border-border-dark max-h-32 overflow-auto">
-              <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mb-1 font-semibold">Preview:</p>
+              <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mb-1 font-semibold">数据预览：</p>
               <pre className="text-xs text-text-light-secondary dark:text-text-dark-secondary whitespace-pre-wrap break-all font-mono">
                 {typeof previewData === 'string' ? previewData : JSON.stringify(previewData, null, 2).slice(0, 500)}
               </pre>
@@ -305,7 +305,7 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
         {/* Section 3: Layout */}
         <section>
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3 uppercase tracking-wider">
-            3. Layout
+            3. 展现形态 (LAYOUT)
           </h3>
           <div className="grid grid-cols-2 gap-2">
             {LAYOUT_OPTIONS.map((opt) => (
@@ -331,7 +331,7 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
           {(layout.type === 'list' || layout.type === 'chart') && (
             <div className="mt-3">
               <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Max Items
+                最大展示条目数
               </label>
               <input
                 type="number"
@@ -347,22 +347,29 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
           {layout.type === 'chart' && (
             <div className="mt-3">
               <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Chart Type
+                图表呈现形式
               </label>
               <div className="flex gap-2">
-                {(['bar', 'line', 'pie'] as const).map((ct) => (
-                  <button
-                    key={ct}
-                    onClick={() => setLayout({ ...layout, chartType: ct })}
-                    className={`px-3 py-1.5 text-sm rounded-lg border capitalize transition-colors ${
-                      (layout.chartType || 'bar') === ct
-                        ? 'border-accent-primary bg-accent-primary/10 text-accent-primary'
-                        : 'border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary'
-                    }`}
-                  >
-                    {ct}
-                  </button>
-                ))}
+                {(['bar', 'line', 'pie'] as const).map((ct) => {
+                  const chartTypeNames: Record<string, string> = {
+                    bar: '柱状图 (Bar)',
+                    line: '折线图 (Line)',
+                    pie: '饼图 (Pie)',
+                  };
+                  return (
+                    <button
+                      key={ct}
+                      onClick={() => setLayout({ ...layout, chartType: ct })}
+                      className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
+                        (layout.chartType || 'bar') === ct
+                          ? 'border-accent-primary bg-accent-primary/10 text-accent-primary'
+                          : 'border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary'
+                      }`}
+                    >
+                      {chartTypeNames[ct]}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -371,38 +378,38 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
         {/* Section 4: Widget Info */}
         <section>
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3 uppercase tracking-wider">
-            4. Widget Details
+            4. 组件基础信息 (WIDGET DETAILS)
           </h3>
           <div className="space-y-3">
             <div>
               <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Name
+                组件名称
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="My Custom Widget"
+                placeholder="例如：每日热榜、团队监控看板"
                 maxLength={50}
                 className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
               />
             </div>
             <div>
               <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Description
+                组件说明
               </label>
               <input
                 type="text"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Brief description of what this widget shows"
+                placeholder="简要概括该小组件呈现的内容或用途"
                 maxLength={100}
                 className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
               />
             </div>
             <div>
               <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Icon
+                图标
               </label>
               <div className="flex items-center gap-2 flex-wrap">
                 {EMOJI_SUGGESTIONS.map((emoji) => (
@@ -422,7 +429,7 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
             </div>
             <div>
               <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Refresh Interval (minutes)
+                自动刷新间隔（分钟）
               </label>
               <input
                 type="number"
@@ -432,7 +439,7 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
                 max={1440}
                 className="w-24 px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
               />
-              <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-1">0 = manual refresh only</p>
+              <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-1">设为 0 时表示仅手动刷新</p>
             </div>
           </div>
         </section>
@@ -443,14 +450,14 @@ export const CustomWidgetBuilder: React.FC<CustomWidgetBuilderProps> = ({ isOpen
             onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors"
           >
-            Cancel
+            取消
           </button>
           <button
             onClick={handleSave}
             disabled={!isValid}
             className="px-4 py-2 text-sm font-medium bg-accent-primary text-white rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
           >
-            {editingWidget ? 'Save Changes' : 'Create Widget'}
+            {editingWidget ? '保存修改' : '立即创建组件'}
           </button>
         </div>
       </div>

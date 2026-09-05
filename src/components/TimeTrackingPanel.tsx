@@ -134,7 +134,7 @@ export function TimeTrackingPanel() {
   // Handlers
   const handleStartTimer = () => {
     startTimer({
-      description: description || 'Untitled Task',
+      description: description || '未命名任务',
       projectId: selectedProjectId || undefined,
     });
   };
@@ -236,9 +236,9 @@ export function TimeTrackingPanel() {
         <div
           onMouseDown={handleDragStart}
           className="h-4 cursor-ns-resize hover:bg-accent-primary/10 transition-all duration-standard ease-smooth flex items-center justify-center group"
-          title="Drag to resize panel"
+          title="按住上下拖拽调整面板高度"
         >
-          <div className="w-full h-0.5 bg-border-light dark:bg-border-dark rounded-buttongroup-hover:bg-accent-primary transition-all duration-standard ease-smooth" />
+          <div className="w-full h-0.5 bg-border-light dark:bg-border-dark rounded-button group-hover:bg-accent-primary transition-all duration-standard ease-smooth" />
         </div>
       )}
 
@@ -386,7 +386,7 @@ export function TimeTrackingPanel() {
                         <div className="flex items-start justify-between">
                           <div className="flex-1 min-w-0">
                             <p className="text-text-light-primary dark:text-text-dark-primary truncate font-medium">
-                              {entry.description}
+                              {entry.description === 'Untitled Task' ? '未命名任务' : (entry.description || '未命名任务')}
                             </p>
                             <div className="flex items-center gap-2 text-xs text-text-light-secondary dark:text-text-dark-secondary">
                               <span>
