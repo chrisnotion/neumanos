@@ -16,7 +16,7 @@ export function LinkStrengthLegend({ enabled }: LinkStrengthLegendProps) {
   return (
     <div className="flex items-center gap-6 text-xs text-text-light-tertiary dark:text-text-dark-tertiary flex-wrap">
       <div className="font-medium text-text-light-secondary dark:text-text-dark-secondary">
-        Link Strength:
+        关联强度：
       </div>
 
       {/* Strong - Bidirectional */}
@@ -24,7 +24,7 @@ export function LinkStrengthLegend({ enabled }: LinkStrengthLegendProps) {
         <div className="relative w-8 h-3">
           <div className="absolute top-1/2 left-0 right-0 h-[3px] -translate-y-1/2 bg-accent-primary rounded-full" />
         </div>
-        <span>Strong (bidirectional)</span>
+        <span>强关联 (双向链接)</span>
       </div>
 
       {/* Medium - Single direction */}
@@ -32,7 +32,7 @@ export function LinkStrengthLegend({ enabled }: LinkStrengthLegendProps) {
         <div className="relative w-8 h-3">
           <div className="absolute top-1/2 left-0 right-0 h-[2px] -translate-y-1/2 bg-accent-primary rounded-full opacity-60" />
         </div>
-        <span>Medium (one-way)</span>
+        <span>中度关联 (单向链接)</span>
       </div>
 
       {/* Weak - Tag-based */}
@@ -55,7 +55,7 @@ export function LinkStrengthLegend({ enabled }: LinkStrengthLegendProps) {
             />
           </svg>
         </div>
-        <span>Weak (tag-based)</span>
+        <span>弱关联 (同标签)</span>
       </div>
     </div>
   );

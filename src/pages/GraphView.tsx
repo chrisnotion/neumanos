@@ -3,7 +3,7 @@
  * Visual network of notes and their connections
  */
 
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { GraphCanvas } from '../components/Graph/GraphCanvas';
 import { GraphSearch } from '../components/Graph/GraphSearch';
@@ -141,19 +141,19 @@ export default function GraphView() {
   }, [graphData, graphSearchFilters]);
 
   // Handle node click - focus on node
-  const handleNodeClick = (nodeId: string, nodeType: 'note' | 'tag') => {
+  const handleNodeClick = useCallback((nodeId: string, nodeType: 'note' | 'tag') => {
     if (nodeType === 'note') {
       setFocusNodeId(nodeId);
       setSearchParams({ focus: nodeId });
     }
-  };
+  }, [setSearchParams]);
 
   // Handle node double-click - navigate to note
-  const handleNodeDoubleClick = (nodeId: string, nodeType: 'note' | 'tag') => {
+  const handleNodeDoubleClick = useCallback((nodeId: string, nodeType: 'note' | 'tag') => {
     if (nodeType === 'note') {
       navigate(`/notes?note=${nodeId}`);
     }
-  };
+  }, [navigate]);
 
   // Reset focus mode
   const resetFocus = () => {
@@ -202,13 +202,13 @@ export default function GraphView() {
           <div className="flex items-center gap-4 p-3 bg-gradient-to-r from-accent-primary/10 to-accent-secondary/10 rounded-lg border border-accent-primary/20">
             <Target className="w-4 h-4 text-accent-primary flex-shrink-0" />
             <span className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-              Focused: {notes[focusNodeId]?.title}
+              聚焦节点：{notes[focusNodeId]?.title}
             </span>
 
             <div className="flex items-center gap-2 ml-auto">
               <label className="flex items-center gap-2">
                 <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary whitespace-nowrap">
-                  Depth:
+                  关联深度：
                 </span>
                 <input
                   type="range"
@@ -218,8 +218,8 @@ export default function GraphView() {
                   onChange={(e) => setFocusDepth(parseInt(e.target.value))}
                   className="w-20 accent-accent-primary"
                 />
-                <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary w-12">
-                  {focusDepth} hop{focusDepth > 1 ? 's' : ''}
+                <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary w-14">
+                  {focusDepth} 层关联
                 </span>
               </label>
 
@@ -228,7 +228,7 @@ export default function GraphView() {
                 className="flex items-center gap-1 px-3 py-1.5 text-xs rounded-lg bg-accent-primary/10 hover:bg-accent-primary/20 text-accent-primary transition-colors"
               >
                 <X className="w-3 h-3" />
-                Reset
+                重置
               </button>
             </div>
           </div>
@@ -255,7 +255,7 @@ export default function GraphView() {
                 className="w-4 h-4 rounded border-border-light dark:border-border-dark text-accent-purple focus:ring-accent-purple"
               />
               <span className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                Show link strength
+                显示关联强度
               </span>
             </label>
 
@@ -268,7 +268,7 @@ export default function GraphView() {
                 className="w-4 h-4 rounded border-border-light dark:border-border-dark text-accent-primary focus:ring-accent-primary"
               />
               <span className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                Hide orphans
+                隐藏孤立节点
               </span>
             </label>
 
@@ -282,7 +282,7 @@ export default function GraphView() {
               }`}
             >
               <AlertCircle className="w-4 h-4" />
-              <span>Orphans ({orphanIds.size})</span>
+              <span>孤立节点 ({orphanIds.size})</span>
             </button>
 
             {/* P1: Color Grouping */}
@@ -293,9 +293,9 @@ export default function GraphView() {
                 onChange={(e) => setColorBy(e.target.value as 'none' | 'folder' | 'tag')}
                 className="px-3 py-1.5 text-sm rounded-lg border border-border-light dark:border-border-dark bg-surface-light-base dark:bg-surface-dark-base text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
               >
-                <option value="none">Default colors</option>
-                <option value="folder">Color by folder</option>
-                <option value="tag">Color by tag</option>
+                <option value="none">默认配色</option>
+                <option value="folder">按文件夹着色</option>
+                <option value="tag">按标签着色</option>
               </select>
             </div>
 
@@ -308,13 +308,13 @@ export default function GraphView() {
                 className="w-4 h-4 rounded border-border-light dark:border-border-dark text-accent-primary focus:ring-accent-primary"
               />
               <span className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                Size by connections
+                按连接数调整大小
               </span>
             </label>
 
             {/* Stats */}
             <div className="text-sm text-text-light-tertiary dark:text-text-dark-tertiary ml-auto">
-              {graphData.nodes.length} nodes · {graphData.edges.length} connections
+              {graphData.nodes.length} 个节点 · {graphData.edges.length} 条关联
             </div>
           </div>
         </div>
@@ -324,10 +324,10 @@ export default function GraphView() {
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
               <p className="text-text-light-secondary dark:text-text-dark-secondary mb-2">
-                No notes yet
+                暂无笔记
               </p>
               <p className="text-sm text-text-light-tertiary dark:text-text-dark-tertiary">
-                Create some notes with backlinks to see your knowledge graph
+                创建包含双向链接或标签的笔记，即可在此生成知识网络图谱
               </p>
             </div>
           </div>
@@ -335,10 +335,10 @@ export default function GraphView() {
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
               <p className="text-text-light-secondary dark:text-text-dark-secondary mb-2">
-                No notes match your filters
+                未找到匹配当前筛选条件的节点
               </p>
               <p className="text-sm text-text-light-tertiary dark:text-text-dark-tertiary">
-                Try adjusting your search or showing orphan notes
+                请尝试调整搜索条件或取消勾选隐藏孤立节点
               </p>
             </div>
           </div>
@@ -361,23 +361,23 @@ export default function GraphView() {
           <div className="flex items-center gap-6 text-xs text-text-light-tertiary dark:text-text-dark-tertiary flex-wrap">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-[var(--accent-primary)]" />
-              <span>Notes</span>
+              <span>笔记</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-[var(--accent-secondary)]" />
-              <span>Tags</span>
+              <span>标签</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-[var(--accent-secondary)] border-2 border-accent-orange" />
-              <span>Orphans</span>
+              <span>孤立节点</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-8 h-0.5 bg-[var(--accent-primary)]" />
-              <span>Backlinks</span>
+              <span>双向链接</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-8 h-0.5 bg-[var(--border-light)] dark:bg-[var(--border-dark)]" />
-              <span>Tag connections</span>
+              <span>标签关联</span>
             </div>
           </div>
 
@@ -387,11 +387,11 @@ export default function GraphView() {
           {/* P1: Color Groups Legend */}
           {colorBy !== 'none' && colorGroups.size > 0 && (
             <div className="flex items-center gap-4 text-xs text-text-light-tertiary dark:text-text-dark-tertiary flex-wrap">
-              <span className="font-medium">{colorBy === 'folder' ? 'Folders:' : 'Tags:'}</span>
+              <span className="font-medium">{colorBy === 'folder' ? '文件夹：' : '标签：'}</span>
               {Array.from(colorGroups.entries()).map(([name, { color, count }]) => (
                 <div key={name} className="flex items-center gap-1.5">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
-                  <span>{name === 'root' ? 'Root' : name}</span>
+                  <span>{name === 'root' ? '根目录' : name}</span>
                   <span className="opacity-60">({count})</span>
                 </div>
               ))}
@@ -401,7 +401,7 @@ export default function GraphView() {
 
         {/* Instructions */}
         <div className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-          <span className="font-medium">Tip:</span> Drag nodes to reposition · Scroll to zoom · Click to focus · Double-click to open
+          <span className="font-medium">提示：</span>拖动节点可调整位置 · 鼠标滚轮缩放 · 单击聚焦 · 双击打开笔记
         </div>
         </div>
 

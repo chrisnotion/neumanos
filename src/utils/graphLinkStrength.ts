@@ -69,8 +69,10 @@ export function calculateAllLinkStrengths(
 /**
  * Get edge key for lookup in strength map
  */
-export function getEdgeKey(source: string, target: string): string {
-  return `${source}->${target}`;
+export function getEdgeKey(source: string | { id: string }, target: string | { id: string }): string {
+  const s = typeof source === 'object' && source !== null ? source.id : String(source);
+  const t = typeof target === 'object' && target !== null ? target.id : String(target);
+  return `${s}->${t}`;
 }
 
 /**

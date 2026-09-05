@@ -22,6 +22,19 @@ interface HabitTemplatePickerProps {
   onClose: () => void;
 }
 
+const CATEGORY_LABELS: Record<string, string> = {
+  productivity: '生产力',
+  fitness: '健身',
+  mindfulness: '正念',
+  health: '健康',
+  nutrition: '饮食',
+  learning: '学习',
+  social: '社交',
+  creative: '创意',
+  finance: '财务',
+  uncategorized: '未分类',
+};
+
 export function HabitTemplatePicker({ onSelect, onSelectPack, onClose }: HabitTemplatePickerProps) {
   const [expandedPack, setExpandedPack] = useState<string | null>(null);
 
@@ -30,10 +43,10 @@ export function HabitTemplatePicker({ onSelect, onSelectPack, onClose }: HabitTe
       <div className="bg-surface-light dark:bg-surface-dark-elevated rounded-lg shadow-xl w-full max-w-lg mx-4 max-h-[80vh] overflow-y-auto">
         <div className="p-6">
           <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary mb-2">
-            Habit Templates
+            习惯模板库
           </h2>
           <p className="text-sm text-text-light-tertiary dark:text-text-dark-tertiary mb-4">
-            Pick a single habit or use a full pack to create multiple habits at once.
+            选择单个习惯，或一键导入整套习惯组合。
           </p>
 
           <div className="space-y-3">
@@ -55,7 +68,7 @@ export function HabitTemplatePicker({ onSelect, onSelectPack, onClose }: HabitTe
                         {pack.name}
                       </div>
                       <div className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-                        {pack.description} ({pack.templates.length} habits)
+                        {pack.description} ({pack.templates.length} 个习惯)
                       </div>
                     </div>
                     {isExpanded ? (
@@ -74,7 +87,7 @@ export function HabitTemplatePicker({ onSelect, onSelectPack, onClose }: HabitTe
                           className="w-full flex items-center gap-2 px-3 py-2 text-sm text-accent-primary hover:bg-accent-primary/5 transition-colors border-b border-border-light dark:border-border-dark"
                         >
                           <Layers className="w-4 h-4" />
-                          Use All {pack.templates.length} Habits
+                          导入整套习惯 ({pack.templates.length} 个)
                         </button>
                       )}
 
@@ -100,7 +113,7 @@ export function HabitTemplatePicker({ onSelect, onSelectPack, onClose }: HabitTe
                             </div>
                           </div>
                           <span className="text-xs px-2 py-0.5 rounded-full bg-surface-light-alt dark:bg-surface-dark text-text-light-tertiary dark:text-text-dark-tertiary capitalize shrink-0">
-                            {template.category}
+                            {CATEGORY_LABELS[template.category] || template.category}
                           </span>
                         </button>
                       ))}
@@ -117,7 +130,7 @@ export function HabitTemplatePicker({ onSelect, onSelectPack, onClose }: HabitTe
             onClick={onClose}
             className="px-4 py-2 text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-alt dark:hover:bg-surface-dark rounded-lg transition-colors"
           >
-            Cancel
+            取消
           </button>
         </div>
       </div>

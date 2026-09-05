@@ -58,8 +58,8 @@ docs/testing/
 docs/CHANGELOG.md
 
 # Internal workflow
-tasks/
-prompts/
+/tasks/
+/prompts/
 
 # Planning files
 .planning/

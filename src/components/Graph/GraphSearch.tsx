@@ -62,7 +62,7 @@ export function GraphSearch({
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-light-tertiary dark:text-text-dark-tertiary" />
           <input
             type="text"
-            placeholder="Search nodes..."
+            placeholder="搜索图谱节点..."
             value={localQuery}
             onChange={(e) => setLocalQuery(e.target.value)}
             className="w-full pl-10 pr-10 py-2 rounded-lg border border-border-light dark:border-border-dark bg-surface-light-base dark:bg-surface-dark-base text-text-light-primary dark:text-text-dark-primary placeholder:text-text-light-tertiary dark:placeholder:text-text-dark-tertiary focus:outline-none focus:ring-2 focus:ring-accent-primary"
@@ -71,7 +71,7 @@ export function GraphSearch({
             <button
               onClick={() => setLocalQuery('')}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-light-tertiary dark:text-text-dark-tertiary hover:text-text-light-primary dark:hover:text-text-dark-primary"
-              aria-label="Clear search"
+              aria-label="清空搜索"
             >
               <X className="w-4 h-4" />
             </button>
@@ -86,10 +86,10 @@ export function GraphSearch({
               ? 'border-accent-primary bg-accent-primary/10 text-accent-primary'
               : 'border-border-light dark:border-border-dark bg-surface-light-base dark:bg-surface-dark-base text-text-light-secondary dark:text-text-dark-secondary hover:border-accent-primary/50'
           }`}
-          aria-label="Toggle advanced filters"
+          aria-label="切换高级筛选"
         >
           <Filter className="w-4 h-4" />
-          <span className="text-sm">Filters</span>
+          <span className="text-sm">高级筛选</span>
         </button>
 
         {/* Clear all filters */}
@@ -98,7 +98,7 @@ export function GraphSearch({
             onClick={handleClearAll}
             className="px-3 py-2 text-sm rounded-lg bg-accent-primary/10 text-accent-primary hover:bg-accent-primary/20 transition-colors"
           >
-            Clear All
+            清空筛选
           </button>
         )}
       </div>
@@ -106,7 +106,7 @@ export function GraphSearch({
       {/* Result count */}
       {resultCount !== undefined && (
         <div className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-          {resultCount} {resultCount === 1 ? 'result' : 'results'}
+          找到 {resultCount} 个相关节点
         </div>
       )}
 
@@ -117,7 +117,7 @@ export function GraphSearch({
           {availableTags.length > 0 && (
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-                Filter by tags
+                按标签筛选
               </label>
               <div className="flex flex-wrap gap-2">
                 {availableTags.map((tag) => {
@@ -152,7 +152,7 @@ export function GraphSearch({
           {/* Node type filter */}
           <div className="flex flex-col gap-2">
             <label className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-              Node type
+              节点类型
             </label>
             <div className="flex gap-2">
               {(['both', 'note', 'tag'] as const).map((type) => (
@@ -168,10 +168,10 @@ export function GraphSearch({
                   }`}
                 >
                   {type === 'both'
-                    ? 'All'
+                    ? '全部'
                     : type === 'note'
-                    ? 'Notes only'
-                    : 'Tags only'}
+                    ? '仅笔记'
+                    : '仅标签'}
                 </button>
               ))}
             </div>
@@ -182,7 +182,7 @@ export function GraphSearch({
             <div className="flex flex-wrap gap-2 pt-2 border-t border-border-light dark:border-border-dark">
               {filters.query && (
                 <div className="flex items-center gap-1 px-2 py-1 text-xs rounded-full bg-accent-primary/10 text-accent-primary">
-                  <span>Query: "{filters.query}"</span>
+                  <span>关键词: "{filters.query}"</span>
                   <button
                     onClick={() => {
                       setLocalQuery('');
@@ -199,7 +199,7 @@ export function GraphSearch({
                   key={tag}
                   className="flex items-center gap-1 px-2 py-1 text-xs rounded-full bg-accent-primary/10 text-accent-primary"
                 >
-                  <span>Tag: {tag}</span>
+                  <span>标签: {tag}</span>
                   <button
                     onClick={() => {
                       const newTags = filters.tags!.filter((t) => t !== tag);
@@ -217,7 +217,7 @@ export function GraphSearch({
               {filters.nodeType && filters.nodeType !== 'both' && (
                 <div className="flex items-center gap-1 px-2 py-1 text-xs rounded-full bg-accent-purple/10 text-accent-purple">
                   <span>
-                    Type: {filters.nodeType === 'note' ? 'Notes' : 'Tags'}
+                    类型: {filters.nodeType === 'note' ? '笔记' : '标签'}
                   </span>
                   <button
                     onClick={() =>

@@ -112,10 +112,10 @@ export function formatConflictMessage(conflicts: CalendarEvent[]): string {
     const timeRange = event.startTime && event.endTime
       ? ` (${event.startTime} - ${event.endTime})`
       : '';
-    return `This event conflicts with: "${event.title}"${timeRange}`;
+    return `此日程与已有日程冲突: "${event.title}"${timeRange}`;
   }
 
-  return `This event conflicts with ${conflicts.length} other events`;
+  return `此日程与 ${conflicts.length} 个已有日程存在时间冲突`;
 }
 
 /**

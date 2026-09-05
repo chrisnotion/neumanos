@@ -29,8 +29,16 @@ export function createForceSimulation(
   width: number,
   height: number
 ): d3.Simulation<SimulationNode, SimulationLink> {
-  // Convert nodes and edges to simulation format
-  const simNodes: SimulationNode[] = nodes.map((node) => ({ ...node }));
+  // Convert nodes and edges to simulation format with initial coordinates centered
+  const simNodes: SimulationNode[] = nodes.map((node, i) => {
+    const angle = (i / Math.max(nodes.length, 1)) * 2 * Math.PI;
+    const radius = Math.min(width, height) * 0.25;
+    return {
+      ...node,
+      x: width / 2 + radius * Math.cos(angle),
+      y: height / 2 + radius * Math.sin(angle),
+    };
+  });
   const simLinks: SimulationLink[] = edges.map((edge) => ({ ...edge }));
 
   // Create simulation

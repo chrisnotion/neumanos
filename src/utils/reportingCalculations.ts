@@ -182,7 +182,7 @@ export function calculateTimeByProject(
 
     data.push({
       projectId,
-      projectName: project?.name || 'No Project',
+      projectName: project?.name || '未归属项目',
       projectColor: project?.color || '#94A3B8',
       totalHours: projectHours,
       totalAmount: Math.round(totalAmount * 100) / 100,
@@ -219,7 +219,7 @@ export function calculateTimeByDate(
       const dayOfWeek = date.getDay();
       const daysFromMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
       monday.setDate(monday.getDate() - daysFromMonday);
-      key = `Week of ${monday.toISOString().split('T')[0]}`;
+      key = `${monday.toISOString().split('T')[0]} 当周`;
     } else {
       // Month
       key = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
@@ -260,7 +260,7 @@ export function calculateTimeByDate(
         const project = projectId ? projectMap.get(projectId) : null;
         return {
           projectId,
-          projectName: project?.name || 'No Project',
+          projectName: project?.name || '未归属项目',
           hours: Math.round(hours * 100) / 100
         };
       })

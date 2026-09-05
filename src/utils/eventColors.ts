@@ -8,7 +8,7 @@ import type { EventColorCategory, EventColorCategoryConfig } from '../types';
 export const EVENT_COLOR_CATEGORIES: EventColorCategoryConfig[] = [
   {
     id: 'default',
-    label: 'Default',
+    label: '默认',
     bgClass: 'bg-accent-primary',
     textClass: 'text-white',
     borderClass: 'border-accent-primary',
@@ -16,7 +16,7 @@ export const EVENT_COLOR_CATEGORIES: EventColorCategoryConfig[] = [
   },
   {
     id: 'work',
-    label: 'Work',
+    label: '工作',
     bgClass: 'bg-blue-600',
     textClass: 'text-white',
     borderClass: 'border-blue-600',
@@ -24,7 +24,7 @@ export const EVENT_COLOR_CATEGORIES: EventColorCategoryConfig[] = [
   },
   {
     id: 'personal',
-    label: 'Personal',
+    label: '个人',
     bgClass: 'bg-emerald-600',
     textClass: 'text-white',
     borderClass: 'border-emerald-600',
@@ -32,7 +32,7 @@ export const EVENT_COLOR_CATEGORIES: EventColorCategoryConfig[] = [
   },
   {
     id: 'health',
-    label: 'Health',
+    label: '健康',
     bgClass: 'bg-rose-600',
     textClass: 'text-white',
     borderClass: 'border-rose-600',
@@ -40,7 +40,7 @@ export const EVENT_COLOR_CATEGORIES: EventColorCategoryConfig[] = [
   },
   {
     id: 'social',
-    label: 'Social',
+    label: '社交',
     bgClass: 'bg-purple-600',
     textClass: 'text-white',
     borderClass: 'border-purple-600',
@@ -48,7 +48,7 @@ export const EVENT_COLOR_CATEGORIES: EventColorCategoryConfig[] = [
   },
   {
     id: 'travel',
-    label: 'Travel',
+    label: '旅行',
     bgClass: 'bg-amber-600',
     textClass: 'text-white',
     borderClass: 'border-amber-600',
@@ -56,7 +56,7 @@ export const EVENT_COLOR_CATEGORIES: EventColorCategoryConfig[] = [
   },
   {
     id: 'finance',
-    label: 'Finance',
+    label: '财务',
     bgClass: 'bg-teal-600',
     textClass: 'text-white',
     borderClass: 'border-teal-600',
@@ -64,7 +64,7 @@ export const EVENT_COLOR_CATEGORIES: EventColorCategoryConfig[] = [
   },
   {
     id: 'education',
-    label: 'Education',
+    label: '学习',
     bgClass: 'bg-indigo-600',
     textClass: 'text-white',
     borderClass: 'border-indigo-600',

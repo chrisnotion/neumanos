@@ -174,12 +174,12 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
 
     // Validation
     if (!title.trim()) {
-      setError('Event title is required');
+      setError('请输入日程标题');
       return;
     }
 
     if (!isAllDay && startTime >= endTime) {
-      setError('End time must be after start time');
+      setError('结束时间必须晚于开始时间');
       return;
     }
 
@@ -234,7 +234,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
       onClose();
     } catch (err) {
       console.error('Failed to save event:', err);
-      setError('Failed to save event. Please try again.');
+      setError('保存日程失败，请重试。');
     } finally {
       setSaving(false);
     }
@@ -261,7 +261,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark sticky top-0 bg-surface-light dark:bg-surface-dark z-10">
           <h2 className="text-base font-semibold text-text-light-primary dark:text-text-dark-primary">
-            {isDuplicate ? 'Duplicate Event' : event ? 'Edit Event' : 'Create Event'}
+            {isDuplicate ? '复制日程' : event ? '编辑日程' : '创建日程'}
           </h2>
           <div className="flex items-center gap-1">
             {event && !isDuplicate && (
@@ -274,8 +274,8 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
                   }));
                 }}
                 className="p-1 rounded-button hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary transition-all duration-standard ease-smooth"
-                aria-label="Duplicate event"
-                title="Duplicate event"
+                aria-label="复制日程"
+                title="复制日程"
               >
                 <Copy className="w-4 h-4" />
               </button>
@@ -283,7 +283,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
             <button
               onClick={onClose}
               className="p-1 rounded-button hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary transition-all duration-standard ease-smooth"
-              aria-label="Close modal"
+              aria-label="关闭窗口"
             >
               <X className="w-4 h-4" />
             </button>
@@ -303,18 +303,18 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
             <div>
               <label className="flex items-center gap-1.5 text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-accent-primary" />
-                Quick Create
+                智能快速创建
               </label>
               <input
                 type="text"
                 value={nlInput}
                 onChange={(e) => handleNLInput(e.target.value)}
                 className="w-full px-2.5 py-1.5 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary"
-                placeholder='e.g. "Meeting with John tomorrow at 3pm for 1 hour"'
+                placeholder='例如："明天下午3点和张三开会1小时"'
               />
               {nlPreview && (
                 <div className="mt-1 text-[10px] text-accent-green">
-                  Parsed: {nlPreview}
+                  已解析: {nlPreview}
                 </div>
               )}
             </div>
@@ -337,7 +337,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
                     </ul>
                   )}
                   <p className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary mt-1">
-                    You can still save this event, but consider adjusting the time to avoid overlaps.
+                    您仍可以保存此日程，但建议微调时间以避免重叠。
                   </p>
                 </div>
               </div>
@@ -347,7 +347,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
           {/* Start Date */}
           <div>
             <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-              Date
+              日期
             </label>
             <input
               type="date"
@@ -363,7 +363,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
               htmlFor="event-title"
               className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5"
             >
-              Event Title
+              日程标题
             </label>
             <input
               id="event-title"
@@ -371,7 +371,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="w-full px-2.5 py-1.5 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary"
-              placeholder="Meeting with team, Conference, etc."
+              placeholder="团队会议、项目讨论等..."
               autoFocus
             />
           </div>
@@ -379,7 +379,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
           {/* Color Category */}
           <div>
             <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-              Color Category
+              颜色分类
             </label>
             <div className="flex flex-wrap gap-1.5">
               {EVENT_COLOR_CATEGORIES.map((cat) => (
@@ -405,14 +405,14 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
           {calendars.length > 0 && (
             <div>
               <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-                Calendar
+                所属日历
               </label>
               <select
                 value={calendarId}
                 onChange={(e) => setCalendarId(e.target.value)}
                 className="w-full px-2.5 py-1.5 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary"
               >
-                <option value="">No calendar</option>
+                <option value="">不指定日历</option>
                 {calendars.map((cal) => (
                   <option key={cal.id} value={cal.id}>
                     {cal.name}
@@ -428,7 +428,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
               htmlFor="event-description"
               className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5"
             >
-              Description (Optional)
+              描述（可选）
             </label>
             <textarea
               id="event-description"
@@ -436,7 +436,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
               onChange={(e) => setDescription(e.target.value)}
               rows={2}
               className="w-full px-2.5 py-1.5 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary resize-none"
-              placeholder="Add details about this event..."
+              placeholder="添加日程详情或备注..."
             />
           </div>
 
@@ -449,7 +449,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
                 onChange={(e) => setIsAllDay(e.target.checked)}
                 className="rounded w-3.5 h-3.5"
               />
-              <span className="text-xs text-text-light-primary dark:text-text-dark-primary">All-day event</span>
+              <span className="text-xs text-text-light-primary dark:text-text-dark-primary">全天日程</span>
             </label>
           </div>
 
@@ -458,7 +458,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-                  Start Time
+                  开始时间
                 </label>
                 <input
                   type="time"
@@ -469,7 +469,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
               </div>
               <div>
                 <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-                  End Time
+                  结束时间
                 </label>
                 <input
                   type="time"
@@ -484,7 +484,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
           {/* End Date (Multi-day events) */}
           <div>
             <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-              End Date (Optional - for multi-day events)
+              结束日期（可选 - 用于跨天日程）
             </label>
             <input
               type="date"
@@ -495,7 +495,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
             />
             {endDate && (
               <p className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary mt-0.5">
-                Event spans from {toStandardKey(startDate)} to {endDate}
+                日程跨越 {toStandardKey(startDate)} 至 {endDate}
               </p>
             )}
           </div>
@@ -503,14 +503,14 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
           {/* Location */}
           <div>
             <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-              Location (Optional)
+              地点（可选）
             </label>
             <input
               type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               className="w-full px-2.5 py-1.5 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary"
-              placeholder="Meeting room, video call link, address..."
+              placeholder="会议室、线上会议链接、地址等..."
             />
           </div>
 
@@ -518,18 +518,18 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
           <>
             <div>
               <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-                Repeat
+                重复频率
               </label>
               <select
                 value={recurrenceType}
                 onChange={(e) => setRecurrenceType(e.target.value as 'none' | 'daily' | 'weekly' | 'monthly' | 'yearly')}
                 className="w-full px-2.5 py-1.5 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary"
               >
-                <option value="none">Does not repeat</option>
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-                <option value="yearly">Yearly</option>
+                <option value="none">不重复</option>
+                <option value="daily">每天</option>
+                <option value="weekly">每周</option>
+                <option value="monthly">每月</option>
+                <option value="yearly">每年</option>
               </select>
             </div>
 
@@ -537,7 +537,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
             {recurrenceType !== 'none' && (
               <div>
                 <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-                  Every
+                  每隔
                 </label>
                 <div className="flex items-center gap-2">
                   <input
@@ -549,10 +549,9 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
                     className="w-16 px-2.5 py-1.5 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary"
                   />
                   <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                    {recurrenceType === 'daily' ? (recurrenceInterval === 1 ? 'day' : 'days') :
-                     recurrenceType === 'weekly' ? (recurrenceInterval === 1 ? 'week' : 'weeks') :
-                     recurrenceType === 'monthly' ? (recurrenceInterval === 1 ? 'month' : 'months') :
-                     (recurrenceInterval === 1 ? 'year' : 'years')}
+                    {recurrenceType === 'daily' ? '天' :
+                     recurrenceType === 'weekly' ? '周' :
+                     recurrenceType === 'monthly' ? '个月' : '年'}
                   </span>
                 </div>
               </div>
@@ -562,10 +561,10 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
               {recurrenceType === 'weekly' && (
                 <div>
                   <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-                    Repeat on
+                    重复在
                   </label>
                   <div className="grid grid-cols-7 gap-1.5">
-                    {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+                    {['日', '一', '二', '三', '四', '五', '六'].map((day, index) => (
                       <button
                         key={index}
                         type="button"
@@ -593,7 +592,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
               {recurrenceType === 'monthly' && (
                 <div>
                   <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-                    Day of month
+                    每月第几日
                   </label>
                   <input
                     type="number"
@@ -610,16 +609,16 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
               {recurrenceType !== 'none' && (
                 <div>
                   <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-                    Ends
+                    结束条件
                   </label>
                   <select
                     value={recurrenceEndType}
                     onChange={(e) => setRecurrenceEndType(e.target.value as typeof recurrenceEndType)}
                     className="w-full px-2.5 py-1.5 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary"
                   >
-                    <option value="never">Never</option>
-                    <option value="after">After</option>
-                    <option value="until">On date</option>
+                    <option value="never">永不结束</option>
+                    <option value="after">发生指定次数后</option>
+                    <option value="until">截止到指定日期</option>
                   </select>
 
                   {recurrenceEndType === 'after' && (
@@ -633,7 +632,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
                         className="w-16 px-2.5 py-1.5 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary"
                       />
                       <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                        occurrences
+                        次后结束
                       </span>
                     </div>
                   )}
@@ -653,7 +652,7 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
           {/* Reminders */}
           <div>
             <label className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5">
-              Reminders (Optional)
+              日程提醒（可选）
             </label>
             <div className="space-y-1">
               {REMINDER_OPTIONS.map((option) => (
@@ -694,14 +693,14 @@ export function EventCreateModal({ dateKey, event, onClose, isDuplicate = false 
             disabled={saving}
             className="px-3 py-1.5 text-xs font-medium text-text-light-primary dark:text-text-dark-primary bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button hover:bg-surface-light dark:hover:bg-surface-dark-elevated transition-all duration-standard ease-smooth disabled:opacity-50"
           >
-            Cancel
+            取消
           </button>
           <button
             onClick={handleSave}
             disabled={saving}
             className="px-3 py-1.5 text-xs font-medium text-white dark:text-dark-background bg-accent-primary rounded-button hover:opacity-90 transition-opacity disabled:opacity-50"
           >
-            {saving ? 'Saving...' : event ? 'Save Changes' : 'Create Event'}
+            {saving ? '保存中...' : event ? '保存修改' : '创建日程'}
           </button>
         </div>
       </div>

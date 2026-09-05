@@ -5,7 +5,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import type { GraphData, SimulationNode, SimulationEdge } from '../../utils/graphDataProcessor';
+import type { GraphData, SimulationNode } from '../../utils/graphDataProcessor';
 import {
   createForceSimulation,
   stopSimulation,
@@ -44,11 +44,35 @@ export function GraphCanvas({
   showLinkStrength = false,
   orphanIds = new Set(),
 }: GraphCanvasProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [isSimulating, setIsSimulating] = useState(true);
+  const [dimensions, setDimensions] = useState({ width, height });
+
+  // Update canvas dimensions dynamically from container
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const updateSize = () => {
+      if (containerRef.current) {
+        const w = containerRef.current.clientWidth;
+        const h = containerRef.current.clientHeight;
+        if (w > 0 && h > 0) {
+          setDimensions({ width: w, height: h });
+        }
+      }
+    };
+    updateSize();
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!svgRef.current || data.nodes.length === 0) return;
+
+    setIsSimulating(true);
+    const activeWidth = dimensions.width || width;
+    const activeHeight = dimensions.height || height;
 
     // Calculate link strengths for visualization
     const linkStrengthMap = showLinkStrength
@@ -71,8 +95,10 @@ export function GraphCanvas({
 
     svg.call(zoom);
 
-    // Create simulation
-    const simulation = createForceSimulation(data.nodes, data.edges, width, height);
+    // Create simulation and get actual simulated nodes and links
+    const simulation = createForceSimulation(data.nodes, data.edges, activeWidth, activeHeight);
+    const simNodes = simulation.nodes();
+    const simLinks = (simulation.force('link') as d3.ForceLink<SimulationNode, any>)?.links() || [];
 
     // Create arrow marker for directed edges
     svg
@@ -90,16 +116,16 @@ export function GraphCanvas({
       .attr('fill', 'var(--border-light)')
       .attr('class', 'dark:fill-border-dark');
 
-    // Create links
+    // Create links bound to simLinks
     const link = g
       .append('g')
       .attr('class', 'links')
       .selectAll('line')
-      .data(data.edges)
+      .data(simLinks)
       .join('line')
       .attr('stroke', (d) => {
         if (showLinkStrength) {
-          const key = getEdgeKey(d.source as string, d.target as string);
+          const key = getEdgeKey(d.source as any, d.target as any);
           const strengthInfo = linkStrengthMap.get(key);
           if (strengthInfo?.isTagBased) {
             return 'var(--border-light)';
@@ -109,7 +135,7 @@ export function GraphCanvas({
       })
       .attr('stroke-opacity', (d) => {
         if (showLinkStrength) {
-          const key = getEdgeKey(d.source as string, d.target as string);
+          const key = getEdgeKey(d.source as any, d.target as any);
           const strengthInfo = linkStrengthMap.get(key);
           if (strengthInfo) {
             return getLinkOpacity(strengthInfo);
@@ -119,7 +145,7 @@ export function GraphCanvas({
       })
       .attr('stroke-width', (d) => {
         if (showLinkStrength) {
-          const key = getEdgeKey(d.source as string, d.target as string);
+          const key = getEdgeKey(d.source as any, d.target as any);
           const strengthInfo = linkStrengthMap.get(key);
           if (strengthInfo) {
             return strengthInfo.thickness;
@@ -129,7 +155,7 @@ export function GraphCanvas({
       })
       .attr('stroke-dasharray', (d) => {
         if (showLinkStrength) {
-          const key = getEdgeKey(d.source as string, d.target as string);
+          const key = getEdgeKey(d.source as any, d.target as any);
           const strengthInfo = linkStrengthMap.get(key);
           if (strengthInfo?.isDashed) {
             return '4,4';
@@ -140,12 +166,12 @@ export function GraphCanvas({
       .attr('marker-end', (d) => (d.type === 'backlink' ? 'url(#arrowhead)' : ''))
       .attr('class', 'dark:stroke-border-dark');
 
-    // Create node groups
+    // Create node groups bound to simNodes
     const node = g
       .append('g')
       .attr('class', 'nodes')
       .selectAll('g')
-      .data(data.nodes)
+      .data(simNodes)
       .join('g')
       .attr('cursor', 'pointer');
 
@@ -255,17 +281,17 @@ export function GraphCanvas({
 
       // Add connection count
       if (d.connections !== undefined) {
-        parts.push(`${d.connections} connection${d.connections !== 1 ? 's' : ''}`);
+        parts.push(`${d.connections} 个关联`);
       }
 
       // Add primary tag (for notes)
       if (d.type === 'note' && d.metadata.tags && d.metadata.tags.length > 0) {
-        parts.push(`Tag: ${d.metadata.tags[0]}`);
+        parts.push(`标签: ${d.metadata.tags[0]}`);
       }
 
       // Add folder (for notes)
       if (d.type === 'note' && d.metadata.folder) {
-        parts.push(`Folder: ${d.metadata.folder}`);
+        parts.push(`文件夹: ${d.metadata.folder}`);
       }
 
       return parts.join('\n');
@@ -297,13 +323,13 @@ export function GraphCanvas({
     });
 
     // Update positions on simulation tick
-    // D3 replaces string IDs with actual node objects during simulation
+    // D3 replaces string IDs with actual node objects in simLinks during simulation
     simulation.on('tick', () => {
       link
-        .attr('x1', (d) => (d as unknown as SimulationEdge).source.x ?? 0)
-        .attr('y1', (d) => (d as unknown as SimulationEdge).source.y ?? 0)
-        .attr('x2', (d) => (d as unknown as SimulationEdge).target.x ?? 0)
-        .attr('y2', (d) => (d as unknown as SimulationEdge).target.y ?? 0);
+        .attr('x1', (d) => ((d as any).source?.x) ?? 0)
+        .attr('y1', (d) => ((d as any).source?.y) ?? 0)
+        .attr('x2', (d) => ((d as any).target?.x) ?? 0)
+        .attr('y2', (d) => ((d as any).target?.y) ?? 0);
 
       node.attr('transform', (d) => {
         const simNode = d as SimulationNode;
@@ -311,6 +337,10 @@ export function GraphCanvas({
         const y = simNode.y ?? 0;
         return `translate(${x},${y})`;
       });
+
+      if (simulation.alpha() < 0.05) {
+        setIsSimulating(false);
+      }
     });
 
     // Stop simulating after it settles
@@ -318,24 +348,31 @@ export function GraphCanvas({
       setIsSimulating(false);
     });
 
+    // Safety timeout to dismiss layout indicator
+    const layoutTimer = setTimeout(() => {
+      setIsSimulating(false);
+    }, 2500);
+
     // Cleanup
     return () => {
+      clearTimeout(layoutTimer);
       stopSimulation(simulation);
     };
-  }, [data, width, height, onNodeClick, onNodeDoubleClick, focusNodeId, searchResult, showLinkStrength, orphanIds]);
+  }, [data, dimensions.width, dimensions.height, onNodeClick, onNodeDoubleClick, focusNodeId, searchResult, showLinkStrength, orphanIds]);
 
   return (
-    <div className="relative w-full h-full">
+    <div ref={containerRef} className="relative w-full h-full min-h-[500px]">
       {isSimulating && (
-        <div className="absolute top-4 right-4 text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-          Calculating layout...
+        <div className="absolute top-4 right-4 text-xs text-text-light-secondary dark:text-text-dark-secondary bg-surface-light-elevated/90 dark:bg-surface-dark-elevated/90 backdrop-blur px-2.5 py-1 rounded-md border border-border-light dark:border-border-dark shadow-sm z-10">
+          正在计算图谱布局...
         </div>
       )}
       <svg
         ref={svgRef}
-        width={width}
-        height={height}
-        className="border border-border-light dark:border-border-dark rounded-lg bg-surface-light-base dark:bg-surface-dark-base"
+        width={dimensions.width}
+        height={dimensions.height}
+        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+        className="w-full h-full border border-border-light dark:border-border-dark rounded-lg bg-surface-light-base dark:bg-surface-dark-base"
       />
     </div>
   );
