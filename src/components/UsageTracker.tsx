@@ -120,15 +120,15 @@ export function UsageTracker({ router }: UsageTrackerProps) {
   );
 
   const formatDate = (timestamp: number | null): string => {
-    if (!timestamp) return 'Never';
+    if (!timestamp) return '从未';
     const date = new Date(timestamp);
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
     const diffMins = Math.floor(diffMs / 60000);
 
-    if (diffMins < 1) return 'Just now';
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`;
+    if (diffMins < 1) return '刚刚';
+    if (diffMins < 60) return `${diffMins} 分钟前`;
+    if (diffMins < 1440) return `${Math.floor(diffMins / 60)} 小时前`;
     return date.toLocaleDateString();
   };
 
@@ -147,10 +147,10 @@ export function UsageTracker({ router }: UsageTrackerProps) {
           onChange={(e) => setTimeRange(e.target.value as 'today' | 'week' | 'month' | 'all')}
           className="px-2 py-1 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button text-xs text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-1 focus:ring-accent-blue"
         >
-          <option value="today">Today</option>
-          <option value="week">Week</option>
-          <option value="month">Month</option>
-          <option value="all">All Time</option>
+          <option value="today">今日</option>
+          <option value="week">本周</option>
+          <option value="month">本月</option>
+          <option value="all">历史全部</option>
         </select>
       </div>
 
@@ -161,7 +161,7 @@ export function UsageTracker({ router }: UsageTrackerProps) {
             {formatNumber(totalRequests)}
           </div>
           <div className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary">
-            Requests
+            请求次数
           </div>
         </div>
         <div className="w-px h-8 bg-border-light dark:bg-border-dark" />
@@ -170,7 +170,7 @@ export function UsageTracker({ router }: UsageTrackerProps) {
             {formatNumber(totalTokens)}
           </div>
           <div className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary">
-            Tokens
+            Token 消耗
           </div>
         </div>
         <div className="w-px h-8 bg-border-light dark:bg-border-dark" />
@@ -179,7 +179,7 @@ export function UsageTracker({ router }: UsageTrackerProps) {
             ${totalCost.toFixed(2)}
           </div>
           <div className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary">
-            Cost
+            预估花费
           </div>
         </div>
       </div>
@@ -187,12 +187,12 @@ export function UsageTracker({ router }: UsageTrackerProps) {
       {/* Per-Provider Breakdown */}
       <div className="space-y-1.5">
         <h4 className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary">
-          By Provider
+          按服务商分布
         </h4>
 
         {usageStats.length === 0 ? (
           <div className="p-4 text-center text-text-light-secondary dark:text-text-dark-secondary">
-            <p className="text-xs">No usage data. Start chatting!</p>
+            <p className="text-xs">暂无调用记录，随时开启对话吧！</p>
           </div>
         ) : (
           <div className="space-y-1.5">
@@ -227,7 +227,7 @@ export function UsageTracker({ router }: UsageTrackerProps) {
                   {/* Stats - 2x2 Grid */}
                   <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[10px]">
                     <div className="flex justify-between">
-                      <span className="text-text-light-secondary dark:text-text-dark-secondary">Req</span>
+                      <span className="text-text-light-secondary dark:text-text-dark-secondary">请求</span>
                       <span className="font-medium text-text-light-primary dark:text-text-dark-primary">
                         {formatNumber(stat.requestCount)}
                       </span>
@@ -239,13 +239,13 @@ export function UsageTracker({ router }: UsageTrackerProps) {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-text-light-secondary dark:text-text-dark-secondary">Cost</span>
+                      <span className="text-text-light-secondary dark:text-text-dark-secondary">费用</span>
                       <span className="font-medium text-text-light-primary dark:text-text-dark-primary">
-                        {stat.estimatedCost > 0 ? `$${stat.estimatedCost.toFixed(2)}` : 'Free'}
+                        {stat.estimatedCost > 0 ? `$${stat.estimatedCost.toFixed(2)}` : '免费'}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-text-light-secondary dark:text-text-dark-secondary">Share</span>
+                      <span className="text-text-light-secondary dark:text-text-dark-secondary">占比</span>
                       <span className="font-medium text-text-light-primary dark:text-text-dark-primary">
                         {requestPercent.toFixed(0)}%
                       </span>
@@ -261,7 +261,7 @@ export function UsageTracker({ router }: UsageTrackerProps) {
       {/* Compact Note */}
       <div className="pt-2 border-t border-border-light dark:border-border-dark">
         <p className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary">
-          Token counts estimated (1 token ≈ 4 chars)
+          Token 数量为粗略估算值（1 token 约 4 个字符）
         </p>
       </div>
     </div>

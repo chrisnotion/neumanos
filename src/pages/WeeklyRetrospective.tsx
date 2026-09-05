@@ -120,36 +120,36 @@ export function WeeklyRetrospective() {
   const exportAsNote = useCallback(() => {
     if (!retroData || !insights) return;
 
-    const content = `# Weekly Retrospective: ${retroData.weekLabel}
+    const content = `# 每周复盘报表: ${retroData.weekLabel}
 
-## Metrics
-- **Tasks Completed:** ${retroData.tasks.completed}
-- **Tasks Created:** ${retroData.tasks.created}
-- **Overdue Tasks:** ${retroData.tasks.overdue}
-- **Task Completion Rate:** ${retroData.tasks.completionRate}%
-- **Time Tracked:** ${formatHours(retroData.time.totalSeconds)}
-- **Habit Completion:** ${retroData.habits.overallCompletionRate}%
-- **Calendar Events:** ${retroData.calendar.totalEvents}
+## 核心指标
+- **完成任务数:** ${retroData.tasks.completed}
+- **创建任务数:** ${retroData.tasks.created}
+- **逾期任务数:** ${retroData.tasks.overdue}
+- **任务完成率:** ${retroData.tasks.completionRate}%
+- **跟踪专注工时:** ${formatHours(retroData.time.totalSeconds)}
+- **习惯打卡率:** ${retroData.habits.overallCompletionRate}%
+- **日程会议数:** ${retroData.calendar.totalEvents}
 
-## Wins
+## 亮点成效
 ${insights.wins.map((w, i) => `${i + 1}. ${w}`).join('\n')}
 
-## Areas for Improvement
+## 改进空间
 ${insights.improvements.map((imp, i) => `${i + 1}. ${imp}`).join('\n')}
 
-## Action Item
+## 行动建议
 ${insights.actionItem}
 
-## Productivity Score: ${insights.productivityScore}/100
+## 综合效率评分: ${insights.productivityScore}/100
 
 ---
-*Generated on ${new Date().toLocaleDateString()}*
+*生成于 ${new Date().toLocaleDateString()}*
 `;
 
     // Copy to clipboard as a simple export
     navigator.clipboard.writeText(content).then(() => {
       // Could integrate with notes store in the future
-      alert('Retrospective copied to clipboard!');
+      alert('复盘内容已复制到剪贴板！');
     });
   }, [retroData, insights]);
 
@@ -159,7 +159,7 @@ ${insights.actionItem}
         <div className="text-center">
           <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-primary-cyan border-r-transparent" />
           <p className="mt-4 text-sm text-text-light-secondary dark:text-text-dark-secondary">
-            Loading retrospective...
+            正在加载每周复盘数据...
           </p>
         </div>
       </div>
@@ -169,7 +169,7 @@ ${insights.actionItem}
   if (!retroData || !insights) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] text-text-light-secondary dark:text-text-dark-secondary">
-        No data available for this week.
+        本周暂无可用的复盘数据。
       </div>
     );
   }
@@ -180,13 +180,13 @@ ${insights.actionItem}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
-            Weekly Retrospective
+            每周效率复盘
           </h1>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">
             {retroData.weekLabel}
             {isCurrentWeek && (
               <span className="ml-2 text-xs bg-primary-cyan/20 text-primary-cyan px-2 py-0.5 rounded-full">
-                Current Week
+                本周
               </span>
             )}
           </p>
@@ -195,7 +195,8 @@ ${insights.actionItem}
           <button
             onClick={() => navigateWeek(-1)}
             className="p-2 rounded-lg hover:bg-bg-light-tertiary dark:hover:bg-bg-dark-tertiary transition-colors"
-            title="Previous week"
+            title="上一周"
+            aria-label="上一周"
           >
             <ChevronLeft size={20} />
           </button>
@@ -203,13 +204,14 @@ ${insights.actionItem}
             onClick={() => setCurrentWeekStart(getWeekStart(new Date()))}
             className="px-3 py-1.5 text-sm rounded-lg hover:bg-bg-light-tertiary dark:hover:bg-bg-dark-tertiary transition-colors"
           >
-            Today
+            返回今天
           </button>
           <button
             onClick={() => navigateWeek(1)}
             disabled={isFutureWeek}
             className="p-2 rounded-lg hover:bg-bg-light-tertiary dark:hover:bg-bg-dark-tertiary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-            title="Next week"
+            title="下一周"
+            aria-label="下一周"
           >
             <ChevronRight size={20} />
           </button>
@@ -220,31 +222,31 @@ ${insights.actionItem}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <MetricCard
           icon={<CheckCircle size={20} className="text-accent-green" />}
-          label="Tasks Done"
+          label="已完成任务"
           value={retroData.tasks.completed}
           delta={retroData.comparison?.tasks.completedDelta}
         />
         <MetricCard
           icon={<Clock size={20} className="text-accent-blue" />}
-          label="Hours Tracked"
+          label="跟踪工时"
           value={formatHours(retroData.time.totalSeconds)}
           delta={
             retroData.comparison
               ? Math.round(retroData.comparison.time.totalSecondsDelta / 3600)
               : undefined
           }
-          deltaSuffix="h"
+          deltaSuffix="小时"
         />
         <MetricCard
           icon={<Flame size={20} className="text-accent-orange" />}
-          label="Habit Rate"
+          label="习惯达成率"
           value={`${retroData.habits.overallCompletionRate}%`}
           delta={retroData.comparison?.habits.rateDelta}
           deltaSuffix="%"
         />
         <MetricCard
           icon={<CalendarDays size={20} className="text-accent-purple" />}
-          label="Events"
+          label="日程活动"
           value={retroData.calendar.totalEvents}
           delta={retroData.comparison?.calendar.eventsDelta}
         />
@@ -255,25 +257,25 @@ ${insights.actionItem}
         {/* Task Details */}
         <div className="p-4 rounded-xl bg-bg-light-secondary dark:bg-bg-dark-secondary border border-border-light dark:border-border-dark">
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-            Task Breakdown
+            任务明细分解
           </h3>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-text-light-secondary dark:text-text-dark-secondary">Created</span>
+              <span className="text-text-light-secondary dark:text-text-dark-secondary">新创建任务</span>
               <span className="font-medium text-text-light-primary dark:text-text-dark-primary">{retroData.tasks.created}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-text-light-secondary dark:text-text-dark-secondary">Completed</span>
+              <span className="text-text-light-secondary dark:text-text-dark-secondary">已完成任务</span>
               <span className="font-medium text-accent-green">{retroData.tasks.completed}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-text-light-secondary dark:text-text-dark-secondary">Overdue</span>
+              <span className="text-text-light-secondary dark:text-text-dark-secondary">已逾期任务</span>
               <span className={`font-medium ${retroData.tasks.overdue > 0 ? 'text-accent-red' : 'text-text-light-primary dark:text-text-dark-primary'}`}>
                 {retroData.tasks.overdue}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-text-light-secondary dark:text-text-dark-secondary">Completion Rate</span>
+              <span className="text-text-light-secondary dark:text-text-dark-secondary">任务完成率</span>
               <span className="font-medium text-text-light-primary dark:text-text-dark-primary">{retroData.tasks.completionRate}%</span>
             </div>
           </div>
@@ -282,26 +284,26 @@ ${insights.actionItem}
         {/* Time Details */}
         <div className="p-4 rounded-xl bg-bg-light-secondary dark:bg-bg-dark-secondary border border-border-light dark:border-border-dark">
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-            Time Tracking
+            时间跟踪分析
           </h3>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-text-light-secondary dark:text-text-dark-secondary">Total</span>
+              <span className="text-text-light-secondary dark:text-text-dark-secondary">总跟踪时长</span>
               <span className="font-medium text-text-light-primary dark:text-text-dark-primary">{formatHours(retroData.time.totalSeconds)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-text-light-secondary dark:text-text-dark-secondary">Daily Average</span>
+              <span className="text-text-light-secondary dark:text-text-dark-secondary">日均时长</span>
               <span className="font-medium text-text-light-primary dark:text-text-dark-primary">{formatHours(retroData.time.dailyAverageSeconds)}</span>
             </div>
             {retroData.time.mostProductiveDay && (
               <div className="flex justify-between">
-                <span className="text-text-light-secondary dark:text-text-dark-secondary">Most Productive</span>
+                <span className="text-text-light-secondary dark:text-text-dark-secondary">最高产的一天</span>
                 <span className="font-medium text-text-light-primary dark:text-text-dark-primary">{retroData.time.mostProductiveDay}</span>
               </div>
             )}
             {retroData.time.hoursByProject.length > 0 && (
               <div className="pt-2 border-t border-border-light dark:border-border-dark">
-                <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1">Top Projects</p>
+                <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1">主要投入项目</p>
                 {retroData.time.hoursByProject.map((p, i) => (
                   <div key={i} className="flex justify-between">
                     <span className="text-text-light-secondary dark:text-text-dark-secondary truncate mr-2">{p.projectName}</span>
@@ -320,10 +322,10 @@ ${insights.actionItem}
           <div className="flex items-center gap-2">
             <Sparkles size={18} className="text-primary-cyan" />
             <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary">
-              Weekly Insights
+              每周深度洞察
             </h3>
             <span className="text-xs px-2 py-0.5 rounded-full bg-bg-light-tertiary dark:bg-bg-dark-tertiary text-text-light-secondary dark:text-text-dark-secondary">
-              {insights.source === 'ai' ? 'AI Generated' : 'Template'}
+              {insights.source === 'ai' ? 'AI 智能生成' : '模板算法分析'}
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -331,14 +333,16 @@ ${insights.actionItem}
               onClick={regenerateInsights}
               disabled={insightsLoading}
               className="p-1.5 rounded-lg hover:bg-bg-light-tertiary dark:hover:bg-bg-dark-tertiary transition-colors disabled:opacity-50"
-              title="Regenerate insights"
+              title="重新生成洞察"
+              aria-label="重新生成洞察"
             >
               <RefreshCw size={14} className={insightsLoading ? 'animate-spin' : ''} />
             </button>
             <button
               onClick={exportAsNote}
               className="p-1.5 rounded-lg hover:bg-bg-light-tertiary dark:hover:bg-bg-dark-tertiary transition-colors"
-              title="Export as note"
+              title="复制导出为笔记"
+              aria-label="复制导出为笔记"
             >
               <FileText size={14} />
             </button>
@@ -370,10 +374,10 @@ ${insights.actionItem}
           </div>
           <div>
             <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-              Productivity Score
+              效率评分
             </p>
             <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-              Based on tasks, habits, and time tracking
+              综合考量任务完成、习惯坚持与专注工时
             </p>
           </div>
         </div>
@@ -383,7 +387,7 @@ ${insights.actionItem}
           {/* Wins */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-accent-green mb-2">
-              3 Wins
+              3 项亮点成效
             </h4>
             <ul className="space-y-1.5">
               {insights.wins.map((win, i) => (
@@ -398,7 +402,7 @@ ${insights.actionItem}
           {/* Improvements */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-accent-yellow mb-2">
-              2 Areas to Improve
+              2 项改进空间
             </h4>
             <ul className="space-y-1.5">
               {insights.improvements.map((imp, i) => (
@@ -413,7 +417,7 @@ ${insights.actionItem}
           {/* Action Item */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-primary-cyan mb-2">
-              1 Action Item
+              1 项行动建议
             </h4>
             <div className="flex items-start gap-2 text-sm text-text-light-primary dark:text-text-dark-primary p-3 rounded-lg bg-primary-cyan/10 border border-primary-cyan/20">
               <Sparkles size={14} className="text-primary-cyan mt-0.5 shrink-0" />

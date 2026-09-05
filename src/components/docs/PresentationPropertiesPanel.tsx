@@ -59,7 +59,7 @@ export function PresentationPropertiesPanel({
     return (
       <div className="w-64 flex-shrink-0 bg-surface-light dark:bg-surface-dark border-l border-border-light dark:border-border-dark p-4">
         <p className="text-sm text-text-light-tertiary dark:text-text-dark-tertiary text-center">
-          Select an element to edit its properties
+          选择一个元素以编辑其属性
         </p>
       </div>
     );
@@ -101,6 +101,19 @@ export function PresentationPropertiesPanel({
     }
   };
 
+  const getElementTypeName = (type: string) => {
+    switch (type) {
+      case 'text':
+        return '文本';
+      case 'shape':
+        return '形状';
+      case 'image':
+        return '图片';
+      default:
+        return type;
+    }
+  };
+
   return (
     <div className="w-64 flex-shrink-0 bg-surface-light dark:bg-surface-dark border-l border-border-light dark:border-border-dark overflow-y-auto">
       {/* Header */}
@@ -108,7 +121,7 @@ export function PresentationPropertiesPanel({
         <div className="flex items-center gap-2">
           {getElementIcon()}
           <span className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary capitalize">
-            {localElement.type}
+            {getElementTypeName(localElement.type)}
           </span>
         </div>
         <button
@@ -122,13 +135,13 @@ export function PresentationPropertiesPanel({
       {/* Position & Size */}
       <div className="p-3 border-b border-border-light dark:border-border-dark">
         <h4 className="text-xs font-medium text-text-light-tertiary dark:text-text-dark-tertiary uppercase mb-2">
-          Transform
+          变换与位置
         </h4>
 
         <div className="grid grid-cols-2 gap-2">
           <div>
             <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-              X
+              X 坐标
             </label>
             <input
               type="number"
@@ -139,7 +152,7 @@ export function PresentationPropertiesPanel({
           </div>
           <div>
             <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-              Y
+              Y 坐标
             </label>
             <input
               type="number"
@@ -150,7 +163,7 @@ export function PresentationPropertiesPanel({
           </div>
           <div>
             <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-              Width
+              宽度
             </label>
             <input
               type="number"
@@ -161,7 +174,7 @@ export function PresentationPropertiesPanel({
           </div>
           <div>
             <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-              Height
+              高度
             </label>
             <input
               type="number"
@@ -174,7 +187,7 @@ export function PresentationPropertiesPanel({
 
         <div className="mt-2">
           <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-            Rotation (°)
+            旋转角度 (°)
           </label>
           <input
             type="number"
@@ -186,7 +199,7 @@ export function PresentationPropertiesPanel({
 
         <div className="mt-2">
           <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-            Opacity
+            不透明度
           </label>
           <input
             type="range"
@@ -204,7 +217,7 @@ export function PresentationPropertiesPanel({
       {localElement.type === 'text' && localElement.text && (
         <div className="p-3 border-b border-border-light dark:border-border-dark">
           <h4 className="text-xs font-medium text-text-light-tertiary dark:text-text-dark-tertiary uppercase mb-2">
-            Text
+            文本属性
           </h4>
 
           <div className="space-y-2">
@@ -213,12 +226,12 @@ export function PresentationPropertiesPanel({
               onChange={(e) => handleChange('text.content', e.target.value)}
               className="w-full px-2 py-1.5 text-sm rounded border border-border-light dark:border-border-dark bg-surface-light-alt dark:bg-surface-dark-elevated resize-none"
               rows={3}
-              placeholder="Enter text..."
+              placeholder="输入文本内容..."
             />
 
             <div>
               <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                Font
+                字体
               </label>
               <select
                 value={localElement.text.fontFamily}
@@ -235,7 +248,7 @@ export function PresentationPropertiesPanel({
 
             <div>
               <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                Size
+                字号
               </label>
               <input
                 type="number"
@@ -258,7 +271,7 @@ export function PresentationPropertiesPanel({
                     ? 'bg-accent-primary/10 text-accent-primary'
                     : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-alt dark:hover:bg-surface-dark-elevated'
                 }`}
-                title="Bold"
+                title="加粗"
               >
                 <Bold className="w-4 h-4" />
               </button>
@@ -274,7 +287,7 @@ export function PresentationPropertiesPanel({
                     ? 'bg-accent-primary/10 text-accent-primary'
                     : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-alt dark:hover:bg-surface-dark-elevated'
                 }`}
-                title="Italic"
+                title="斜体"
               >
                 <Italic className="w-4 h-4" />
               </button>
@@ -288,7 +301,7 @@ export function PresentationPropertiesPanel({
                     ? 'bg-accent-primary/10 text-accent-primary'
                     : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-alt dark:hover:bg-surface-dark-elevated'
                 }`}
-                title="Align Left"
+                title="左对齐"
               >
                 <AlignLeft className="w-4 h-4" />
               </button>
@@ -299,7 +312,7 @@ export function PresentationPropertiesPanel({
                     ? 'bg-accent-primary/10 text-accent-primary'
                     : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-alt dark:hover:bg-surface-dark-elevated'
                 }`}
-                title="Align Center"
+                title="居中对齐"
               >
                 <AlignCenter className="w-4 h-4" />
               </button>
@@ -310,7 +323,7 @@ export function PresentationPropertiesPanel({
                     ? 'bg-accent-primary/10 text-accent-primary'
                     : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-alt dark:hover:bg-surface-dark-elevated'
                 }`}
-                title="Align Right"
+                title="右对齐"
               >
                 <AlignRight className="w-4 h-4" />
               </button>
@@ -318,7 +331,7 @@ export function PresentationPropertiesPanel({
 
             <div>
               <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                Color
+                文字颜色
               </label>
               <div className="grid grid-cols-8 gap-1 mt-1">
                 {COLORS.map((color) => (
@@ -344,13 +357,13 @@ export function PresentationPropertiesPanel({
       {localElement.type === 'shape' && localElement.shape && (
         <div className="p-3 border-b border-border-light dark:border-border-dark">
           <h4 className="text-xs font-medium text-text-light-tertiary dark:text-text-dark-tertiary uppercase mb-2">
-            Shape
+            形状属性
           </h4>
 
           <div className="space-y-3">
             <div>
               <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                Fill Color
+                填充颜色
               </label>
               <div className="grid grid-cols-8 gap-1 mt-1">
                 {COLORS.map((color) => (
@@ -371,7 +384,7 @@ export function PresentationPropertiesPanel({
 
             <div>
               <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                Stroke Color
+                边框颜色
               </label>
               <div className="grid grid-cols-8 gap-1 mt-1">
                 {COLORS.map((color) => (
@@ -392,7 +405,7 @@ export function PresentationPropertiesPanel({
 
             <div>
               <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                Stroke Width
+                边框粗细
               </label>
               <input
                 type="number"

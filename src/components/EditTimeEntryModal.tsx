@@ -46,17 +46,17 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
 
     // Validation
     if (!description.trim()) {
-      setError('Description is required');
+      setError('工时描述不能为空');
       return;
     }
 
     if (!startTime) {
-      setError('Start time is required');
+      setError('开始时间不能为空');
       return;
     }
 
     if (!endTime) {
-      setError('End time is required');
+      setError('结束时间不能为空');
       return;
     }
 
@@ -64,7 +64,7 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
     const endDate = new Date(endTime);
 
     if (endDate <= startDate) {
-      setError('End time must be after start time');
+      setError('结束时间必须晚于开始时间');
       return;
     }
 
@@ -88,7 +88,7 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
       onClose();
     } catch (err) {
       console.error('Failed to update entry:', err);
-      setError('Failed to save changes. Please try again.');
+      setError('保存修改失败，请重试');
     } finally {
       setSaving(false);
     }
@@ -115,12 +115,12 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark">
           <h2 className="text-base font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Edit Time Entry
+            编辑工时记录
           </h2>
           <button
             onClick={onClose}
             className="p-1 rounded-button hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary transition-all duration-standard ease-smooth"
-            aria-label="Close modal"
+            aria-label="关闭弹窗"
           >
             <X className="w-4 h-4" />
           </button>
@@ -140,7 +140,7 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
               htmlFor="description"
               className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5"
             >
-              Description
+              工时描述
             </label>
             <input
               id="description"
@@ -148,7 +148,7 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="w-full px-2.5 py-1.5 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary"
-              placeholder="What did you work on?"
+              placeholder="你进行了什么工作？"
             />
           </div>
 
@@ -158,7 +158,7 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
               htmlFor="startTime"
               className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5"
             >
-              Start Time
+              开始时间
             </label>
             <input
               id="startTime"
@@ -175,7 +175,7 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
               htmlFor="endTime"
               className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5"
             >
-              End Time
+              结束时间
             </label>
             <input
               id="endTime"
@@ -192,12 +192,12 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
               htmlFor="project"
               className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5"
             >
-              Project
+              关联项目
             </label>
             <ProjectSelector
               value={projectId}
               onChange={setProjectId}
-              placeholder="No Project"
+              placeholder="无关联项目"
               showNoProject={true}
             />
           </div>
@@ -208,7 +208,7 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
               htmlFor="notes"
               className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5"
             >
-              Notes (Optional)
+              备注详情 (可选)
             </label>
             <textarea
               id="notes"
@@ -216,7 +216,7 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
               onChange={(e) => setNotes(e.target.value)}
               rows={2}
               className="w-full px-2.5 py-1.5 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary resize-none"
-              placeholder="Add additional details about this time entry..."
+              placeholder="记录关于该工时的更多细节..."
             />
           </div>
 
@@ -225,7 +225,7 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
             <label
               className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5"
             >
-              Tags
+              标签
             </label>
             <TagInput tags={entryTags} onChange={setEntryTags} compact />
           </div>
@@ -243,7 +243,7 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
               htmlFor="billable"
               className="text-xs font-medium text-text-light-primary dark:text-text-dark-primary cursor-pointer"
             >
-              Billable time
+              计费工时
             </label>
           </div>
 
@@ -254,11 +254,11 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
                 htmlFor="hourlyRate"
                 className="block text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1.5"
               >
-                Hourly Rate <span className="text-text-light-tertiary dark:text-text-dark-tertiary font-normal">(optional)</span>
+                时薪费率 <span className="text-text-light-tertiary dark:text-text-dark-tertiary font-normal">(可选)</span>
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-light-secondary dark:text-text-dark-secondary text-xs">
-                  $
+                  ¥
                 </span>
                 <input
                   id="hourlyRate"
@@ -278,7 +278,7 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
           {startTime && endTime && (
             <div className="px-2.5 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-button border border-border-light dark:border-border-dark">
               <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                Duration:{' '}
+                持续时长:{' '}
                 <span className="font-mono font-semibold text-accent-primary">
                   {(() => {
                     const start = new Date(startTime).getTime();
@@ -286,13 +286,13 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
                     const durationSeconds = Math.floor((end - start) / 1000);
                     const hours = Math.floor(durationSeconds / 3600);
                     const minutes = Math.floor((durationSeconds % 3600) / 60);
-                    return `${hours}h ${minutes.toString().padStart(2, '0')}m`;
+                    return `${hours}小时 ${minutes.toString().padStart(2, '0')}分钟`;
                   })()}
                 </span>
               </div>
               {billable && hourlyRate && (
                 <div className="text-xs text-status-success-text font-medium mt-1">
-                  Estimated Revenue: ${(() => {
+                  预计收益: ¥{(() => {
                     const start = new Date(startTime).getTime();
                     const end = new Date(endTime).getTime();
                     const durationSeconds = Math.floor((end - start) / 1000);
@@ -311,14 +311,14 @@ export function EditTimeEntryModal({ entry, onClose }: EditTimeEntryModalProps) 
             disabled={saving}
             className="px-3 py-1.5 text-xs font-medium text-text-light-primary dark:text-text-dark-primary bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button hover:bg-surface-light dark:hover:bg-surface-dark transition-all duration-standard ease-smooth disabled:opacity-50"
           >
-            Cancel
+            取消
           </button>
           <button
             onClick={handleSave}
             disabled={saving}
             className="px-3 py-1.5 text-xs font-medium text-white dark:text-text-dark-primary bg-accent-primary rounded-button hover:opacity-90 transition-opacity disabled:opacity-50"
           >
-            {saving ? 'Saving...' : 'Save Changes'}
+            {saving ? '保存中...' : '保存修改'}
           </button>
         </div>
       </div>

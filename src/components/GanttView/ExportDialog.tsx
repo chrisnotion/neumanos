@@ -85,12 +85,12 @@ export function ExportDialog({
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border-light dark:border-border-dark">
           <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Export Timeline
+            导出甘特图时间线
           </h2>
           <button
             onClick={onClose}
             className="p-1 hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover rounded transition-colors"
-            aria-label="Close dialog"
+            aria-label="关闭对话框"
           >
             <X className="w-5 h-5 text-text-light-secondary dark:text-text-dark-secondary" />
           </button>
@@ -101,7 +101,7 @@ export function ExportDialog({
           {/* Format Selection */}
           <div>
             <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-              Export Format
+              导出格式
             </label>
             <div className="grid grid-cols-3 gap-2">
               <button
@@ -113,7 +113,7 @@ export function ExportDialog({
                 }`}
               >
                 <FileImage className="w-6 h-6" />
-                <span className="text-xs font-medium">PNG</span>
+                <span className="text-xs font-medium">PNG 图片</span>
               </button>
 
               <button
@@ -125,7 +125,7 @@ export function ExportDialog({
                 }`}
               >
                 <FileText className="w-6 h-6" />
-                <span className="text-xs font-medium">PDF</span>
+                <span className="text-xs font-medium">PDF 文档</span>
               </button>
 
               <button
@@ -137,7 +137,7 @@ export function ExportDialog({
                 }`}
               >
                 <FileSpreadsheet className="w-6 h-6" />
-                <span className="text-xs font-medium">Excel</span>
+                <span className="text-xs font-medium">Excel 表格</span>
               </button>
             </div>
           </div>
@@ -147,7 +147,7 @@ export function ExportDialog({
             <div className="space-y-3">
               <div>
                 <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-                  Orientation
+                  页面方向
                 </label>
                 <div className="flex gap-2">
                   <button
@@ -158,7 +158,7 @@ export function ExportDialog({
                         : 'border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary hover:border-accent-primary/50'
                     }`}
                   >
-                    Portrait
+                    纵向 (Portrait)
                   </button>
                   <button
                     onClick={() => setOrientation('landscape')}
@@ -168,7 +168,7 @@ export function ExportDialog({
                         : 'border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary hover:border-accent-primary/50'
                     }`}
                   >
-                    Landscape
+                    横向 (Landscape)
                   </button>
                 </div>
               </div>
@@ -181,7 +181,7 @@ export function ExportDialog({
                   className="w-4 h-4 rounded border-border-light dark:border-border-dark accent-accent-primary"
                 />
                 <span className="text-sm text-text-light-primary dark:text-text-dark-primary">
-                  Include task summary page
+                  包含任务摘要清单页
                 </span>
               </label>
             </div>
@@ -198,7 +198,7 @@ export function ExportDialog({
                   className="w-4 h-4 rounded border-border-light dark:border-border-dark accent-accent-primary"
                 />
                 <span className="text-sm text-text-light-primary dark:text-text-dark-primary">
-                  Include subtasks (indented)
+                  包含子任务（层级缩进）
                 </span>
               </label>
             </div>
@@ -215,11 +215,11 @@ export function ExportDialog({
           <div className="p-3 bg-surface-light-hover dark:bg-surface-dark-hover rounded-lg">
             <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
               {selectedFormat === 'png' &&
-                'Export as high-resolution image (2x DPI) of the current timeline view.'}
+                '以高分辨率图片 (2x DPI) 导出当前时间线甘特图视图。'}
               {selectedFormat === 'pdf' &&
-                'Export as multi-page PDF document with project metadata and optional task summary.'}
+                '导出为包含项目元信息和可选任务清单的多页 PDF 文档。'}
               {selectedFormat === 'excel' &&
-                'Export task data as Excel spreadsheet with all fields. Can be imported into MS Project.'}
+                '导出包含所有字段的任务数据为 Excel 电子表格，支持导入 MS Project。'}
             </p>
           </div>
         </div>
@@ -231,7 +231,7 @@ export function ExportDialog({
             disabled={isExporting}
             className="px-4 py-2 text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover rounded-lg transition-colors disabled:opacity-50"
           >
-            Cancel
+            取消
           </button>
           <button
             onClick={handleExport}
@@ -241,12 +241,12 @@ export function ExportDialog({
             {isExporting ? (
               <>
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Exporting...
+                正在导出...
               </>
             ) : (
               <>
                 <Download className="w-4 h-4" />
-                Export {selectedFormat.toUpperCase()}
+                导出为 {selectedFormat.toUpperCase()}
               </>
             )}
           </button>

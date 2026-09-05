@@ -40,17 +40,17 @@ interface EveningReviewProps {
 }
 
 const STEPS = [
-  { id: 'completed', label: 'Completed', icon: CheckCircle2 },
-  { id: 'incomplete', label: 'Incomplete', icon: ListTodo },
-  { id: 'reflect', label: 'Reflect', icon: Heart },
-  { id: 'shutdown', label: 'Shutdown', icon: Power },
+  { id: 'completed', label: '今日成果', icon: CheckCircle2 },
+  { id: 'incomplete', label: '未完任务', icon: ListTodo },
+  { id: 'reflect', label: '反思总结', icon: Heart },
+  { id: 'shutdown', label: '结束今天', icon: Power },
 ] as const;
 
 const MOOD_OPTIONS: Array<{ value: DailyReviewType['mood']; label: string; emoji: string }> = [
-  { value: 'great', label: 'Great', emoji: '🔥' },
-  { value: 'good', label: 'Good', emoji: '😊' },
-  { value: 'okay', label: 'Okay', emoji: '😐' },
-  { value: 'rough', label: 'Rough', emoji: '😓' },
+  { value: 'great', label: '极佳', emoji: '🔥' },
+  { value: 'good', label: '良好', emoji: '😊' },
+  { value: 'okay', label: '还行', emoji: '😐' },
+  { value: 'rough', label: '疲惫/低落', emoji: '😓' },
 ];
 
 const slideVariants = {
@@ -176,13 +176,13 @@ export const EveningReview: React.FC<EveningReviewProps> = ({
           <div className="flex items-center gap-2">
             <Moon className="w-5 h-5 text-accent-purple" />
             <h2 className="font-semibold text-text-light-primary dark:text-text-dark-primary">
-              Evening Review
+              晚间复盘
             </h2>
           </div>
           <button
             onClick={onDismiss}
             className="p-1 rounded hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated transition-colors"
-            aria-label="Dismiss"
+            aria-label="关闭"
           >
             <X className="w-4 h-4 text-text-light-tertiary dark:text-text-dark-tertiary" />
           </button>
@@ -264,14 +264,14 @@ export const EveningReview: React.FC<EveningReviewProps> = ({
             className="flex items-center gap-1 px-3 py-1.5 text-sm rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary"
           >
             <ChevronLeft className="w-4 h-4" />
-            Back
+            上一步
           </button>
           {currentStep < STEPS.length - 1 ? (
             <button
               onClick={goNext}
               className="flex items-center gap-1 px-4 py-1.5 text-sm font-medium rounded-lg bg-accent-purple text-white hover:opacity-90 transition-colors"
             >
-              Next
+              下一步
               <ChevronRight className="w-4 h-4" />
             </button>
           ) : (
@@ -280,7 +280,7 @@ export const EveningReview: React.FC<EveningReviewProps> = ({
               className="flex items-center gap-1 px-4 py-1.5 text-sm font-medium rounded-lg bg-accent-purple text-white hover:opacity-90 transition-colors"
             >
               <Power className="w-4 h-4" />
-              End Day
+              结束今天
             </button>
           )}
         </div>
@@ -305,16 +305,16 @@ const StepCompleted: React.FC<{
 }> = ({ completedTasks, tasksCompleted, tasksDue, hoursTracked }) => (
   <div>
     <h3 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-1">
-      What You Accomplished
+      今日已完成成果
     </h3>
     <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-4">
-      {tasksCompleted} of {tasksDue} tasks completed, {hoursTracked.toFixed(1)}h tracked.
+      今日规划 {tasksDue} 项任务，已完成 {tasksCompleted} 项，记录工时 {hoursTracked.toFixed(1)} 小时。
     </p>
 
     {completedTasks.length === 0 ? (
       <div className="text-center py-6 text-text-light-tertiary dark:text-text-dark-tertiary">
-        <p className="text-sm">No tasks completed today — that's okay.</p>
-        <p className="text-xs mt-1">Every day is a fresh start.</p>
+        <p className="text-sm">今天暂无已完成的任务 — 没关系，放平心态。</p>
+        <p className="text-xs mt-1">明天又是全新的一天。</p>
       </div>
     ) : (
       <div className="space-y-1.5 max-h-[200px] overflow-y-auto">
@@ -335,9 +335,9 @@ const StepCompleted: React.FC<{
 );
 
 const DECISION_OPTIONS: Array<{ value: RolloverDecision; icon: React.ReactNode; label: string; color: string }> = [
-  { value: 'move', icon: <ArrowRight className="w-3.5 h-3.5" />, label: 'Tomorrow', color: 'text-accent-blue' },
-  { value: 'reschedule', icon: <CalendarClock className="w-3.5 h-3.5" />, label: 'Later', color: 'text-accent-yellow' },
-  { value: 'drop', icon: <Trash2 className="w-3.5 h-3.5" />, label: 'Drop', color: 'text-accent-red' },
+  { value: 'move', icon: <ArrowRight className="w-3.5 h-3.5" />, label: '顺延至明天', color: 'text-accent-blue' },
+  { value: 'reschedule', icon: <CalendarClock className="w-3.5 h-3.5" />, label: '改期/稍后', color: 'text-accent-yellow' },
+  { value: 'drop', icon: <Trash2 className="w-3.5 h-3.5" />, label: '移回待办池', color: 'text-accent-red' },
 ];
 
 const StepIncomplete: React.FC<{
@@ -347,12 +347,12 @@ const StepIncomplete: React.FC<{
 }> = ({ tasks, decisions, onDecision }) => (
   <div>
     <h3 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-1">
-      Handle Incomplete Tasks
+      处理未完成任务
     </h3>
     <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-4">
       {tasks.length === 0
-        ? 'All tasks completed — nicely done!'
-        : `${tasks.length} task${tasks.length !== 1 ? 's' : ''} left. What should happen?`}
+        ? '所有任务均已完成 — 干得漂亮！'
+        : `还有 ${tasks.length} 项任务未完成。请为它们选择处理方式：`}
     </p>
 
     <div className="space-y-2 max-h-[220px] overflow-y-auto">
@@ -399,13 +399,13 @@ const StepReflect: React.FC<{
 }> = ({ mood, setMood, rating, setRating, notes, setNotes }) => (
   <div>
     <h3 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
-      How Was Your Day?
+      今天过得怎么样？
     </h3>
 
     {/* Mood */}
     <div className="mb-4">
       <label className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2 block">
-        Mood
+        心情感受
       </label>
       <div className="flex gap-2">
         {MOOD_OPTIONS.map((opt) => (
@@ -428,7 +428,7 @@ const StepReflect: React.FC<{
     {/* Productivity rating */}
     <div className="mb-4">
       <label className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2 block">
-        Productivity (1-5)
+        自我效率自评 (1-5 星)
       </label>
       <div className="flex gap-1">
         {([1, 2, 3, 4, 5] as const).map((r) => (
@@ -436,7 +436,7 @@ const StepReflect: React.FC<{
             key={r}
             onClick={() => setRating(r)}
             className="p-1 transition-colors"
-            aria-label={`Rate ${r} out of 5`}
+            aria-label={`评分 ${r} 星`}
           >
             <Star
               className={`w-6 h-6 ${
@@ -453,12 +453,12 @@ const StepReflect: React.FC<{
     {/* Journal */}
     <div>
       <label className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2 block">
-        Reflections
+        反思日记
       </label>
       <textarea
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
-        placeholder="What went well? What could be better?"
+        placeholder="今天有哪些事情进展顺利？哪些方面还可以做得更好？"
         rows={3}
         className="w-full px-3 py-2 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-lg text-text-light-primary dark:text-text-dark-primary placeholder:text-text-light-tertiary dark:placeholder:text-text-dark-tertiary outline-none focus:border-accent-primary resize-none"
       />
@@ -472,10 +472,10 @@ const StepShutdown: React.FC = () => (
       <Moon className="w-8 h-8 text-accent-purple" />
     </div>
     <h3 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-2">
-      Great work today
+      今天辛苦了，很棒的工作！
     </h3>
     <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary max-w-xs mx-auto">
-      You showed up and gave it your best. Rest well — tomorrow is a new opportunity.
+      你全情投入并付出了努力。好好休息，明天是充满无限可能的新起点。
     </p>
   </div>
 );

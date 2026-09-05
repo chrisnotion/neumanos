@@ -105,15 +105,21 @@ export const TriageInbox: React.FC<TriageInboxProps> = ({ onTaskClick }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleNext, handlePrev, handleSetPriority, handleAccept, handleSnooze]);
 
+  const priorityLabels: Record<TaskPriority, string> = {
+    low: '低',
+    medium: '中',
+    high: '高',
+  };
+
   if (remaining === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <div className="text-4xl mb-4">🎉</div>
         <h3 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-2">
-          Inbox Zero
+          收件箱已清空
         </h3>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-          All backlog tasks have been triaged. Nice work.
+          所有待办任务均已归类分流，干得漂亮！
         </p>
       </div>
     );
@@ -130,10 +136,10 @@ export const TriageInbox: React.FC<TriageInboxProps> = ({ onTaskClick }) => {
       {/* Counter */}
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-sm font-semibold text-text-light-secondary dark:text-text-dark-secondary uppercase tracking-wide">
-          Triage Inbox
+          待办分流收件箱
         </h3>
         <span className="px-3 py-1 text-sm font-medium rounded-full bg-accent-blue/10 text-accent-blue">
-          {remaining} {remaining === 1 ? 'item' : 'items'} to triage
+          剩余 {remaining} 项待分流
         </span>
       </div>
 
@@ -146,7 +152,7 @@ export const TriageInbox: React.FC<TriageInboxProps> = ({ onTaskClick }) => {
           />
         </div>
         <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1 text-right">
-          {currentIndex + 1} of {remaining}
+          第 {currentIndex + 1} 项，共 {remaining} 项
         </div>
       </div>
 
@@ -175,7 +181,7 @@ export const TriageInbox: React.FC<TriageInboxProps> = ({ onTaskClick }) => {
           {/* Metadata */}
           <div className="flex items-center gap-3 flex-wrap mb-6">
             <span className={`text-xs px-2 py-1 rounded border ${priorityColors[currentTask.priority]}`}>
-              {currentTask.priority}
+              {priorityLabels[currentTask.priority] || currentTask.priority}
             </span>
             {currentTask.tags.map((tag) => (
               <span key={tag} className="text-xs px-2 py-0.5 rounded bg-accent-blue/10 text-accent-blue">
@@ -184,11 +190,11 @@ export const TriageInbox: React.FC<TriageInboxProps> = ({ onTaskClick }) => {
             ))}
             {currentTask.dueDate && (
               <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                Due: {new Date(currentTask.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                截止: {new Date(currentTask.dueDate).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}
               </span>
             )}
             <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-              Created: {new Date(currentTask.created).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              创建: {new Date(currentTask.created).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}
             </span>
           </div>
 
@@ -196,7 +202,7 @@ export const TriageInbox: React.FC<TriageInboxProps> = ({ onTaskClick }) => {
           <div className="flex items-center gap-2 flex-wrap border-t border-border-light dark:border-border-dark pt-4">
             {/* Priority shortcuts */}
             <div className="flex items-center gap-1 mr-4">
-              <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary mr-1">Priority:</span>
+              <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary mr-1">优先级:</span>
               {(['low', 'medium', 'high'] as const).map((p, i) => (
                 <button
                   key={p}
@@ -207,7 +213,7 @@ export const TriageInbox: React.FC<TriageInboxProps> = ({ onTaskClick }) => {
                       : 'bg-surface-light dark:bg-surface-dark border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary hover:border-accent-blue'
                   }`}
                 >
-                  <kbd className="font-mono mr-1">{i + 1}</kbd>{p}
+                  <kbd className="font-mono mr-1">{i + 1}</kbd>{priorityLabels[p]}
                 </button>
               ))}
             </div>
@@ -218,23 +224,23 @@ export const TriageInbox: React.FC<TriageInboxProps> = ({ onTaskClick }) => {
             <button
               onClick={handleSnooze}
               className="px-3 py-1.5 text-sm rounded border border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors"
-              title="Snooze for 24h (s)"
+              title="推迟 24 小时 (s)"
             >
-              <kbd className="font-mono text-xs mr-1">s</kbd> Snooze
+              <kbd className="font-mono text-xs mr-1">s</kbd> 推迟
             </button>
             <button
               onClick={() => onTaskClick(currentTask)}
               className="px-3 py-1.5 text-sm rounded border border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors"
-              title="View details"
+              title="查看详情"
             >
-              Details
+              详情
             </button>
             <button
               onClick={handleAccept}
               className="px-4 py-1.5 text-sm font-medium rounded bg-accent-blue text-white hover:bg-accent-blue-hover transition-colors"
-              title="Accept & move to Todo (Enter)"
+              title="接受并移至待办 (Enter)"
             >
-              <kbd className="font-mono text-xs mr-1">↵</kbd> Accept
+              <kbd className="font-mono text-xs mr-1">↵</kbd> 移入待办
             </button>
           </div>
         </div>
@@ -247,23 +253,23 @@ export const TriageInbox: React.FC<TriageInboxProps> = ({ onTaskClick }) => {
           disabled={currentIndex === 0}
           className="px-3 py-1.5 text-sm rounded border border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         >
-          <kbd className="font-mono text-xs mr-1">k</kbd> Previous
+          <kbd className="font-mono text-xs mr-1">k</kbd> 上一项
         </button>
         <button
           onClick={handleNext}
           disabled={currentIndex >= remaining - 1}
           className="px-3 py-1.5 text-sm rounded border border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         >
-          Next <kbd className="font-mono text-xs ml-1">j</kbd>
+          下一项 <kbd className="font-mono text-xs ml-1">j</kbd>
         </button>
       </div>
 
       {/* Keyboard hints */}
       <div className="mt-6 text-center text-xs text-text-light-secondary dark:text-text-dark-secondary">
-        <kbd className="px-1.5 py-0.5 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark font-mono">j/k</kbd> navigate
-        {' '}<kbd className="px-1.5 py-0.5 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark font-mono">1-3</kbd> priority
-        {' '}<kbd className="px-1.5 py-0.5 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark font-mono">Enter</kbd> accept
-        {' '}<kbd className="px-1.5 py-0.5 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark font-mono">s</kbd> snooze
+        <kbd className="px-1.5 py-0.5 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark font-mono">j/k</kbd> 切换卡片
+        {' '}<kbd className="px-1.5 py-0.5 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark font-mono">1-3</kbd> 设置优先级
+        {' '}<kbd className="px-1.5 py-0.5 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark font-mono">Enter</kbd> 移入待办
+        {' '}<kbd className="px-1.5 py-0.5 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark font-mono">s</kbd> 推迟
       </div>
     </div>
   );

@@ -467,7 +467,7 @@ export const LinkLibrary: React.FC = () => {
 
   // Handle empty trash
   const handleEmptyTrash = useCallback(() => {
-    if (confirm('Are you sure you want to permanently delete all items in trash? This cannot be undone.')) {
+    if (confirm('确定要清空回收站吗？此操作无法撤销，所有书签将被永久删除。')) {
       emptyTrash();
     }
   }, [emptyTrash]);
@@ -541,13 +541,13 @@ export const LinkLibrary: React.FC = () => {
       <div className="flex-1 flex flex-col min-h-0 min-w-0 p-4 overflow-hidden">
         {/* Stats Bar */}
         <div className="flex items-center gap-4 mb-3 text-sm text-text-light-secondary dark:text-text-dark-secondary flex-shrink-0">
-          <span>{linkCount} links</span>
+          <span>{linkCount} 个书签</span>
           <span>•</span>
-          <span>{collectionCount} collections</span>
+          <span>{collectionCount} 个集合</span>
           {selectedLinkIds.size > 0 && (
             <>
               <span>•</span>
-              <span className="text-accent-blue">{selectedLinkIds.size} selected</span>
+              <span className="text-accent-blue">已选中 {selectedLinkIds.size} 项</span>
             </>
           )}
         </div>
@@ -560,7 +560,7 @@ export const LinkLibrary: React.FC = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search links..."
+            placeholder="搜索书签..."
             className="w-full px-4 py-2 rounded-button border border-border-light dark:border-border-dark
                        bg-surface-light dark:bg-surface-dark
                        text-text-light-primary dark:text-text-dark-primary
@@ -577,7 +577,7 @@ export const LinkLibrary: React.FC = () => {
                 : 'text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary'
               }`}
           >
-            Grid
+            网格
           </button>
           <button
             onClick={() => setViewMode('list')}
@@ -586,7 +586,7 @@ export const LinkLibrary: React.FC = () => {
                 : 'text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary'
               }`}
           >
-            List
+            列表
           </button>
         </div>
 
@@ -598,11 +598,11 @@ export const LinkLibrary: React.FC = () => {
                      bg-surface-light dark:bg-surface-dark
                      text-text-light-primary dark:text-text-dark-primary text-sm"
         >
-          <option value="createdAt">Date Added</option>
-          <option value="updatedAt">Last Updated</option>
-          <option value="title">Title</option>
-          <option value="visitCount">Most Visited</option>
-          {activeFolderId !== null && <option value="manual">Manual (Drag to reorder)</option>}
+          <option value="createdAt">添加时间</option>
+          <option value="updatedAt">最近更新</option>
+          <option value="title">书签标题</option>
+          <option value="visitCount">访问次数</option>
+          {activeFolderId !== null && <option value="manual">手动排序 (拖拽调整)</option>}
         </select>
 
         <button
@@ -610,7 +610,7 @@ export const LinkLibrary: React.FC = () => {
           className="p-2 rounded-button border border-border-light dark:border-border-dark
                      bg-surface-light dark:bg-surface-dark hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated
                      transition-colors"
-          title={sortDirection === 'asc' ? 'Sort Descending' : 'Sort Ascending'}
+          title={sortDirection === 'asc' ? '降序排列' : '升序排列'}
         >
           {sortDirection === 'asc' ? '↑' : '↓'}
         </button>
@@ -618,7 +618,7 @@ export const LinkLibrary: React.FC = () => {
         {/* Import Button */}
         <label className="px-4 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button
                          text-sm font-medium cursor-pointer transition-colors">
-          Import
+          导入书签
           <input
             type="file"
             accept=".html,.htm"
@@ -636,7 +636,7 @@ export const LinkLibrary: React.FC = () => {
                        text-text-light-primary dark:text-text-dark-primary rounded-button
                        text-sm font-medium transition-colors"
           >
-            Export
+            导出
           </button>
         )}
 
@@ -649,15 +649,15 @@ export const LinkLibrary: React.FC = () => {
                        hover:from-accent-primary-hover hover:to-accent-secondary-hover
                        text-white rounded-button text-sm font-medium transition-all
                        disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Use AI to categorize uncategorized links"
+            title="利用 AI 为未分类的书签进行智能分类"
           >
             {isCategorizing ? (
               <>
                 <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                Categorizing...
+                分类中...
               </>
             ) : (
-              'AI Categorize'
+              'AI 智能分类'
             )}
           </button>
         )}
@@ -674,9 +674,9 @@ export const LinkLibrary: React.FC = () => {
                        bg-surface-light dark:bg-surface-dark hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated
                        text-text-light-primary dark:text-text-dark-primary rounded-button
                        text-sm font-medium transition-colors"
-            title="Find and merge duplicate bookmarks"
+            title="排查并合并重复的书签"
           >
-            Find Duplicates
+            查找重复项
           </button>
         )}
 
@@ -687,7 +687,7 @@ export const LinkLibrary: React.FC = () => {
             className="px-4 py-2 bg-accent-red hover:bg-accent-red-hover text-white rounded-button
                        text-sm font-medium transition-colors"
           >
-            Delete ({selectedLinkIds.size})
+            删除 ({selectedLinkIds.size})
           </button>
         )}
 
@@ -698,7 +698,7 @@ export const LinkLibrary: React.FC = () => {
             className="px-4 py-2 bg-accent-green hover:bg-accent-green-hover text-white rounded-button
                        text-sm font-medium transition-colors"
           >
-            Restore ({selectedLinkIds.size})
+            恢复 ({selectedLinkIds.size})
           </button>
         )}
 
@@ -708,7 +708,7 @@ export const LinkLibrary: React.FC = () => {
             className="px-4 py-2 bg-accent-red hover:bg-accent-red-hover text-white rounded-button
                        text-sm font-medium transition-colors"
           >
-            Empty Trash
+            清空回收站
           </button>
         )}
       </div>
@@ -726,11 +726,11 @@ export const LinkLibrary: React.FC = () => {
           ) : importStats ? (
             <div>
               <p className="font-medium">
-                Successfully imported {importStats.imported} of {importStats.total} bookmarks!
+                成功导入 {importStats.total} 个书签中的 {importStats.imported} 个！
               </p>
               {importStats.skipped && importStats.skipped > 0 && (
                 <p className="text-sm mt-1 opacity-90">
-                  Skipped {importStats.skipped} duplicate{importStats.skipped > 1 ? 's' : ''} (already in library)
+                  已跳过 {importStats.skipped} 个重复书签（库中已存在）
                 </p>
               )}
             </div>
@@ -742,7 +742,7 @@ export const LinkLibrary: React.FC = () => {
             }}
             className="mt-2 text-sm underline"
           >
-            Dismiss
+            忽略
           </button>
         </div>
       )}
@@ -754,10 +754,10 @@ export const LinkLibrary: React.FC = () => {
             <div className="w-5 h-5 border-2 border-accent-primary/30 border-t-accent-primary rounded-full animate-spin" />
             <div className="flex-1">
               <p className="text-text-light-primary dark:text-text-dark-primary font-medium">
-                Categorizing links with AI...
+                正在使用 AI 分类书签...
               </p>
               <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                {categorizationProgress.processed} of {categorizationProgress.total} processed
+                已处理 {categorizationProgress.processed} / {categorizationProgress.total} 个
               </p>
             </div>
           </div>
@@ -782,7 +782,7 @@ export const LinkLibrary: React.FC = () => {
             onClick={() => setCategorizationError(null)}
             className="mt-2 text-sm underline"
           >
-            Dismiss
+            忽略
           </button>
         </div>
       )}
@@ -793,10 +793,10 @@ export const LinkLibrary: React.FC = () => {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="font-semibold text-text-light-primary dark:text-text-dark-primary">
-                AI Category Suggestions
+                AI 智能分类建议
               </h3>
               <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                {pendingSuggestions.length} suggestions ready for review
+                {pendingSuggestions.length} 条分类建议待审核
               </p>
             </div>
             <div className="flex gap-2">
@@ -804,7 +804,7 @@ export const LinkLibrary: React.FC = () => {
                 onClick={handleAcceptAllSuggestions}
                 className="px-3 py-1.5 bg-accent-green hover:bg-accent-green-hover text-white rounded-button text-sm font-medium transition-colors"
               >
-                Accept All
+                采纳全部
               </button>
               <button
                 onClick={handleDismissAllSuggestions}
@@ -813,7 +813,7 @@ export const LinkLibrary: React.FC = () => {
                            hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated
                            rounded-button text-sm font-medium transition-colors"
               >
-                Dismiss All
+                忽略全部
               </button>
             </div>
           </div>
@@ -843,21 +843,21 @@ export const LinkLibrary: React.FC = () => {
                         </span>
                       ))}
                       <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                        {Math.round(suggestion.confidence * 100)}% confident
+                        置信度 {Math.round(suggestion.confidence * 100)}%
                       </span>
                     </div>
                   </div>
                   <button
                     onClick={() => handleAcceptSuggestion(suggestion)}
                     className="p-2 text-accent-green hover:bg-accent-green/10 rounded transition-colors"
-                    title="Accept"
+                    title="采纳"
                   >
                     ✓
                   </button>
                   <button
                     onClick={() => handleRejectSuggestion(suggestion.linkId)}
                     className="p-2 text-accent-red hover:bg-accent-red/10 rounded transition-colors"
-                    title="Reject"
+                    title="拒绝"
                   >
                     ✕
                   </button>
@@ -875,10 +875,10 @@ export const LinkLibrary: React.FC = () => {
             <span className="text-2xl">🗑️</span>
             <div className="flex-1">
               <p className="text-text-light-primary dark:text-text-dark-primary font-medium">
-                Recently Deleted
+                最近删除
               </p>
               <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                Items here will be permanently deleted after 30 days. Restore items to keep them.
+                回收站中的内容将在 30 天后被永久删除。在此期间可随时恢复。
               </p>
             </div>
           </div>
@@ -899,28 +899,28 @@ export const LinkLibrary: React.FC = () => {
             <div className="flex flex-col items-center gap-4">
               <div className="w-12 h-12 border-4 border-accent-blue border-t-transparent rounded-full animate-spin" />
               <p className="text-text-light-secondary dark:text-text-dark-secondary">
-                Importing bookmarks...
+                正在导入书签...
               </p>
             </div>
           ) : (
             <>
               <span className="text-6xl mb-4">🔗</span>
               <h3 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary mb-2">
-                {searchQuery ? 'No links found' : 'No links yet'}
+                {searchQuery ? '未找到匹配书签' : '暂无书签'}
               </h3>
               <p className="text-text-light-secondary dark:text-text-dark-secondary text-center max-w-md mb-6">
                 {searchQuery
-                  ? `No links match "${searchQuery}"`
-                  : 'Import your browser bookmarks or add links manually to get started.'}
+                  ? `没有找到匹配 "${searchQuery}" 的书签`
+                  : '你可以导入浏览器的 HTML 书签文件，或者手动添加链接开始使用。'}
               </p>
               {!searchQuery && (
                 <div className="flex flex-col items-center gap-2">
                   <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                    Drag and drop a bookmark HTML file here, or
+                    将书签 HTML 文件拖放到此处，或者
                   </p>
                   <label className="px-6 py-3 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button
                                    text-base font-medium cursor-pointer transition-colors">
-                    Choose File
+                    选择文件
                     <input
                       type="file"
                       accept=".html,.htm"
@@ -939,7 +939,7 @@ export const LinkLibrary: React.FC = () => {
           {/* Info banner */}
           <div className="flex items-center gap-2 mb-2 px-2 py-1.5 rounded bg-accent-primary/10 text-accent-primary text-sm flex-shrink-0">
             <GripVertical className="w-4 h-4" />
-            <span>Drag items to reorder. Changes are saved automatically.</span>
+            <span>拖拽条目可调整排序，更改将自动保存。</span>
           </div>
 
           {/* DnD List */}
@@ -985,7 +985,7 @@ export const LinkLibrary: React.FC = () => {
               className="w-4 h-4"
             />
             <span className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-              Select All
+              全选
             </span>
           </div>
 
@@ -995,7 +995,7 @@ export const LinkLibrary: React.FC = () => {
               <AutoSizer renderProp={({ height, width }) => {
                 // Ensure we have valid dimensions
                 if (!height || !width || height < 100 || width < 100) {
-                  return <div style={{ height, width }}>Loading...</div>;
+                  return <div style={{ height, width }}>加载中...</div>;
                 }
 
                 if (viewMode === 'grid') {
@@ -1103,10 +1103,10 @@ export const LinkLibrary: React.FC = () => {
 
       {/* Delete Confirmation Modal */}
       {linkToDelete && (
-        <Modal isOpen={true} onClose={() => setLinkToDelete(null)} title="Delete Bookmark" maxWidth="sm">
+        <Modal isOpen={true} onClose={() => setLinkToDelete(null)} title="删除书签" maxWidth="sm">
           <div className="space-y-4">
             <p className="text-text-light-secondary dark:text-text-dark-secondary">
-              Are you sure you want to delete this bookmark?
+              确定要删除此书签吗？
             </p>
             <div className="p-3 rounded-lg bg-surface-light-elevated dark:bg-surface-dark border border-border-light dark:border-border-dark">
               <p className="font-medium text-text-light-primary dark:text-text-dark-primary truncate">
@@ -1117,14 +1117,14 @@ export const LinkLibrary: React.FC = () => {
               </p>
             </div>
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-              It will be moved to Recently Deleted and can be restored within 30 days.
+              该条目将被移入“最近删除”，并在 30 天内支持恢复。
             </p>
             <div className="flex justify-end gap-2 pt-2">
               <Button variant="secondary" onClick={() => setLinkToDelete(null)}>
-                Cancel
+                取消
               </Button>
               <Button variant="danger" onClick={confirmDeleteLink}>
-                Delete
+                删除
               </Button>
             </div>
           </div>
@@ -1133,12 +1133,12 @@ export const LinkLibrary: React.FC = () => {
 
       {/* Archive Confirmation Modal */}
       {linkToArchive && (
-        <Modal isOpen={true} onClose={() => setLinkToArchive(null)} title={linkToArchive.isArchived ? "Unarchive Bookmark" : "Archive Bookmark"} maxWidth="sm">
+        <Modal isOpen={true} onClose={() => setLinkToArchive(null)} title={linkToArchive.isArchived ? "取消归档书签" : "归档书签"} maxWidth="sm">
           <div className="space-y-4">
             <p className="text-text-light-secondary dark:text-text-dark-secondary">
               {linkToArchive.isArchived
-                ? "Are you sure you want to unarchive this bookmark? It will be restored to your library."
-                : "Are you sure you want to archive this bookmark? You can find it later in the Archived section."}
+                ? "确定要取消归档此书签吗？它将重新恢复到正常书签库列表中。"
+                : "确定要归档此书签吗？归档后仍可在“已归档”集合中随时查阅。"}
             </p>
             <div className="p-3 rounded-lg bg-surface-light-elevated dark:bg-surface-dark border border-border-light dark:border-border-dark">
               <p className="font-medium text-text-light-primary dark:text-text-dark-primary truncate">
@@ -1150,10 +1150,10 @@ export const LinkLibrary: React.FC = () => {
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <Button variant="secondary" onClick={() => setLinkToArchive(null)}>
-                Cancel
+                取消
               </Button>
               <Button variant="primary" onClick={confirmArchiveLink}>
-                {linkToArchive.isArchived ? "Unarchive" : "Archive"}
+                {linkToArchive.isArchived ? "取消归档" : "归档"}
               </Button>
             </div>
           </div>
@@ -1162,10 +1162,10 @@ export const LinkLibrary: React.FC = () => {
 
       {/* Permanent Delete Confirmation Modal (Trash View) */}
       {linkToPermanentlyDelete && (
-        <Modal isOpen={true} onClose={() => setLinkToPermanentlyDelete(null)} title="Permanently Delete" maxWidth="sm">
+        <Modal isOpen={true} onClose={() => setLinkToPermanentlyDelete(null)} title="永久删除" maxWidth="sm">
           <div className="space-y-4">
             <p className="text-text-light-secondary dark:text-text-dark-secondary">
-              Are you sure you want to permanently delete this bookmark?
+              确定要永久删除此书签吗？
             </p>
             <div className="p-3 rounded-lg bg-surface-light-elevated dark:bg-surface-dark border border-border-light dark:border-border-dark">
               <p className="font-medium text-text-light-primary dark:text-text-dark-primary truncate">
@@ -1176,14 +1176,14 @@ export const LinkLibrary: React.FC = () => {
               </p>
             </div>
             <p className="text-sm text-accent-red font-medium">
-              This action cannot be undone. The bookmark will be gone forever.
+              此操作无法撤销，书签数据将彻底从本地清除。
             </p>
             <div className="flex justify-end gap-2 pt-2">
               <Button variant="secondary" onClick={() => setLinkToPermanentlyDelete(null)}>
-                Cancel
+                取消
               </Button>
               <Button variant="danger" onClick={confirmPermanentDeleteLink}>
-                Permanently Delete
+                永久删除
               </Button>
             </div>
           </div>
@@ -1860,21 +1860,21 @@ function LinkContextMenu({ x, y, link, onClose, onEdit, onFavorite, onArchive, o
           className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-surface-light-alt dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary"
         >
           <span className="text-sm">✏️</span>
-          <span className="text-sm">Edit</span>
+          <span className="text-sm">编辑</span>
         </button>
         <button
           onClick={onFavorite}
           className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-surface-light-alt dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary"
         >
           <span className="text-sm">{link.isFavorite ? '☆' : '★'}</span>
-          <span className="text-sm">{link.isFavorite ? 'Remove from favorites' : 'Add to favorites'}</span>
+          <span className="text-sm">{link.isFavorite ? '取消收藏' : '添加收藏'}</span>
         </button>
         <button
           onClick={onArchive}
           className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-surface-light-alt dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary"
         >
           <span className="text-sm">📥</span>
-          <span className="text-sm">{link.isArchived ? 'Unarchive' : 'Archive'}</span>
+          <span className="text-sm">{link.isArchived ? '取消归档' : '归档'}</span>
         </button>
         <div className="border-t border-border-light dark:border-border-dark my-1" />
         <button
@@ -1882,7 +1882,7 @@ function LinkContextMenu({ x, y, link, onClose, onEdit, onFavorite, onArchive, o
           className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-status-error/10 text-status-error"
         >
           <span className="text-sm">🗑</span>
-          <span className="text-sm">Delete</span>
+          <span className="text-sm">删除</span>
         </button>
       </div>
     </>
@@ -1920,12 +1920,12 @@ function LinkEditModal({ link, onClose, onSave }: LinkEditModalProps) {
   };
 
   return (
-    <Modal isOpen={true} onClose={onClose} title="Edit Link" maxWidth="md">
+    <Modal isOpen={true} onClose={onClose} title="编辑书签" maxWidth="md">
       <div className="space-y-4">
         {/* Title */}
         <div>
           <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-            Title
+            标题
           </label>
           <input
             type="text"
@@ -1941,7 +1941,7 @@ function LinkEditModal({ link, onClose, onSave }: LinkEditModalProps) {
         {/* URL */}
         <div>
           <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-            URL
+            链接地址 (URL)
           </label>
           <input
             type="url"
@@ -1957,13 +1957,13 @@ function LinkEditModal({ link, onClose, onSave }: LinkEditModalProps) {
         {/* Category */}
         <div>
           <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-            Category
+            分类目录
           </label>
           <input
             type="text"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            placeholder="e.g., Development, Design, News"
+            placeholder="例如：开发、设计、资讯"
             className="w-full px-3 py-2 rounded-button border border-border-light dark:border-border-dark
                        bg-surface-light dark:bg-surface-dark
                        text-text-light-primary dark:text-text-dark-primary
@@ -1974,13 +1974,13 @@ function LinkEditModal({ link, onClose, onSave }: LinkEditModalProps) {
         {/* Tags */}
         <div>
           <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-            Tags (comma-separated)
+            标签（英文逗号分隔）
           </label>
           <input
             type="text"
             value={tagsInput}
             onChange={(e) => setTagsInput(e.target.value)}
-            placeholder="e.g., react, typescript, tutorial"
+            placeholder="例如：react, typescript, tutorial"
             className="w-full px-3 py-2 rounded-button border border-border-light dark:border-border-dark
                        bg-surface-light dark:bg-surface-dark
                        text-text-light-primary dark:text-text-dark-primary
@@ -1991,10 +1991,10 @@ function LinkEditModal({ link, onClose, onSave }: LinkEditModalProps) {
         {/* Actions */}
         <div className="flex justify-end gap-3 pt-2">
           <Button variant="outline" onClick={onClose}>
-            Cancel
+            取消
           </Button>
           <Button variant="primary" onClick={handleSave}>
-            Save Changes
+            保存修改
           </Button>
         </div>
       </div>
@@ -2051,16 +2051,16 @@ function DedupeModal({
   };
 
   return (
-    <Modal isOpen={true} onClose={onClose} title="Duplicate Links" maxWidth="lg">
+    <Modal isOpen={true} onClose={onClose} title="重复书签合并" maxWidth="lg">
       <div className="space-y-4">
         {duplicateGroups.length === 0 ? (
           <div className="text-center py-8">
             <span className="text-4xl mb-4 block">✨</span>
             <p className="text-text-light-primary dark:text-text-dark-primary font-medium">
-              No duplicates found!
+              未发现重复书签！
             </p>
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">
-              Your link library is clean.
+              你的书签库非常整洁。
             </p>
           </div>
         ) : (
@@ -2069,10 +2069,10 @@ function DedupeModal({
             <div className="flex items-center justify-between pb-2 border-b border-border-light dark:border-border-dark">
               <div>
                 <p className="text-text-light-primary dark:text-text-dark-primary font-medium">
-                  Found {duplicateGroups.length} duplicate group{duplicateGroups.length > 1 ? 's' : ''}
+                  发现 {duplicateGroups.length} 组重复书签
                 </p>
                 <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                  {duplicateGroups.reduce((acc, g) => acc + g.links.length - 1, 0)} links can be merged
+                  共可合并清理 {duplicateGroups.reduce((acc, g) => acc + g.links.length - 1, 0)} 个冗余书签
                 </p>
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
@@ -2083,7 +2083,7 @@ function DedupeModal({
                   className="w-4 h-4"
                 />
                 <span className="text-sm text-text-light-primary dark:text-text-dark-primary">
-                  Merge tags from deleted links
+                  合并被删除书签的标签
                 </span>
               </label>
             </div>
@@ -2102,7 +2102,7 @@ function DedupeModal({
                         {group.normalizedUrl}
                       </p>
                       <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                        {group.links.length} duplicates
+                        包含 {group.links.length} 个重复项
                       </p>
                     </div>
                     <Button
@@ -2110,7 +2110,7 @@ function DedupeModal({
                       size="sm"
                       onClick={() => handleMergeGroup(group)}
                     >
-                      Merge
+                      合并该组
                     </Button>
                   </div>
 
@@ -2146,7 +2146,7 @@ function DedupeModal({
                               </span>
                               {index === 0 && (
                                 <span className="px-1.5 py-0.5 text-[10px] rounded-full bg-accent-green/10 text-accent-green">
-                                  Newest
+                                  最新保存
                                 </span>
                               )}
                             </div>
@@ -2186,13 +2186,13 @@ function DedupeModal({
             {/* Footer actions */}
             <div className="flex justify-between pt-2 border-t border-border-light dark:border-border-dark">
               <Button variant="outline" onClick={onClose}>
-                Cancel
+                取消
               </Button>
               <Button
                 variant="primary"
                 onClick={onMergeAll}
               >
-                Merge All (Keep Newest)
+                合并全部（保留最新）
               </Button>
             </div>
           </>

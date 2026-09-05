@@ -50,7 +50,7 @@ export function PasswordPrompt({
     // Setup mode: Check password confirmation
     if (mode === 'setup') {
       if (password !== confirmPassword) {
-        setError('Passwords do not match. Please try again.');
+        setError('两次输入的密码不一致，请重新输入。');
         return;
       }
 
@@ -61,7 +61,7 @@ export function PasswordPrompt({
       // Unlock mode: Verify password against existing hash (async for WebCrypto)
       const hash = await hashPassword(password);
       if (hash !== existingPasswordHash) {
-        setError('Incorrect password. Please try again.');
+        setError('密码错误，请重试。');
         return;
       }
 
@@ -82,8 +82,8 @@ export function PasswordPrompt({
   };
 
   // Real-time password strength indicator
-  const getPasswordStrength = (pwd: string): { strength: 'weak' | 'medium' | 'strong'; color: string } => {
-    if (pwd.length < 12) return { strength: 'weak', color: 'text-accent-red' };
+  const getPasswordStrength = (pwd: string): { strength: 'weak' | 'medium' | 'strong'; color: string; label: string } => {
+    if (pwd.length < 12) return { strength: 'weak', color: 'text-accent-red', label: '弱' };
 
     let score = 0;
     if (pwd.length >= 16) score++;
@@ -91,9 +91,9 @@ export function PasswordPrompt({
     if (/\d/.test(pwd)) score++;
     if (/[^a-zA-Z0-9]/.test(pwd)) score++;
 
-    if (score >= 3) return { strength: 'strong', color: 'text-accent-green' };
-    if (score >= 2) return { strength: 'medium', color: 'text-accent-yellow' };
-    return { strength: 'weak', color: 'text-accent-red' };
+    if (score >= 3) return { strength: 'strong', color: 'text-accent-green', label: '强' };
+    if (score >= 2) return { strength: 'medium', color: 'text-accent-yellow', label: '中' };
+    return { strength: 'weak', color: 'text-accent-red', label: '弱' };
   };
 
   const passwordStrength = password ? getPasswordStrength(password) : null;
@@ -102,7 +102,7 @@ export function PasswordPrompt({
     <Modal
       isOpen={isOpen}
       onClose={handleCancel}
-      title={mode === 'setup' ? 'Setup Encryption Password' : 'Unlock API Keys'}
+      title={mode === 'setup' ? '设置本地加密密码' : '解锁 API 密钥'}
       maxWidth="md"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -111,23 +111,23 @@ export function PasswordPrompt({
           {mode === 'setup' ? (
             <>
               <p className="mb-2">
-                Create a strong password to encrypt your AI provider API keys. This password is:
+                创建高强度密码以加密存储您的 AI 服务商 API 密钥。该密码：
               </p>
               <ul className="list-disc list-inside space-y-1 text-xs">
-                <li>Never stored or transmitted</li>
-                <li>Required to decrypt your API keys</li>
-                <li>Cannot be recovered if forgotten</li>
+                <li>绝不会上传或在网络中明文传输</li>
+                <li>用于本地解密与访问您的密钥</li>
+                <li>若遗忘将无法找回，请妥善保管</li>
               </ul>
             </>
           ) : (
-            <p>Enter your password to decrypt and access your saved API keys.</p>
+            <p>请输入加密密码以解密并使用已保存的 API 密钥。</p>
           )}
         </div>
 
         {/* Password Input */}
         <div>
           <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-            Password
+            加密密码
           </label>
           <div className="relative">
             <input
@@ -135,7 +135,7 @@ export function PasswordPrompt({
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary transition-all duration-standard ease-smooth"
-              placeholder={mode === 'setup' ? 'Enter a strong password' : 'Enter your password'}
+              placeholder={mode === 'setup' ? '输入高强度主密码' : '输入您的加密密码'}
               required
               minLength={12}
               autoFocus
@@ -146,7 +146,7 @@ export function PasswordPrompt({
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-2 top-1/2 -translate-y-1/2 text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary text-xs"
             >
-              {showPassword ? 'Hide' : 'Show'}
+              {showPassword ? '隐藏' : '显示'}
             </button>
           </div>
 
@@ -165,7 +165,7 @@ export function PasswordPrompt({
                 />
               </div>
               <span className={`text-xs ${passwordStrength.color}`}>
-                {passwordStrength.strength.charAt(0).toUpperCase() + passwordStrength.strength.slice(1)}
+                密码强度: {passwordStrength.label}
               </span>
             </div>
           )}
@@ -175,14 +175,14 @@ export function PasswordPrompt({
         {mode === 'setup' && (
           <div>
             <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-              Confirm Password
+              确认密码
             </label>
             <input
               type={showPassword ? 'text' : 'password'}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary transition-all duration-standard ease-smooth"
-              placeholder="Re-enter your password"
+              placeholder="再次输入以确认"
               required
               minLength={12}
               autoComplete="new-password"
@@ -194,19 +194,19 @@ export function PasswordPrompt({
         {mode === 'setup' && (
           <div>
             <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-              Password Expiry
+              会话记住时长
             </label>
             <select
               value={duration}
               onChange={(e) => setDuration(e.target.value as 'daily' | 'weekly' | 'monthly')}
               className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary transition-all duration-standard ease-smooth"
             >
-              <option value="daily">Daily (re-enter every day)</option>
-              <option value="weekly">Weekly (re-enter every 7 days)</option>
-              <option value="monthly">Monthly (re-enter every 30 days)</option>
+              <option value="daily">每天 (次日需重新输入)</option>
+              <option value="weekly">每周 (每 7 天重新验证)</option>
+              <option value="monthly">每月 (每 30 天重新验证)</option>
             </select>
             <p className="mt-1 text-xs text-text-light-secondary dark:text-text-dark-secondary">
-              You'll be prompted to re-enter your password when it expires. More frequent = more secure.
+              会话到期后将提示重新输入密码。验证越频繁越安全。
             </p>
           </div>
         )}
@@ -222,13 +222,13 @@ export function PasswordPrompt({
         {mode === 'setup' && (
           <div className="p-3 bg-accent-blue/10 border border-accent-blue/20 rounded-button">
             <p className="text-xs font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-              Password Tips:
+              安全密码建议：
             </p>
             <ul className="text-xs text-text-light-secondary dark:text-text-dark-secondary space-y-0.5">
-              <li>• Use at least 12 characters (16+ recommended)</li>
-              <li>• Mix uppercase, lowercase, numbers, and symbols</li>
-              <li>• Use a password manager to generate and store it</li>
-              <li>• Never reuse this password elsewhere</li>
+              <li>• 长度至少 12 位（推荐 16 位以上）</li>
+              <li>• 混合大小写字母、数字及特殊符号</li>
+              <li>• 建议使用密码管理器生成与托管</li>
+              <li>• 请勿与其他网站重复使用同一密码</li>
             </ul>
           </div>
         )}
@@ -240,13 +240,13 @@ export function PasswordPrompt({
             onClick={handleCancel}
             className="flex-1 px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark border border-border-light dark:border-border-dark rounded-button text-text-light-primary dark:text-text-dark-primary transition-all duration-standard ease-smooth"
           >
-            Cancel
+            取消
           </button>
           <button
             type="submit"
             className="flex-1 px-4 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button transition-all duration-standard ease-smooth font-medium"
           >
-            {mode === 'setup' ? 'Create Password' : 'Unlock'}
+            {mode === 'setup' ? '创建密码' : '解锁'}
           </button>
         </div>
       </form>

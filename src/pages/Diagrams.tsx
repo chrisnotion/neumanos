@@ -31,7 +31,7 @@ export function DiagramsContent() {
   const [diagramToDelete, setDiagramToDelete] = useState<string | null>(null);
 
   const handleCreateDiagram = () => {
-    const newDiagram = createDiagram('Untitled Diagram');
+    const newDiagram = createDiagram('未命名图表');
     navigate(`/diagrams/${newDiagram.id}`);
   };
 
@@ -86,10 +86,10 @@ export function DiagramsContent() {
       <header className="flex items-center justify-between p-4 border-b border-border-light dark:border-border-dark">
         <div>
           <h2 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">
-            Diagrams
+            架构图与流程图
           </h2>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">
-            {sortedDiagrams.length} {sortedDiagrams.length === 1 ? 'diagram' : 'diagrams'}
+            共 {sortedDiagrams.length} 个图表
           </p>
         </div>
 
@@ -99,7 +99,7 @@ export function DiagramsContent() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-light-tertiary dark:text-text-dark-tertiary" />
             <input
               type="text"
-              placeholder="Search diagrams..."
+              placeholder="搜索图表..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 pr-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent-primary"
@@ -115,7 +115,8 @@ export function DiagramsContent() {
                   ? 'bg-accent-blue dark:bg-accent-blue text-white'
                   : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
               }`}
-              aria-label="Grid view"
+              aria-label="网格视图"
+              title="网格视图"
             >
               <Grid3x3 className="w-4 h-4" />
             </button>
@@ -126,7 +127,8 @@ export function DiagramsContent() {
                   ? 'bg-accent-blue dark:bg-accent-blue text-white'
                   : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
               }`}
-              aria-label="List view"
+              aria-label="列表视图"
+              title="列表视图"
             >
               <List className="w-4 h-4" />
             </button>
@@ -138,14 +140,14 @@ export function DiagramsContent() {
             className="flex items-center gap-2 px-4 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-light-primary dark:text-text-dark-primary rounded-lg hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated transition-colors"
           >
             <FileText className="w-4 h-4" />
-            From Template
+            从模板创建
           </button>
           <button
             onClick={handleCreateDiagram}
             className="flex items-center gap-2 px-4 py-2 bg-accent-blue dark:bg-accent-blue text-white rounded-lg hover:bg-accent-blue-hover transition-colors"
           >
             <Plus className="w-4 h-4" />
-            New Diagram
+            新建图表
           </button>
         </div>
       </header>
@@ -166,12 +168,12 @@ export function DiagramsContent() {
               <Grid3x3 className="w-12 h-12 text-text-light-tertiary dark:text-text-dark-tertiary" />
             </div>
             <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary mb-2">
-              {searchQuery ? 'No diagrams found' : 'No diagrams yet'}
+              {searchQuery ? '未找到匹配图表' : '暂无图表'}
             </h2>
             <p className="text-text-light-secondary dark:text-text-dark-secondary mb-6 max-w-md">
               {searchQuery
-                ? 'Try adjusting your search query'
-                : 'Create your first diagram to visualize ideas, plan projects, or document workflows'}
+                ? '请尝试调整搜索关键词'
+                : '创建您的首个流程图或架构图，将构思、系统与项目流程可视化呈现'}
             </p>
             {!searchQuery && (
               <button
@@ -179,7 +181,7 @@ export function DiagramsContent() {
                 className="flex items-center gap-2 px-6 py-3 bg-accent-blue dark:bg-accent-blue text-white rounded-lg hover:bg-accent-blue-hover transition-colors"
               >
                 <Plus className="w-5 h-5" />
-                Create Your First Diagram
+                创建您的首个图表
               </button>
             )}
           </div>
@@ -216,9 +218,9 @@ export function DiagramsContent() {
         isOpen={diagramToDelete !== null}
         onClose={() => setDiagramToDelete(null)}
         onConfirm={confirmDeleteDiagram}
-        title="Delete Diagram"
-        message="Are you sure you want to delete this diagram?"
-        confirmText="Delete"
+        title="删除图表"
+        message="确定要彻底删除该图表吗？此操作无法撤销。"
+        confirmText="删除"
         variant="danger"
       />
     </>
@@ -275,8 +277,8 @@ function DiagramCard({ diagram, onOpen, onDelete, onDuplicate }: DiagramCardProp
           {diagram.title}
         </h3>
         <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-          {diagram.elements.length} {diagram.elements.length === 1 ? 'element' : 'elements'} •{' '}
-          {new Date(diagram.updatedAt).toLocaleDateString()}
+          {diagram.elements.length} 个元素 •{' '}
+          {new Date(diagram.updatedAt).toLocaleDateString('zh-CN')}
         </p>
 
         {/* Actions (show on hover) */}
@@ -288,7 +290,7 @@ function DiagramCard({ diagram, onOpen, onDelete, onDuplicate }: DiagramCardProp
             }}
             className="flex-1 px-2 py-1 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated rounded hover:bg-surface-light dark:hover:bg-surface-dark"
           >
-            Duplicate
+            创建副本
           </button>
           <button
             onClick={(e) => {
@@ -297,7 +299,7 @@ function DiagramCard({ diagram, onOpen, onDelete, onDuplicate }: DiagramCardProp
             }}
             className="flex-1 px-2 py-1 text-xs bg-accent-red/10 text-accent-red rounded hover:bg-accent-red/20"
           >
-            Delete
+            删除
           </button>
         </div>
       </div>
@@ -327,7 +329,7 @@ function DiagramListItem({ diagram, onOpen, onDelete, onDuplicate }: DiagramCard
           {diagram.title}
         </h3>
         <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-          {diagram.elements.length} elements • Updated {new Date(diagram.updatedAt).toLocaleDateString()}
+          {diagram.elements.length} 个元素 • 更新于 {new Date(diagram.updatedAt).toLocaleDateString('zh-CN')}
         </p>
       </div>
 
@@ -340,7 +342,7 @@ function DiagramListItem({ diagram, onOpen, onDelete, onDuplicate }: DiagramCard
           }}
           className="px-3 py-1 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated rounded hover:bg-surface-light dark:hover:bg-surface-dark"
         >
-          Duplicate
+          创建副本
         </button>
         <button
           onClick={(e) => {
@@ -349,7 +351,7 @@ function DiagramListItem({ diagram, onOpen, onDelete, onDuplicate }: DiagramCard
           }}
           className="px-3 py-1 text-sm bg-accent-red/10 text-accent-red rounded hover:bg-accent-red/20"
         >
-          Delete
+          删除
         </button>
       </div>
     </div>

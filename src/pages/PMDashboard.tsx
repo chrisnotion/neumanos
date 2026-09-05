@@ -131,8 +131,8 @@ export function PMDashboard() {
   // Get selected project name
   const selectedProjectName =
     selectedProjectId === 'all'
-      ? 'All Projects'
-      : projects.find((p) => p.id === selectedProjectId)?.name || 'All Projects';
+      ? '全部项目'
+      : projects.find((p) => p.id === selectedProjectId)?.name || '全部项目';
 
   return (
     <PageContent page="pm-dashboard">
@@ -141,7 +141,7 @@ export function PMDashboard() {
         <div className="flex items-center gap-3">
           <BarChart3 className="w-6 h-6 text-accent-primary" />
           <h1 className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
-            PM Dashboard
+            项目管理仪表盘
           </h1>
         </div>
 
@@ -176,7 +176,7 @@ export function PMDashboard() {
                       : 'text-text-light-primary dark:text-text-dark-primary'
                   }`}
                 >
-                  All Projects
+                  全部项目
                 </button>
                 {projects
                   .filter((p) => !p.archivedAt)
@@ -210,7 +210,7 @@ export function PMDashboard() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-xl border border-border-light dark:border-border-dark">
           <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1">
-            Total Tasks
+            总任务数
           </p>
           <p className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
             {stats.total}
@@ -218,7 +218,7 @@ export function PMDashboard() {
         </div>
         <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-xl border border-border-light dark:border-border-dark">
           <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1">
-            Completed
+            已完成
           </p>
           <p className="text-2xl font-bold text-status-success">
             {stats.completed}
@@ -226,7 +226,7 @@ export function PMDashboard() {
         </div>
         <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-xl border border-border-light dark:border-border-dark">
           <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1">
-            In Progress
+            进行中
           </p>
           <p className="text-2xl font-bold text-accent-primary">
             {stats.inProgress}
@@ -234,7 +234,7 @@ export function PMDashboard() {
         </div>
         <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-xl border border-border-light dark:border-border-dark">
           <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1">
-            Overdue
+            已逾期
           </p>
           <p className="text-2xl font-bold text-status-error">
             {stats.overdue}
@@ -255,7 +255,7 @@ export function PMDashboard() {
         <div className="bento-card p-4">
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3 flex items-center gap-2">
             <BarChart3 className="w-4 h-4" />
-            Sprint Burndown
+            迭代燃尽图
           </h3>
           <BurndownChart
             tasks={filteredTasks}
@@ -269,7 +269,7 @@ export function PMDashboard() {
         <div className="bento-card p-4">
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3 flex items-center gap-2">
             <Activity className="w-4 h-4" />
-            Resource Utilization
+            资源负载与利用率
           </h3>
           <ResourceUtilizationChart height={200} />
         </div>
@@ -277,11 +277,11 @@ export function PMDashboard() {
         <div className="bento-card p-4">
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3 flex items-center gap-2">
             <Calendar className="w-4 h-4" />
-            Upcoming Deadlines
+            临近截止任务
           </h3>
           {upcomingDeadlines.length === 0 ? (
             <p className="text-sm text-text-light-tertiary dark:text-text-dark-tertiary py-8 text-center">
-              No upcoming deadlines
+              暂无临近截止的任务
             </p>
           ) : (
             <div className="space-y-2">
@@ -307,7 +307,7 @@ export function PMDashboard() {
                           : 'bg-status-info/10 text-status-info'
                     }`}
                   >
-                    {task.priority}
+                    {task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}
                   </span>
                 </div>
               ))}
@@ -319,11 +319,11 @@ export function PMDashboard() {
         <div className="bento-card p-4">
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3 flex items-center gap-2">
             <Clock className="w-4 h-4" />
-            Recent Activity
+            近期动态
           </h3>
           {recentActivity.length === 0 ? (
             <p className="text-sm text-text-light-tertiary dark:text-text-dark-tertiary py-8 text-center">
-              No recent activity
+              暂无近期活动记录
             </p>
           ) : (
             <div className="space-y-2 max-h-48 overflow-y-auto">
@@ -357,11 +357,11 @@ export function PMDashboard() {
         <div className="bento-card p-4">
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3 flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-status-warning" />
-            Blocked Tasks
+            受阻被阻塞任务
           </h3>
           {blockedTasks.length === 0 ? (
             <p className="text-sm text-text-light-tertiary dark:text-text-dark-tertiary py-8 text-center">
-              No blocked tasks
+              暂无受阻任务
             </p>
           ) : (
             <div className="space-y-2">
@@ -376,8 +376,7 @@ export function PMDashboard() {
                     </p>
                     {task.dependencies && task.dependencies.length > 0 && (
                       <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-                        Blocked by {task.dependencies.length} task
-                        {task.dependencies.length !== 1 ? 's' : ''}
+                        受 {task.dependencies.length} 项前置任务阻塞
                       </p>
                     )}
                   </div>

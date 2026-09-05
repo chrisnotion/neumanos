@@ -133,9 +133,9 @@ export function PomodoroTimer() {
   const currentStyles = modeStyles[mode];
 
   const modeLabels = {
-    focus: 'Focus Session',
-    shortBreak: 'Short Break',
-    longBreak: 'Long Break',
+    focus: '专注模式',
+    shortBreak: '短休息',
+    longBreak: '长休息',
   };
 
   return (
@@ -167,7 +167,7 @@ export function PomodoroTimer() {
             <button
               onClick={() => usePomodoroStore.getState().unlinkTask()}
               className="ml-1 p-0.5 rounded hover:bg-accent-primary/20 text-accent-primary transition-colors"
-              title="Unlink task"
+              title="解除任务关联"
             >
               <Unlink className="w-3.5 h-3.5" />
             </button>
@@ -179,7 +179,7 @@ export function PomodoroTimer() {
               className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg bg-surface-light-secondary/50 dark:bg-surface-dark-secondary/50 border border-border-light dark:border-border-dark hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated transition-colors text-text-light-secondary dark:text-text-dark-secondary"
             >
               <Link2 className="w-4 h-4" />
-              Link to Task
+              关联任务
             </button>
             {showTaskPicker && (
               <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-lg shadow-xl z-20 p-2">
@@ -189,7 +189,7 @@ export function PomodoroTimer() {
                     type="text"
                     value={taskSearch}
                     onChange={(e) => setTaskSearch(e.target.value)}
-                    placeholder="Search tasks..."
+                    placeholder="搜索任务..."
                     className="w-full pl-8 pr-3 py-2 text-sm bg-surface-light-elevated dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-md focus:outline-none focus:ring-2 focus:ring-accent-primary text-text-light-primary dark:text-text-dark-primary placeholder-text-light-tertiary dark:placeholder-text-dark-tertiary"
                     autoFocus
                   />
@@ -197,7 +197,7 @@ export function PomodoroTimer() {
                 <div className="max-h-48 overflow-y-auto space-y-0.5">
                   {filteredTasks.length === 0 ? (
                     <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary text-center py-3">
-                      No tasks found
+                      未找到相关任务
                     </p>
                   ) : (
                     filteredTasks.map((task) => (
@@ -256,12 +256,12 @@ export function PomodoroTimer() {
           </p>
           {isRunning && !isPaused && (
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-2">
-              Running...
+              进行中...
             </p>
           )}
           {isPaused && (
             <p className="text-sm text-status-warning mt-2">
-              Paused
+              已暂停
             </p>
           )}
         </div>
@@ -275,7 +275,7 @@ export function PomodoroTimer() {
             className="flex items-center gap-2 px-6 py-3 bg-accent-primary text-white rounded-lg hover:opacity-90 transition-opacity"
           >
             <Play className="w-5 h-5" fill="currentColor" />
-            Start
+            开始专注
           </button>
         )}
 
@@ -285,7 +285,7 @@ export function PomodoroTimer() {
             className="flex items-center gap-2 px-6 py-3 bg-status-warning text-white rounded-lg hover:opacity-90 transition-opacity"
           >
             <Pause className="w-5 h-5" />
-            Pause
+            暂停
           </button>
         )}
 
@@ -295,7 +295,7 @@ export function PomodoroTimer() {
             className="flex items-center gap-2 px-6 py-3 bg-accent-primary text-white rounded-lg hover:opacity-90 transition-opacity"
           >
             <Play className="w-5 h-5" fill="currentColor" />
-            Resume
+            继续
           </button>
         )}
 
@@ -305,7 +305,7 @@ export function PomodoroTimer() {
             className="flex items-center gap-2 px-4 py-3 bg-status-error text-white rounded-lg hover:opacity-90 transition-opacity"
           >
             <Square className="w-5 h-5" />
-            Stop
+            结束
           </button>
         )}
 
@@ -314,7 +314,7 @@ export function PomodoroTimer() {
           className="flex items-center gap-2 px-4 py-3 bg-surface-light-secondary dark:bg-surface-dark-secondary text-text-light-primary dark:text-text-dark-primary rounded-lg hover:bg-surface-light-tertiary dark:hover:bg-surface-dark-tertiary transition-colors"
         >
           <SkipForward className="w-5 h-5" />
-          Skip
+          跳过
         </button>
       </div>
 
@@ -325,7 +325,7 @@ export function PomodoroTimer() {
             {sessionsCompleted} / {pomodoroSettings.sessionsUntilLongBreak}
           </p>
           <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
-            Sessions until long break
+            距离长休息轮次
           </p>
         </div>
         <div className="text-center p-4 bg-surface-light-secondary/50 dark:bg-surface-dark-secondary/50 rounded-lg border border-border-light dark:border-border-dark">
@@ -333,7 +333,7 @@ export function PomodoroTimer() {
             {totalSessionsToday}
           </p>
           <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
-            Focus sessions today
+            今日完成番茄钟
           </p>
         </div>
       </div>
@@ -343,7 +343,7 @@ export function PomodoroTimer() {
         className="flex items-center gap-2 text-sm text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors"
       >
         <Settings className="w-4 h-4" />
-        Pomodoro Settings
+        番茄钟设置
       </button>
     </div>
   );

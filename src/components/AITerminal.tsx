@@ -870,7 +870,7 @@ export const AITerminal: React.FC = () => {
             {/* Preview Toggle Bar */}
             <div className="flex items-center justify-between px-2 py-1 bg-surface-dark-elevated border-b border-border-dark flex-shrink-0">
               <span className="text-xs text-text-dark-secondary">
-                {phantomStore.isDevServerRunning ? '🟢 Server running' : '⚫ No server'}
+                {phantomStore.isDevServerRunning ? '🟢 开发服务运行中' : '⚫ 无运行中的服务'}
               </span>
               <button
                 onClick={() => phantomStore.setShowPreview(!phantomStore.showPreview)}
@@ -879,9 +879,9 @@ export const AITerminal: React.FC = () => {
                     ? 'bg-accent-primary/20 text-accent-primary'
                     : 'text-text-dark-secondary hover:text-accent-primary'
                 }`}
-                title="Toggle Preview Pane"
+                title="切换预览面板"
               >
-                {phantomStore.showPreview ? '👁 Hide' : '👁 Show'} Preview
+                {phantomStore.showPreview ? '👁 隐藏' : '👁 显示'} 预览
               </button>
             </div>
 
@@ -1499,12 +1499,12 @@ export const AITerminal: React.FC = () => {
         <div className="absolute top-12 right-0 w-80 max-h-[70vh] bg-white dark:bg-surface-dark-elevated border-l border-border-light dark:border-border-dark shadow-xl overflow-hidden flex flex-col">
           <div className="p-3 border-b border-border-light dark:border-border-dark flex items-center justify-between bg-surface-light dark:bg-surface-dark flex-shrink-0">
             <h3 className="font-semibold text-sm text-text-light-primary dark:text-text-dark-primary">
-              Select Model
+              选择模型
             </h3>
             <button
               onClick={() => setShowModelSelector(false)}
               className="p-1 hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated rounded-button"
-              aria-label="Close model selector"
+              aria-label="关闭模型选择"
             >
               ✕
             </button>
@@ -1528,12 +1528,12 @@ export const AITerminal: React.FC = () => {
         <div className="absolute top-12 right-0 w-80 max-h-[70vh] bg-white dark:bg-surface-dark-elevated border-l border-border-light dark:border-border-dark shadow-xl overflow-hidden flex flex-col">
           <div className="p-3 border-b border-border-light dark:border-border-dark flex items-center justify-between bg-surface-light dark:bg-surface-dark flex-shrink-0">
             <h3 className="font-semibold text-sm text-text-light-primary dark:text-text-dark-primary">
-              Usage Tracker
+              Token 用量追踪
             </h3>
             <button
               onClick={() => setShowUsageTracker(false)}
               className="p-1 hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated rounded-button"
-              aria-label="Close usage tracker"
+              aria-label="关闭用量追踪"
             >
               ✕
             </button>

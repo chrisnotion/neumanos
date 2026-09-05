@@ -65,7 +65,7 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
   // Get folder name for display
   const folderName = activeFolderId && folders[activeFolderId]
     ? folders[activeFolderId].name
-    : 'All Notes';
+    : '所有笔记';
 
   // Handle export
   const handleExport = async () => {
@@ -81,10 +81,10 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
       if (exportScope === 'single') {
         // Single note export
         if (!activeNote) {
-          throw new Error('No note selected');
+          throw new Error('未选择任何笔记');
         }
 
-        setExportProgress('Converting note to markdown...');
+        setExportProgress('正在将笔记转换为 Markdown...');
         const markdown = exportNoteToMarkdown(activeNote, allNotesMap, allFolders);
         const filename = getMarkdownFilename(activeNote);
 
@@ -106,16 +106,16 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
             : allNotes.filter((n) => includeArchived || !n.isArchived);
 
         if (notesToExport.length === 0) {
-          throw new Error('No notes to export');
+          throw new Error('没有可导出的笔记');
         }
 
         // Show progress for large exports
         const totalNotes = notesToExport.length;
         if (totalNotes > 50) {
-          setExportProgress(`Preparing to export ${totalNotes} notes...`);
+          setExportProgress(`正在准备导出 ${totalNotes} 篇笔记...`);
         }
 
-        setExportProgress(`Exporting ${totalNotes} notes...`);
+        setExportProgress(`正在导出 ${totalNotes} 篇笔记...`);
 
         // Create ZIP with folder structure (if enabled)
         const zip = await exportNotesWithFolders(notesToExport, allFolders);
@@ -132,11 +132,11 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
         });
 
         // Success message
-        setExportProgress(`Successfully exported ${totalNotes} notes!`);
+        setExportProgress(`成功导出 ${totalNotes} 篇笔记！`);
         setTimeout(() => onClose(), 1500); // Close after brief success message
       }
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Export failed';
+      const message = err instanceof Error ? err.message : '导出失败';
       log.error('Export failed', { error: err });
       setError(message);
     } finally {
@@ -150,14 +150,13 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
   const getPreviewText = () => {
     const count = noteCounts[exportScope];
     if (count === 0) {
-      if (exportScope === 'single') return 'No note selected';
-      if (exportScope === 'folder') return 'No notes in this folder';
-      return 'No notes to export';
+      if (exportScope === 'single') return '未选择笔记';
+      if (exportScope === 'folder') return '此文件夹下无笔记';
+      return '没有可导出的笔记';
     }
 
-    const noteText = count === 1 ? 'note' : 'notes';
-    const scopeLabel = exportScope === 'single' ? '' : ` from ${exportScope === 'folder' ? folderName : 'all folders'}`;
-    return `${count} ${noteText} will be exported${scopeLabel}`;
+    const scopeLabel = exportScope === 'single' ? '' : `（来自 ${exportScope === 'folder' ? `"${folderName}"` : '所有文件夹'}）`;
+    return `将导出 ${count} 篇笔记${scopeLabel}`;
   };
 
   const canExport = noteCounts[exportScope] > 0;
@@ -176,13 +175,13 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
           <div className="flex items-center gap-2">
             <FileDown className="w-5 h-5 text-accent-blue" />
             <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary">
-              Export Notes
+              导出笔记
             </h2>
           </div>
           <button
             onClick={onClose}
             className="p-2 hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated rounded-button transition-colors"
-            aria-label="Close"
+            aria-label="关闭"
           >
             <X className="w-5 h-5 text-text-light-secondary dark:text-text-dark-secondary" />
           </button>
@@ -193,7 +192,7 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
           {/* Export Scope Selection */}
           <div>
             <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-3">
-              What to export?
+              导出范围
             </label>
             <div className="space-y-2">
               {/* Single Note Option */}
@@ -215,10 +214,10 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
                 />
                 <div className="flex-1">
                   <div className="font-medium text-text-light-primary dark:text-text-dark-primary">
-                    Current note
+                    当前笔记
                   </div>
                   <div className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                    {activeNote ? `Export "${activeNote.title}"` : 'No note selected'}
+                    {activeNote ? `导出 "${activeNote.title}"` : '未选择任何笔记'}
                   </div>
                 </div>
               </label>
@@ -242,10 +241,10 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
                 <div className="flex-1">
                   <div className="font-medium text-text-light-primary dark:text-text-dark-primary flex items-center gap-2">
                     <FolderOpen className="w-4 h-4" />
-                    Current folder
+                    当前文件夹
                   </div>
                   <div className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                    Export all notes in "{folderName}"
+                    导出 "{folderName}" 中的所有笔记
                   </div>
                 </div>
               </label>
@@ -268,10 +267,10 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
                 />
                 <div className="flex-1">
                   <div className="font-medium text-text-light-primary dark:text-text-dark-primary">
-                    All notes
+                    全部笔记
                   </div>
                   <div className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                    Export entire notes library with full folder hierarchy
+                    导出整个笔记库，保留完整的文件夹层级结构
                   </div>
                 </div>
               </label>
@@ -282,7 +281,7 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
           {exportScope !== 'single' && (
             <div className="space-y-3">
               <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-                Export options
+                附加选项
               </label>
 
               {/* Include Folder Structure */}
@@ -295,10 +294,10 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
                 />
                 <div className="flex-1">
                   <div className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-                    Include folder structure
+                    保留文件夹层级
                   </div>
                   <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                    Preserve folder hierarchy in ZIP export
+                    在导出的 ZIP 压缩包中保持目录层级结构
                   </div>
                 </div>
               </label>
@@ -313,10 +312,10 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
                 />
                 <div className="flex-1">
                   <div className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-                    Include archived notes
+                    包含已归档的笔记
                   </div>
                   <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                    Export archived notes along with active notes
+                    将已归档的历史笔记一同导出
                   </div>
                 </div>
               </label>
@@ -334,8 +333,8 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
             {exportScope !== 'single' && (
               <div className="mt-2 text-xs text-text-light-secondary dark:text-text-dark-secondary">
                 {includeFolderStructure
-                  ? 'ZIP file will preserve folder structure'
-                  : 'All notes will be exported to a single folder'}
+                  ? 'ZIP 压缩包将保留完整文件夹层级'
+                  : '所有笔记将被解压平铺在同一文件夹下'}
               </div>
             )}
           </div>
@@ -368,7 +367,7 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
             disabled={isExporting}
             className="px-4 py-2 rounded-button text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary border border-border-light dark:border-border-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Cancel
+            取消
           </button>
           <button
             onClick={handleExport}
@@ -376,7 +375,7 @@ export function ExportNotesModal({ isOpen, onClose }: ExportNotesModalProps) {
             className="px-4 py-2 rounded-button text-sm font-medium bg-accent-blue hover:bg-accent-blue-hover text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             <FileDown className="w-4 h-4" />
-            Export Notes
+            导出笔记
           </button>
         </div>
       </div>

@@ -69,10 +69,8 @@ export function TemplateSettings() {
       {/* Template Count Summary */}
       <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg border border-border-light dark:border-border-dark">
         <p className="text-sm text-text-light-primary dark:text-text-dark-primary">
-          <span className="font-semibold">{customTemplates.length}</span> custom template
-          {customTemplates.length !== 1 ? 's' : ''},{' '}
-          <span className="font-semibold">{builtInTemplates.length}</span> built-in template
-          {builtInTemplates.length !== 1 ? 's' : ''}
+          共有 <span className="font-semibold">{customTemplates.length}</span> 个自定义模板，{' '}
+          <span className="font-semibold">{builtInTemplates.length}</span> 个系统内置模板
         </p>
       </div>
 
@@ -80,20 +78,20 @@ export function TemplateSettings() {
       {showVariableReference && (
         <div className="p-4 bg-surface-light dark:bg-surface-dark rounded-lg border border-border-light dark:border-border-dark">
           <h4 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-            Available Template Variables
+            可用模板插值变量
           </h4>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border-light dark:border-border-dark">
                   <th className="text-left py-2 pr-4 text-text-light-secondary dark:text-text-dark-secondary font-medium">
-                    Variable
+                    变量占位符
                   </th>
                   <th className="text-left py-2 pr-4 text-text-light-secondary dark:text-text-dark-secondary font-medium">
-                    Description
+                    含义说明
                   </th>
                   <th className="text-left py-2 text-text-light-secondary dark:text-text-dark-secondary font-medium">
-                    Example
+                    替换示例
                   </th>
                 </tr>
               </thead>
@@ -126,7 +124,7 @@ export function TemplateSettings() {
       {customTemplates.length > 0 && (
         <div>
           <h4 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-            Your Custom Templates
+            我的自定义模板
           </h4>
           <div className="space-y-2">
             {customTemplates.map((template) => (
@@ -146,8 +144,7 @@ export function TemplateSettings() {
                       {template.category}
                       {template.defaultTags && template.defaultTags.length > 0 && (
                         <span className="ml-2">
-                          • {template.defaultTags.length} default tag
-                          {template.defaultTags.length !== 1 ? 's' : ''}
+                          • {template.defaultTags.length} 个默认标签
                         </span>
                       )}
                     </p>
@@ -157,18 +154,18 @@ export function TemplateSettings() {
                   <button
                     onClick={() => setShowTemplateLibrary(true)}
                     className="px-3 py-1.5 bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded hover:bg-border-light dark:hover:bg-border-dark transition-colors flex items-center gap-1 text-sm"
-                    title="Edit template"
+                    title="编辑模板"
                   >
                     <Edit2 className="w-3.5 h-3.5" />
-                    Edit
+                    编辑
                   </button>
                   <button
                     onClick={() => handleDeleteTemplate(template)}
                     className="px-3 py-1.5 bg-accent-red/10 text-accent-red rounded hover:bg-accent-red/20 transition-colors flex items-center gap-1 text-sm"
-                    title="Delete template"
+                    title="删除模板"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
-                    Delete
+                    删除
                   </button>
                 </div>
               </div>
@@ -182,13 +179,13 @@ export function TemplateSettings() {
         <div className="text-center py-8 px-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg border border-border-light dark:border-border-dark">
           <FileText className="w-12 h-12 mx-auto mb-3 text-text-light-tertiary dark:text-text-dark-tertiary" />
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-4">
-            You haven't created any custom templates yet.
+            您尚未创建任何自定义模板。
           </p>
           <button
             onClick={() => setShowTemplateLibrary(true)}
             className="px-6 py-2 bg-accent-blue text-white rounded-lg hover:bg-accent-blue-hover transition-colors font-medium"
           >
-            Create Your First Template
+            创建首个模板
           </button>
         </div>
       )}
@@ -205,9 +202,9 @@ export function TemplateSettings() {
           isOpen={true}
           onClose={() => setDeleteConfirmTemplate(null)}
           onConfirm={confirmDelete}
-          title="Delete Template"
-          message={`Are you sure you want to delete the template "${deleteConfirmTemplate.name}"? This action cannot be undone.`}
-          confirmText="Delete"
+          title="删除模板"
+          message={`确定要删除模板“${deleteConfirmTemplate.name}”吗？此操作无法撤销。`}
+          confirmText="删除"
           variant="danger"
         />
       )}

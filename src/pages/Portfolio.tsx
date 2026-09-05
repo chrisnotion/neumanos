@@ -155,21 +155,21 @@ function ProjectCard({ summary }: { summary: ProjectSummary }) {
       <div className="grid grid-cols-4 gap-2 text-xs mb-3">
         <div className="text-center">
           <div className="font-semibold text-text-light-primary dark:text-text-dark-primary">{openCount}</div>
-          <div className="text-text-light-secondary dark:text-text-dark-secondary">Open</div>
+          <div className="text-text-light-secondary dark:text-text-dark-secondary">未开始</div>
         </div>
         <div className="text-center">
           <div className="font-semibold text-accent-blue">{inProgressCount}</div>
-          <div className="text-text-light-secondary dark:text-text-dark-secondary">Active</div>
+          <div className="text-text-light-secondary dark:text-text-dark-secondary">进行中</div>
         </div>
         <div className="text-center">
           <div className="font-semibold text-accent-green">{doneCount}</div>
-          <div className="text-text-light-secondary dark:text-text-dark-secondary">Done</div>
+          <div className="text-text-light-secondary dark:text-text-dark-secondary">已完成</div>
         </div>
         <div className="text-center">
           <div className={`font-semibold ${overdueCount > 0 ? 'text-accent-red' : 'text-text-light-secondary dark:text-text-dark-secondary'}`}>
             {overdueCount}
           </div>
-          <div className="text-text-light-secondary dark:text-text-dark-secondary">Late</div>
+          <div className="text-text-light-secondary dark:text-text-dark-secondary">已逾期</div>
         </div>
       </div>
 
@@ -177,11 +177,11 @@ function ProjectCard({ summary }: { summary: ProjectSummary }) {
       <div className="flex items-center justify-between text-xs text-text-light-secondary dark:text-text-dark-secondary border-t border-border-light dark:border-border-dark pt-2">
         <span className="flex items-center gap-1">
           <Clock className="w-3 h-3" />
-          {hoursThisWeek}h this week
+          本周 {hoursThisWeek} 小时
         </span>
         {nextDeadline && (
           <span className="flex items-center gap-1">
-            {new Date(nextDeadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+            截止: {new Date(nextDeadline).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}
           </span>
         )}
       </div>
@@ -237,24 +237,24 @@ function ListView({ summaries }: { summaries: ProjectSummary[] }) {
         <thead>
           <tr className="text-left text-text-light-secondary dark:text-text-dark-secondary border-b border-border-light dark:border-border-dark">
             <th className={`pb-2 pr-4 ${headerClass}`} onClick={() => handleSort('name')}>
-              Project{indicator('name')}
+              项目名称{indicator('name')}
             </th>
             <th className={`pb-2 pr-4 ${headerClass} text-center`} onClick={() => handleSort('health')}>
-              Health{indicator('health')}
+              健康度{indicator('health')}
             </th>
             <th className={`pb-2 pr-4 ${headerClass} text-right`} onClick={() => handleSort('completion')}>
-              Progress{indicator('completion')}
+              完成进度{indicator('completion')}
             </th>
-            <th className="pb-2 pr-4 text-right">Open</th>
-            <th className="pb-2 pr-4 text-right">Active</th>
-            <th className="pb-2 pr-4 text-right">Done</th>
+            <th className="pb-2 pr-4 text-right">未开始</th>
+            <th className="pb-2 pr-4 text-right">进行中</th>
+            <th className="pb-2 pr-4 text-right">已完成</th>
             <th className={`pb-2 pr-4 text-right ${headerClass}`} onClick={() => handleSort('overdue')}>
-              Overdue{indicator('overdue')}
+              逾期{indicator('overdue')}
             </th>
             <th className={`pb-2 pr-4 text-right ${headerClass}`} onClick={() => handleSort('hours')}>
-              Hours/wk{indicator('hours')}
+              周工时{indicator('hours')}
             </th>
-            <th className="pb-2 text-right">Next Deadline</th>
+            <th className="pb-2 text-right">最近截止日</th>
           </tr>
         </thead>
         <tbody>
@@ -293,7 +293,7 @@ function ListView({ summaries }: { summaries: ProjectSummary[] }) {
               <td className="py-2.5 pr-4 text-right text-text-light-secondary dark:text-text-dark-secondary">{s.hoursThisWeek}h</td>
               <td className="py-2.5 text-right text-text-light-secondary dark:text-text-dark-secondary">
                 {s.nextDeadline
-                  ? new Date(s.nextDeadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+                  ? new Date(s.nextDeadline).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
                   : '--'}
               </td>
             </tr>
@@ -326,9 +326,9 @@ export function Portfolio() {
   const atRiskCount = summaries.filter((s) => s.health === 'red').length;
 
   const viewButtons: { mode: ViewMode; icon: typeof LayoutGrid; label: string }[] = [
-    { mode: 'cards', icon: LayoutGrid, label: 'Cards' },
-    { mode: 'list', icon: List, label: 'List' },
-    { mode: 'timeline', icon: GanttChart, label: 'Timeline' },
+    { mode: 'cards', icon: LayoutGrid, label: '卡片' },
+    { mode: 'list', icon: List, label: '列表' },
+    { mode: 'timeline', icon: GanttChart, label: '时间线' },
   ];
 
   return (
@@ -338,10 +338,10 @@ export function Portfolio() {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <h1 className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
-              Portfolio
+              项目集管理 (Portfolio)
             </h1>
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">
-              Cross-project overview and health tracking
+              跨项目的综合进度透视、工时分布与健康状态跟踪
             </p>
           </div>
 
@@ -370,27 +370,27 @@ export function Portfolio() {
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-accent-green" />
             <span className="text-text-light-secondary dark:text-text-dark-secondary">
-              {totalTasks} total tasks
+              共 {totalTasks} 项任务
             </span>
           </div>
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-accent-blue" />
             <span className="text-text-light-secondary dark:text-text-dark-secondary">
-              {Math.round(totalHours * 10) / 10}h this week
+              本周工时 {Math.round(totalHours * 10) / 10} 小时
             </span>
           </div>
           {atRiskCount > 0 && (
             <div className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-accent-red" />
               <span className="text-accent-red font-medium">
-                {atRiskCount} project{atRiskCount !== 1 ? 's' : ''} at risk
+                {atRiskCount} 个项目处于风险中
               </span>
             </div>
           )}
           <div className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-accent-purple" />
             <span className="text-text-light-secondary dark:text-text-dark-secondary">
-              {allProjects.length} active project{allProjects.length !== 1 ? 's' : ''}
+              {allProjects.length} 个活跃项目
             </span>
           </div>
         </div>
@@ -402,8 +402,8 @@ export function Portfolio() {
         {allProjects.length === 0 ? (
           <div className="text-center py-16 text-text-light-secondary dark:text-text-dark-secondary">
             <LayoutGrid className="w-12 h-12 mx-auto mb-4 opacity-40" />
-            <p className="text-lg font-medium mb-2">No projects yet</p>
-            <p className="text-sm">Create projects in the project context menu to see them here.</p>
+            <p className="text-lg font-medium mb-2">暂无项目</p>
+            <p className="text-sm">在项目上下文菜单中创建项目后，将在此汇总展示。</p>
           </div>
         ) : viewMode === 'cards' ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

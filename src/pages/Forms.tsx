@@ -45,7 +45,7 @@ export function FormsContent() {
   const [formToDelete, setFormToDelete] = useState<string | null>(null);
 
   const handleCreateForm = () => {
-    const newForm = createForm('Untitled Form');
+    const newForm = createForm('未命名表单');
     navigate(`/forms/${newForm.id}/edit`);
   };
 
@@ -95,10 +95,10 @@ export function FormsContent() {
       <header className="flex items-center justify-between p-4 border-b border-border-light dark:border-border-dark">
         <div>
           <h2 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">
-            Forms
+            表单库
           </h2>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">
-            {sortedForms.length} {sortedForms.length === 1 ? 'form' : 'forms'}
+            共 {sortedForms.length} 个表单
           </p>
         </div>
 
@@ -108,7 +108,7 @@ export function FormsContent() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-light-tertiary dark:text-text-dark-tertiary" />
             <input
               type="text"
-              placeholder="Search forms..."
+              placeholder="搜索表单..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 pr-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent-primary"
@@ -124,7 +124,8 @@ export function FormsContent() {
                   ? 'bg-accent-blue dark:bg-accent-blue text-white'
                   : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
               }`}
-              aria-label="Grid view"
+              aria-label="网格视图"
+              title="网格视图"
             >
               <Grid3x3 className="w-4 h-4" />
             </button>
@@ -135,7 +136,8 @@ export function FormsContent() {
                   ? 'bg-accent-blue dark:bg-accent-blue text-white'
                   : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
               }`}
-              aria-label="List view"
+              aria-label="列表视图"
+              title="列表视图"
             >
               <List className="w-4 h-4" />
             </button>
@@ -147,7 +149,7 @@ export function FormsContent() {
             className="flex items-center gap-2 px-4 py-2 bg-accent-blue dark:bg-accent-blue text-white rounded-lg hover:bg-accent-blue-hover transition-colors"
           >
             <Plus className="w-4 h-4" />
-            New Form
+            新建表单
           </button>
         </div>
       </header>
@@ -161,12 +163,12 @@ export function FormsContent() {
               <FileText className="w-12 h-12 text-text-light-tertiary dark:text-text-dark-tertiary" />
             </div>
             <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary mb-2">
-              {searchQuery ? 'No forms found' : 'No forms yet'}
+              {searchQuery ? '未找到匹配表单' : '暂无表单'}
             </h2>
             <p className="text-text-light-secondary dark:text-text-dark-secondary mb-6 max-w-md">
               {searchQuery
-                ? 'Try adjusting your search query'
-                : 'Create your first form to track habits, collect data, or build custom surveys'}
+                ? '尝试调整您的搜索关键词'
+                : '创建您的第一个表单以跟踪习惯、收集数据或构建自定义问卷'}
             </p>
             {!searchQuery && (
               <button
@@ -174,7 +176,7 @@ export function FormsContent() {
                 className="flex items-center gap-2 px-6 py-3 bg-accent-blue dark:bg-accent-blue text-white rounded-lg hover:bg-accent-blue-hover transition-colors"
               >
                 <Plus className="w-5 h-5" />
-                Create Your First Form
+                创建首个表单
               </button>
             )}
           </div>
@@ -215,9 +217,9 @@ export function FormsContent() {
         isOpen={formToDelete !== null}
         onClose={() => setFormToDelete(null)}
         onConfirm={confirmDeleteForm}
-        title="Delete Form"
-        message="Are you sure you want to delete this form and all its responses?"
-        confirmText="Delete"
+        title="删除表单"
+        message="确定要删除此表单及其所有回复记录吗？此操作不可恢复。"
+        confirmText="删除"
         variant="danger"
       />
     </>
@@ -273,8 +275,8 @@ function FormCard({ form, onEdit, onFill, onViewResponses, onDelete, onDuplicate
       {/* Stats */}
       <div className="p-4">
         <div className="flex items-center justify-between text-xs text-text-light-secondary dark:text-text-dark-secondary mb-3">
-          <span>{form.fields.length} {form.fields.length === 1 ? 'field' : 'fields'}</span>
-          <span>{form.responseCount} {form.responseCount === 1 ? 'response' : 'responses'}</span>
+          <span>{form.fields.length} 个字段</span>
+          <span>{form.responseCount} 条回复</span>
         </div>
 
         {/* Actions */}
@@ -283,20 +285,20 @@ function FormCard({ form, onEdit, onFill, onViewResponses, onDelete, onDuplicate
             onClick={onFill}
             className="w-full px-3 py-2 text-sm bg-accent-blue dark:bg-accent-blue text-white rounded hover:bg-accent-blue-hover"
           >
-            Fill Form
+            填写表单
           </button>
           <div className="flex gap-2">
             <button
               onClick={onEdit}
               className="flex-1 px-2 py-1 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated rounded hover:bg-surface-light dark:hover:bg-surface-dark"
             >
-              Edit
+              编辑
             </button>
             <button
               onClick={onViewResponses}
               className="flex-1 px-2 py-1 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated rounded hover:bg-surface-light dark:hover:bg-surface-dark"
             >
-              Responses
+              查看回复
             </button>
           </div>
           <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -307,7 +309,7 @@ function FormCard({ form, onEdit, onFill, onViewResponses, onDelete, onDuplicate
               }}
               className="flex-1 px-2 py-1 text-xs bg-surface-light-elevated dark:bg-surface-dark-elevated rounded hover:bg-surface-light dark:hover:bg-surface-dark"
             >
-              Duplicate
+              复制
             </button>
             <button
               onClick={(e) => {
@@ -316,7 +318,7 @@ function FormCard({ form, onEdit, onFill, onViewResponses, onDelete, onDuplicate
               }}
               className="flex-1 px-2 py-1 text-xs bg-accent-red/10 text-accent-red rounded hover:bg-accent-red/20"
             >
-              Delete
+              删除
             </button>
           </div>
         </div>
@@ -340,7 +342,7 @@ function FormListItem({ form, onEdit, onFill, onViewResponses, onDelete, onDupli
           {form.title}
         </h3>
         <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-          {form.fields.length} fields • {form.responseCount} responses • Updated {new Date(form.updatedAt).toLocaleDateString()}
+          {form.fields.length} 个字段 • {form.responseCount} 条回复 • 更新于 {new Date(form.updatedAt).toLocaleDateString()}
         </p>
       </div>
 
@@ -350,31 +352,31 @@ function FormListItem({ form, onEdit, onFill, onViewResponses, onDelete, onDupli
           onClick={onFill}
           className="px-4 py-2 text-sm bg-accent-blue dark:bg-accent-blue text-white rounded hover:bg-accent-blue-hover"
         >
-          Fill Form
+          填写表单
         </button>
         <button
           onClick={onEdit}
           className="px-3 py-2 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated rounded hover:bg-surface-light dark:hover:bg-surface-dark"
         >
-          Edit
+          编辑
         </button>
         <button
           onClick={onViewResponses}
           className="px-3 py-2 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated rounded hover:bg-surface-light dark:hover:bg-surface-dark"
         >
-          Responses
+          查看回复
         </button>
         <button
           onClick={onDuplicate}
           className="px-3 py-2 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated rounded hover:bg-surface-light dark:hover:bg-surface-dark"
         >
-          Duplicate
+          复制
         </button>
         <button
           onClick={onDelete}
           className="px-3 py-2 text-sm bg-accent-red/10 text-accent-red rounded hover:bg-accent-red/20"
         >
-          Delete
+          删除
         </button>
       </div>
     </div>

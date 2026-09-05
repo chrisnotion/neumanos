@@ -64,9 +64,9 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
       setCurrentStep(5);
     } catch (err) {
       if ((err as Error).name === 'AbortError') {
-        setError('Folder selection cancelled. Please select a folder to continue.');
+        setError('已取消文件夹选择，请选择一个文件夹以继续。');
       } else {
-        setError(`Error: ${(err as Error).message}`);
+        setError(`错误: ${(err as Error).message}`);
       }
     } finally {
       setIsSelecting(false);
@@ -102,24 +102,24 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
     const instructions: Record<CloudProvider, Record<Platform, { title: string; steps: string[] }>> = {
       icloud: {
         windows: {
-          title: 'iCloud Drive (Windows)',
+          title: 'iCloud 云盘 (Windows)',
           steps: [
-            'Install iCloud for Windows from the Microsoft Store',
-            'Sign in with your Apple ID',
-            'Enable "iCloud Drive" in iCloud settings',
-            'Open File Explorer and navigate to iCloud Drive',
-            'Create a folder named "NeumanOS Backups" (or any name you prefer)',
-            'In the next step, select this folder when prompted',
+            '从 Microsoft Store 下载并安装 iCloud for Windows 客户端',
+            '使用您的 Apple ID 登录',
+            '在 iCloud 设置中勾选开启「iCloud 云盘 (iCloud Drive)」',
+            '打开文件资源管理器并进入 iCloud 云盘目录',
+            '新建一个名为 "NeumanOS Backups" 的专用文件夹',
+            '在下一步中，点击按钮并选中此文件夹',
           ],
         },
         macos: {
-          title: 'iCloud Drive (macOS)',
+          title: 'iCloud 云盘 (macOS)',
           steps: [
-            'Open System Settings → Apple ID → iCloud',
-            'Enable "iCloud Drive"',
-            'Open Finder and navigate to iCloud Drive (in sidebar)',
-            'Create a folder named "NeumanOS Backups" (or any name you prefer)',
-            'In the next step, select this folder when prompted',
+            '打开「系统设置」→「Apple ID」→「iCloud」',
+            '开启「iCloud 云盘」功能',
+            '在访达 (Finder) 边栏中进入 iCloud 云盘',
+            '新建一个名为 "NeumanOS Backups" 的专用文件夹',
+            '在下一步中，点击按钮并选中此文件夹',
           ],
         },
       },
@@ -127,21 +127,21 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
         windows: {
           title: 'Google Drive (Windows)',
           steps: [
-            'Install Google Drive for Desktop from google.com/drive/download',
-            'Sign in with your Google account',
-            'Open File Explorer and navigate to Google Drive (G: drive)',
-            'Create a folder named "NeumanOS Backups" (or any name you prefer)',
-            'In the next step, select this folder when prompted',
+            '从官网下载并安装 Google Drive 桌面客户端',
+            '登录您的 Google 账号',
+            '在文件资源管理器中找到 Google 云端硬盘同步盘',
+            '新建一个名为 "NeumanOS Backups" 的专用文件夹',
+            '在下一步中，点击按钮并选中此文件夹',
           ],
         },
         macos: {
           title: 'Google Drive (macOS)',
           steps: [
-            'Install Google Drive for Desktop from google.com/drive/download',
-            'Sign in with your Google account',
-            'Open Finder and navigate to Google Drive',
-            'Create a folder named "NeumanOS Backups" (or any name you prefer)',
-            'In the next step, select this folder when prompted',
+            '从官网下载并安装 Google Drive 桌面客户端',
+            '登录您的 Google 账号',
+            '在访达中进入 Google Drive 同步目录',
+            '新建一个名为 "NeumanOS Backups" 的专用文件夹',
+            '在下一步中，点击按钮并选中此文件夹',
           ],
         },
       },
@@ -149,21 +149,21 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
         windows: {
           title: 'OneDrive (Windows)',
           steps: [
-            'OneDrive is pre-installed on Windows 10/11',
-            'Sign in with your Microsoft account (if not already signed in)',
-            'Open File Explorer and navigate to OneDrive',
-            'Create a folder named "NeumanOS Backups" (or any name you prefer)',
-            'In the next step, select this folder when prompted',
+            'Windows 10/11 系统已内置 OneDrive',
+            '登录您的微软账号（若已登录则忽略）',
+            '打开文件资源管理器并进入 OneDrive 同步目录',
+            '新建一个名为 "NeumanOS Backups" 的专用文件夹',
+            '在下一步中，点击按钮并选中此文件夹',
           ],
         },
         macos: {
           title: 'OneDrive (macOS)',
           steps: [
-            'Install OneDrive from the Mac App Store',
-            'Sign in with your Microsoft account',
-            'Open Finder and navigate to OneDrive',
-            'Create a folder named "NeumanOS Backups" (or any name you prefer)',
-            'In the next step, select this folder when prompted',
+            '从 Mac App Store 下载安装 OneDrive 客户端',
+            '登录您的微软账号',
+            '在访达中进入 OneDrive 目录',
+            '新建一个名为 "NeumanOS Backups" 的专用文件夹',
+            '在下一步中，点击按钮并选中此文件夹',
           ],
         },
       },
@@ -171,21 +171,21 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
         windows: {
           title: 'Proton Drive (Windows)',
           steps: [
-            'Install Proton Drive desktop app from proton.me/drive',
-            'Sign in with your Proton account',
-            'Open File Explorer and navigate to Proton Drive folder',
-            'Create a folder named "NeumanOS Backups" (or any name you prefer)',
-            'In the next step, select this folder when prompted',
+            '从 proton.me/drive 下载安装桌面客户端',
+            '登录您的 Proton 账号',
+            '打开文件资源管理器进入 Proton Drive 目录',
+            '新建一个名为 "NeumanOS Backups" 的专用文件夹',
+            '在下一步中，点击按钮并选中此文件夹',
           ],
         },
         macos: {
           title: 'Proton Drive (macOS)',
           steps: [
-            'Install Proton Drive desktop app from proton.me/drive',
-            'Sign in with your Proton account',
-            'Open Finder and navigate to Proton Drive folder',
-            'Create a folder named "NeumanOS Backups" (or any name you prefer)',
-            'In the next step, select this folder when prompted',
+            '从 proton.me/drive 下载安装桌面客户端',
+            '登录您的 Proton 账号',
+            '在访达中进入 Proton Drive 目录',
+            '新建一个名为 "NeumanOS Backups" 的专用文件夹',
+            '在下一步中，点击按钮并选中此文件夹',
           ],
         },
       },
@@ -193,21 +193,21 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
         windows: {
           title: 'Dropbox (Windows)',
           steps: [
-            'Install Dropbox desktop app from dropbox.com/install',
-            'Sign in with your Dropbox account',
-            'Open File Explorer and navigate to Dropbox folder',
-            'Create a folder named "NeumanOS Backups" (or any name you prefer)',
-            'In the next step, select this folder when prompted',
+            '从官网下载并安装 Dropbox 桌面客户端',
+            '登录您的 Dropbox 账号',
+            '在文件资源管理器中进入 Dropbox 目录',
+            '新建一个名为 "NeumanOS Backups" 的专用文件夹',
+            '在下一步中，点击按钮并选中此文件夹',
           ],
         },
         macos: {
           title: 'Dropbox (macOS)',
           steps: [
-            'Install Dropbox desktop app from dropbox.com/install',
-            'Sign in with your Dropbox account',
-            'Open Finder and navigate to Dropbox folder',
-            'Create a folder named "NeumanOS Backups" (or any name you prefer)',
-            'In the next step, select this folder when prompted',
+            '从官网下载并安装 Dropbox 桌面客户端',
+            '登录您的 Dropbox 账号',
+            '在访达中进入 Dropbox 目录',
+            '新建一个名为 "NeumanOS Backups" 的专用文件夹',
+            '在下一步中，点击按钮并选中此文件夹',
           ],
         },
       },
@@ -233,39 +233,39 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
             </div>
 
             <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary text-center">
-              Why Backup Your Data?
+              为什么要备份您的数据？
             </h2>
 
             <div className="space-y-2 text-xs text-text-light-secondary dark:text-text-dark-secondary">
               <p>
                 <strong className="text-text-light-primary dark:text-text-dark-primary">
-                  Your data is stored locally in your browser.
+                  您的数据完全保存在当前浏览器的本地存储中。
                 </strong>{' '}
-                While this ensures 100% privacy, it also means your data could be lost if:
+                这保证了 100% 的隐私安全，但也意味着遇到以下情况时数据可能会丢失：
               </p>
 
               <ul className="list-disc list-inside space-y-1 ml-3">
-                <li>Your browser cache is cleared</li>
-                <li>Your computer crashes or is lost/stolen</li>
-                <li>You switch to a different browser or device</li>
-                <li>Browser storage becomes corrupted</li>
+                <li>浏览器缓存或网站数据被清理</li>
+                <li>电脑故障、崩溃或被盗</li>
+                <li>更换了不同的浏览器或新设备</li>
+                <li>浏览器本地 IndexedDB 存储异常损坏</li>
               </ul>
 
               <p className="pt-2">
                 <strong className="text-text-light-primary dark:text-text-dark-primary">
-                  Auto-save to a cloud-synced folder protects you.
+                  开启自动保存至云同步文件夹即可高枕无忧。
                 </strong>
               </p>
 
               <div className="bg-status-success/10 border border-status-success rounded-button p-3 mt-3">
                 <p className="text-xs text-status-success font-medium">
-                  ✅ Automatic backups every 30 seconds
+                  ✅ 每 30 秒全自动静默备份
                   <br />
-                  ✅ Sync across all your devices
+                  ✅ 配合网盘轻松实现多端数据同步
                   <br />
-                  ✅ Still 100% private (you control the folder)
+                  ✅ 依然 100% 私密（文件完全由您掌控）
                   <br />
-                  ✅ Easy restore if anything goes wrong
+                  ✅ 发生异常随时一键导入恢复
                 </p>
               </div>
             </div>
@@ -275,13 +275,13 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
                 onClick={onClose}
                 className="flex-1 px-3 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-button text-sm font-medium transition-all duration-standard ease-smooth border border-border-light dark:border-border-dark"
               >
-                Skip for Now
+                暂不配置
               </button>
               <button
                 onClick={() => setCurrentStep(2)}
                 className="flex-1 px-3 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button text-sm font-medium transition-all duration-standard ease-smooth"
               >
-                Continue
+                继续
               </button>
             </div>
           </div>
@@ -291,20 +291,20 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
         return (
           <div className="space-y-3">
             <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-              Choose Your Cloud Provider
+              选择您的云盘同步服务
             </h2>
 
             <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-              Select the cloud storage service you use (or want to use):
+              请选择您正在使用（或打算使用）的云存储网盘：
             </p>
 
             <div className="grid grid-cols-1 gap-2">
               {[
-                { id: 'icloud', name: 'iCloud Drive', icon: '☁️', description: 'Apple (5GB free)' },
-                { id: 'google-drive', name: 'Google Drive', icon: '📁', description: 'Google (15GB free)' },
-                { id: 'onedrive', name: 'OneDrive', icon: '☁️', description: 'Microsoft (5GB free)' },
-                { id: 'proton-drive', name: 'Proton Drive', icon: '🔒', description: 'Proton (1GB free, encrypted)' },
-                { id: 'dropbox', name: 'Dropbox', icon: '📦', description: 'Dropbox (2GB free)' },
+                { id: 'icloud', name: 'iCloud 云盘', icon: '☁️', description: 'Apple（5GB 免费）' },
+                { id: 'google-drive', name: 'Google Drive', icon: '📁', description: 'Google（15GB 免费）' },
+                { id: 'onedrive', name: 'OneDrive', icon: '☁️', description: '微软（5GB 免费）' },
+                { id: 'proton-drive', name: 'Proton Drive', icon: '🔒', description: 'Proton（1GB 免费，端到端加密）' },
+                { id: 'dropbox', name: 'Dropbox', icon: '📦', description: 'Dropbox（2GB 免费）' },
               ].map((provider) => (
                 <button
                   key={provider.id}
@@ -341,10 +341,10 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
                   <span className="text-xl">❓</span>
                   <div>
                     <div className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-                      I don't have one
+                      我目前没有网盘
                     </div>
                     <div className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary">
-                      Show me free options
+                      查看推荐的免费选项
                     </div>
                   </div>
                 </div>
@@ -356,14 +356,14 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
                 onClick={() => setCurrentStep(1)}
                 className="flex-1 px-3 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-button text-sm font-medium transition-all duration-standard ease-smooth border border-border-light dark:border-border-dark"
               >
-                Back
+                上一步
               </button>
               <button
                 onClick={() => setCurrentStep(selectedProvider === 'none' ? 2.5 : 3)}
                 disabled={!selectedProvider}
                 className="flex-1 px-3 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button text-sm font-medium transition-all duration-standard ease-smooth disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Continue
+                继续
               </button>
             </div>
           </div>
@@ -374,44 +374,44 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
         return (
           <div className="space-y-3">
             <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-              Free & Secure Cloud Storage Options
+              免费且安全的云盘推荐
             </h2>
 
             <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-              Here are reliable free cloud storage providers you can use:
+              您可以选用以下主流稳定的免费网盘服务：
             </p>
 
             <div className="space-y-2">
               {[
                 {
                   name: 'Google Drive',
-                  storage: '15GB free',
+                  storage: '15GB 免费空间',
                   url: 'https://drive.google.com',
-                  pros: 'Most storage, works everywhere, easy setup',
+                  pros: '容量最大，多端通用，配置简单',
                 },
                 {
                   name: 'OneDrive',
-                  storage: '5GB free',
+                  storage: '5GB 免费空间',
                   url: 'https://onedrive.com',
-                  pros: 'Built into Windows, Microsoft integration',
+                  pros: 'Windows 系统自带，深度整合',
                 },
                 {
                   name: 'iCloud Drive',
-                  storage: '5GB free',
+                  storage: '5GB 免费空间',
                   url: 'https://icloud.com',
-                  pros: 'Best for Apple users, seamless across devices',
+                  pros: 'Apple 生态最佳，各苹果设备无缝同步',
                 },
                 {
                   name: 'Proton Drive',
-                  storage: '1GB free (encrypted)',
+                  storage: '1GB 免费空间（端到端加密）',
                   url: 'https://proton.me/drive',
-                  pros: 'End-to-end encrypted, privacy-focused',
+                  pros: '端到端瑞士级加密，专注隐私保护',
                 },
                 {
                   name: 'Dropbox',
-                  storage: '2GB free',
+                  storage: '2GB 免费空间',
                   url: 'https://dropbox.com',
-                  pros: 'Reliable, widely supported',
+                  pros: '老牌知名同步盘，生态支持广泛',
                 },
               ].map((provider) => (
                 <div
@@ -431,7 +431,7 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
                       rel="noopener noreferrer"
                       className="px-2 py-1 bg-accent-blue hover:bg-accent-blue-hover text-white text-xs rounded-button transition-all duration-standard ease-smooth"
                     >
-                      Sign Up →
+                      前往注册 →
                     </a>
                   </div>
                   <p className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary">
@@ -443,8 +443,7 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
 
             <div className="bg-status-info/10 border border-status-info rounded-button p-3">
               <p className="text-xs text-text-light-primary dark:text-text-dark-primary">
-                <strong>💡 Tip:</strong> After signing up, download the desktop app for automatic syncing. Then come
-                back and select the provider in Step 2.
+                <strong>💡 提示：</strong> 注册后请下载并安装桌面客户端以启用自动同步。安装完成后返回第 2 步选择对应网盘。
               </p>
             </div>
 
@@ -456,7 +455,7 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
                 }}
                 className="flex-1 px-3 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button text-sm font-medium transition-all duration-standard ease-smooth"
               >
-                ← Back to Providers
+                ← 返回选择云盘
               </button>
             </div>
           </div>
@@ -476,7 +475,7 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-                Setup Instructions
+                配置操作指引
               </h2>
               <div className="flex gap-1">
                 <button
@@ -518,8 +517,7 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
 
             <div className="bg-status-warning/10 border border-status-warning rounded-button p-3">
               <p className="text-xs text-text-light-primary dark:text-text-dark-primary">
-                <strong>⚠️ Important:</strong> Make sure the desktop app is installed and syncing before continuing.
-                The folder you select must be inside your cloud-synced folder.
+                <strong>⚠️ 重要说明：</strong> 请确保已安装网盘桌面客户端并处于同步状态。您稍后选中的文件夹必须位于该网盘同步目录下。
               </p>
             </div>
 
@@ -528,13 +526,13 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
                 onClick={() => setCurrentStep(2)}
                 className="flex-1 px-3 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-button text-sm font-medium transition-all duration-standard ease-smooth border border-border-light dark:border-border-dark"
               >
-                Back
+                上一步
               </button>
               <button
                 onClick={() => setCurrentStep(4)}
                 className="flex-1 px-3 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button text-sm font-medium transition-all duration-standard ease-smooth"
               >
-                I'm Ready
+                我已准备好
               </button>
             </div>
           </div>
@@ -550,17 +548,16 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
             </div>
 
             <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary text-center">
-              Select Your Backup Folder
+              选择本地备份文件夹
             </h2>
 
             <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary text-center">
-              Click the button below to choose the folder where backups will be saved.
+              点击下方按钮，指定存放自动备份文件的本地文件夹。
             </p>
 
             <div className="bg-status-info/10 border border-status-info rounded-button p-3">
               <p className="text-xs text-text-light-primary dark:text-text-dark-primary">
-                <strong>💡 Tip:</strong> Navigate to your cloud-synced folder (iCloud Drive, Google Drive, etc.) and
-                select the "NeumanOS Backups" folder you created.
+                <strong>💡 提示：</strong> 请定位至网盘同步目录（如 iCloud 云盘、Google Drive、OneDrive 等），并选中刚刚创建的 "NeumanOS Backups" 文件夹。
               </p>
             </div>
 
@@ -575,7 +572,7 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
               disabled={isSelecting}
               className="w-full px-4 py-3 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button font-semibold text-base transition-all duration-standard ease-smooth disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSelecting ? 'Opening Folder Picker...' : '📁 Choose Backup Folder'}
+              {isSelecting ? '正在调起文件夹选择器...' : '📁 选择备份文件夹'}
             </button>
 
             <div className="flex gap-2 pt-3">
@@ -583,7 +580,7 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
                 onClick={() => setCurrentStep(3)}
                 className="flex-1 px-3 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-button text-sm font-medium transition-all duration-standard ease-smooth border border-border-light dark:border-border-dark"
               >
-                Back
+                上一步
               </button>
             </div>
           </div>
@@ -599,31 +596,31 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
             </div>
 
             <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary text-center">
-              Auto-Save Enabled!
+              自动备份已成功开启！
             </h2>
 
             <div className="bg-status-success/10 border border-status-success rounded-button p-3">
               <p className="text-xs text-status-success text-center">
-                <strong>Your data is now automatically backed up every 30 seconds.</strong>
+                <strong>您的数据现在每隔 30 秒会自动静默备份一次。</strong>
                 <br />
-                Backups are saved to your cloud-synced folder and will sync across all your devices.
+                备份文件保存在选定的网盘同步目录中，并能自动同步至所有已关联设备。
               </p>
             </div>
 
             <div className="pt-3 space-y-2">
               <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary">
-                Reminder Preference
+                备份提醒偏好
               </h3>
               <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                When should we remind you to check your backups?
+                您希望系统多久提醒您确认一次备份情况？
               </p>
 
               <div className="space-y-1">
                 {[
-                  { id: 'every-session', label: 'Every session', description: 'Remind me each time I visit' },
-                  { id: 'in-7-days', label: 'In 7 days', description: 'Remind me in a week' },
-                  { id: 'monthly', label: 'Monthly', description: 'Remind me on the 1st of each month' },
-                  { id: 'never', label: 'Never', description: "Don't remind me again" },
+                  { id: 'every-session', label: '每次使用提醒', description: '每次打开系统访问时提示检查备份' },
+                  { id: 'in-7-days', label: '7 天后提醒', description: '一周后提醒我核对' },
+                  { id: 'monthly', label: '每月一次', description: '每月 1 号提醒我确认' },
+                  { id: 'never', label: '不再提醒', description: '静默运行，不要主动弹窗提醒' },
                 ].map((option) => (
                   <button
                     key={option.id}
@@ -649,11 +646,11 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
               onClick={handleSaveReminder}
               className="w-full px-4 py-3 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button font-semibold text-base transition-all duration-standard ease-smooth"
             >
-              Finish Setup
+              完成配置
             </button>
 
             <p className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary text-center">
-              You can always change these settings later in Settings → Backup & Sync
+              您可以随时在「设置 → 备份与同步」中调整这些偏好
             </p>
           </div>
         );
@@ -665,15 +662,15 @@ export function BackupOnboardingModal({ isOpen, onClose }: BackupOnboardingModal
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Setup Auto-Save Backup" maxWidth="2xl">
+    <Modal isOpen={isOpen} onClose={onClose} title="配置自动备份" maxWidth="2xl">
       {/* Progress Indicator */}
       <div className="mb-4">
         <div className="flex items-center justify-between mb-1">
           <span className="text-xs font-medium text-text-light-primary dark:text-text-dark-primary">
-            Step {currentStep > 2.5 ? Math.floor(currentStep) : currentStep} of {totalSteps}
+            第 {currentStep > 2.5 ? Math.floor(currentStep) : currentStep} 步，共 {totalSteps} 步
           </span>
           <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-            {Math.round(((currentStep > 2.5 ? Math.floor(currentStep) : currentStep) / totalSteps) * 100)}% complete
+            已完成 {Math.round(((currentStep > 2.5 ? Math.floor(currentStep) : currentStep) / totalSteps) * 100)}%
           </span>
         </div>
         <div className="w-full bg-border-light dark:bg-border-dark rounded-full h-1.5">

@@ -23,7 +23,7 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ onClose }) => {
     e.preventDefault();
 
     if (!name.trim()) {
-      toast.warning('Please enter a rule name');
+      toast.warning('请输入规则名称');
       return;
     }
 
@@ -47,13 +47,13 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ onClose }) => {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-          Rule Name *
+          规则名称 *
         </label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="e.g., Auto-archive completed tasks"
+          placeholder="例如：自动归档已完成的任务"
           className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue outline-none"
           required
         />
@@ -61,12 +61,12 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ onClose }) => {
 
       <div>
         <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-          Description
+          描述说明
         </label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Optional description..."
+          placeholder="选填规则说明..."
           rows={2}
           className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue outline-none resize-none"
         />
@@ -74,23 +74,23 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ onClose }) => {
 
       <div>
         <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-          When (Trigger) *
+          触发条件 (何时执行) *
         </label>
         <select
           value={triggerType}
           onChange={(e) => setTriggerType(e.target.value as AutomationTriggerType)}
           className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue outline-none"
         >
-          <option value="task.created">Task is created</option>
-          <option value="task.moved">Task is moved</option>
-          <option value="task.completed">Task is completed</option>
-          <option value="task.updated">Task is updated</option>
+          <option value="task.created">创建新任务时</option>
+          <option value="task.moved">移动任务时</option>
+          <option value="task.completed">完成任务时</option>
+          <option value="task.updated">更新任务时</option>
         </select>
       </div>
 
       <div>
         <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-          Then (Action) *
+          执行动作 (执行何种操作) *
         </label>
         <select
           value={actionType}
@@ -100,12 +100,12 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ onClose }) => {
           }}
           className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue outline-none"
         >
-          <option value="move_task">Move task to status</option>
-          <option value="set_priority">Set priority</option>
-          <option value="add_tag">Add tag</option>
-          <option value="remove_tag">Remove tag</option>
-          <option value="add_comment">Add comment</option>
-          <option value="archive">Archive task</option>
+          <option value="move_task">移动任务至指定状态分组</option>
+          <option value="set_priority">设置优先级</option>
+          <option value="add_tag">添加标签</option>
+          <option value="remove_tag">移除标签</option>
+          <option value="add_comment">添加评论备注</option>
+          <option value="archive">归档任务</option>
         </select>
       </div>
 
@@ -113,19 +113,19 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ onClose }) => {
       {actionType === 'move_task' && (
         <div>
           <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-            Move to Status
+            目标状态分组
           </label>
           <select
             value={actionConfig.status || ''}
             onChange={(e) => setActionConfig({ status: e.target.value })}
             className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue outline-none"
           >
-            <option value="">Select status...</option>
-            <option value="backlog">Backlog</option>
-            <option value="todo">To Do</option>
-            <option value="inprogress">In Progress</option>
-            <option value="review">In Review</option>
-            <option value="done">Done</option>
+            <option value="">选择目标状态...</option>
+            <option value="backlog">待办池 (Backlog)</option>
+            <option value="todo">待处理 (To Do)</option>
+            <option value="inprogress">进行中 (In Progress)</option>
+            <option value="review">审核中 (In Review)</option>
+            <option value="done">已完成 (Done)</option>
           </select>
         </div>
       )}
@@ -133,17 +133,17 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ onClose }) => {
       {actionType === 'set_priority' && (
         <div>
           <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-            Set Priority
+            设置优先级
           </label>
           <select
             value={actionConfig.priority || ''}
             onChange={(e) => setActionConfig({ priority: e.target.value })}
             className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue outline-none"
           >
-            <option value="">Select priority...</option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
+            <option value="">选择优先级...</option>
+            <option value="low">低优先级</option>
+            <option value="medium">中优先级</option>
+            <option value="high">高优先级</option>
           </select>
         </div>
       )}
@@ -151,13 +151,13 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ onClose }) => {
       {(actionType === 'add_tag' || actionType === 'remove_tag') && (
         <div>
           <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-            Tag
+            标签名称
           </label>
           <input
             type="text"
             value={actionConfig.tag || ''}
             onChange={(e) => setActionConfig({ tag: e.target.value })}
-            placeholder="e.g., urgent"
+            placeholder="例如：紧急"
             className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue outline-none"
           />
         </div>
@@ -166,12 +166,12 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ onClose }) => {
       {actionType === 'add_comment' && (
         <div>
           <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-            Comment Text
+            评论内容
           </label>
           <textarea
             value={actionConfig.text || ''}
             onChange={(e) => setActionConfig({ text: e.target.value })}
-            placeholder="e.g., Automatically moved by automation"
+            placeholder="例如：此任务已被自动化规则处理"
             rows={2}
             className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue outline-none resize-none"
           />
@@ -183,14 +183,14 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ onClose }) => {
           type="submit"
           className="flex-1 px-4 py-2 bg-accent-blue text-white text-sm font-medium rounded-lg hover:bg-accent-blue/90 transition-colors"
         >
-          Create Rule
+          创建规则
         </button>
         <button
           type="button"
           onClick={onClose}
           className="px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-primary dark:text-text-dark-primary text-sm font-medium rounded-lg hover:bg-surface-light dark:hover:bg-surface-dark transition-colors"
         >
-          Cancel
+          取消
         </button>
       </div>
     </form>

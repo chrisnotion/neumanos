@@ -41,10 +41,10 @@ export const PWAInstallPrompt: React.FC = () => {
 
       <div className="flex-1 min-w-0">
         <p className="font-medium text-text-light-primary dark:text-text-dark-primary">
-          Install NeumanOS
+          安装 NeumanOS
         </p>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-          Add to your home screen for quick access
+          添加到桌面或主屏幕，随时快速启动与离线使用
         </p>
       </div>
 
@@ -59,7 +59,7 @@ export const PWAInstallPrompt: React.FC = () => {
             text-sm font-medium
           "
         >
-          Install
+          立即安装
         </button>
         <button
           onClick={dismissInstall}
@@ -69,7 +69,8 @@ export const PWAInstallPrompt: React.FC = () => {
             hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated
             transition-colors
           "
-          aria-label="Dismiss install prompt"
+          aria-label="忽略安装提示"
+          title="忽略"
         >
           <X className="w-4 h-4" />
         </button>
@@ -106,10 +107,10 @@ export const PWAUpdatePrompt: React.FC = () => {
 
       <div className="flex-1 min-w-0">
         <p className="font-medium text-text-light-primary dark:text-text-dark-primary">
-          Update available
+          发现新版本
         </p>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-          A new version is ready to install
+          NeumanOS 已发布新更新，随时可应用
         </p>
       </div>
 
@@ -124,7 +125,7 @@ export const PWAUpdatePrompt: React.FC = () => {
             text-sm font-medium
           "
         >
-          Update
+          立即更新
         </button>
         <button
           onClick={dismissUpdate}
@@ -134,7 +135,8 @@ export const PWAUpdatePrompt: React.FC = () => {
             hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated
             transition-colors
           "
-          aria-label="Dismiss update notification"
+          aria-label="忽略更新提示"
+          title="忽略"
         >
           <X className="w-4 h-4" />
         </button>
