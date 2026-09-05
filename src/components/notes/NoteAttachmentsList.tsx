@@ -4,7 +4,7 @@
  * Displays file icon, name, size with download and delete actions.
  */
 
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 import { useNoteAttachmentsStore } from '../../stores/useNoteAttachmentsStore';
 import type { NoteAttachment } from '../../stores/useNoteAttachmentsStore';
 import { toast } from '../../stores/useToastStore';
@@ -130,7 +130,12 @@ function AttachmentRow({
 }
 
 export const NoteAttachmentsList: React.FC<NoteAttachmentsListProps> = ({ noteId }) => {
-  const attachments = useNoteAttachmentsStore((state) => state.getAttachmentsByNote(noteId));
+  const attachmentsMap = useNoteAttachmentsStore((state) => state.attachments);
+  const attachments = useMemo(() => {
+    return Object.values(attachmentsMap)
+      .filter((a) => a.noteId === noteId)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }, [attachmentsMap, noteId]);
   const deleteAttachment = useNoteAttachmentsStore((state) => state.deleteAttachment);
   const addAttachment = useNoteAttachmentsStore((state) => state.addAttachment);
   const fileInputRef = useRef<HTMLInputElement>(null);
