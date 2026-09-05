@@ -354,13 +354,13 @@ export const Kanban: React.FC = () => {
   return (
     <Widget
       id="kanban"
-      title="Kanban Board"
-      category="Planning"
+      title="任务看板"
+      category="规划管理"
       draggable={false}
       headerAccessory={
         <div className="flex items-center gap-1">
           <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary mr-2">
-            Columns:
+            分栏数：
           </span>
           {[3, 4, 5, 6, 7].map((count) => (
             <button
@@ -371,7 +371,7 @@ export const Kanban: React.FC = () => {
                   ? 'bg-accent-blue text-white'
                   : 'bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary hover:bg-surface-light dark:hover:bg-surface-dark'
               }`}
-              title={`Show ${count} columns at once`}
+              title={`同时平铺显示 ${count} 列`}
             >
               {count}
             </button>
@@ -387,31 +387,31 @@ export const Kanban: React.FC = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search tasks (by title, description, or KAN-#)..."
+            placeholder="搜索任务（支持标题、描述、KAN-# 编号）..."
             className="flex-1 px-4 py-2 text-sm border border-border-light dark:border-border-dark rounded-lg bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary focus:outline-none focus:ring-2 focus:ring-accent-blue"
           />
           <button
             onClick={() => setShowColumnManager(true)}
             className="px-4 py-2 text-sm font-medium bg-accent-blue text-white rounded-lg hover:bg-accent-blue-hover transition-colors whitespace-nowrap"
-            title="Manage Columns"
+            title="管理自定义分栏"
           >
-            ⚙️ Columns
+            ⚙️ 自定义列
           </button>
           <button
             onClick={() => setShowArchivedView(true)}
             className="px-4 py-2 text-sm font-medium bg-surface-light-elevated dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded-lg border border-border-light dark:border-border-dark hover:bg-surface-light dark:hover:bg-surface-dark-elevated transition-colors whitespace-nowrap"
-            title="View Archived Tasks"
+            title="查看已归档任务"
           >
-            📦 Archived
+            📦 归档箱
           </button>
           {/* View Toggle */}
           <div className="flex rounded-lg overflow-hidden border border-border-light dark:border-border-dark">
             {([
-              { id: 'board' as const, label: 'Board', icon: '📋' },
-              { id: 'list' as const, label: 'List', icon: '📊' },
-              { id: 'calendar' as const, label: 'Calendar', icon: '📅' },
-              { id: 'matrix' as const, label: 'Matrix', icon: '🎯' },
-              { id: 'triage' as const, label: 'Triage', icon: '📥' },
+              { id: 'board' as const, label: '看板', icon: '📋' },
+              { id: 'list' as const, label: '列表', icon: '📊' },
+              { id: 'calendar' as const, label: '日历', icon: '📅' },
+              { id: 'matrix' as const, label: '四象限', icon: '🎯' },
+              { id: 'triage' as const, label: '收件箱', icon: '📥' },
             ] as const).map((v, i) => (
               <button
                 key={v.id}
@@ -423,7 +423,7 @@ export const Kanban: React.FC = () => {
                     ? 'bg-accent-blue text-white'
                     : 'bg-surface-light dark:bg-surface-dark text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
                 }`}
-                title={`${v.label} View`}
+                title={`${v.label}视图`}
               >
                 {v.icon} {v.label}
               </button>
@@ -433,9 +433,9 @@ export const Kanban: React.FC = () => {
           <button
             onClick={() => setShowTemplates(true)}
             className="px-4 py-2 text-sm font-medium bg-surface-light-elevated dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded-lg border border-border-light dark:border-border-dark hover:bg-surface-light dark:hover:bg-surface-dark-elevated transition-colors whitespace-nowrap"
-            title="Create from Template"
+            title="从模板快速创建任务"
           >
-            📝 Template
+            📝 模板
           </button>
           {/* Views sidebar toggle */}
           <button
@@ -445,9 +445,9 @@ export const Kanban: React.FC = () => {
                 ? 'bg-accent-blue text-white'
                 : 'bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light dark:hover:bg-surface-dark'
             }`}
-            title="Saved Views"
+            title="已存自定义视图"
           >
-            👁 Views
+            👁 视图
           </button>
           <button
             onClick={() => setShowFilters(!showFilters)}
@@ -457,14 +457,14 @@ export const Kanban: React.FC = () => {
                 : 'bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light dark:hover:bg-surface-dark'
             }`}
           >
-            🔍 Filters {hasActiveFilters && `(${[...selectedPriorities, ...selectedTags, ...selectedAssignees].length + (showUnassigned ? 1 : 0)})`}
+            🔍 筛选 {hasActiveFilters && `(${[...selectedPriorities, ...selectedTags, ...selectedAssignees].length + (showUnassigned ? 1 : 0)})`}
           </button>
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
               className="px-4 py-2 text-sm font-medium bg-surface-dark text-white rounded-lg hover:opacity-80 transition-opacity"
             >
-              Clear
+              清空
             </button>
           )}
         </div>
@@ -475,22 +475,25 @@ export const Kanban: React.FC = () => {
             {/* Priority Filter */}
             <div>
               <label className="block text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary mb-2 uppercase tracking-wide">
-                Priority
+                优先级筛选
               </label>
               <div className="flex gap-2 flex-wrap">
-                {(['low', 'medium', 'high'] as const).map((priority) => (
-                  <button
-                    key={priority}
-                    onClick={() => togglePriority(priority)}
-                    className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                      selectedPriorities.has(priority)
-                        ? 'bg-accent-blue text-white ring-2 ring-accent-blue ring-offset-2 ring-offset-surface-light dark:ring-offset-surface-dark'
-                        : 'bg-surface-light dark:bg-surface-dark text-text-light-secondary dark:text-text-dark-secondary border border-border-light dark:border-border-dark hover:border-accent-blue'
-                    }`}
-                  >
-                    {priority.charAt(0).toUpperCase() + priority.slice(1)}
-                  </button>
-                ))}
+                {(['low', 'medium', 'high'] as const).map((priority) => {
+                  const priorityMap: Record<string, string> = { low: '低优先级', medium: '中优先级', high: '高优先级' };
+                  return (
+                    <button
+                      key={priority}
+                      onClick={() => togglePriority(priority)}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                        selectedPriorities.has(priority)
+                          ? 'bg-accent-blue text-white ring-2 ring-accent-blue ring-offset-2 ring-offset-surface-light dark:ring-offset-surface-dark'
+                          : 'bg-surface-light dark:bg-surface-dark text-text-light-secondary dark:text-text-dark-secondary border border-border-light dark:border-border-dark hover:border-accent-blue'
+                      }`}
+                    >
+                      {priorityMap[priority]}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -498,7 +501,7 @@ export const Kanban: React.FC = () => {
             {allTags.length > 0 && (
               <div>
                 <label className="block text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary mb-2 uppercase tracking-wide">
-                  Tags
+                  标签筛选
                 </label>
                 <div className="flex gap-2 flex-wrap">
                   {allTags.map((tag) => (
@@ -522,7 +525,7 @@ export const Kanban: React.FC = () => {
             {members.length > 0 && (
               <div>
                 <label className="block text-xs font-semibold text-text-light-secondary dark:text-text-dark-secondary mb-2 uppercase tracking-wide">
-                  Assignees
+                  责任人筛选
                 </label>
                 <div className="flex gap-2 flex-wrap">
                   {/* Unassigned Option */}
@@ -534,7 +537,7 @@ export const Kanban: React.FC = () => {
                         : 'bg-surface-light dark:bg-surface-dark text-text-light-secondary dark:text-text-dark-secondary border border-border-light dark:border-border-dark hover:border-text-light-secondary dark:hover:border-text-dark-secondary'
                     }`}
                   >
-                    Unassigned
+                    未指派
                   </button>
 
                   {/* Member Avatars */}
@@ -569,7 +572,7 @@ export const Kanban: React.FC = () => {
         {/* Results Count */}
         {hasActiveFilters && (
           <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-            Showing {filteredTasks.length} of {tasks.length} tasks
+            当前显示 {filteredTasks.length} / 共 {tasks.length} 项任务
           </div>
         )}
       </div>
@@ -578,10 +581,10 @@ export const Kanban: React.FC = () => {
       <div className="mb-3 flex items-center justify-between">
         <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary flex items-center gap-4">
           <span>
-            Press <kbd className="px-2 py-0.5 text-xs font-mono bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark">?</kbd> for keyboard shortcuts
+            按 <kbd className="px-2 py-0.5 text-xs font-mono bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark">?</kbd> 查看快捷键
           </span>
           <span className="hidden md:inline">
-            <kbd className="px-2 py-0.5 text-xs font-mono bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark">⌘K</kbd> to quick add task
+            按 <kbd className="px-2 py-0.5 text-xs font-mono bg-surface-light-elevated dark:bg-surface-dark-elevated rounded border border-border-light dark:border-border-dark">⌘K</kbd> 极速添加任务
           </span>
         </div>
       </div>

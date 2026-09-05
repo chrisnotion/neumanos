@@ -26,7 +26,7 @@ export const Header: React.FC = () => {
               className="h-11 w-auto object-contain"
             />
             <p className="text-[10px] tracking-[0.2em] uppercase text-text-light-secondary dark:text-text-dark-secondary mt-0.5">
-              Management Platform
+              个人生产力平台
             </p>
           </Link>
 
@@ -36,8 +36,8 @@ export const Header: React.FC = () => {
             <button
               onClick={toggleTheme}
               className="p-2 rounded-button border border-border-light dark:border-border-dark hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated transition-all duration-standard ease-smooth"
-              title={`Switch to ${mode === 'dark' ? 'light' : 'dark'} mode`}
-              aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={`切换为${mode === 'dark' ? '浅色' : '深色'}模式`}
+              aria-label={mode === 'dark' ? '切换为浅色模式' : '切换为深色模式'}
             >
               <span className="text-xl" aria-hidden="true">
                 {mode === 'dark' ? '☀️' : '🌙'}
@@ -49,11 +49,11 @@ export const Header: React.FC = () => {
         {/* Navigation */}
         <nav className="flex items-center gap-2 overflow-x-auto">
           {[
-            { to: '/', label: '🏠 Dashboard' },
-            { to: '/notes', label: '📝 Notes' },
-            { to: '/schedule', label: '📅 Schedule' },
-            { to: '/tasks', label: '✓ Tasks' },
-            { to: '/settings', label: '⚙️ Settings' },
+            { to: '/', label: '🏠 运行中枢' },
+            { to: '/notes', label: '📝 灵感笔记' },
+            { to: '/schedule', label: '📅 日程规划' },
+            { to: '/tasks', label: '✓ 任务管理' },
+            { to: '/settings', label: '⚙️ 系统设置' },
           ].map(({ to, label }) => (
             <Link
               key={to}

@@ -17,8 +17,8 @@ const DATE_FORMATS: { value: DateFormat; label: string; example: string }[] = [
 ];
 
 const WEEK_START_DAYS: { value: WeekStartDay; label: string }[] = [
-  { value: 0, label: 'Sunday' },
-  { value: 1, label: 'Monday' },
+  { value: 0, label: '周日' },
+  { value: 1, label: '周一' },
 ];
 
 export const AppPreferencesSection: React.FC = () => {
@@ -32,18 +32,18 @@ export const AppPreferencesSection: React.FC = () => {
       <div className="flex items-center gap-3 mb-1">
         <Calendar className="w-5 h-5 text-accent-primary" />
         <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-          Date & Regional
+          日期与地区偏好
         </h2>
       </div>
       <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-6">
-        Configure how dates are displayed throughout the application.
+        自定义应用各模块中日期的展示格式及周历起始日。
       </p>
 
       <div className="space-y-4">
         {/* Date Format */}
         <div>
           <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">
-            Date Format
+            日期显示格式
           </label>
           <select
             value={dateFormat ?? 'MM/DD/YYYY'}
@@ -52,19 +52,19 @@ export const AppPreferencesSection: React.FC = () => {
           >
             {DATE_FORMATS.map((f) => (
               <option key={f.value} value={f.value}>
-                {f.label} ({f.example})
+                {f.label}（示例：{f.example}）
               </option>
             ))}
           </select>
           <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-1">
-            Used for dates in tasks, calendar, and time tracking
+            应用于任务截止期、日程日历及工时记录等模块
           </p>
         </div>
 
         {/* Week Start Day */}
         <div>
           <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">
-            Week Starts On
+            一周起始日
           </label>
           <div className="flex gap-2">
             {WEEK_START_DAYS.map((d) => (
@@ -82,7 +82,7 @@ export const AppPreferencesSection: React.FC = () => {
             ))}
           </div>
           <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-1">
-            Affects calendar views and week calculations
+            影响日历视图排列及周工时统计计算
           </p>
         </div>
       </div>

@@ -76,11 +76,11 @@ export const ImportData: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-2">
-          Import Tasks
+          批量导入外部任务
         </h3>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-4">
-          Import your tasks from other productivity tools. Supported formats: Trello (JSON), Asana (JSON),
-          Todoist (CSV), ClickUp (CSV), Monday.com (CSV), Notion (CSV).
+          无缝迁入其他效率工具中的任务。支持的数据源格式包括：Trello (JSON)、Asana (JSON)、
+          Todoist (CSV)、ClickUp (CSV)、Monday.com (CSV)、Notion (CSV)。
         </p>
       </div>
 
@@ -112,10 +112,10 @@ export const ImportData: React.FC = () => {
             />
           </svg>
           <span className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-            Click to upload or drag and drop
+            点击选择文件，或直接将文件拖拽至此处
           </span>
           <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
-            JSON or CSV files only
+            仅支持 .json 或 .csv 格式文件
           </span>
         </label>
       </div>
@@ -129,7 +129,7 @@ export const ImportData: React.FC = () => {
                 {file.name}
               </p>
               <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
-                Detected format: <span className="font-medium">{formatSourceName(source)}</span>
+                已识别格式：<span className="font-medium">{formatSourceName(source)}</span>
               </p>
             </div>
             <button
@@ -145,7 +145,7 @@ export const ImportData: React.FC = () => {
               }}
               className="text-status-error-text hover:underline text-sm"
             >
-              Clear
+              清空
             </button>
           </div>
         </div>
@@ -155,13 +155,13 @@ export const ImportData: React.FC = () => {
       {preview && (
         <div className="bg-surface-light-elevated dark:bg-surface-dark-elevated p-4 rounded-lg border border-border-light dark:border-border-dark">
           <h4 className="font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-            Preview ({preview.taskCount} task{preview.taskCount !== 1 ? 's' : ''})
+            数据解析预览（共 {preview.taskCount} 项任务）
           </h4>
 
           {/* Warnings */}
           {preview.warnings.length > 0 && (
             <div className="mb-4 p-3 bg-status-warning-bg text-status-warning-text rounded text-sm">
-              <p className="font-medium mb-1">Warnings:</p>
+              <p className="font-medium mb-1">提示预警：</p>
               <ul className="list-disc list-inside space-y-1">
                 {preview.warnings.map((warning, idx) => (
                   <li key={idx}>{warning}</li>
@@ -174,7 +174,7 @@ export const ImportData: React.FC = () => {
           {preview.newTags.length > 0 && (
             <div className="mb-4">
               <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-2">
-                New tags to be created ({preview.newTags.length}):
+                即将新建的标签类别（共 {preview.newTags.length} 个）：
               </p>
               <div className="flex flex-wrap gap-2">
                 {preview.newTags.slice(0, 10).map((tag) => (
@@ -187,7 +187,7 @@ export const ImportData: React.FC = () => {
                 ))}
                 {preview.newTags.length > 10 && (
                   <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                    +{preview.newTags.length - 10} more
+                    + 其他 {preview.newTags.length - 10} 个
                   </span>
                 )}
               </div>
@@ -227,12 +227,12 @@ export const ImportData: React.FC = () => {
                               : 'bg-status-info-bg text-status-info-text'
                           }`}
                         >
-                          {task.priority}
+                          {task.priority === 'high' ? '高优先级' : task.priority === 'medium' ? '中优先级' : '低优先级'}
                         </span>
                       )}
                       {task.tags && task.tags.length > 0 && (
                         <span className="px-1.5 py-0.5 rounded bg-accent-purple/10 text-accent-purple">
-                          {task.tags.length} tag{task.tags.length !== 1 ? 's' : ''}
+                          {task.tags.length} 个标签
                         </span>
                       )}
                     </div>
@@ -242,7 +242,7 @@ export const ImportData: React.FC = () => {
             ))}
             {preview.taskCount > 10 && (
               <p className="text-xs text-center text-text-light-secondary dark:text-text-dark-secondary py-2">
-                +{preview.taskCount - 10} more task{preview.taskCount - 10 !== 1 ? 's' : ''}
+                + 其余 {preview.taskCount - 10} 项任务未展开预览
               </p>
             )}
           </div>
@@ -254,7 +254,7 @@ export const ImportData: React.FC = () => {
               disabled={importing}
               className="flex-1 px-4 py-2 bg-accent-blue text-white text-sm font-medium rounded-lg hover:bg-accent-blue/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {importing ? 'Importing...' : `Import ${preview.taskCount} Task${preview.taskCount !== 1 ? 's' : ''}`}
+              {importing ? '正在批量导入...' : `确认导入 ${preview.taskCount} 项任务`}
             </button>
           </div>
         </div>
@@ -263,7 +263,7 @@ export const ImportData: React.FC = () => {
       {/* Error */}
       {error && (
         <div className="p-4 bg-status-error-bg text-status-error-text rounded-lg">
-          <p className="font-medium mb-1">Error</p>
+          <p className="font-medium mb-1">导入出错</p>
           <p className="text-sm">{error}</p>
         </div>
       )}
@@ -271,7 +271,7 @@ export const ImportData: React.FC = () => {
       {/* Success */}
       {result && result.success && (
         <div className="p-4 bg-status-success-bg text-status-success-text rounded-lg">
-          <p className="font-medium mb-1">Success!</p>
+          <p className="font-medium mb-1">导入圆满完成！</p>
           <p className="text-sm">{result.message}</p>
         </div>
       )}
@@ -279,27 +279,26 @@ export const ImportData: React.FC = () => {
       {/* Export documentation links */}
       <div className="bg-surface-light-elevated dark:bg-surface-dark-elevated p-4 rounded-lg">
         <h4 className="font-semibold text-text-light-primary dark:text-text-dark-primary mb-2">
-          How to export from other tools
+          常见第三方工具导出指引
         </h4>
         <ul className="space-y-2 text-sm text-text-light-secondary dark:text-text-dark-secondary">
           <li>
-            <span className="font-medium">Trello:</span> Board → Menu → More → Print and export → Export
-            JSON
+            <span className="font-medium">Trello:</span> 看板 → 菜单 → 更多 → 打印与导出 → 导出为 JSON
           </li>
           <li>
-            <span className="font-medium">Asana:</span> Project → Export → JSON
+            <span className="font-medium">Asana:</span> 项目 → 导出 → JSON
           </li>
           <li>
-            <span className="font-medium">Todoist:</span> Settings → Backup → Export as CSV
+            <span className="font-medium">Todoist:</span> 设置 → 备份 → 导出为 CSV
           </li>
           <li>
-            <span className="font-medium">ClickUp:</span> Space → Settings → Export Space
+            <span className="font-medium">ClickUp:</span> 空间 (Space) → 设置 → 导出空间
           </li>
           <li>
-            <span className="font-medium">Monday.com:</span> Board → Menu → Export board data
+            <span className="font-medium">Monday.com:</span> 看板 → 菜单 → 导出看板数据
           </li>
           <li>
-            <span className="font-medium">Notion:</span> Database → ··· → Export → CSV
+            <span className="font-medium">Notion:</span> 数据库 → ··· → 导出 → CSV
           </li>
         </ul>
       </div>

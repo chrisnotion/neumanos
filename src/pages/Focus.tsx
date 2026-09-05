@@ -137,8 +137,8 @@ export const Focus: React.FC = () => {
       <button
         onClick={handleExit}
         className="absolute top-6 right-6 p-3 rounded-full bg-surface-dark-elevated hover:bg-surface-dark-elevated/80 text-text-dark-secondary hover:text-text-dark-primary transition-all"
-        title="Exit Focus Mode (Esc)"
-        aria-label="Exit Focus Mode"
+        title="退出专注模式 (Esc)"
+        aria-label="退出专注模式"
       >
         <X className="w-6 h-6" />
       </button>
@@ -152,7 +152,7 @@ export const Focus: React.FC = () => {
           </div>
           <div className="flex items-center justify-center gap-2 text-text-dark-secondary">
             <Clock className="w-4 h-4" />
-            <span className="text-sm uppercase tracking-wide">Focus Time</span>
+            <span className="text-sm uppercase tracking-wide">专注时长</span>
           </div>
         </div>
 
@@ -175,8 +175,8 @@ export const Focus: React.FC = () => {
           <button
             onClick={handleReset}
             className="p-4 rounded-full bg-surface-dark-elevated hover:bg-surface-dark-elevated/80 text-text-dark-secondary hover:text-text-dark-primary transition-all"
-            title="Reset Session (R)"
-            aria-label="Reset session"
+            title="重置当前时段 (R)"
+            aria-label="重置当前时段"
           >
             <RotateCcw className="w-6 h-6" />
           </button>
@@ -189,8 +189,8 @@ export const Focus: React.FC = () => {
                 ? 'bg-accent-primary hover:bg-accent-primary/90 text-white'
                 : 'bg-accent-secondary hover:bg-accent-secondary/90 text-white'
             }`}
-            title={activeEntry ? 'Pause Timer (Space)' : 'Start Timer (Space)'}
-            aria-label={activeEntry ? 'Pause timer' : 'Start timer'}
+            title={activeEntry ? '暂停计时 (空格)' : '开启计时 (空格)'}
+            aria-label={activeEntry ? '暂停计时' : '开启计时'}
           >
             {activeEntry ? (
               <Pause className="w-10 h-10" />
@@ -207,7 +207,7 @@ export const Focus: React.FC = () => {
         {activeEntry && (
           <div className="flex items-center justify-center gap-2 text-accent-primary animate-pulse">
             <div className="w-2 h-2 rounded-full bg-accent-primary" />
-            <span className="text-sm font-medium uppercase tracking-wide">Recording</span>
+            <span className="text-sm font-medium uppercase tracking-wide">正在计入工时</span>
           </div>
         )}
       </div>
@@ -216,21 +216,21 @@ export const Focus: React.FC = () => {
       <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-6 text-text-dark-muted text-xs">
         <div className="flex items-center gap-2">
           <kbd className="px-2 py-1 rounded bg-surface-dark-elevated border border-border-dark font-mono">
-            Space
+            空格
           </kbd>
-          <span>Timer</span>
+          <span>启停计时</span>
         </div>
         <div className="flex items-center gap-2">
           <kbd className="px-2 py-1 rounded bg-surface-dark-elevated border border-border-dark font-mono">
             R
           </kbd>
-          <span>Reset</span>
+          <span>重置时段</span>
         </div>
         <div className="flex items-center gap-2">
           <kbd className="px-2 py-1 rounded bg-surface-dark-elevated border border-border-dark font-mono">
             Esc
           </kbd>
-          <span>Exit</span>
+          <span>退出专注</span>
         </div>
       </div>
     </div>

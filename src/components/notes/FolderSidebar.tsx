@@ -295,14 +295,14 @@ export const FolderSidebar: React.FC<FolderSidebarProps> = ({
       {/* Folders header */}
       <div className="flex items-center justify-between mb-4 flex-shrink-0">
         <h3 className="text-sm font-medium uppercase tracking-wide text-text-light-secondary dark:text-text-dark-secondary">
-          Folders
+          文件夹
         </h3>
         <button
           onClick={() => createFolder()}
           className="text-xs px-3 h-8 bg-accent-blue hover:bg-accent-blue-hover text-white rounded transition-colors font-medium"
-          title="New Folder"
+          title="新建文件夹"
         >
-          + Folder
+          + 文件夹
         </button>
       </div>
 
@@ -310,7 +310,7 @@ export const FolderSidebar: React.FC<FolderSidebarProps> = ({
       <div className="mb-3 flex-shrink-0">
         <input
           type="text"
-          placeholder="Search notes... (Cmd+K)"
+          placeholder="搜索笔记内容... (Cmd+K)"
           className="w-full px-3 py-2 text-sm border border-border-light dark:border-border-dark rounded-lg
                      bg-surface-light dark:bg-surface-dark
                      text-text-light-primary dark:text-text-dark-primary
@@ -333,7 +333,7 @@ export const FolderSidebar: React.FC<FolderSidebarProps> = ({
           }`}
         >
           <FolderOpen className="w-4 h-4" />
-          <span className="text-sm font-medium flex-1">All Notes</span>
+          <span className="text-sm font-medium flex-1">全部笔记</span>
           <span className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
             {Object.keys(notesObj).length}
           </span>
@@ -348,7 +348,7 @@ export const FolderSidebar: React.FC<FolderSidebarProps> = ({
           return (
             <div className="overflow-y-auto flex-1 min-h-0">
               <h3 className="text-xs font-medium uppercase tracking-wide text-text-light-tertiary dark:text-text-dark-tertiary mb-2">
-                {searchResults.length} results for &ldquo;{searchQuery}&rdquo;
+                关于“{searchQuery}”找到 {searchResults.length} 条结果
               </h3>
               <div className="space-y-2">
                 {searchResults.map((result) => (
@@ -362,7 +362,7 @@ export const FolderSidebar: React.FC<FolderSidebarProps> = ({
                   >
                     <div className="font-medium text-sm text-text-light-primary dark:text-text-dark-primary mb-1 truncate">
                       <SearchHighlight
-                        text={result.item.title || 'Untitled'}
+                        text={result.item.title || '无标题笔记'}
                         matchedIndices={result.matches['title']}
                       />
                     </div>
@@ -384,7 +384,7 @@ export const FolderSidebar: React.FC<FolderSidebarProps> = ({
                 ))}
                 {searchResults.length === 0 && (
                   <div className="text-sm text-text-light-secondary dark:text-text-dark-secondary text-center py-8">
-                    No notes found for &ldquo;{searchQuery}&rdquo;
+                    未找到与“{searchQuery}”匹配的笔记
                   </div>
                 )}
               </div>
@@ -425,7 +425,7 @@ export const FolderSidebar: React.FC<FolderSidebarProps> = ({
                 {/* Empty state */}
                 {folderTree.length === 0 && (
                   <div className="text-sm text-text-light-secondary dark:text-text-dark-secondary text-center py-4">
-                  No folders yet
+                  暂无文件夹
                 </div>
               )}
               </div>
@@ -446,7 +446,7 @@ export const FolderSidebar: React.FC<FolderSidebarProps> = ({
           onClick={onOpenTagManager}
           className="w-full mt-3 px-3 py-2 text-xs font-medium rounded border border-border-light dark:border-border-dark hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary transition-colors"
         >
-          Manage Tags
+          管理标签分类
         </button>
       </div>
 
@@ -455,9 +455,9 @@ export const FolderSidebar: React.FC<FolderSidebarProps> = ({
         isOpen={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
         onConfirm={confirmDeleteFolder}
-        title="Delete Folder"
-        message={`Delete folder "${selectedFolderName}"? This will also delete ${selectedFolderId ? getFolderNoteCount(selectedFolderId) : 0} note(s) inside.`}
-        confirmText="Delete"
+        title="删除文件夹"
+        message={`确定要删除文件夹“${selectedFolderName}”吗？其内部所包含的 ${selectedFolderId ? getFolderNoteCount(selectedFolderId) : 0} 篇笔记也将一并删除。`}
+        confirmText="确认删除"
         variant="danger"
       />
 
@@ -466,11 +466,11 @@ export const FolderSidebar: React.FC<FolderSidebarProps> = ({
         isOpen={renameDialogOpen}
         onClose={() => setRenameDialogOpen(false)}
         onConfirm={confirmRenameFolder}
-        title="Rename Folder"
-        message="Enter a new name for this folder:"
+        title="重命名文件夹"
+        message="请输入文件夹的新名称："
         defaultValue={selectedFolderName}
-        placeholder="Folder name"
-        confirmText="Rename"
+        placeholder="文件夹名称"
+        confirmText="保存"
       />
     </div>
   );

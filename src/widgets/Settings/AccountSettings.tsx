@@ -19,7 +19,7 @@ export const AccountSettings: React.FC = () => {
       <div className="flex items-center gap-3 mb-4">
         <span className="text-2xl">👤</span>
         <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-          Account Settings
+          个人账户设置
         </h2>
       </div>
 
@@ -27,25 +27,25 @@ export const AccountSettings: React.FC = () => {
         {/* Display Name */}
         <div>
           <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-            Display Name
+            个人昵称
           </label>
           <input
             type="text"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
             className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-blue"
-            placeholder="Enter your name"
+            placeholder="输入您的昵称"
             autoComplete="off"
           />
           <p className="mt-1 text-xs text-text-light-secondary dark:text-text-dark-secondary">
-            Your name for personalization (e.g., default task assignee).
+            用于系统个性化称谓与任务默认指派人。
           </p>
         </div>
 
         {/* Email */}
         <div>
           <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-            Email
+            电子邮箱
           </label>
           <input
             type="email"
@@ -56,14 +56,14 @@ export const AccountSettings: React.FC = () => {
             autoComplete="off"
           />
           <p className="mt-1 text-xs text-text-light-secondary dark:text-text-dark-secondary">
-            Optional. May be used for notifications and account recovery (future feature).
+            选填。可用于本地备份标识与通知事项。
           </p>
         </div>
 
         {/* Privacy Notice */}
         <div className="mt-4 p-3 bg-status-info-bg dark:bg-status-info-bg-dark border border-status-info-border dark:border-status-info-border-dark rounded-lg">
           <p className="text-xs text-status-info-text dark:text-status-info-text-dark">
-            <strong>🔒 Privacy:</strong> All account data is stored locally on your device. Nothing is sent to any server.
+            <strong>🔒 隐私承诺：</strong> 所有账户与身份信息均严格保存在您的本地设备中，绝不会向任何第三方或云端服务器发送。
           </p>
         </div>
       </div>

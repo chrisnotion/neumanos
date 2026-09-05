@@ -23,7 +23,7 @@ describe('Header', () => {
   it('should render branding', () => {
     renderWithRouter(<Header />);
 
-    expect(screen.getByText('Management Platform')).toBeInTheDocument();
+    expect(screen.getByText('个人生产力平台')).toBeInTheDocument();
   });
 
   it('should render logo image', () => {
@@ -37,7 +37,7 @@ describe('Header', () => {
   it('should render theme toggle button', () => {
     renderWithRouter(<Header />);
 
-    const toggleButton = screen.getByTitle(/Switch to/);
+    const toggleButton = screen.getByTitle(/切换为/);
     expect(toggleButton).toBeInTheDocument();
   });
 
@@ -45,7 +45,7 @@ describe('Header', () => {
     useThemeStore.setState({ mode: 'dark' });
     renderWithRouter(<Header />);
 
-    const toggleButton = screen.getByTitle('Switch to light mode');
+    const toggleButton = screen.getByTitle('切换为浅色模式');
     expect(toggleButton).toBeInTheDocument();
     expect(toggleButton).toHaveTextContent('☀️');
   });
@@ -54,7 +54,7 @@ describe('Header', () => {
     useThemeStore.setState({ mode: 'light' });
     renderWithRouter(<Header />);
 
-    const toggleButton = screen.getByTitle('Switch to dark mode');
+    const toggleButton = screen.getByTitle('切换为深色模式');
     expect(toggleButton).toBeInTheDocument();
     expect(toggleButton).toHaveTextContent('🌙');
   });
@@ -66,7 +66,7 @@ describe('Header', () => {
     // Start in dark mode
     expect(useThemeStore.getState().mode).toBe('dark');
 
-    const toggleButton = screen.getByTitle('Switch to light mode');
+    const toggleButton = screen.getByTitle('切换为浅色模式');
     await user.click(toggleButton);
 
     // Should now be in light mode
@@ -85,7 +85,7 @@ describe('Header', () => {
     expect(useThemeStore.getState().mode).toBe('dark');
 
     // Click 1: dark -> light
-    let toggleButton = screen.getByTitle('Switch to light mode');
+    let toggleButton = screen.getByTitle('切换为浅色模式');
     await user.click(toggleButton);
     expect(useThemeStore.getState().mode).toBe('light');
 
@@ -97,7 +97,7 @@ describe('Header', () => {
     );
 
     // Click 2: light -> dark
-    toggleButton = screen.getByTitle('Switch to dark mode');
+    toggleButton = screen.getByTitle('切换为深色模式');
     await user.click(toggleButton);
     expect(useThemeStore.getState().mode).toBe('dark');
   });
@@ -114,10 +114,10 @@ describe('Header', () => {
   it('should render navigation links', () => {
     renderWithRouter(<Header />);
 
-    expect(screen.getByText('🏠 Dashboard')).toBeInTheDocument();
-    expect(screen.getByText('📝 Notes')).toBeInTheDocument();
-    expect(screen.getByText('📅 Schedule')).toBeInTheDocument();
-    expect(screen.getByText('✓ Tasks')).toBeInTheDocument();
-    expect(screen.getByText('⚙️ Settings')).toBeInTheDocument();
+    expect(screen.getByText('🏠 运行中枢')).toBeInTheDocument();
+    expect(screen.getByText('📝 灵感笔记')).toBeInTheDocument();
+    expect(screen.getByText('📅 日程规划')).toBeInTheDocument();
+    expect(screen.getByText('✓ 任务管理')).toBeInTheDocument();
+    expect(screen.getByText('⚙️ 系统设置')).toBeInTheDocument();
   });
 });

@@ -164,21 +164,21 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        title="AI Provider Settings"
+        title="AI 大模型服务商设置"
         maxWidth="2xl"
       >
         <div className="space-y-3">
           {/* Header Description */}
           <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
             <p className="mb-1">
-              Configure API keys for AI providers. Your keys are encrypted with AES-256-CBC and stored locally.
+              配置各大服务商的 API 密钥。密钥采用 AES-256-CBC 算法高强度加密，且仅安全保存在您的本地设备中。
             </p>
             <p className="text-[10px]">
-              <span className="text-accent-green">🟢 Free</span> models available
+              <span className="text-accent-green">🟢 免费</span> 包含免费可用模型额度
               {' • '}
-              <span className="text-accent-blue">🔵 Paid</span> BYOK (Bring Your Own Key)
+              <span className="text-accent-blue">🔵 自备密钥</span> BYOK (自带 API Key)
               {' • '}
-              <span className="text-accent-yellow">⚠️</span> Requires backend proxy (CORS)
+              <span className="text-accent-yellow">⚠️</span> 受浏览器跨域 (CORS) 限制
             </p>
           </div>
 
@@ -215,15 +215,15 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                         </h3>
                         {metadata.hasFreeModels && (
                           <span className="text-[10px] px-1.5 py-0.5 bg-accent-green/10 text-accent-green rounded">
-                            Free Models
+                            含免费模型
                           </span>
                         )}
                         {!metadata.supportsCORS && metadata.requiresProxy && (
                           <span
                             className="text-[10px] px-1.5 py-0.5 bg-accent-yellow/10 text-accent-yellow rounded cursor-help"
-                            title="This provider blocks direct browser requests (CORS). Use OpenRouter instead - it can access this provider's models and works directly in your browser."
+                            title="该服务商直接限制了浏览器直连跨域 (CORS)。推荐使用 OpenRouter，可免代理直接在浏览器中访问其模型。"
                           >
-                            ⚠️ Proxy Required
+                            ⚠️ 需跨域代理
                           </span>
                         )}
                       </div>
@@ -231,7 +231,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                         {metadata.description}
                       </p>
                       <div className="mt-0.5 flex items-center gap-2 text-[10px] text-text-light-secondary dark:text-text-dark-secondary">
-                        <span>{status?.modelCount || 0} models</span>
+                        <span>{status?.modelCount || 0} 个可选模型</span>
                         {metadata.apiKeyUrl && (
                           <>
                             <span>•</span>
@@ -241,7 +241,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                               rel="noopener noreferrer"
                               className="text-accent-blue hover:text-accent-blue-hover"
                             >
-                              Get API Key →
+                              获取 API 密钥 →
                             </a>
                           </>
                         )}
@@ -254,7 +254,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                               rel="noopener noreferrer"
                               className="text-accent-blue hover:text-accent-blue-hover"
                             >
-                              Documentation →
+                              官方开发文档 →
                             </a>
                           </>
                         )}
@@ -266,11 +266,11 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                     <div className="flex items-center gap-1.5">
                       {isConfigured ? (
                         <span className="text-[10px] px-1.5 py-0.5 bg-accent-green/10 text-accent-green rounded">
-                          ✓ Configured
+                          ✓ 已配置
                         </span>
                       ) : (
                         <span className="text-[10px] px-1.5 py-0.5 bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary rounded">
-                          Not Configured
+                          未配置
                         </span>
                       )}
                     </div>
@@ -288,8 +288,8 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                           }
                           placeholder={
                             isConfigured
-                              ? 'Enter new API key to replace existing'
-                              : `Enter your ${metadata.apiKeyLabel || 'API key'}`
+                              ? '输入新 API 密钥以替换现有密钥'
+                              : `输入您的 ${metadata.apiKeyLabel || 'API 密钥'}`
                           }
                           className="w-full px-2.5 py-1.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary text-xs"
                           autoComplete="off"
@@ -299,7 +299,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                           onClick={() => toggleShowApiKey(providerId)}
                           className="absolute right-2 top-1/2 -translate-y-1/2 text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary text-[10px]"
                         >
-                          {showApiKeys[providerId] ? 'Hide' : 'Show'}
+                          {showApiKeys[providerId] ? '隐藏' : '显示'}
                         </button>
                       </div>
                     </div>
@@ -311,7 +311,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                         disabled={!apiKeyInputs[providerId]?.trim()}
                         className="px-2.5 py-1 bg-accent-blue hover:bg-accent-blue-hover disabled:bg-surface-light-elevated dark:disabled:bg-surface-dark-elevated disabled:text-text-light-tertiary dark:disabled:text-text-dark-tertiary disabled:cursor-not-allowed text-white rounded-button text-xs transition-all duration-standard ease-smooth"
                       >
-                        {isConfigured ? 'Update' : 'Save'}
+                        {isConfigured ? '更新保存' : '保存'}
                       </button>
 
                       <button
@@ -319,7 +319,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                         disabled={!apiKeyInputs[providerId]?.trim() || validating[providerId]}
                         className="px-2.5 py-1 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark disabled:opacity-50 disabled:cursor-not-allowed border border-border-light dark:border-border-dark rounded-button text-xs text-text-light-primary dark:text-text-dark-primary transition-all duration-standard ease-smooth"
                       >
-                        {validating[providerId] ? 'Testing...' : 'Test Key'}
+                        {validating[providerId] ? '检测中...' : '测试连通性'}
                       </button>
 
                       {isConfigured && (
@@ -327,7 +327,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                           onClick={() => handleClearApiKey(providerId)}
                           className="px-2.5 py-1 bg-accent-red/10 hover:bg-accent-red/20 border border-accent-red/20 rounded-button text-xs text-accent-red transition-all duration-standard ease-smooth"
                         >
-                          Remove
+                          清除
                         </button>
                       )}
 
@@ -340,7 +340,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                               : 'bg-accent-red/10 text-accent-red'
                           }`}
                         >
-                          {validationResults[providerId] ? '✓ Valid' : '✗ Invalid'}
+                          {validationResults[providerId] ? '✓ 连通有效' : '✗ 密钥无效'}
                         </span>
                       )}
                     </div>
@@ -353,15 +353,15 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
           {/* AI Context Settings */}
           <div className="pt-3 border-t border-border-light dark:border-border-dark space-y-2">
             <h3 className="text-xs font-semibold text-text-light-primary dark:text-text-dark-primary">
-              AI Context
+              AI 上下文联动
             </h3>
             <div className="flex items-start justify-between gap-4 p-3 bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-button">
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-medium text-text-light-primary dark:text-text-dark-primary">
-                  Cross-module context
+                  跨模块全局上下文注入
                 </div>
                 <div className="text-[11px] text-text-light-secondary dark:text-text-dark-secondary mt-0.5">
-                  Include data from notes, tasks, calendar, and habits in AI conversations
+                  允许在与 AI 对话时按需参考笔记、待办事项、日历与习惯打卡数据
                 </div>
               </div>
               <button
@@ -373,7 +373,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                     ? 'bg-accent-blue'
                     : 'bg-surface-dark dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark'
                 }`}
-                aria-label="Toggle cross-module context"
+                aria-label="切换跨模块上下文"
               >
                 <span
                   className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform duration-200 ${
@@ -390,7 +390,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
               onClick={onClose}
               className="px-3 py-1.5 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button text-xs transition-all duration-standard ease-smooth"
             >
-              Done
+              完成
             </button>
           </div>
         </div>

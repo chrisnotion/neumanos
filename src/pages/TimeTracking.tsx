@@ -46,22 +46,22 @@ const VALID_TIMER_SECTIONS: TimerSectionType[] = ['timer', 'entries', 'timesheet
 
 // Main tab configuration
 const SCHEDULE_TABS: Tab[] = [
-  { id: 'calendar', label: 'Calendar', icon: Calendar },
-  { id: 'timer', label: 'Time Tracking', icon: Timer },
-  { id: 'pomodoro', label: 'Pomodoro', icon: Clock },
+  { id: 'calendar', label: '日程日历', icon: Calendar },
+  { id: 'timer', label: '工时追踪', icon: Timer },
+  { id: 'pomodoro', label: '番茄钟专注', icon: Clock },
 ];
 
 // Timer section configuration (sidebar items)
 const TIMER_SECTIONS = [
-  { id: 'timer', label: 'Timer', icon: Timer },
-  { id: 'entries', label: 'Entries', icon: List },
-  { id: 'timesheet', label: 'Timesheet', icon: Grid3X3 },
-  { id: 'summary', label: 'Summary', icon: BarChart3 },
-  { id: 'projects', label: 'Projects', icon: FolderOpen },
-  { id: 'invoices', label: 'Invoices', icon: FileText },
-  { id: 'reports', label: 'Reports', icon: TrendingUp },
-  { id: 'timeline', label: 'Timeline', icon: Activity },
-  { id: 'settings', label: 'Settings', icon: SettingsIcon },
+  { id: 'timer', label: '即时计时', icon: Timer },
+  { id: 'entries', label: '工时记录', icon: List },
+  { id: 'timesheet', label: '周工时单', icon: Grid3X3 },
+  { id: 'summary', label: '工时汇总', icon: BarChart3 },
+  { id: 'projects', label: '项目归属', icon: FolderOpen },
+  { id: 'invoices', label: '账单开票', icon: FileText },
+  { id: 'reports', label: '深度报表', icon: TrendingUp },
+  { id: 'timeline', label: '活动轨迹', icon: Activity },
+  { id: 'settings', label: '配置偏好', icon: SettingsIcon },
 ] as const;
 
 /**
@@ -224,7 +224,7 @@ export function TimeTracking() {
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                       </svg>
-                      Export CSV
+                      导出 CSV
                     </button>
                   </div>
                   <TimeEntryList onEditEntry={(entry) => setEditingEntry(entry)} />

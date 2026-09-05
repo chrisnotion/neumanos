@@ -161,8 +161,8 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   };
 
   const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    '一月', '二月', '三月', '四月', '五月', '六月',
+    '七月', '八月', '九月', '十月', '十一月', '十二月'
   ];
 
   return (
@@ -170,29 +170,29 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       {/* Month Navigation */}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">
-          {monthNames[currentMonth]} {currentYear}
+          {currentYear}年 {monthNames[currentMonth]}
         </h2>
         <div className="flex items-center gap-2">
           <button
             onClick={goToPreviousMonth}
             className="px-3 py-1.5 text-sm font-medium bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-primary dark:text-text-dark-primary rounded-lg border border-border-light dark:border-border-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors"
-            title="Previous Month"
+            title="上一月"
           >
-            ← Prev
+            ← 上个月
           </button>
           <button
             onClick={goToToday}
             className="px-3 py-1.5 text-sm font-medium bg-accent-blue text-white rounded-lg hover:bg-accent-blue-hover transition-colors"
-            title="Go to Today"
+            title="回到今天"
           >
-            Today
+            今天
           </button>
           <button
             onClick={goToNextMonth}
             className="px-3 py-1.5 text-sm font-medium bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-primary dark:text-text-dark-primary rounded-lg border border-border-light dark:border-border-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors"
-            title="Next Month"
+            title="下一月"
           >
-            Next →
+            下个月 →
           </button>
         </div>
       </div>
@@ -201,7 +201,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       {tasksWithoutDueDate > 0 && (
         <div className="px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg border border-border-light dark:border-border-dark">
           <span className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-            {tasksWithoutDueDate} task{tasksWithoutDueDate === 1 ? '' : 's'} without due date (hidden in calendar view)
+            共有 {tasksWithoutDueDate} 项任务未指定截止日期（在日历视图中隐去）
           </span>
         </div>
       )}
@@ -217,7 +217,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       {/* Empty State */}
       {tasks.length === 0 && (
         <div className="text-center py-8 text-text-light-secondary dark:text-text-dark-secondary">
-          <p className="text-sm">No tasks to display. Create a task to get started!</p>
+          <p className="text-sm">暂无任务展示，点击任意日期即可创建新任务！</p>
         </div>
       )}
     </div>

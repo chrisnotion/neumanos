@@ -55,10 +55,10 @@ export const THEME_REGISTRY: Record<ThemeId, ThemeDefinition> = {
 };
 
 export const THEME_CATEGORIES: ThemeCategoryInfo[] = [
-  { id: 'vibrant', label: 'Fun & Vibrant', description: 'Bold, expressive palettes' },
-  { id: 'professional', label: 'Professional', description: 'Clean, refined palettes' },
-  { id: 'minimal', label: 'Minimal', description: 'Stripped-back, focused palettes' },
-  { id: 'tech', label: 'Tech', description: 'Developer-inspired palettes' },
+  { id: 'vibrant', label: '活力跃动', description: '大胆张扬、极富表现力的活力调色板' },
+  { id: 'professional', label: '沉稳商务', description: '克制内敛、干净优雅的专业调色板' },
+  { id: 'minimal', label: '极简禅意', description: '返璞归真、专注内容本身的素雅调色板' },
+  { id: 'tech', label: '极客智造', description: '源自经典代码编辑器与终端的黑客调色板' },
 ];
 
 // ---------------------------------------------------------------------------

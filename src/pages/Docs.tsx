@@ -63,17 +63,17 @@ const DOC_TYPE_ICONS = {
 };
 
 const DOC_TYPE_LABELS = {
-  doc: 'Document',
-  sheet: 'Spreadsheet',
-  slides: 'Presentation',
+  doc: '文档',
+  sheet: '电子表格',
+  slides: '演示文稿',
 };
 
 // Category labels for platform docs
 const CATEGORY_LABELS: Record<string, string> = {
-  'getting-started': 'Getting Started',
-  'user-guides': 'User Guides',
-  'product': 'Product',
-  'other': 'Other',
+  'getting-started': '入门指南',
+  'user-guides': '使用手册',
+  'product': '产品与设计',
+  'other': '其他文档',
 };
 
 interface DocItemProps {
@@ -222,14 +222,14 @@ function ContextMenu({ x, y, doc, onClose }: ContextMenuProps) {
           className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-surface-light-alt dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary"
         >
           <Edit className="w-4 h-4" />
-          <span className="text-sm">Edit</span>
+          <span className="text-sm">编辑</span>
         </button>
         <button
           onClick={handleDuplicate}
           className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-surface-light-alt dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary"
         >
           <Copy className="w-4 h-4" />
-          <span className="text-sm">Duplicate</span>
+          <span className="text-sm">创建副本</span>
         </button>
         <div className="border-t border-border-light dark:border-border-dark" />
         <button
@@ -237,7 +237,7 @@ function ContextMenu({ x, y, doc, onClose }: ContextMenuProps) {
           className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-status-error/10 text-status-error"
         >
           <Trash2 className="w-4 h-4" />
-          <span className="text-sm">Delete</span>
+          <span className="text-sm">删除</span>
         </button>
       </div>
 
@@ -245,9 +245,9 @@ function ContextMenu({ x, y, doc, onClose }: ContextMenuProps) {
         isOpen={showDeleteConfirm}
         onClose={() => { setShowDeleteConfirm(false); onClose(); }}
         onConfirm={confirmDelete}
-        title="Delete Document"
-        message={`Delete "${doc.title}"?`}
-        confirmText="Delete"
+        title="删除文档"
+        message={`确定要删除“${doc.title}”吗？`}
+        confirmText="删除"
         variant="danger"
       />
     </>
@@ -278,7 +278,7 @@ function FolderContextMenu({ x, y, folder: _folder, onClose, onRename, onDelete 
           className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-surface-light-alt dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary"
         >
           <Edit className="w-4 h-4" />
-          <span className="text-sm">Rename</span>
+          <span className="text-sm">重命名</span>
         </button>
         <div className="border-t border-border-light dark:border-border-dark" />
         <button
@@ -286,7 +286,7 @@ function FolderContextMenu({ x, y, folder: _folder, onClose, onRename, onDelete 
           className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-status-error/10 text-status-error"
         >
           <Trash2 className="w-4 h-4" />
-          <span className="text-sm">Delete</span>
+          <span className="text-sm">删除</span>
         </button>
       </div>
     </>
@@ -300,9 +300,9 @@ const VALID_TABS: CreateTabType[] = ['create', 'diagrams', 'forms'];
 
 // Tab configuration for TabNavigation component
 const CREATE_TABS: Tab[] = [
-  { id: 'create', label: 'Create', icon: Sparkles },
-  { id: 'diagrams', label: 'Diagrams', icon: Shapes },
-  { id: 'forms', label: 'Forms', icon: ClipboardList },
+  { id: 'create', label: '文档创作', icon: Sparkles },
+  { id: 'diagrams', label: '图表流程', icon: Shapes },
+  { id: 'forms', label: '表单收集', icon: ClipboardList },
 ];
 
 export function Docs() {
@@ -611,7 +611,7 @@ export function Docs() {
                     >
                       <Plus className="w-4 h-4 text-accent-primary" />
                       <FileText className="w-4 h-4 text-accent-primary" />
-                      <span className="text-sm">Document</span>
+                      <span className="text-sm">新建文档</span>
                     </button>
                     <button
                       onClick={() => handleCreateDoc('sheet')}
@@ -619,7 +619,7 @@ export function Docs() {
                     >
                       <Plus className="w-4 h-4 text-accent-primary" />
                       <Table2 className="w-4 h-4 text-accent-primary" />
-                      <span className="text-sm">Spreadsheet</span>
+                      <span className="text-sm">新建表格</span>
                     </button>
                     <button
                       onClick={() => handleCreateDoc('slides')}
@@ -627,7 +627,7 @@ export function Docs() {
                     >
                       <Plus className="w-4 h-4 text-accent-purple" />
                       <Presentation className="w-4 h-4 text-accent-purple" />
-                      <span className="text-sm">Presentation</span>
+                      <span className="text-sm">新建幻灯片</span>
                     </button>
                   </div>
 
@@ -640,13 +640,13 @@ export function Docs() {
                         className="w-full flex items-center gap-2 px-2 py-1.5 text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary"
                       >
                         {showPlatformDocs ? (
-                          <ChevronDown className="w-3 h-3" />
+                           <ChevronDown className="w-3 h-3" />
                         ) : (
                           <ChevronRight className="w-3 h-3" />
                         )}
                         <BookOpen className="w-4 h-4" />
                         <span className="text-xs font-medium uppercase tracking-wider">
-                          Platform Docs
+                          平台指南与文档
                         </span>
                       </button>
                       {showPlatformDocs && (
@@ -682,12 +682,12 @@ export function Docs() {
                     <div>
                       <div className="flex items-center justify-between px-2 py-1.5 mb-1">
                         <span className="text-xs font-medium uppercase tracking-wider text-text-light-secondary dark:text-text-dark-secondary">
-                          My Documents
+                          我的创作
                         </span>
                         <button
                           onClick={() => setIsCreatingFolder(true)}
                           className="p-1 text-text-light-tertiary dark:text-text-dark-tertiary hover:text-text-light-primary dark:hover:text-text-dark-primary"
-                          title="Create folder"
+                          title="新建文件夹"
                         >
                           <FolderPlus className="w-3.5 h-3.5" />
                         </button>
@@ -711,7 +711,7 @@ export function Docs() {
                                 setNewFolderName('');
                               }
                             }}
-                            placeholder="New folder name..."
+                            placeholder="文件夹名称..."
                             autoFocus
                             className="flex-1 min-w-0 text-sm bg-transparent border-b border-accent-primary focus:outline-none text-text-light-primary dark:text-text-dark-primary placeholder:text-text-light-tertiary dark:placeholder:text-text-dark-tertiary"
                           />
@@ -725,10 +725,10 @@ export function Docs() {
                         <div className="text-center py-8 px-4">
                           <FileText className="w-10 h-10 mx-auto text-text-light-tertiary dark:text-text-dark-tertiary mb-3" />
                           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-2">
-                            No documents yet
+                            暂无文档内容
                           </p>
                           <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-                            Click "New" to create a document, spreadsheet, or presentation
+                            点击上方按钮创建专业文档、电子表格或演示文稿
                           </p>
                         </div>
                       )}
@@ -747,7 +747,7 @@ export function Docs() {
                         }`}
                       >
                         <List className="w-3.5 h-3.5" />
-                        List
+                        列表
                       </button>
                       <button
                         onClick={() => setViewMode('grid')}
@@ -758,7 +758,7 @@ export function Docs() {
                         }`}
                       >
                         <Grid className="w-3.5 h-3.5" />
-                        Grid
+                        网格
                       </button>
                     </div>
                   </div>
@@ -776,7 +776,7 @@ export function Docs() {
                         <button
                           onClick={() => navigate('/create')}
                           className="p-1.5 rounded-lg hover:bg-surface-light-alt dark:hover:bg-surface-dark-elevated transition-colors"
-                          aria-label="Back to create"
+                          aria-label="返回创作首页"
                         >
                           <ArrowLeft className="w-5 h-5 text-text-light-secondary dark:text-text-dark-secondary" />
                         </button>
@@ -785,7 +785,7 @@ export function Docs() {
                             {activePlatformDoc.title}
                           </h1>
                           <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-                            Platform Documentation
+                            平台官方文档
                           </p>
                         </div>
                       </div>
@@ -797,7 +797,7 @@ export function Docs() {
                         fallback={
                           <div className="flex items-center justify-center py-12">
                             <div className="animate-pulse text-text-light-tertiary dark:text-text-dark-tertiary">
-                              Loading documentation...
+                              正在加载文档...
                             </div>
                           </div>
                         }
@@ -814,7 +814,7 @@ export function Docs() {
                         <button
                           onClick={() => navigate('/create')}
                           className="p-1.5 rounded-lg hover:bg-surface-light-alt dark:hover:bg-surface-dark-elevated transition-colors"
-                          aria-label="Back to create"
+                          aria-label="返回创作首页"
                         >
                           <ArrowLeft className="w-5 h-5 text-text-light-secondary dark:text-text-dark-secondary" />
                         </button>
@@ -842,7 +842,7 @@ export function Docs() {
                         fallback={
                           <div className="flex items-center justify-center h-64">
                             <div className="animate-pulse text-text-light-tertiary dark:text-text-dark-tertiary">
-                              Loading editor...
+                              正在载入编辑器...
                             </div>
                           </div>
                         }
@@ -887,11 +887,10 @@ export function Docs() {
                           <Presentation className="w-12 h-12 text-accent-purple opacity-80" />
                         </div>
                         <h2 className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary mb-3">
-                          Documents, Spreadsheets & Presentations
+                          文档、电子表格与演示文稿
                         </h2>
                         <p className="text-text-light-secondary dark:text-text-dark-secondary">
-                          Create professional documents, analyze data with spreadsheets, and
-                          build stunning presentations - all stored locally with full privacy.
+                          创作专业排版文档、利用表格分析数据洞察、制作精美幻灯片演说 —— 数据全部存放于本地，安全私密，尽在掌控。
                         </p>
                       </div>
                     </div>
@@ -936,9 +935,9 @@ export function Docs() {
                 isOpen={folderToDelete !== null}
                 onClose={() => setFolderToDelete(null)}
                 onConfirm={confirmDeleteFolder}
-                title="Delete Folder"
-                message={folderToDelete ? `Delete folder "${folderToDelete.name}"? Documents inside will be moved to the parent folder.` : ''}
-                confirmText="Delete"
+                title="删除文件夹"
+                message={folderToDelete ? `确定要删除文件夹“${folderToDelete.name}”吗？其内部的文档将被移至上级目录。` : ''}
+                confirmText="删除"
                 variant="danger"
               />
             </div>

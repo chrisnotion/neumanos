@@ -29,80 +29,80 @@ export interface PageMetadata {
  */
 export const PAGE_METADATA: Record<string, PageMetadata> = {
   '/': {
-    title: 'Dashboard',
-    subtitle: 'Your personal management overview',
+    title: '运行中枢',
+    subtitle: '全景掌控您的个人生产力与各项事务',
   },
   '/today': {
-    title: 'Today',
-    subtitle: 'Plan your day with intention',
+    title: '今日聚焦',
+    subtitle: '以专注与从容规划今日时光',
   },
   '/tasks': {
-    title: 'Task Management',
-    subtitle: 'Organize and track your tasks with Kanban board',
+    title: '任务管理',
+    subtitle: '通过看板与敏捷视图组织并推进工作',
   },
   '/notes': {
-    title: 'Notes',
-    subtitle: 'Your brain for ideas, thoughts, and knowledge',
+    title: '灵感笔记',
+    subtitle: '沉淀思考、汇聚灵感、构筑个人第二大脑',
   },
   '/schedule': {
-    title: 'Time & Planning',
-    subtitle: 'Track your time, plan your events, and manage your schedule—all in one place.',
+    title: '日程规划',
+    subtitle: '统合时间追踪、事件筹划与日程安排于一体',
   },
   '/settings': {
-    title: 'Settings',
-    subtitle: 'Manage your data, backups, and preferences',
+    title: '系统设置',
+    subtitle: '管理数据安全、备份快照、AI模型与个性化偏好',
   },
   '/links': {
-    title: 'Link Library',
-    subtitle: 'Manage your bookmarks and collections',
+    title: '灵感书签',
+    subtitle: '构建井然有序的网络智库与知识索引',
   },
   '/habits': {
-    title: 'Habits',
-    subtitle: 'Build positive routines through daily tracking',
+    title: '习惯养成',
+    subtitle: '日拱一卒，以持续打卡铸就长久自律',
   },
   '/graph': {
-    title: 'Knowledge Graph',
-    subtitle: 'Visualize connections between your notes',
+    title: '知识图谱',
+    subtitle: '直观探索笔记间的双向关联与知识星图',
   },
   '/diagrams': {
-    title: 'Diagrams',
-    subtitle: 'Create visual diagrams and flowcharts',
+    title: '图表绘制',
+    subtitle: '轻松绘制专业流程图、架构图与思维草图',
   },
   '/forms': {
-    title: 'Forms',
-    subtitle: 'Build and manage custom forms',
+    title: '表单工坊',
+    subtitle: '高效构建、分发与分析各类数据表单',
   },
   '/focus': {
-    title: 'Focus Mode',
-    subtitle: 'Distraction-free work environment',
+    title: '沉浸专注',
+    subtitle: '告别纷扰，在纯粹的工作流中保持心流',
   },
   '/automations': {
-    title: 'Automations',
-    subtitle: 'Create rules to automate your workflow',
+    title: '自动化流水线',
+    subtitle: '配置自定义规则，让繁杂事务自动运转',
   },
   '/docs': {
-    title: 'Documents',
-    subtitle: 'Professional documents, spreadsheets, and presentations',
+    title: '创作中心',
+    subtitle: '一站式编写文档、精算表格与演示文稿',
   },
   '/create': {
-    title: 'Create',
-    subtitle: 'Documents, diagrams, and forms',
+    title: '创作工坊',
+    subtitle: '文档撰写、流程图表与智能表单全能工坊',
   },
   '/pm': {
-    title: 'Project Management',
-    subtitle: 'Track projects, milestones, and team progress',
+    title: '项目管理',
+    subtitle: '实时掌控项目进度、关键里程碑与协同态势',
   },
   '/portfolio': {
-    title: 'Portfolio',
-    subtitle: 'Cross-project overview and health tracking',
+    title: '项目矩阵',
+    subtitle: '跨项目全局全景洞察与健康度评估',
   },
   '/energy': {
-    title: 'Energy',
-    subtitle: 'Track energy levels and optimize your schedule',
+    title: '精力感知',
+    subtitle: '洞察身心能量节律，顺势优化日程负荷',
   },
   '/availability': {
-    title: 'Availability',
-    subtitle: 'Share your free time blocks with others',
+    title: '空闲预约',
+    subtitle: '便捷规划与分享您的自由档期与可预约时段',
   },
 };
 

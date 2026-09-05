@@ -65,7 +65,7 @@ export function AboutSettings() {
       <div className="flex items-center gap-3 mb-4">
         <span className="text-2xl">ℹ️</span>
         <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-          About NeumanOS
+          关于 NeumanOS
         </h2>
       </div>
 
@@ -85,25 +85,25 @@ export function AboutSettings() {
       {/* App Information */}
       <div className="mb-6 p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg border border-border-light dark:border-border-dark">
         <h3 className="text-base font-medium text-text-light-primary dark:text-text-dark-primary mb-3">
-          Application Information
+          系统版本信息
         </h3>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-text-light-secondary dark:text-text-dark-secondary">Name:</span>
+            <span className="text-text-light-secondary dark:text-text-dark-secondary">产品名称：</span>
             <span className="font-medium text-text-light-primary dark:text-text-dark-primary">NeumanOS</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-text-light-secondary dark:text-text-dark-secondary">Build:</span>
+            <span className="text-text-light-secondary dark:text-text-dark-secondary">构建版本：</span>
             <span className="font-mono text-text-light-primary dark:text-text-dark-primary">{BUILD_HASH}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-text-light-secondary dark:text-text-dark-secondary">Build Date:</span>
+            <span className="text-text-light-secondary dark:text-text-dark-secondary">构建日期：</span>
             <span className="text-text-light-primary dark:text-text-dark-primary">{formatBuildTimestamp()}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-text-light-secondary dark:text-text-dark-secondary">Description:</span>
+            <span className="text-text-light-secondary dark:text-text-dark-secondary">产品定位：</span>
             <span className="text-text-light-primary dark:text-text-dark-primary text-right max-w-xs">
-              Privacy-first, local-only productivity dashboard
+              纯本地离线、严守隐私的个人效率工作台
             </span>
           </div>
         </div>
@@ -112,7 +112,7 @@ export function AboutSettings() {
       {/* Actions */}
       <div className="mb-6 space-y-3">
         <h3 className="text-base font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-          Support Actions
+          支持与诊断
         </h3>
 
         {/* Help & Support */}
@@ -121,7 +121,7 @@ export function AboutSettings() {
           className="w-full flex items-center gap-3 px-4 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-medium shadow-soft hover:shadow-medium transition-all duration-200"
         >
           <HelpCircle className="w-5 h-5" />
-          <span>Help & Support</span>
+          <span>帮助与技术支持</span>
         </button>
 
         {/* View Diagnostic Report */}
@@ -131,7 +131,7 @@ export function AboutSettings() {
           className="w-full flex items-center gap-3 px-4 py-3 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-lg font-medium border border-border-light dark:border-border-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <FileText className="w-5 h-5" />
-          <span>{isGenerating ? 'Generating...' : 'View Diagnostic Report'}</span>
+          <span>{isGenerating ? '正在生成...' : '查看系统诊断报告'}</span>
         </button>
 
         {/* Download Diagnostic Report */}
@@ -141,14 +141,14 @@ export function AboutSettings() {
           className="w-full flex items-center gap-3 px-4 py-3 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-lg font-medium border border-border-light dark:border-border-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Download className="w-5 h-5" />
-          <span>{isGenerating ? 'Generating...' : 'Download Diagnostic Report'}</span>
+          <span>{isGenerating ? '正在生成...' : '导出诊断报告文件'}</span>
         </button>
       </div>
 
       {/* External Links */}
       <div className="space-y-3">
         <h3 className="text-base font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-          Links
+          开源与声明
         </h3>
 
         <a
@@ -158,25 +158,25 @@ export function AboutSettings() {
           className="flex items-center justify-between px-4 py-3 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark rounded-lg border border-border-light dark:border-border-dark transition-colors group"
         >
           <span className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-            GitHub Repository
+            GitHub 开源代码仓库
           </span>
           <ExternalLink className="w-4 h-4 text-text-light-secondary dark:text-text-dark-secondary group-hover:text-text-light-primary dark:group-hover:text-text-dark-primary transition-colors" />
         </a>
 
         <div className="px-4 py-3 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg border border-border-light dark:border-border-dark">
           <div className="text-sm space-y-1">
-            <div className="font-medium text-text-light-primary dark:text-text-dark-primary">License</div>
+            <div className="font-medium text-text-light-primary dark:text-text-dark-primary">开源许可证</div>
             <div className="text-text-light-secondary dark:text-text-dark-secondary">
-              MIT License - Free and open source software
+              MIT License — 自由、开源且受保护的自由软件
             </div>
           </div>
         </div>
 
         <div className="px-4 py-3 bg-status-success-bg dark:bg-status-success-bg-dark rounded-lg border border-status-success-border dark:border-status-success-border-dark">
           <div className="text-sm space-y-1">
-            <div className="font-medium text-status-success-text dark:text-status-success-text-dark">Privacy Policy</div>
+            <div className="font-medium text-status-success-text dark:text-status-success-text-dark">隐私安全政策</div>
             <div className="text-status-success-text dark:text-status-success-text-dark">
-              All data stored locally. No telemetry, no analytics, no third-party services.
+              全量数据仅在本地留存与运算。绝无任何埋点遥测、行为统计或第三方云端数据同步。
             </div>
           </div>
         </div>
@@ -203,7 +203,7 @@ export function AboutSettings() {
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark">
               <h3 className="text-base font-semibold text-text-light-primary dark:text-text-dark-primary">
-                Diagnostic Report
+                系统诊断报告
               </h3>
               <button
                 onClick={() => setShowDiagnosticModal(false)}
@@ -226,7 +226,7 @@ export function AboutSettings() {
                 onClick={() => setShowDiagnosticModal(false)}
                 className="w-full px-4 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-lg font-medium transition-colors"
               >
-                Close
+                关闭
               </button>
             </div>
           </div>

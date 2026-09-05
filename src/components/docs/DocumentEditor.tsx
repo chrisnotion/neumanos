@@ -280,14 +280,14 @@ export function DocumentEditor({
             <div className="flex items-center gap-1 shrink-0">
               <button
                 onClick={addCommentToSelection}
-                title="Add comment to selection"
+                title="为选中内容添加批注"
                 className="p-1.5 rounded text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-alt dark:hover:bg-surface-dark-elevated transition-colors"
               >
                 <MessageSquare className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setShowComments(!showComments)}
-                title="Toggle comments panel"
+                title="切换批注面板"
                 className={`p-1.5 rounded transition-colors ${
                   showComments
                     ? 'bg-accent-primary/10 text-accent-primary'
@@ -303,7 +303,7 @@ export function DocumentEditor({
           <div className="flex items-center gap-1 px-2 py-1.5 shrink-0 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg">
             <button
               onClick={() => setIsPageView(false)}
-              title="Continuous scroll"
+              title="连续滚动模式"
               className={`p-1.5 rounded transition-colors ${
                 !isPageView
                   ? 'bg-accent-primary/10 text-accent-primary'
@@ -315,7 +315,7 @@ export function DocumentEditor({
             </button>
             <button
               onClick={() => setIsPageView(true)}
-              title="Page view"
+              title="分页视图模式"
               className={`p-1.5 rounded transition-colors ${
                 isPageView
                   ? 'bg-accent-primary/10 text-accent-primary'
@@ -332,7 +332,7 @@ export function DocumentEditor({
                 value={currentPageSize}
                 onChange={(e) => setCurrentPageSize(e.target.value as PageSize)}
                 className="ml-1 px-2 py-1 text-xs bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded text-text-light-secondary dark:text-text-dark-secondary focus:outline-none focus:ring-1 focus:ring-accent-primary"
-                aria-label="Page size"
+                aria-label="纸张规格"
               >
                 {Object.entries(PAGE_SIZES).map(([key, { label }]) => (
                   <option key={key} value={key}>

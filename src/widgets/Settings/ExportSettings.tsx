@@ -46,7 +46,7 @@ export const ExportSettings: React.FC = () => {
     setIsExporting(true);
     setError(null);
     setExportSuccess(null);
-    setExportProgress('Exporting notes...');
+    setExportProgress('正在导出所有笔记...');
 
     try {
       const zip = await exportNotesWithFolders(notesArray, foldersArray);
@@ -54,10 +54,10 @@ export const ExportSettings: React.FC = () => {
       downloadBlob(zip, filename);
 
       log.info('All notes exported', { count: noteCount });
-      setExportSuccess(`Exported ${noteCount} notes successfully!`);
+      setExportSuccess(`已成功导出 ${noteCount} 篇笔记！`);
       setTimeout(() => setExportSuccess(null), 5000);
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Export failed';
+      const message = err instanceof Error ? err.message : '导出失败';
       log.error('Export all notes failed', { error: err });
       setError(message);
       setTimeout(() => setError(null), 5000);
@@ -72,7 +72,7 @@ export const ExportSettings: React.FC = () => {
     setIsExporting(true);
     setError(null);
     setExportSuccess(null);
-    setExportProgress('Exporting tasks...');
+    setExportProgress('正在导出所有任务...');
 
     try {
       const files: Array<{ path: string; content: string }> = [];
@@ -102,10 +102,10 @@ export const ExportSettings: React.FC = () => {
       downloadBlob(zip, filename);
 
       log.info('All tasks exported', { count: taskCount });
-      setExportSuccess(`Exported ${taskCount} tasks successfully!`);
+      setExportSuccess(`已成功导出 ${taskCount} 项任务！`);
       setTimeout(() => setExportSuccess(null), 5000);
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Export failed';
+      const message = err instanceof Error ? err.message : '导出失败';
       log.error('Export all tasks failed', { error: err });
       setError(message);
       setTimeout(() => setError(null), 5000);
@@ -120,7 +120,7 @@ export const ExportSettings: React.FC = () => {
     setIsExporting(true);
     setError(null);
     setExportSuccess(null);
-    setExportProgress(`Exporting ${noteCount + taskCount} items...`);
+    setExportProgress(`正在导出 ${noteCount + taskCount} 项工作区数据...`);
 
     try {
       const zip = await exportAllData(notesArray, tasks, foldersArray);
@@ -129,11 +129,11 @@ export const ExportSettings: React.FC = () => {
 
       log.info('Complete workspace exported', { noteCount, taskCount, folderCount });
       setExportSuccess(
-        `Exported ${noteCount} notes and ${taskCount} tasks successfully!`
+        `成功导出完整工作区：共 ${noteCount} 篇笔记与 ${taskCount} 项任务！`
       );
       setTimeout(() => setExportSuccess(null), 5000);
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Export failed';
+      const message = err instanceof Error ? err.message : '导出失败';
       log.error('Export everything failed', { error: err });
       setError(message);
       setTimeout(() => setError(null), 5000);
@@ -149,10 +149,10 @@ export const ExportSettings: React.FC = () => {
       <div>
         <h3 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-2 flex items-center gap-2">
           <FileDown className="w-5 h-5" />
-          Data Export
+          Markdown 文档与数据导出
         </h3>
         <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-          Export your notes, tasks, and data to portable markdown format for backup, sharing, or migration.
+          将您的笔记、任务与元数据导出为通用 Markdown 压缩包，便于随身归档、分享或迁移至 Obsidian、Notion 等工具。
         </p>
       </div>
 
@@ -163,10 +163,10 @@ export const ExportSettings: React.FC = () => {
           <div className="flex items-start justify-between mb-3">
             <div>
               <h4 className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-                Export All Notes
+                导出全部笔记
               </h4>
               <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                {noteCount} notes across {folderCount} folders
+                涵盖 {folderCount} 个分类文件夹下的共 {noteCount} 篇笔记
               </p>
             </div>
             <button
@@ -175,11 +175,11 @@ export const ExportSettings: React.FC = () => {
               className="px-4 py-2 rounded-button bg-accent-blue hover:bg-accent-blue-hover text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               <Download className="w-4 h-4" />
-              Export Notes
+              导出笔记压缩包
             </button>
           </div>
           <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-            Downloads ZIP with full folder hierarchy preserved
+            下载为 ZIP 压缩包，完整保留文件夹树状层级与 Frontmatter 元数据
           </p>
         </div>
 
@@ -188,10 +188,10 @@ export const ExportSettings: React.FC = () => {
           <div className="flex items-start justify-between mb-3">
             <div>
               <h4 className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-                Export All Tasks
+                导出全部任务
               </h4>
               <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                {taskCount} tasks{tasks.filter((t) => t.archivedAt).length > 0 && ` (${tasks.filter((t) => t.archivedAt).length} archived)`}
+                共 {taskCount} 项任务{tasks.filter((t) => t.archivedAt).length > 0 && `（含 ${tasks.filter((t) => t.archivedAt).length} 项已归档）`}
               </p>
             </div>
             <button
@@ -200,11 +200,11 @@ export const ExportSettings: React.FC = () => {
               className="px-4 py-2 rounded-button bg-accent-blue hover:bg-accent-blue-hover text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               <Download className="w-4 h-4" />
-              Export Tasks
+              导出任务文档
             </button>
           </div>
           <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-            Downloads ZIP with tasks grouped by status
+            按看板状态分组归类生成 Markdown 文档
           </p>
         </div>
 
@@ -213,10 +213,10 @@ export const ExportSettings: React.FC = () => {
           <div className="flex items-start justify-between mb-3">
             <div>
               <h4 className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-                Export Complete Workspace
+                导出完整工作区
               </h4>
               <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                {noteCount} notes, {taskCount} tasks, {folderCount} folders
+                包含 {noteCount} 篇笔记、{taskCount} 项任务及 {folderCount} 个分类
               </p>
             </div>
             <button
@@ -225,11 +225,11 @@ export const ExportSettings: React.FC = () => {
               className="px-4 py-2 rounded-button bg-gradient-button-primary text-white text-sm font-medium transition-all hover:shadow-glow-magenta disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               <Download className="w-4 h-4" />
-              Export Everything
+              一键导出全工作区
             </button>
           </div>
           <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-            Complete workspace ZIP: notes/ + tasks/ + metadata.json
+            完整工作区 ZIP 包：notes/ 笔记目录 + tasks/ 任务文档 + metadata.json
           </p>
         </div>
       </div>
@@ -280,7 +280,7 @@ export const ExportSettings: React.FC = () => {
               d="M9 5l7 7-7 7"
             />
           </svg>
-          Export Format Details
+          导出格式规范与示例
         </summary>
         <div className="mt-3 pl-6 space-y-3 text-sm text-text-light-secondary dark:text-text-dark-secondary">
           <div>

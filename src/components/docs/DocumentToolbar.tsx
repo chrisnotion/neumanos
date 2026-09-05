@@ -147,14 +147,14 @@ export function DocumentToolbar({
       <ToolbarButton
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().undo()}
-        title="Undo (Ctrl+Z)"
+        title="撤销 (Ctrl+Z)"
       >
         <Undo className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editor.can().redo()}
-        title="Redo (Ctrl+Y)"
+        title="重做 (Ctrl+Y)"
       >
         <Redo className="w-4 h-4" />
       </ToolbarButton>
@@ -165,35 +165,35 @@ export function DocumentToolbar({
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBold().run()}
         isActive={editor.isActive('bold')}
-        title="Bold (Ctrl+B)"
+        title="加粗 (Ctrl+B)"
       >
         <Bold className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleItalic().run()}
         isActive={editor.isActive('italic')}
-        title="Italic (Ctrl+I)"
+        title="斜体 (Ctrl+I)"
       >
         <Italic className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleUnderline().run()}
         isActive={editor.isActive('underline')}
-        title="Underline (Ctrl+U)"
+        title="下划线 (Ctrl+U)"
       >
         <Underline className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleStrike().run()}
         isActive={editor.isActive('strike')}
-        title="Strikethrough"
+        title="删除线"
       >
         <Strikethrough className="w-4 h-4" />
       </ToolbarButton>
 
       {/* Text Color Dropdown */}
       <div className="relative group">
-        <ToolbarButton onClick={() => {}} title="Text Color">
+        <ToolbarButton onClick={() => {}} title="文字颜色">
           <Palette className="w-4 h-4" />
         </ToolbarButton>
         <div className="absolute top-full left-0 mt-1 p-2 bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
@@ -220,7 +220,7 @@ export function DocumentToolbar({
         <ToolbarButton
           onClick={() => {}}
           isActive={editor.isActive('highlight')}
-          title="Highlight"
+          title="文本高亮"
         >
           <Highlighter className="w-4 h-4" />
         </ToolbarButton>
@@ -245,21 +245,21 @@ export function DocumentToolbar({
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         isActive={editor.isActive('heading', { level: 1 })}
-        title="Heading 1"
+        title="一级标题 (H1)"
       >
         <Heading1 className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         isActive={editor.isActive('heading', { level: 2 })}
-        title="Heading 2"
+        title="二级标题 (H2)"
       >
         <Heading2 className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         isActive={editor.isActive('heading', { level: 3 })}
-        title="Heading 3"
+        title="三级标题 (H3)"
       >
         <Heading3 className="w-4 h-4" />
       </ToolbarButton>
@@ -270,28 +270,28 @@ export function DocumentToolbar({
       <ToolbarButton
         onClick={() => editor.chain().focus().setTextAlign('left').run()}
         isActive={editor.isActive({ textAlign: 'left' })}
-        title="Align Left"
+        title="左对齐"
       >
         <AlignLeft className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().setTextAlign('center').run()}
         isActive={editor.isActive({ textAlign: 'center' })}
-        title="Align Center"
+        title="居中对齐"
       >
         <AlignCenter className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().setTextAlign('right').run()}
         isActive={editor.isActive({ textAlign: 'right' })}
-        title="Align Right"
+        title="右对齐"
       >
         <AlignRight className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().setTextAlign('justify').run()}
         isActive={editor.isActive({ textAlign: 'justify' })}
-        title="Justify"
+        title="两端对齐"
       >
         <AlignJustify className="w-4 h-4" />
       </ToolbarButton>
@@ -302,21 +302,21 @@ export function DocumentToolbar({
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         isActive={editor.isActive('bulletList')}
-        title="Bullet List"
+        title="无序列表"
       >
         <List className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         isActive={editor.isActive('orderedList')}
-        title="Numbered List"
+        title="有序列表"
       >
         <ListOrdered className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleTaskList().run()}
         isActive={editor.isActive('taskList')}
-        title="Task List"
+        title="待办清单"
       >
         <CheckSquare className="w-4 h-4" />
       </ToolbarButton>
@@ -327,20 +327,20 @@ export function DocumentToolbar({
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         isActive={editor.isActive('blockquote')}
-        title="Quote"
+        title="引用"
       >
         <Quote className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         isActive={editor.isActive('codeBlock')}
-        title="Code Block"
+        title="代码块"
       >
         <Code className="w-4 h-4" />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
-        title="Horizontal Rule"
+        title="分割线"
       >
         <Minus className="w-4 h-4" />
       </ToolbarButton>
@@ -348,13 +348,13 @@ export function DocumentToolbar({
       <ToolbarDivider />
 
       {/* Inserts */}
-      <ToolbarButton onClick={onSetLink} isActive={editor.isActive('link')} title="Link">
+      <ToolbarButton onClick={onSetLink} isActive={editor.isActive('link')} title="插入链接">
         <Link className="w-4 h-4" />
       </ToolbarButton>
-      <ToolbarButton onClick={onAddImage} title="Image">
+      <ToolbarButton onClick={onAddImage} title="插入图片">
         <Image className="w-4 h-4" />
       </ToolbarButton>
-      <ToolbarButton onClick={onInsertTable} title="Table">
+      <ToolbarButton onClick={onInsertTable} title="插入表格">
         <Table className="w-4 h-4" />
       </ToolbarButton>
 
@@ -362,7 +362,7 @@ export function DocumentToolbar({
 
       {/* Export Dropdown */}
       <div className="relative group">
-        <ToolbarButton onClick={() => {}} title="Export Document">
+        <ToolbarButton onClick={() => {}} title="导出文档">
           <Download className="w-4 h-4" />
         </ToolbarButton>
         <div className="absolute top-full right-0 mt-1 py-1 bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 min-w-[150px]">

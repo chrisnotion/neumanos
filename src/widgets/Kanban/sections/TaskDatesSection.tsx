@@ -48,7 +48,7 @@ export const TaskDatesSection: React.FC<TaskDatesSectionProps> = ({
       {!isMilestone && (
         <div>
           <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">
-            Start Date
+            开始日期
           </label>
           {isEditingStartDate ? (
             <NaturalLanguageDateInput
@@ -60,7 +60,7 @@ export const TaskDatesSection: React.FC<TaskDatesSectionProps> = ({
               }}
               label=""
               autoFocus
-              placeholder="Type 'tomorrow', 'next Monday'..."
+              placeholder="输入如“明天”、“下周一”..."
             />
           ) : (
             <button
@@ -79,13 +79,13 @@ export const TaskDatesSection: React.FC<TaskDatesSectionProps> = ({
                       onFieldBlur('startDate', null);
                     }}
                     className="opacity-0 group-hover:opacity-100 text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-red transition-opacity"
-                    aria-label="Clear start date"
+                    aria-label="清除开始日期"
                   >
                     ✕
                   </button>
                 </>
               ) : (
-                <span className="text-text-light-secondary dark:text-text-dark-secondary">+ Add start date</span>
+                <span className="text-text-light-secondary dark:text-text-dark-secondary">+ 设置开始日期</span>
               )}
             </button>
           )}
@@ -95,7 +95,7 @@ export const TaskDatesSection: React.FC<TaskDatesSectionProps> = ({
       {/* Due Date / Milestone Date */}
       <div>
         <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2">
-          {isMilestone ? 'Milestone Date' : 'Due Date'}
+          {isMilestone ? '里程碑交付日期' : '截止日期'}
         </label>
         {isEditingDueDate ? (
           <NaturalLanguageDateInput
@@ -107,7 +107,7 @@ export const TaskDatesSection: React.FC<TaskDatesSectionProps> = ({
             }}
             label=""
             autoFocus
-            placeholder="Type 'tomorrow', 'next Friday'..."
+            placeholder="输入如“明天”、“下周五”..."
           />
         ) : (
           <button
@@ -136,15 +136,15 @@ export const TaskDatesSection: React.FC<TaskDatesSectionProps> = ({
                     if (isOverdue) {
                       return (
                         <span className="ml-2 text-xs text-accent-red">
-                          overdue by {Math.abs(days)} day{Math.abs(days) !== 1 ? 's' : ''}
+                          已逾期 {Math.abs(days)} 天
                         </span>
                       );
                     }
                     if (isDueToday) {
-                      return <span className="ml-2 text-xs text-accent-orange">due today</span>;
+                      return <span className="ml-2 text-xs text-accent-orange">今日到期</span>;
                     }
                     if (days > 0 && days <= 7) {
-                      return <span className="ml-2 text-xs text-text-light-secondary dark:text-text-dark-secondary">{days} day{days !== 1 ? 's' : ''} from now</span>;
+                      return <span className="ml-2 text-xs text-text-light-secondary dark:text-text-dark-secondary">距今还有 {days} 天</span>;
                     }
                     return null;
                   })()}
@@ -156,13 +156,15 @@ export const TaskDatesSection: React.FC<TaskDatesSectionProps> = ({
                     onFieldBlur('dueDate', null);
                   }}
                   className="opacity-0 group-hover:opacity-100 text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-red transition-opacity"
-                  aria-label="Clear due date"
+                  aria-label="清除截止日期"
                 >
                   ✕
                 </button>
               </>
             ) : (
-              <span className="text-text-light-secondary dark:text-text-dark-secondary">+ Add due date</span>
+              <span className="text-text-light-secondary dark:text-text-dark-secondary">
+                {isMilestone ? '+ 设置里程碑日期' : '+ 设置截止日期'}
+              </span>
             )}
           </button>
         )}

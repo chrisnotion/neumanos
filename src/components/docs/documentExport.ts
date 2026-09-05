@@ -528,10 +528,10 @@ function escapeHtml(text: string): string {
 export type ExportFormat = 'pdf' | 'html' | 'markdown' | 'text';
 
 export const EXPORT_FORMATS: { id: ExportFormat; label: string; extension: string }[] = [
-  { id: 'pdf', label: 'PDF Document', extension: '.pdf' },
-  { id: 'html', label: 'HTML Page', extension: '.html' },
-  { id: 'markdown', label: 'Markdown', extension: '.md' },
-  { id: 'text', label: 'Plain Text', extension: '.txt' },
+  { id: 'pdf', label: 'PDF 文档', extension: '.pdf' },
+  { id: 'html', label: 'HTML 网页', extension: '.html' },
+  { id: 'markdown', label: 'Markdown 文档', extension: '.md' },
+  { id: 'text', label: '纯文本文件', extension: '.txt' },
 ];
 
 /**

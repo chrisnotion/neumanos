@@ -68,16 +68,16 @@ export function ArchivedView({ isOpen, onClose }: ArchivedViewProps) {
           <div className="flex items-center justify-between px-6 py-4 border-b border-border-light dark:border-border-dark">
             <div>
               <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary">
-                Archived Tasks
+                已归档任务
               </h2>
               <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">
-                {archivedTasks.length} archived {archivedTasks.length === 1 ? 'task' : 'tasks'}
+                共 {archivedTasks.length} 项归档任务
               </p>
             </div>
             <button
               onClick={onClose}
               className="p-2 rounded-lg hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors"
-              aria-label="Close archived view"
+              aria-label="关闭归档视窗"
             >
               <span className="text-2xl text-text-light-secondary dark:text-text-dark-secondary">×</span>
             </button>
@@ -87,7 +87,7 @@ export function ArchivedView({ isOpen, onClose }: ArchivedViewProps) {
           <div className="px-6 py-4 border-b border-border-light dark:border-border-dark">
             <input
               type="text"
-              placeholder="Search archived tasks..."
+              placeholder="搜索已归档任务（标题、描述）..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark rounded-lg border border-border-light dark:border-border-dark text-text-light-primary dark:text-text-dark-primary placeholder:text-text-light-secondary dark:placeholder:text-text-dark-secondary focus:outline-none focus:ring-2 focus:ring-accent-blue"
@@ -99,10 +99,10 @@ export function ArchivedView({ isOpen, onClose }: ArchivedViewProps) {
             {filteredTasks.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-text-light-secondary dark:text-text-dark-secondary text-lg">
-                  {searchQuery ? 'No archived tasks found' : 'No archived tasks yet'}
+                  {searchQuery ? '未找到匹配的归档任务' : '归档箱为空'}
                 </p>
                 <p className="text-text-light-secondary dark:text-text-dark-secondary text-sm mt-2">
-                  {searchQuery ? 'Try a different search term' : 'Completed tasks will be auto-archived after 14 days'}
+                  {searchQuery ? '请尝试其他关键词' : '已完成的任务满 14 天后将自动归档至此处'}
                 </p>
               </div>
             ) : (
@@ -125,7 +125,7 @@ export function ArchivedView({ isOpen, onClose }: ArchivedViewProps) {
                           </p>
                         )}
                         <div className="flex items-center gap-4 mt-2 text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                          <span>Archived: {formatDate(task.archivedAt)}</span>
+                          <span>归档时间：{formatDate(task.archivedAt)}</span>
                           {task.priority && (
                             <span
                               className={`px-2 py-0.5 rounded ${
@@ -136,7 +136,7 @@ export function ArchivedView({ isOpen, onClose }: ArchivedViewProps) {
                                   : 'bg-accent-blue/10 dark:bg-accent-blue/20 text-accent-blue'
                               }`}
                             >
-                              {task.priority}
+                              {task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}
                             </span>
                           )}
                           {task.tags && task.tags.length > 0 && (
@@ -164,9 +164,9 @@ export function ArchivedView({ isOpen, onClose }: ArchivedViewProps) {
                         <button
                           onClick={() => handleRestore(task.id)}
                           className="px-3 py-1.5 text-sm font-medium bg-accent-blue text-white rounded-lg hover:bg-accent-blue-hover transition-colors"
-                          aria-label={`Restore ${task.title}`}
+                          aria-label={`恢复 ${task.title}`}
                         >
-                          Restore
+                          恢复任务
                         </button>
                         {deleteConfirmId === task.id ? (
                           <div className="flex items-center gap-2">
@@ -174,22 +174,22 @@ export function ArchivedView({ isOpen, onClose }: ArchivedViewProps) {
                               onClick={() => handleDelete(task.id)}
                               className="px-3 py-1.5 text-sm font-medium bg-accent-red text-white rounded-lg hover:bg-accent-red-hover transition-colors"
                             >
-                              Confirm
+                              确认彻底删除
                             </button>
                             <button
                               onClick={() => setDeleteConfirmId(null)}
                               className="px-3 py-1.5 text-sm font-medium bg-surface-light dark:bg-surface-dark-elevated text-text-light-primary dark:text-text-dark-primary rounded-lg border border-border-light dark:border-border-dark hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors"
                             >
-                              Cancel
+                              取消
                             </button>
                           </div>
                         ) : (
                           <button
                             onClick={() => setDeleteConfirmId(task.id)}
                             className="px-3 py-1.5 text-sm font-medium text-accent-red rounded-lg hover:bg-accent-red/10 dark:hover:bg-accent-red/20 transition-colors"
-                            aria-label={`Delete ${task.title} permanently`}
+                            aria-label={`彻底删除 ${task.title}`}
                           >
-                            Delete
+                            彻底删除
                           </button>
                         )}
                       </div>
@@ -206,7 +206,7 @@ export function ArchivedView({ isOpen, onClose }: ArchivedViewProps) {
               onClick={onClose}
               className="px-4 py-2 text-sm font-medium bg-surface-light-elevated dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded-lg border border-border-light dark:border-border-dark hover:bg-surface-light dark:hover:bg-surface-dark-elevated transition-colors"
             >
-              Close
+              关闭
             </button>
           </div>
         </motion.div>

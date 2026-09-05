@@ -1,6 +1,7 @@
 import React, { useState, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
+import { zhCN } from 'date-fns/locale';
 import { useSaveStatus } from '../stores/useSaveStatus';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
@@ -24,13 +25,13 @@ export const Footer: React.FC = () => {
   const getStatusText = () => {
     switch (status) {
       case 'saving':
-        return 'Saving...';
+        return '正在保存...';
       case 'saved':
-        return lastSaveTime ? formatDistanceToNow(lastSaveTime, { addSuffix: true }) : 'Saved';
+        return lastSaveTime ? formatDistanceToNow(lastSaveTime, { addSuffix: true, locale: zhCN }) : '已保存';
       case 'error':
-        return 'Failed';
+        return '保存失败';
       default:
-        return 'Saved';
+        return '已保存';
     }
   };
 
@@ -50,22 +51,22 @@ export const Footer: React.FC = () => {
               onClick={() => setShowAboutModal(true)}
               className="text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-blue dark:hover:text-accent-blue-hover transition-all duration-standard ease-smooth whitespace-nowrap"
             >
-              About<span className="hidden sm:inline"> Us</span>
+              关于<span className="hidden sm:inline">系统</span>
             </button>
             <span className="text-border-light dark:text-border-dark">|</span>
             <button
               onClick={() => setShowPrivacyModal(true)}
               className="text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-blue dark:hover:text-accent-blue-hover transition-all duration-standard ease-smooth whitespace-nowrap"
             >
-              Privacy<span className="hidden sm:inline"> Policy</span>
+              隐私<span className="hidden sm:inline">政策</span>
             </button>
             <span className="text-border-light dark:text-border-dark">|</span>
             <button
               onClick={() => setShowSupportModal(true)}
               className="text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-primary dark:hover:text-accent-primary-hover transition-all duration-standard ease-smooth whitespace-nowrap"
-              title="Get help or report issues"
+              title="获取帮助或反馈问题"
             >
-              Help<span className="hidden sm:inline"> & Support</span>
+              帮助<span className="hidden sm:inline">与支持</span>
             </button>
             <span className="text-border-light dark:text-border-dark">|</span>
             <span className="text-text-light-secondary dark:text-text-dark-secondary whitespace-nowrap">

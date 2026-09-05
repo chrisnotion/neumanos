@@ -393,26 +393,26 @@ const SlashCommandPlugin: React.FC = () => {
   }, [editor, clearSlashCommand]);
 
   const commands = [
-    { label: 'Heading 1', icon: 'H1', action: () => formatAsHeading('h1') },
-    { label: 'Heading 2', icon: 'H2', action: () => formatAsHeading('h2') },
-    { label: 'Heading 3', icon: 'H3', action: () => formatAsHeading('h3') },
-    { label: 'Bullet List', icon: '•', action: () => {
+    { label: '一级标题 (H1)', icon: 'H1', action: () => formatAsHeading('h1') },
+    { label: '二级标题 (H2)', icon: 'H2', action: () => formatAsHeading('h2') },
+    { label: '三级标题 (H3)', icon: 'H3', action: () => formatAsHeading('h3') },
+    { label: '无序列表 (Bullet)', icon: '•', action: () => {
       clearSlashCommand();
       editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
     }},
-    { label: 'Numbered List', icon: '1.', action: () => {
+    { label: '有序列表 (Numbered)', icon: '1.', action: () => {
       clearSlashCommand();
       editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
     }},
-    { label: 'Code Block', icon: '</>', action: formatAsCodeBlock },
-    { label: 'Quote', icon: '"', action: formatAsQuote },
-    { label: 'Horizontal Rule', icon: '—', action: insertHR },
-    { label: 'Callout (Info)', icon: 'ℹ️', action: () => insertCallout('info') },
-    { label: 'Callout (Warning)', icon: '⚠️', action: () => insertCallout('warning') },
-    { label: 'Callout (Tip)', icon: '💡', action: () => insertCallout('tip') },
-    { label: 'Callout (Danger)', icon: '🚨', action: () => insertCallout('danger') },
-    { label: 'Toggle Block', icon: '▶', action: insertToggle },
-    { label: 'Table of Contents', icon: '📑', action: () => {
+    { label: '代码块 (Code Block)', icon: '</>', action: formatAsCodeBlock },
+    { label: '引用块 (Quote)', icon: '"', action: formatAsQuote },
+    { label: '分割线 (Divider)', icon: '—', action: insertHR },
+    { label: '提示框：信息 (Info)', icon: 'ℹ️', action: () => insertCallout('info') },
+    { label: '提示框：警告 (Warning)', icon: '⚠️', action: () => insertCallout('warning') },
+    { label: '提示框：建议 (Tip)', icon: '💡', action: () => insertCallout('tip') },
+    { label: '提示框：危险 (Danger)', icon: '🚨', action: () => insertCallout('danger') },
+    { label: '折叠面板 (Toggle)', icon: '▶', action: insertToggle },
+    { label: '目录大纲 (TOC)', icon: '📑', action: () => {
       clearSlashCommand();
       editor.update(() => {
         const selection = $getSelection();
@@ -422,7 +422,7 @@ const SlashCommandPlugin: React.FC = () => {
         }
       });
     }},
-    { label: 'Math Block', icon: '∑', action: () => {
+    { label: '数学公式 (LaTeX)', icon: '∑', action: () => {
       clearSlashCommand();
       editor.update(() => {
         const selection = $getSelection();
@@ -432,7 +432,7 @@ const SlashCommandPlugin: React.FC = () => {
         }
       });
     }},
-    { label: 'Mermaid Diagram', icon: '◇', action: () => {
+    { label: 'Mermaid 图表', icon: '◇', action: () => {
       clearSlashCommand();
       editor.update(() => {
         const selection = $getSelection();
@@ -442,7 +442,7 @@ const SlashCommandPlugin: React.FC = () => {
         }
       });
     }},
-    { label: 'Video', icon: '▶', action: () => {
+    { label: '嵌入视频 (Video)', icon: '▶', action: () => {
       clearSlashCommand();
       editor.update(() => {
         const selection = $getSelection();
@@ -724,29 +724,29 @@ const EditorToolbar: React.FC<{
   return (
     <div className="border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark-elevated p-3 flex items-center gap-2 flex-wrap">
       {/* Undo/Redo */}
-      <button onClick={undo} className={btnClass} title="Undo (Cmd+Z)">
+      <button onClick={undo} className={btnClass} title="撤销 (Cmd+Z)">
         ↶
       </button>
-      <button onClick={redo} className={btnClass} title="Redo (Cmd+Shift+Z)">
+      <button onClick={redo} className={btnClass} title="重做 (Cmd+Shift+Z)">
         ↷
       </button>
 
       <div className={dividerClass} />
 
       {/* Text Format */}
-      <button onClick={() => formatText('bold')} className={btnClass} title="Bold (Cmd+B)">
+      <button onClick={() => formatText('bold')} className={btnClass} title="加粗 (Cmd+B)">
         <span className="font-bold">B</span>
       </button>
-      <button onClick={() => formatText('italic')} className={btnClass} title="Italic (Cmd+I)">
+      <button onClick={() => formatText('italic')} className={btnClass} title="斜体 (Cmd+I)">
         <span className="italic">I</span>
       </button>
-      <button onClick={() => formatText('underline')} className={btnClass} title="Underline (Cmd+U)">
+      <button onClick={() => formatText('underline')} className={btnClass} title="下划线 (Cmd+U)">
         <span className="underline">U</span>
       </button>
-      <button onClick={() => formatText('strikethrough')} className={btnClass} title="Strikethrough">
+      <button onClick={() => formatText('strikethrough')} className={btnClass} title="删除线">
         <span className="line-through">S</span>
       </button>
-      <button onClick={() => formatText('code')} className={btnClass} title="Code">
+      <button onClick={() => formatText('code')} className={btnClass} title="行内代码">
         <span className="font-mono text-sm">&lt;/&gt;</span>
       </button>
 
@@ -755,7 +755,7 @@ const EditorToolbar: React.FC<{
         <button
           onClick={() => setShowHighlightPicker(!showHighlightPicker)}
           className={btnClass}
-          title="Highlight Color"
+          title="文本高亮色"
         >
           <span className="text-sm" style={{ backgroundColor: HIGHLIGHT_COLORS[0].color, padding: '0 4px', borderRadius: '2px' }}>A</span>
         </button>
@@ -773,7 +773,7 @@ const EditorToolbar: React.FC<{
             <button
               onClick={removeHighlight}
               className="w-6 h-6 rounded border border-border-light dark:border-border-dark hover:scale-110 transition-transform flex items-center justify-center text-xs text-text-light-secondary dark:text-text-dark-secondary"
-              title="Remove highlight"
+              title="清除高亮"
             >
               ✕
             </button>
@@ -784,48 +784,48 @@ const EditorToolbar: React.FC<{
       <div className={dividerClass} />
 
       {/* Headings */}
-      <button onClick={() => formatHeading('h1')} className={btnClass} title="Heading 1">
+      <button onClick={() => formatHeading('h1')} className={btnClass} title="一级标题 (H1)">
         <span className="font-bold text-lg">H1</span>
       </button>
-      <button onClick={() => formatHeading('h2')} className={btnClass} title="Heading 2">
+      <button onClick={() => formatHeading('h2')} className={btnClass} title="二级标题 (H2)">
         <span className="font-bold">H2</span>
       </button>
-      <button onClick={() => formatHeading('h3')} className={btnClass} title="Heading 3">
+      <button onClick={() => formatHeading('h3')} className={btnClass} title="三级标题 (H3)">
         <span className="font-bold text-sm">H3</span>
       </button>
-      <button onClick={formatParagraph} className={btnClass} title="Paragraph">
+      <button onClick={formatParagraph} className={btnClass} title="正文段落">
         <span className="text-sm">P</span>
       </button>
 
       <div className={dividerClass} />
 
       {/* Lists */}
-      <button onClick={formatBulletList} className={btnClass} title="Bullet List">
+      <button onClick={formatBulletList} className={btnClass} title="无序列表">
         ≡
       </button>
-      <button onClick={formatNumberedList} className={btnClass} title="Numbered List">
+      <button onClick={formatNumberedList} className={btnClass} title="有序列表">
         ⋮
       </button>
-      <button onClick={formatCheckList} className={btnClass} title="Checklist ([] )">
+      <button onClick={formatCheckList} className={btnClass} title="待办清单 ([] )">
         ☑
       </button>
-      <button onClick={formatQuote} className={btnClass} title="Quote">
+      <button onClick={formatQuote} className={btnClass} title="引用块">
         &ldquo;
       </button>
 
       <div className={dividerClass} />
 
       {/* Text Alignment */}
-      <button onClick={() => formatAlignment('left')} className={btnClass} title="Align Left">
+      <button onClick={() => formatAlignment('left')} className={btnClass} title="左对齐">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="2" width="14" height="2" /><rect x="1" y="6" width="10" height="2" /><rect x="1" y="10" width="14" height="2" /><rect x="1" y="14" width="8" height="2" /></svg>
       </button>
-      <button onClick={() => formatAlignment('center')} className={btnClass} title="Align Center">
+      <button onClick={() => formatAlignment('center')} className={btnClass} title="居中对齐">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="2" width="14" height="2" /><rect x="3" y="6" width="10" height="2" /><rect x="1" y="10" width="14" height="2" /><rect x="4" y="14" width="8" height="2" /></svg>
       </button>
-      <button onClick={() => formatAlignment('right')} className={btnClass} title="Align Right">
+      <button onClick={() => formatAlignment('right')} className={btnClass} title="右对齐">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="2" width="14" height="2" /><rect x="5" y="6" width="10" height="2" /><rect x="1" y="10" width="14" height="2" /><rect x="7" y="14" width="8" height="2" /></svg>
       </button>
-      <button onClick={() => formatAlignment('justify')} className={btnClass} title="Justify">
+      <button onClick={() => formatAlignment('justify')} className={btnClass} title="两端对齐">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="2" width="14" height="2" /><rect x="1" y="6" width="14" height="2" /><rect x="1" y="10" width="14" height="2" /><rect x="1" y="14" width="14" height="2" /></svg>
       </button>
 
@@ -842,7 +842,7 @@ const EditorToolbar: React.FC<{
       <button
         onClick={() => fileInputRef.current?.click()}
         className={btnClass}
-        title="Insert Image"
+        title="插入图片"
       >
         🖼️
       </button>
@@ -858,7 +858,7 @@ const EditorToolbar: React.FC<{
       <button
         onClick={onToggleOutline}
         className={`${btnClass} ${outlineOpen ? 'text-accent-primary bg-accent-primary/10' : ''}`}
-        title="Toggle Outline"
+        title="切换目录大纲面板"
         aria-pressed={outlineOpen}
       >
         <List size={16} />
@@ -873,10 +873,10 @@ const EditorToolbar: React.FC<{
               ? 'bg-accent-primary text-white'
               : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
           }`}
-          title="Edit Mode (Cmd+E)"
+          title="编辑模式 (Cmd+E)"
           aria-pressed={viewMode === 'edit'}
         >
-          Edit
+          编辑
         </button>
         <button
           onClick={() => onViewModeChange('preview')}
@@ -885,16 +885,16 @@ const EditorToolbar: React.FC<{
               ? 'bg-accent-primary text-white'
               : 'text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
           }`}
-          title="Preview Mode (Cmd+E)"
+          title="预览模式 (Cmd+E)"
           aria-pressed={viewMode === 'preview'}
         >
-          Preview
+          预览
         </button>
       </div>
 
       {/* Word count */}
       <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-        {wordCount} {wordCount === 1 ? 'word' : 'words'} · {charCount} {charCount === 1 ? 'char' : 'chars'}
+        {wordCount} 词 · {charCount} 字符
       </span>
     </div>
   );
@@ -1161,7 +1161,7 @@ const NoteCustomFields: React.FC<{ noteId: string; note: ReturnType<typeof useNo
   return (
     <div className="mt-4 space-y-3">
       <div className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary">
-        Custom Fields
+        自定义字段
       </div>
       {noteFields.map((field) => {
         const currentValue = note.customFields?.[field.id];
@@ -1245,7 +1245,7 @@ export const NotesEditor: React.FC<NotesEditorProps> = ({ noteId, blockId }) => 
   if (!note) {
     return (
       <div className="flex-1 min-h-0 flex items-center justify-center text-text-light-secondary dark:text-text-dark-secondary">
-        Note not found
+        未找到该篇笔记
       </div>
     );
   }
@@ -1265,7 +1265,7 @@ export const NotesEditor: React.FC<NotesEditorProps> = ({ noteId, blockId }) => 
           onChange={(e) =>
             useNotesStore.getState().updateNote(noteId, { title: e.target.value })
           }
-          placeholder="Untitled Note"
+          placeholder="无标题笔记"
           className="w-full text-3xl font-bold bg-transparent border-none outline-none text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary"
         />
         <TagsInput noteId={noteId} tags={note.tags} />
@@ -1302,7 +1302,7 @@ export const NotesEditor: React.FC<NotesEditorProps> = ({ noteId, blockId }) => 
               {/* Preview mode indicator */}
               {viewMode === 'preview' && (
                 <div className="absolute top-2 right-2 px-2 py-0.5 text-xs bg-accent-primary/10 text-accent-primary rounded">
-                  Preview Mode
+                  预览模式
                 </div>
               )}
               <RichTextPlugin
@@ -1316,7 +1316,7 @@ export const NotesEditor: React.FC<NotesEditorProps> = ({ noteId, blockId }) => 
                 placeholder={
                   viewMode === 'edit' ? (
                     <div className="editor-placeholder absolute top-6 left-6 text-text-light-secondary dark:text-text-dark-secondary pointer-events-none opacity-60">
-                      Start writing...
+                      开始记录内容，输入 / 唤出格式捷径...
                     </div>
                   ) : null
                 }
@@ -1396,19 +1396,19 @@ export const NotesEditorEmpty: React.FC = () => {
           </div>
         </div>
         <h2 className="text-3xl font-bold text-text-light-primary dark:text-text-dark-primary mb-4 tracking-tight">
-          Welcome to Notes
+          开启随心记叙
         </h2>
         <p className="text-text-light-secondary dark:text-text-dark-secondary mb-4 leading-relaxed">
-          Your private space for thoughts, ideas, and knowledge. Everything stays local and secure on your device.
+          您的个人专属思维空间。所有文字与图影均严格保存在本地设备中，守护私密纯粹。
         </p>
         <div className="space-y-2 text-sm text-text-light-tertiary dark:text-text-dark-tertiary">
           <p className="flex items-center justify-center gap-2">
             <kbd className="px-2 py-1 bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded font-mono text-xs">Cmd+N</kbd>
-            Create new note
+            快速创建新笔记
           </p>
           <p className="flex items-center justify-center gap-2">
             <kbd className="px-2 py-1 bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded font-mono text-xs">Cmd+K</kbd>
-            Search notes
+            全局检索笔记
           </p>
         </div>
       </div>

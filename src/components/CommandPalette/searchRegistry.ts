@@ -1323,28 +1323,28 @@ export function groupResultsByType(results: SearchResult[]): Map<string, SearchR
  */
 export function getTypeLabel(type: string): string {
   const labels: Record<string, string> = {
-    page: 'Navigation',
-    note: 'Notes',
-    task: 'Tasks',
-    event: 'Events',
-    bookmark: 'Bookmarks',
-    diagram: 'Diagrams',
-    form: 'Forms',
-    'time-entry': 'Time Entries',
-    external: 'Search Web',
-    action: 'Actions',
-    faq: 'FAQ',
-    help: 'Help',
-    widget: 'Widgets',
-    setting: 'Settings',
-    automation: 'Automations',
-    template: 'Templates',
-    project: 'Projects',
-    shortcut: 'Keyboard Shortcuts',
-    command: 'Commands',
-    recent: 'Recent',
-    habit: 'Habits',
-    document: 'Documents',
+    page: '页面导航',
+    note: '灵感笔记',
+    task: '任务清单',
+    event: '日程事项',
+    bookmark: '网络书签',
+    diagram: '流程图表',
+    form: '问卷表单',
+    'time-entry': '工时记录',
+    external: '全网检索',
+    action: '快捷操作',
+    faq: '常见疑问',
+    help: '帮助支持',
+    widget: '中枢组件',
+    setting: '系统设置',
+    automation: '自动化规则',
+    template: '常用模板',
+    project: '关联项目',
+    shortcut: '键盘快捷键',
+    command: '系统指令',
+    recent: '近期访问',
+    habit: '习惯打卡',
+    document: '结构化文档',
   };
   return labels[type] || type;
 }
@@ -1387,12 +1387,12 @@ export function getCommands(
     // Theme commands
     {
       id: 'cmd-toggle-dark-mode',
-      name: 'Toggle Dark Mode',
-      aliases: ['dark mode', 'dark theme', 'toggle theme'],
-      description: 'Switch to dark theme',
+      name: '切换为深色模式',
+      aliases: ['深色模式', '暗色主题', '夜间模式', 'dark mode'],
+      description: '启用深色主题外观',
       icon: '🌙',
       category: 'theme',
-      keywords: ['dark', 'theme', 'mode', 'night'],
+      keywords: ['dark', 'theme', 'mode', 'night', '深色', '暗色', '夜间'],
       handler: () => {
         const { mode, toggleTheme } = useThemeStore.getState();
         if (mode !== 'dark') toggleTheme();
@@ -1401,12 +1401,12 @@ export function getCommands(
     },
     {
       id: 'cmd-toggle-light-mode',
-      name: 'Toggle Light Mode',
-      aliases: ['light mode', 'light theme'],
-      description: 'Switch to light theme',
+      name: '切换为浅色模式',
+      aliases: ['浅色模式', '明亮主题', '白天模式', 'light mode'],
+      description: '启用浅色主题外观',
       icon: '☀️',
       category: 'theme',
-      keywords: ['light', 'theme', 'mode', 'day'],
+      keywords: ['light', 'theme', 'mode', 'day', '浅色', '明亮', '白天'],
       handler: () => {
         const { mode, toggleTheme } = useThemeStore.getState();
         if (mode !== 'light') toggleTheme();
@@ -1417,12 +1417,12 @@ export function getCommands(
     // View commands
     {
       id: 'cmd-toggle-sidebar',
-      name: 'Toggle Sidebar',
-      aliases: ['collapse sidebar', 'expand sidebar', 'hide sidebar'],
-      description: 'Show or hide the sidebar',
+      name: '折叠/展开侧栏',
+      aliases: ['收起侧栏', '展开侧栏', 'toggle sidebar'],
+      description: '切换侧边导航栏显隐状态',
       icon: '📐',
       category: 'view',
-      keywords: ['sidebar', 'collapse', 'expand', 'toggle', 'hide', 'show'],
+      keywords: ['sidebar', 'collapse', 'expand', 'toggle', 'hide', 'show', '侧栏', '折叠', '展开'],
       handler: () => {
         useSidebarStore.getState().toggleCollapse();
         return true;
@@ -1432,12 +1432,12 @@ export function getCommands(
     // Create commands
     {
       id: 'cmd-new-note',
-      name: 'New Note',
-      aliases: ['create note', 'add note'],
-      description: 'Create a new note',
+      name: '新建灵感笔记',
+      aliases: ['新建笔记', '创建笔记', 'new note'],
+      description: '立即创建一篇新笔记',
       icon: '📝',
       category: 'create',
-      keywords: ['new', 'create', 'note', 'add'],
+      keywords: ['new', 'create', 'note', 'add', '新建', '笔记'],
       handler: () => {
         const { createNote, setActiveNote } = useNotesStore.getState();
         const newNote = createNote({
@@ -1455,12 +1455,12 @@ export function getCommands(
     },
     {
       id: 'cmd-new-task',
-      name: 'New Task',
-      aliases: ['create task', 'add task', 'quick add'],
-      description: 'Open quick add task modal',
+      name: '新建任务事项',
+      aliases: ['新建任务', '快速记任务', 'new task'],
+      description: '打开任务快速创建弹窗',
       icon: '✅',
       category: 'create',
-      keywords: ['new', 'create', 'task', 'todo', 'add'],
+      keywords: ['new', 'create', 'task', 'todo', 'add', '新建', '任务', '待办'],
       handler: () => {
         if (openModal) openModal('quick-add');
         return true;
@@ -1468,12 +1468,12 @@ export function getCommands(
     },
     {
       id: 'cmd-new-event',
-      name: 'New Event',
-      aliases: ['create event', 'add event', 'schedule'],
-      description: 'Go to calendar to create event',
+      name: '新建日程事件',
+      aliases: ['新建日程', '新建事件', 'new event'],
+      description: '前往日历规划新日程',
       icon: '📅',
       category: 'create',
-      keywords: ['new', 'create', 'event', 'calendar', 'schedule'],
+      keywords: ['new', 'create', 'event', 'calendar', 'schedule', '新建', '日程', '事件'],
       handler: () => {
         navigate('/schedule');
         return true;
@@ -1481,12 +1481,12 @@ export function getCommands(
     },
     {
       id: 'cmd-new-diagram',
-      name: 'New Diagram',
-      aliases: ['create diagram', 'add diagram'],
-      description: 'Create a new diagram',
+      name: '新建架构图表',
+      aliases: ['新建图表', '新建流程图', 'new diagram'],
+      description: '打开图表工坊绘制新流程图',
       icon: '📊',
       category: 'create',
-      keywords: ['new', 'create', 'diagram', 'flowchart', 'draw'],
+      keywords: ['new', 'create', 'diagram', 'flowchart', 'draw', '图表', '流程图'],
       handler: () => {
         navigate('/diagrams');
         return true;
@@ -1496,28 +1496,28 @@ export function getCommands(
     // Timer commands
     {
       id: 'cmd-start-timer',
-      name: 'Start Timer',
-      aliases: ['start tracking', 'begin timer'],
-      description: 'Start time tracking',
+      name: '启动工时计时器',
+      aliases: ['开始计时', '启动计时', 'start timer'],
+      description: '开始记录当前任务用时',
       icon: '▶️',
       category: 'timer',
-      keywords: ['start', 'timer', 'tracking', 'time', 'begin'],
+      keywords: ['start', 'timer', 'tracking', 'time', 'begin', '计时', '开始'],
       handler: () => {
         const state = useTimeTrackingStore.getState();
         if (!state.isTimerRunning()) {
-          state.startTimer({ description: 'Quick timer' });
+          state.startTimer({ description: '快速计时' });
         }
         return true;
       },
     },
     {
       id: 'cmd-stop-timer',
-      name: 'Stop Timer',
-      aliases: ['stop tracking', 'end timer', 'pause timer'],
-      description: 'Stop time tracking',
+      name: '停止工时计时器',
+      aliases: ['结束计时', '停止计时', 'stop timer'],
+      description: '停止并保存当前计时记录',
       icon: '⏹️',
       category: 'timer',
-      keywords: ['stop', 'timer', 'tracking', 'time', 'end', 'pause'],
+      keywords: ['stop', 'timer', 'tracking', 'time', 'end', 'pause', '停止', '结束'],
       handler: () => {
         const state = useTimeTrackingStore.getState();
         if (state.isTimerRunning()) {
@@ -1530,27 +1530,25 @@ export function getCommands(
     // Data commands
     {
       id: 'cmd-export-notes',
-      name: 'Export Notes',
-      aliases: ['download notes', 'backup notes'],
-      description: 'Export notes to markdown files',
+      name: '导出笔记库',
+      aliases: ['导出笔记', '备份笔记', 'export notes'],
+      description: '将全部笔记导出为 Markdown 压缩包',
       icon: '📤',
       category: 'data',
-      keywords: ['export', 'notes', 'markdown', 'download', 'backup'],
+      keywords: ['export', 'notes', 'markdown', 'download', 'backup', '导出', '笔记'],
       handler: () => {
         navigate('/notes');
-        // Note: The export modal would need to be triggered separately
-        // For now, navigate to notes page where export is available
         return true;
       },
     },
     {
       id: 'cmd-export-brain',
-      name: 'Export Brain',
-      aliases: ['backup', 'export data', 'download brain'],
-      description: 'Export all data to a .brain file',
+      name: '导出 Brain 智识快照',
+      aliases: ['全量备份', '导出数据', 'export brain'],
+      description: '全量备份系统数据为本地 .brain 快照',
       icon: '🧠',
       category: 'data',
-      keywords: ['export', 'brain', 'backup', 'download', 'data'],
+      keywords: ['export', 'brain', 'backup', 'download', 'data', '备份', '快照', '数据'],
       handler: () => {
         navigate('/settings');
         return true;
@@ -1558,12 +1556,12 @@ export function getCommands(
     },
     {
       id: 'cmd-clear-completed',
-      name: 'Clear Completed Tasks',
-      aliases: ['archive done', 'remove completed'],
-      description: 'Archive all completed tasks',
+      name: '归档已完成任务',
+      aliases: ['清理已完成', '归档任务', 'clear completed'],
+      description: '一键归档所有处于已完成状态的任务',
       icon: '🗑️',
       category: 'data',
-      keywords: ['clear', 'completed', 'done', 'archive', 'tasks'],
+      keywords: ['clear', 'completed', 'done', 'archive', 'tasks', '清理', '归档', '完成'],
       handler: () => {
         const { tasks, archiveTask } = useKanbanStore.getState();
         const doneTasks = tasks.filter(t => t.status === 'done');
@@ -1575,12 +1573,12 @@ export function getCommands(
     // Focus mode
     {
       id: 'cmd-focus-mode',
-      name: 'Enter Focus Mode',
-      aliases: ['focus', 'distraction free', 'deep work'],
-      description: 'Full-screen distraction-free focus mode',
+      name: '进入沉浸专注模式',
+      aliases: ['专注模式', '进入专注', 'focus mode'],
+      description: '开启全屏无干扰的心流工作环境',
       icon: '🎯',
       category: 'view',
-      keywords: ['focus', 'mode', 'distraction', 'free', 'deep', 'work', 'zen'],
+      keywords: ['focus', 'mode', 'distraction', 'free', 'deep', 'work', 'zen', '专注', '心流'],
       handler: () => {
         navigate('/focus');
         return true;
@@ -1590,12 +1588,12 @@ export function getCommands(
     // Navigation commands (quick jumps)
     {
       id: 'cmd-go-dashboard',
-      name: 'Go to Dashboard',
-      aliases: ['home', 'dashboard'],
-      description: 'Navigate to dashboard',
+      name: '前往运行中枢',
+      aliases: ['主页', '中枢', '仪表盘', 'dashboard'],
+      description: '跳转至系统主控面板',
       icon: '🏠',
       category: 'navigation',
-      keywords: ['go', 'dashboard', 'home', 'main'],
+      keywords: ['go', 'dashboard', 'home', 'main', '主页', '中枢'],
       handler: () => {
         navigate('/');
         return true;
@@ -1603,12 +1601,12 @@ export function getCommands(
     },
     {
       id: 'cmd-go-notes',
-      name: 'Go to Notes',
-      aliases: ['notes', 'documents'],
-      description: 'Navigate to notes',
+      name: '前往灵感笔记',
+      aliases: ['笔记', '知识库', 'notes'],
+      description: '跳转至笔记与知识库',
       icon: '📝',
       category: 'navigation',
-      keywords: ['go', 'notes', 'documents'],
+      keywords: ['go', 'notes', 'documents', '笔记', '知识库'],
       handler: () => {
         navigate('/notes');
         return true;
@@ -1616,12 +1614,12 @@ export function getCommands(
     },
     {
       id: 'cmd-go-tasks',
-      name: 'Go to Tasks',
-      aliases: ['tasks', 'kanban', 'todos'],
-      description: 'Navigate to task board',
+      name: '前往任务管理',
+      aliases: ['任务', '看板', 'tasks'],
+      description: '跳转至任务看板',
       icon: '✅',
       category: 'navigation',
-      keywords: ['go', 'tasks', 'kanban', 'todos', 'board'],
+      keywords: ['go', 'tasks', 'kanban', 'todos', 'board', '任务', '看板'],
       handler: () => {
         navigate('/tasks');
         return true;
@@ -1629,12 +1627,12 @@ export function getCommands(
     },
     {
       id: 'cmd-go-settings',
-      name: 'Go to Settings',
-      aliases: ['settings', 'preferences', 'options'],
-      description: 'Navigate to settings',
+      name: '前往系统设置',
+      aliases: ['设置', '偏好', 'settings'],
+      description: '跳转至系统偏好与安全设置',
       icon: '⚙️',
       category: 'navigation',
-      keywords: ['go', 'settings', 'preferences', 'options', 'config'],
+      keywords: ['go', 'settings', 'preferences', 'options', 'config', '设置', '偏好'],
       handler: () => {
         navigate('/settings');
         return true;

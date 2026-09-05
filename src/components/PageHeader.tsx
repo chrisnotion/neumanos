@@ -50,21 +50,21 @@ export const PageHeader: React.FC<PageHeaderProps> = ({ title: titleProp, subtit
   }, []);
 
   // Get timezone abbreviation
-  const timezone = Intl.DateTimeFormat('en-US', { timeZoneName: 'short' })
+  const timezone = Intl.DateTimeFormat('zh-CN', { timeZoneName: 'short' })
     .formatToParts(currentTime)
     .find((part) => part.type === 'timeZoneName')?.value || '';
 
   // Format time with seconds, AM/PM
   const formatFullTime = () => {
     if (timeFormat === '24h') {
-      return currentTime.toLocaleTimeString('en-US', {
+      return currentTime.toLocaleTimeString('zh-CN', {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
         hour12: false,
       });
     }
-    return currentTime.toLocaleTimeString('en-US', {
+    return currentTime.toLocaleTimeString('zh-CN', {
       hour: 'numeric',
       minute: '2-digit',
       second: '2-digit',
@@ -75,13 +75,14 @@ export const PageHeader: React.FC<PageHeaderProps> = ({ title: titleProp, subtit
   // Format compact time (no seconds, for mobile)
   const formatCompactTime = () => {
     if (timeFormat === '24h') {
-      return currentTime.toLocaleTimeString('en-US', {
+      return currentTime.toLocaleTimeString('zh-CN', {
         hour: '2-digit',
         minute: '2-digit',
+        second: '2-digit',
         hour12: false,
       });
     }
-    return currentTime.toLocaleTimeString('en-US', {
+    return currentTime.toLocaleTimeString('zh-CN', {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
@@ -89,18 +90,18 @@ export const PageHeader: React.FC<PageHeaderProps> = ({ title: titleProp, subtit
   };
 
   // Format full date with year (desktop)
-  const fullDateString = currentTime.toLocaleDateString('en-US', {
-    weekday: 'long',
+  const fullDateString = currentTime.toLocaleDateString('zh-CN', {
+    year: 'numeric',
     month: 'long',
     day: 'numeric',
-    year: 'numeric',
+    weekday: 'long',
   });
 
   // Format compact date (mobile)
-  const compactDateString = currentTime.toLocaleDateString('en-US', {
+  const compactDateString = currentTime.toLocaleDateString('zh-CN', {
+    year: 'numeric',
     month: 'short',
     day: 'numeric',
-    year: 'numeric',
   });
 
   // Animation variants for title transitions

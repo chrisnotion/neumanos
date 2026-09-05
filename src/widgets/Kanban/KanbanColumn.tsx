@@ -230,7 +230,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
             onClick={() => setShowAddForm(true)}
             className="w-full text-left text-sm text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-primary transition-colors"
           >
-            + Add task
+            + 添加任务
           </button>
         ) : (
           <form onSubmit={handleAddTask} className="space-y-2">
@@ -238,7 +238,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
               type="text"
               value={newTaskTitle}
               onChange={(e) => setNewTaskTitle(e.target.value)}
-              placeholder="Task title..."
+              placeholder="输入任务标题..."
               className="w-full px-3 py-2 text-sm border border-border-light dark:border-border-dark rounded bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
               autoFocus
             />
@@ -247,7 +247,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
                 type="submit"
                 className="px-3 py-1 text-sm bg-accent-primary text-white rounded hover:opacity-80"
               >
-                Add
+                添加
               </button>
               <button
                 type="button"
@@ -257,7 +257,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
                 }}
                 className="px-3 py-1 text-sm bg-surface-light-elevated dark:bg-surface-dark text-text-light-secondary dark:text-text-dark-secondary rounded hover:opacity-80"
               >
-                Cancel
+                取消
               </button>
             </div>
           </form>

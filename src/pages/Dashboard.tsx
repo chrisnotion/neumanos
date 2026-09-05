@@ -191,23 +191,23 @@ export const Dashboard: React.FC = () => {
         <button
           onClick={() => setShowBackgroundCustomizer(true)}
           className="px-3 py-1.5 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-lg font-medium transition-colors"
-          title="Customize background"
+          title="自定义仪表盘背景"
         >
-          🎨 Background
+          🎨 背景设置
         </button>
         <button
           onClick={() => setShowWidgetBuilder(true)}
           className="px-3 py-1.5 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-lg font-medium transition-colors"
-          title="Create custom widget"
+          title="创建自定义组件"
         >
-          + Custom Widget
+          + 自定义组件
         </button>
         <button
           onClick={() => setShowPresetManager(true)}
           className="px-3 py-1.5 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-lg font-medium transition-colors"
-          title="Manage layout presets"
+          title="管理布局预设方案"
         >
-          📐 Presets
+          📐 布局预设
         </button>
       </div>
 
@@ -218,27 +218,27 @@ export const Dashboard: React.FC = () => {
             <span className="text-3xl">⚠️</span>
             <div className="flex-1">
               <h3 className="text-xl font-bold text-accent-yellow mb-2">
-                Welcome to NeumanOS!
+                欢迎开启 NeumanOS！
               </h3>
               <p className="text-sm text-text-light-primary dark:text-text-dark-primary mb-3">
-                <strong>Important:</strong> Your data is stored locally in this browser. To protect your work, remember to create regular backups!
+                <strong>重要提醒：</strong> 您的所有数据都私密存放在当前浏览器的本地环境中。为避免误清浏览器缓存造成数据丢失，请养成定期备份的好习惯！
               </p>
               <div className="bg-surface-light dark:bg-surface-dark-elevated p-4 rounded-lg mb-4">
                 <p className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-2">
-                  Quick Start:
+                  新手快速上手指引：
                 </p>
                 <ol className="text-sm text-text-light-secondary dark:text-text-dark-secondary space-y-1 list-decimal list-inside ml-2">
-                  <li>Start creating tasks, notes, and plans</li>
-                  <li>When you have data to protect, go to Settings → Backup</li>
-                  <li>Export your first backup (Chrome/Edge: enable Auto-Save!)</li>
-                  <li>Store your .brain file somewhere safe (cloud, USB, etc.)</li>
+                  <li>开始自由创建任务、记下笔记与规划日程</li>
+                  <li>产生重要数据后，前往“设置 → 备份与恢复”</li>
+                  <li>导出您的第一份 .brain 备份文件（使用 Chrome/Edge 可开启目录自动归档）</li>
+                  <li>将备份保存在可靠位置（如个人网盘、外置存储等）</li>
                 </ol>
               </div>
               <button
                 onClick={handleDismissReminder}
                 className="px-4 py-2 bg-accent-yellow hover:bg-accent-yellow-hover text-text-light-primary rounded-lg font-medium"
               >
-                Got It!
+                我知道了
               </button>
             </div>
           </div>
@@ -314,7 +314,7 @@ export const Dashboard: React.FC = () => {
                   <circle cx="6" cy="12" r="1.5" fill="currentColor" />
                   <circle cx="10" cy="12" r="1.5" fill="currentColor" />
                 </svg>
-                <span>Moving widget...</span>
+                <span>正在调整组件位置...</span>
               </div>
             </div>
           ) : null}

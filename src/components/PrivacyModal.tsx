@@ -49,7 +49,7 @@ export const PrivacyModal: React.FC<PrivacyModalProps> = ({ onClose }) => {
   return (
     <Modal
       isOpen={true}
-      title="Privacy & Terms"
+      title="隐私与条款"
       onClose={onClose}
       maxWidth="2xl"
     >
@@ -83,8 +83,8 @@ export const PrivacyModal: React.FC<PrivacyModalProps> = ({ onClose }) => {
                 : 'bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
             }`}
           >
-            <span className="hidden sm:inline">Privacy Policy</span>
-            <span className="sm:hidden">Privacy</span>
+            <span className="hidden sm:inline">隐私政策</span>
+            <span className="sm:hidden">隐私</span>
           </button>
           <button
             onClick={() => setSelectedTab('terms')}
@@ -94,18 +94,18 @@ export const PrivacyModal: React.FC<PrivacyModalProps> = ({ onClose }) => {
                 : 'bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
             }`}
           >
-            <span className="hidden sm:inline">Terms & Conditions</span>
-            <span className="sm:hidden">Terms</span>
+            <span className="hidden sm:inline">服务条款与细则</span>
+            <span className="sm:hidden">条款</span>
           </button>
         </div>
 
         {/* Content Title */}
         <div className="text-center">
           <h3 className="text-base sm:text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-            {selectedTab === 'privacy' ? 'Privacy Policy' : 'Terms & Conditions'}
+            {selectedTab === 'privacy' ? '隐私政策' : '服务条款与细则'}
           </h3>
           <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-0.5">
-            {selectedTab === 'privacy' ? 'Last updated: November 16, 2025' : 'Coming Soon'}
+            {selectedTab === 'privacy' ? '最近更新：2025年11月16日' : '即将推出'}
           </p>
         </div>
 
@@ -127,13 +127,13 @@ export const PrivacyModal: React.FC<PrivacyModalProps> = ({ onClose }) => {
               rel="noopener noreferrer"
               className={LINK_CLASS}
             >
-              Official Website
+              官方网站
             </a>
             <a
               href="mailto:os@neuman.dev"
               className={LINK_CLASS}
             >
-              Contact
+              联系我们
             </a>
           </div>
         </div>
@@ -149,73 +149,72 @@ const PrivacyContent: React.FC = () => (
   <div className="space-y-4 text-text-light-primary dark:text-text-dark-primary text-xs sm:text-sm">
     {/* TL;DR Section */}
     <section>
-      <h4 className="text-sm font-semibold mb-1">TL;DR</h4>
+      <h4 className="text-sm font-semibold mb-1">核心概要 (TL;DR)</h4>
       <div className="bg-accent-blue/10 border-l-4 border-accent-blue rounded-r p-2">
         <p className="text-xs">
-          <strong>We respect your privacy.</strong> We use Cloudflare Web Analytics (privacy-focused, no cookies, no tracking)
-          to understand basic site usage. All your personal data stays on YOUR device. We never sell or share anything.
+          <strong>我们高度尊重您的隐私。</strong> 我们仅采用 Cloudflare Web Analytics（注重隐私、无 Cookie、无用户追踪）
+          以了解站点的基础访问指标。您的所有个人数据都安全留存在<strong>您本地的设备上</strong>。我们绝不出售、共享或上传任何内容。
         </p>
       </div>
     </section>
 
     {/* Local-First Philosophy */}
     <section>
-      <h4 className="text-sm font-semibold mb-1">🔒 Local-First Philosophy</h4>
+      <h4 className="text-sm font-semibold mb-1">🔒 本地优先 (Local-First) 哲学</h4>
       <p className="mb-1 text-xs">
-        <strong>Your data belongs to you.</strong> Everything you create in {renderContentWithLinks('NeumanOS')} stays on your device:
+        <strong>数据归您所有，尽在掌握。</strong> 您在 {renderContentWithLinks('NeumanOS')} 中创建的所有内容均完整保存在本地设备中：
       </p>
       <ul className="list-disc ml-4 space-y-0.5 text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-        <li>Notes, tasks, calendar events, kanban boards - all stored locally in IndexedDB</li>
-        <li>No cloud storage, no servers, no databases we control</li>
-        <li>Backups saved to YOUR computer (optional auto-save to folder you choose)</li>
-        <li>Export your data anytime (.brain file format) - you own it 100%</li>
+        <li>笔记、任务、日程事件、看板数据——全部存储于浏览器本地的 IndexedDB 中</li>
+        <li>无云端集中存储，无中心服务器，无任何由我们控制的远端数据库</li>
+        <li>备份文件直接保存到您的本地计算机（亦可自由设置自动归档到您指定的同步盘）</li>
+        <li>随时导出全量数据（标准 .brain 格式）——100% 数据自主所有权</li>
       </ul>
     </section>
 
     {/* Analytics Section */}
     <section>
-      <h4 className="text-sm font-semibold mb-1">📊 Analytics (Cloudflare Web Analytics)</h4>
+      <h4 className="text-sm font-semibold mb-1">📊 访问统计 (Cloudflare Web Analytics)</h4>
       <p className="mb-2 text-xs">
-        We use <strong>Cloudflare Web Analytics</strong> to understand how our site is used.
-        This helps us improve the experience for everyone.
+        我们使用 <strong>Cloudflare Web Analytics</strong> 了解网站的整体访问情况，以帮助我们为所有人持续改进使用体验。
       </p>
 
       <div className="space-y-2">
         <div className="bg-accent-green/10 border border-accent-green/30 rounded-lg p-2">
           <h5 className="font-semibold text-accent-green mb-1 text-xs">
-            ✅ What we collect (aggregate data only):
+            ✅ 我们收集的内容（仅汇总统计指标）：
           </h5>
           <ul className="list-disc ml-4 space-y-0.5 text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-            <li>Page views and session duration</li>
-            <li>Referrer information</li>
-            <li>Browser type and device category</li>
-            <li>Country-level geographic data (not city, not IP)</li>
-            <li>Page load performance metrics</li>
+            <li>页面浏览量与单次会话时长</li>
+            <li>来源渠道 (Referrer) 信息</li>
+            <li>浏览器类型与设备分类（桌面/移动）</li>
+            <li>国家维度的粗略地域统计（不含城市、不含 IP 地址）</li>
+            <li>页面加载与首屏性能指标</li>
           </ul>
         </div>
 
         <div className="bg-accent-red/10 border border-accent-red/30 rounded-lg p-2">
           <h5 className="font-semibold text-accent-red mb-1 text-xs">
-            ❌ What we DON'T collect:
+            ❌ 我们绝不收集的内容：
           </h5>
           <ul className="list-disc ml-4 space-y-0.5 text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-            <li>No cookies or tracking identifiers</li>
-            <li>No personal information (email, name, etc.)</li>
-            <li>No cross-site tracking</li>
-            <li>No individual user tracking or fingerprinting</li>
-            <li>No IP addresses (anonymized by Cloudflare)</li>
+            <li>无任何 Cookie 或长久跟踪标识符</li>
+            <li>无任何个人身份信息（邮箱、姓名等）</li>
+            <li>无跨站追踪行为</li>
+            <li>无个体用户画像或设备指纹跟踪</li>
+            <li>不记录任何 IP 地址（由 Cloudflare 在接入层匿名化）</li>
           </ul>
         </div>
 
         <div className="bg-accent-blue/10 border border-accent-blue/30 rounded-lg p-2">
           <h5 className="font-semibold text-accent-blue mb-1 text-xs">
-            Why Cloudflare Analytics?
+            为什么选用 Cloudflare Analytics？
           </h5>
           <ul className="list-disc ml-4 space-y-0.5 text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-            <li>Privacy-focused (no cookies, no fingerprinting)</li>
-            <li>GDPR/CCPA compliant</li>
-            <li>Minimal data collection (aggregate metrics only)</li>
-            <li>Helps us understand what content is valuable</li>
+            <li>隐私保护优先（无 Cookie，无设备指纹）</li>
+            <li>完全符合 GDPR / CCPA 隐私合规标准</li>
+            <li>最小化数据采集（仅限聚合度量）</li>
+            <li>帮助我们获悉哪些功能对大家真正有价值</li>
           </ul>
         </div>
       </div>
@@ -223,88 +222,87 @@ const PrivacyContent: React.FC = () => (
 
     {/* Data Processing */}
     <section>
-      <h4 className="text-sm font-semibold mb-1">🔐 How Your Data is Processed</h4>
-      <p className="mb-1 text-xs">All analytics data collected is:</p>
+      <h4 className="text-sm font-semibold mb-1">🔐 您的数据如何被处理</h4>
+      <p className="mb-1 text-xs">所有收集的统计数据均遵循：</p>
       <ul className="list-disc ml-4 space-y-0.5 text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-        <li><strong>Anonymized</strong> at collection time (IP addresses never stored)</li>
-        <li><strong>Aggregated</strong> (no individual user profiles)</li>
-        <li><strong>Used solely for improving this site</strong></li>
-        <li><strong>Never sold or shared</strong> with third parties</li>
+        <li><strong>即时匿名化</strong>：数据在收集时即完成脱敏（IP 地址从不入库）</li>
+        <li><strong>高度汇总</strong>：不建立任何独立的个体行为档案</li>
+        <li><strong>仅用于改进站点与软件体验</strong></li>
+        <li><strong>绝不出售、不与任何第三方共享</strong></li>
         <li>
-          <strong>Processed by Cloudflare</strong> (
+          <strong>由 Cloudflare 基础服务处理</strong>（
           <a
             href="https://www.cloudflare.com/privacypolicy/"
             target="_blank"
             rel="noopener noreferrer"
             className={LINK_CLASS}
           >
-            privacy policy
+            隐私政策详见
           </a>
-          )
+          ）
         </li>
       </ul>
     </section>
 
     {/* Your Rights */}
     <section>
-      <h4 className="text-sm font-semibold mb-1">⚖️ Your Privacy Rights</h4>
-      <p className="mb-1 text-xs">You have full control:</p>
+      <h4 className="text-sm font-semibold mb-1">⚖️ 您的隐私权利</h4>
+      <p className="mb-1 text-xs">您拥有绝对的自主选择权：</p>
       <ul className="list-disc ml-4 space-y-0.5 text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-        <li><strong>Block analytics:</strong> Use browser extensions like uBlock Origin or Privacy Badger</li>
-        <li><strong>Enhanced Tracking Protection:</strong> Firefox blocks Cloudflare Analytics by default with ETP</li>
-        <li><strong>No opt-out needed:</strong> No cookies means no consent banner required</li>
-        <li><strong>Export your data:</strong> Download all your personal data anytime (Settings → Export Backup)</li>
-        <li><strong>Delete your data:</strong> Clear browser storage (Settings → Clear All Data)</li>
+        <li><strong>屏蔽统计</strong>：使用 uBlock Origin、Privacy Badger 等扩展即可完全拦截</li>
+        <li><strong>增强型跟踪保护</strong>：Firefox 开启 ETP 默认便会自动屏蔽 Cloudflare 统计脚本</li>
+        <li><strong>无需繁琐退出设置</strong>：由于不使用 Cookie，无需恼人的弹窗授权</li>
+        <li><strong>导出完整数据</strong>：随时下载您的全部个人数据（设置 → 备份与导出）</li>
+        <li><strong>彻底清除数据</strong>：一键清除浏览器本地存储（设置 → 清理全量数据）</li>
       </ul>
     </section>
 
     {/* No Third Parties */}
     <section>
-      <h4 className="text-sm font-semibold mb-1">🚫 No Third-Party Trackers</h4>
-      <p className="mb-1 text-xs">We do <strong>NOT</strong> use:</p>
+      <h4 className="text-sm font-semibold mb-1">🚫 绝无第三方跟踪器</h4>
+      <p className="mb-1 text-xs">我们<strong>严禁</strong>接入以下服务：</p>
       <ul className="list-disc ml-4 space-y-0.5 text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
         <li>Google Analytics</li>
         <li>Facebook Pixel</li>
-        <li>Ad networks (no ads, period)</li>
-        <li>Session recording tools</li>
-        <li>Marketing automation</li>
+        <li>任何商业广告网络（零广告，始终如一）</li>
+        <li>会话录屏回放分析工具</li>
+        <li>营销自动化探测插件</li>
       </ul>
       <p className="mt-1 text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-        Just Cloudflare Web Analytics for basic, anonymous usage stats. That's it.
+        仅使用 Cloudflare Web Analytics 获取基础的匿名流量统计。仅此而已。
       </p>
     </section>
 
     {/* Changes to Policy */}
     <section>
-      <h4 className="text-sm font-semibold mb-1">📝 Changes to This Policy</h4>
+      <h4 className="text-sm font-semibold mb-1">📝 隐私政策变更</h4>
       <p className="text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-        If we make material changes to this privacy policy, we'll update the "Last updated" date.
-        We'll never make changes that violate our privacy-first philosophy without prominently notifying you.
+        若本隐私政策发生重大调整，我们将及时更新上方的“最近更新”日期。
+        未经醒目通知与授权，我们绝不会做出任何违背“隐私优先”初心的变更。
       </p>
     </section>
 
     {/* Contact */}
     <section>
-      <h4 className="text-sm font-semibold mb-1">📧 Questions?</h4>
+      <h4 className="text-sm font-semibold mb-1">📧 疑问与咨询</h4>
       <p className="text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-        Have questions about privacy? Email us at{' '}
+        如果您对隐私保护有任何疑问，请随时发送邮件至{' '}
         <a href="mailto:os@neuman.dev" className={LINK_CLASS}>
           os@neuman.dev
         </a>{' '}
-        or check the Settings page for data export/backup options.
+        或前往“设置”页面管理您的数据导出与本地备份。
       </p>
     </section>
 
     {/* Philosophy Footer */}
     <section className="border-t border-border-light dark:border-border-dark pt-3 mt-3">
       <div className="bg-gradient-to-r from-accent-primary/10 to-accent-secondary/10 rounded-lg p-3">
-        <h5 className="font-semibold mb-1 text-xs">💡 Our Privacy Philosophy</h5>
+        <h5 className="font-semibold mb-1 text-xs">💡 我们的隐私信条</h5>
         <p className="italic text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-          "Your data is yours. We build tools that respect that. If we ever compromise on privacy,
-          we've lost our way."
+          “数据是属于您的私有资产。我们所构建的一切工具都坚决捍卫这一点。如果我们对隐私有所妥协，便失去了立足之本。”
         </p>
         <p className="mt-1 text-[10px] text-text-light-secondary dark:text-text-dark-secondary">
-          — Travis Neuman, Creator of {renderContentWithLinks('NeumanOS')}
+          — Travis Neuman，{renderContentWithLinks('NeumanOS')} 创始人
         </p>
       </div>
     </section>
@@ -319,49 +317,48 @@ const TermsContent: React.FC = () => (
     {/* Coming Soon Notice */}
     <section>
       <div className="bg-accent-primary/10 border-l-4 border-accent-primary rounded-r p-3">
-        <h4 className="text-sm font-semibold mb-1">Terms & Conditions</h4>
+        <h4 className="text-sm font-semibold mb-1">服务条款与细则</h4>
         <p className="text-text-light-secondary dark:text-text-dark-secondary text-xs">
-          Our full Terms & Conditions and Licensing information is currently being drafted.
-          This section will be updated soon with complete details about:
+          完整的服务条款与开源许可细则目前正在起草完善中。本版块不久后将发布正式内容，涵盖：
         </p>
       </div>
     </section>
 
     {/* Upcoming Content */}
     <section>
-      <h4 className="text-sm font-semibold mb-2">📋 What to Expect</h4>
+      <h4 className="text-sm font-semibold mb-2">📋 细则概览</h4>
       <ul className="list-disc ml-4 space-y-1 text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-        <li><strong>Terms of Service:</strong> Guidelines for using {renderContentWithLinks('NeumanOS')}</li>
-        <li><strong>Licensing:</strong> Software licensing terms and open-source attributions</li>
-        <li><strong>User Responsibilities:</strong> Your rights and responsibilities as a user</li>
-        <li><strong>Disclaimer:</strong> Warranty and liability information</li>
-        <li><strong>Data Ownership:</strong> Confirmation that your data belongs to you</li>
+        <li><strong>服务条款：</strong> 使用 {renderContentWithLinks('NeumanOS')} 的基本指导准则</li>
+        <li><strong>许可协议：</strong> 软件开源许可协议及第三方开源致谢</li>
+        <li><strong>用户权责：</strong> 您作为使用者享有的权利与合理使用承诺</li>
+        <li><strong>免责声明：</strong> 担保与责任限制条款</li>
+        <li><strong>数据权属确认：</strong> 郑重声明所有数据归用户个人独占所有</li>
       </ul>
     </section>
 
     {/* Core Principles Preview */}
     <section>
-      <h4 className="text-sm font-semibold mb-2">🎯 Our Guiding Principles</h4>
+      <h4 className="text-sm font-semibold mb-2">🎯 核心指导原则</h4>
       <p className="mb-2 text-text-light-secondary dark:text-text-dark-secondary text-xs">
-        While the full terms are being finalized, here are the core principles that will guide them:
+        在完整法律文本正式出炉前，以下核心原则是我们的准绳：
       </p>
       <div className="space-y-2">
         <div className="bg-surface-light dark:bg-surface-dark rounded-lg p-2 border border-border-light dark:border-border-dark">
-          <p className="text-xs font-medium">🔒 Your Data, Your Control</p>
+          <p className="text-xs font-medium">🔒 您的数据，完全掌控</p>
           <p className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary mt-0.5">
-            All data stays on your device. We cannot access, view, or sell your information.
+            所有数据完全保留在您的本地设备上。我们无法访问、查看或出售您的任何个人资产。
           </p>
         </div>
         <div className="bg-surface-light dark:bg-surface-dark rounded-lg p-2 border border-border-light dark:border-border-dark">
-          <p className="text-xs font-medium">📤 Full Portability</p>
+          <p className="text-xs font-medium">📤 自由迁移，绝无绑定</p>
           <p className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary mt-0.5">
-            Export your data anytime in standard formats. No lock-in, ever.
+            随时以标准开放格式导出您的全量数据，绝不设置任何数据孤岛或技术锁死。
           </p>
         </div>
         <div className="bg-surface-light dark:bg-surface-dark rounded-lg p-2 border border-border-light dark:border-border-dark">
-          <p className="text-xs font-medium">🚫 No Hidden Agendas</p>
+          <p className="text-xs font-medium">🚫 纯粹透明，无暗箱操作</p>
           <p className="text-[10px] text-text-light-secondary dark:text-text-dark-secondary mt-0.5">
-            No ads, no tracking, no selling your attention to the highest bidder.
+            零广告、零商业追踪、绝不出卖您的注意力，回归生产力本质。
           </p>
         </div>
       </div>
@@ -369,9 +366,9 @@ const TermsContent: React.FC = () => (
 
     {/* Contact for Questions */}
     <section>
-      <h4 className="text-sm font-semibold mb-1">📧 Questions?</h4>
+      <h4 className="text-sm font-semibold mb-1">📧 条款咨询</h4>
       <p className="text-text-light-secondary dark:text-text-dark-secondary text-[10px]">
-        Have questions about our terms or licensing? Email us at{' '}
+        如果您对我们的服务条款或许可协议有任何想法或疑问，欢迎发送邮件至{' '}
         <a href="mailto:os@neuman.dev" className={LINK_CLASS}>
           os@neuman.dev
         </a>

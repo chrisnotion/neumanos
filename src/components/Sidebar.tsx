@@ -33,15 +33,15 @@ interface NavItem {
 const fixedNavigation: NavItem[] = [
   {
     icon: '🏠',
-    label: 'Dashboard',
+    label: '运行中枢',
     path: '/',
     shortcut: 'D',
     hasSettings: true,
     defaultExpanded: true,
     children: [
-      { icon: '📆', label: 'Today', path: '/today' },
-      { icon: '🔗', label: 'Link Library', path: '/links' },
-      { icon: '📊', label: 'Activity', path: '/activity' },
+      { icon: '📆', label: '今日聚焦', path: '/today' },
+      { icon: '🔗', label: '灵感书签', path: '/links' },
+      { icon: '📊', label: '活动足迹', path: '/activity' },
     ],
   },
 ];
@@ -56,57 +56,57 @@ const fixedNavigation: NavItem[] = [
 const draggableNavigation: NavItem[] = [
   {
     icon: '📅',
-    label: 'Schedule',
+    label: '日程规划',
     path: '/schedule',
     shortcut: 'S',
     hasSettings: false,
     defaultExpanded: false,
     children: [
-      { icon: '⏱️', label: 'Timer', path: '/schedule?tab=timer' },
-      { icon: '🍅', label: 'Pomodoro', path: '/schedule?tab=pomodoro' },
-      { icon: '⚡', label: 'Energy', path: '/energy' },
-      { icon: '📋', label: 'Availability', path: '/availability' },
+      { icon: '⏱️', label: '计时器', path: '/schedule?tab=timer' },
+      { icon: '🍅', label: '番茄时钟', path: '/schedule?tab=pomodoro' },
+      { icon: '⚡', label: '精力感知', path: '/energy' },
+      { icon: '📋', label: '空闲预约', path: '/availability' },
     ],
   },
   {
     icon: '📝',
-    label: 'Notes',
+    label: '灵感笔记',
     path: '/notes',
     shortcut: 'N',
     hasSettings: false,
     defaultExpanded: false,
     children: [
-      { icon: '📅', label: 'Daily Notes', path: '/notes?tab=daily' },
-      { icon: '🕸️', label: 'Graph', path: '/notes?tab=graph' },
+      { icon: '📅', label: '每日简记', path: '/notes?tab=daily' },
+      { icon: '🕸️', label: '知识图谱', path: '/notes?tab=graph' },
     ],
   },
   {
     icon: '✓',
-    label: 'Tasks',
+    label: '任务管理',
     path: '/tasks',
     shortcut: 'T',
     hasSettings: false,
     defaultExpanded: false,
     children: [
-      { icon: '📊', label: 'Timeline', path: '/tasks?tab=timeline' },
-      { icon: '🎯', label: 'Habits', path: '/tasks?tab=habits' },
-      { icon: '📈', label: 'PM Dashboard', path: '/pm' },
-      { icon: '📂', label: 'Portfolio', path: '/portfolio' },
+      { icon: '📊', label: '时间轴', path: '/tasks?tab=timeline' },
+      { icon: '🎯', label: '习惯养成', path: '/tasks?tab=habits' },
+      { icon: '📈', label: '项目管理', path: '/pm' },
+      { icon: '📂', label: '项目矩阵', path: '/portfolio' },
     ],
   },
   {
     icon: '✨',
-    label: 'Create',
+    label: '创作工坊',
     path: '/create',
     shortcut: 'C',
     hasSettings: false,
     defaultExpanded: false,
     children: [
-      { icon: '📝', label: 'Documents', path: '/create?tab=documents' },
-      { icon: '📊', label: 'Spreadsheets', path: '/create?tab=spreadsheets' },
-      { icon: '📽️', label: 'Presentations', path: '/create?tab=presentations' },
-      { icon: '🔷', label: 'Diagrams', path: '/create?tab=diagrams' },
-      { icon: '📋', label: 'Forms', path: '/create?tab=forms' },
+      { icon: '📝', label: '结构化文档', path: '/create?tab=documents' },
+      { icon: '📊', label: '智能表格', path: '/create?tab=spreadsheets' },
+      { icon: '📽️', label: '幻灯片演示', path: '/create?tab=presentations' },
+      { icon: '🔷', label: '流程图表', path: '/create?tab=diagrams' },
+      { icon: '📋', label: '问卷表单', path: '/create?tab=forms' },
     ],
   },
 ];
@@ -219,8 +219,8 @@ const SortableNavItem: React.FC<SortableNavItemProps> = ({ item, isCollapsed, is
                   hover:text-text-light-primary dark:hover:text-text-dark-primary
                   transition-opacity duration-200
                 "
-                title="Page Settings"
-                aria-label={`${item.label} page settings`}
+                title="页面设置"
+                aria-label={`${item.label} 页面设置`}
               >
                 <span className="text-sm">⚙</span>
               </button>
@@ -240,7 +240,7 @@ const SortableNavItem: React.FC<SortableNavItemProps> = ({ item, isCollapsed, is
                   hover:text-text-light-primary dark:hover:text-text-dark-primary
                   transition-transform duration-200
                 "
-                title={expanded ? 'Collapse' : 'Expand'}
+                title={expanded ? '收起' : '展开'}
               >
                 <span
                   className={`text-xs transition-transform duration-200 ${
@@ -487,8 +487,8 @@ export const Sidebar: React.FC = () => {
                 alt="NeumanOS"
                 className="w-full h-auto object-contain"
               />
-              <p className="text-[10px] tracking-[0.3em] uppercase text-text-light-secondary dark:text-text-dark-secondary text-center w-full mt-1">
-                Management Platform
+              <p className="text-[10px] tracking-[0.2em] uppercase text-text-light-secondary dark:text-text-dark-secondary text-center w-full mt-1">
+                个人生产力平台
               </p>
             </>
           ) : (
@@ -558,7 +558,7 @@ export const Sidebar: React.FC = () => {
                               hover:text-text-light-primary dark:hover:text-text-dark-primary
                               transition-opacity duration-200
                             "
-                            title="Page Settings"
+                            title="页面设置"
                           >
                             <span className="text-sm">⚙</span>
                           </button>
@@ -578,8 +578,8 @@ export const Sidebar: React.FC = () => {
                               hover:text-text-light-primary dark:hover:text-text-dark-primary
                               transition-transform duration-200
                             "
-                            title={expanded ? 'Collapse' : 'Expand'}
-                            aria-label={expanded ? `Collapse ${item.label}` : `Expand ${item.label}`}
+                            title={expanded ? '收起' : '展开'}
+                            aria-label={expanded ? `收起 ${item.label}` : `展开 ${item.label}`}
                             aria-expanded={expanded}
                           >
                             <span
@@ -696,7 +696,7 @@ export const Sidebar: React.FC = () => {
             transition-all duration-standard ease-smooth
             group relative
           `}
-          title={isCollapsed ? 'Settings' : undefined}
+          title={isCollapsed ? '系统设置' : undefined}
           aria-current={isActive('/settings') ? 'page' : undefined}
         >
           {/* Active indicator (left accent) */}
@@ -707,7 +707,7 @@ export const Sidebar: React.FC = () => {
           <span className="w-5 h-5 flex items-center justify-center flex-shrink-0 text-lg">⚙️</span>
           {!isCollapsed && (
             <span className="flex-1 text-base leading-5 font-medium text-left truncate">
-              Settings
+              系统设置
             </span>
           )}
           {isCollapsed && (
@@ -718,7 +718,7 @@ export const Sidebar: React.FC = () => {
               pointer-events-none transition-opacity duration-200
               whitespace-nowrap z-50
             ">
-              Settings
+              系统设置
             </div>
           )}
         </Link>
@@ -733,15 +733,15 @@ export const Sidebar: React.FC = () => {
             transition-all duration-standard ease-smooth
             group relative
           `}
-          title={isCollapsed ? (mode === 'dark' ? 'Light Mode' : 'Dark Mode') : undefined}
-          aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          title={isCollapsed ? (mode === 'dark' ? '浅色模式' : '深色模式') : undefined}
+          aria-label={mode === 'dark' ? '切换为浅色模式' : '切换为深色模式'}
         >
           <span className="w-5 h-5 flex items-center justify-center flex-shrink-0 text-lg" aria-hidden="true">
             {mode === 'dark' ? '☀️' : '🌙'}
           </span>
           {!isCollapsed && (
             <span className="flex-1 text-base leading-5 font-medium text-left">
-              {mode === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              {mode === 'dark' ? '浅色模式' : '深色模式'}
             </span>
           )}
           {isCollapsed && (
@@ -752,7 +752,7 @@ export const Sidebar: React.FC = () => {
               pointer-events-none transition-opacity duration-200
               whitespace-nowrap z-50
             ">
-              {mode === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              {mode === 'dark' ? '浅色模式' : '深色模式'}
             </div>
           )}
         </button>
@@ -767,15 +767,15 @@ export const Sidebar: React.FC = () => {
             transition-all duration-standard ease-smooth
             group relative
           `}
-          title={isCollapsed ? 'Expand Sidebar' : undefined}
-          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          title={isCollapsed ? '展开侧栏' : undefined}
+          aria-label={isCollapsed ? '展开侧栏' : '收起侧栏'}
         >
           <span className="w-5 h-5 flex items-center justify-center flex-shrink-0 text-lg" aria-hidden="true">
             {isCollapsed ? '▶' : '◀'}
           </span>
           {!isCollapsed && (
             <span className="flex-1 text-base leading-5 font-medium text-left">
-              Collapse
+              收起侧栏
             </span>
           )}
           {isCollapsed && (
@@ -786,7 +786,7 @@ export const Sidebar: React.FC = () => {
               pointer-events-none transition-opacity duration-200
               whitespace-nowrap z-50
             ">
-              Expand Sidebar
+              展开侧栏
             </div>
           )}
         </button>

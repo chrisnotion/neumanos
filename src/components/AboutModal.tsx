@@ -87,7 +87,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ onClose }) => {
   return (
     <Modal
       isOpen={true}
-      title="About NeumanOS"
+      title="关于 NeumanOS"
       onClose={onClose}
       maxWidth="2xl"
     >
@@ -130,8 +130,8 @@ export const AboutModal: React.FC<AboutModalProps> = ({ onClose }) => {
                 : 'bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
               }`}
           >
-            <span className="hidden sm:inline">Platform & Principles</span>
-            <span className="sm:hidden">Platform</span>
+            <span className="hidden sm:inline">平台愿景与原则</span>
+            <span className="sm:hidden">平台原则</span>
           </button>
           <button
             onClick={() => setSelectedNarrative('founder')}
@@ -140,8 +140,8 @@ export const AboutModal: React.FC<AboutModalProps> = ({ onClose }) => {
                 : 'bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
               }`}
           >
-            <span className="hidden sm:inline">Values & Background</span>
-            <span className="sm:hidden">Founder</span>
+            <span className="hidden sm:inline">创立初心与故事</span>
+            <span className="sm:hidden">创立初心</span>
           </button>
         </div>
 

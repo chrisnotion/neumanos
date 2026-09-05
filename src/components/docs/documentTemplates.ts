@@ -504,12 +504,12 @@ export function getTemplateById(id: string): DocumentTemplate | undefined {
 // Get all template categories with counts
 export function getTemplateCategories(): { category: DocumentTemplate['category']; count: number; label: string }[] {
   const categories: { category: DocumentTemplate['category']; label: string }[] = [
-    { category: 'general', label: 'General' },
-    { category: 'report', label: 'Reports' },
-    { category: 'proposal', label: 'Proposals' },
-    { category: 'spec', label: 'Specifications' },
-    { category: 'meeting', label: 'Meetings' },
-    { category: 'letter', label: 'Letters' },
+    { category: 'general', label: '通用模板' },
+    { category: 'report', label: '工作汇报' },
+    { category: 'proposal', label: '方案策划' },
+    { category: 'spec', label: '技术规范' },
+    { category: 'meeting', label: '会议纪要' },
+    { category: 'letter', label: '信函公文' },
   ];
 
   return categories.map((c) => ({

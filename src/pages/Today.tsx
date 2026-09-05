@@ -69,12 +69,12 @@ const TodayMetrics: React.FC<{
       <div className="bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg p-3 border border-border-light dark:border-border-dark">
         <div className="flex items-center gap-2 text-accent-green mb-1">
           <CheckCircle2 className="w-4 h-4" />
-          <span className="text-xs font-medium uppercase tracking-wide">Completed</span>
+          <span className="text-xs font-medium uppercase tracking-wide">已完成</span>
         </div>
         <div className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
           {tasksCompleted}
           <span className="text-sm font-normal text-text-light-secondary dark:text-text-dark-secondary ml-1">
-            / {tasksDue} tasks
+            / {tasksDue} 项任务
           </span>
         </div>
       </div>
@@ -82,12 +82,12 @@ const TodayMetrics: React.FC<{
       <div className="bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg p-3 border border-border-light dark:border-border-dark">
         <div className="flex items-center gap-2 text-accent-primary mb-1">
           <Clock className="w-4 h-4" />
-          <span className="text-xs font-medium uppercase tracking-wide">Tracked</span>
+          <span className="text-xs font-medium uppercase tracking-wide">已记录工时</span>
         </div>
         <div className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
           {hoursTracked.toFixed(1)}
           <span className="text-sm font-normal text-text-light-secondary dark:text-text-dark-secondary ml-1">
-            hours
+            小时
           </span>
         </div>
       </div>
@@ -95,12 +95,12 @@ const TodayMetrics: React.FC<{
       <div className="bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg p-3 border border-border-light dark:border-border-dark">
         <div className="flex items-center gap-2 text-accent-secondary mb-1">
           <Calendar className="w-4 h-4" />
-          <span className="text-xs font-medium uppercase tracking-wide">Events</span>
+          <span className="text-xs font-medium uppercase tracking-wide">日程事项</span>
         </div>
         <div className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
           {eventsCount}
           <span className="text-sm font-normal text-text-light-secondary dark:text-text-dark-secondary ml-1">
-            scheduled
+            个排期
           </span>
         </div>
       </div>
@@ -108,7 +108,7 @@ const TodayMetrics: React.FC<{
       <div className="bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg p-3 border border-border-light dark:border-border-dark">
         <div className="flex items-center gap-2 text-accent-purple mb-1">
           <Target className="w-4 h-4" />
-          <span className="text-xs font-medium uppercase tracking-wide">Focus</span>
+          <span className="text-xs font-medium uppercase tracking-wide">达成率</span>
         </div>
         <div className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
           {tasksDue > 0 ? Math.round((tasksCompleted / tasksDue) * 100) : 100}
@@ -137,7 +137,7 @@ const TodayWeather: React.FC<{
     return (
       <div className="flex items-center gap-2 text-text-light-secondary dark:text-text-dark-secondary animate-pulse">
         <CloudSun className="w-5 h-5" />
-        <span className="text-sm">Loading weather...</span>
+        <span className="text-sm">正在加载天气...</span>
       </div>
     );
   }
@@ -146,7 +146,7 @@ const TodayWeather: React.FC<{
     return (
       <div className="flex items-center gap-2 text-text-light-secondary dark:text-text-dark-secondary">
         <CloudSun className="w-5 h-5" />
-        <span className="text-sm">Weather unavailable</span>
+        <span className="text-sm">暂无天气信息</span>
       </div>
     );
   }
@@ -188,8 +188,8 @@ const TodayTasks: React.FC<{
     return (
       <div className="text-center py-8 text-text-light-secondary dark:text-text-dark-secondary">
         <Zap className="w-8 h-8 mx-auto mb-2 opacity-50" />
-        <p className="text-sm">No tasks due today</p>
-        <p className="text-xs opacity-70">Enjoy your free day!</p>
+        <p className="text-sm">今日暂无到期任务</p>
+        <p className="text-xs opacity-70">享受从容自在的时光吧！</p>
       </div>
     );
   }
@@ -251,8 +251,8 @@ const TodayTasks: React.FC<{
                   ? 'text-accent-primary bg-accent-primary/10'
                   : 'text-text-light-tertiary dark:text-text-dark-tertiary opacity-0 group-hover:opacity-100 hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated'
               }`}
-              title={isFocused(task.id) ? 'End focus' : 'Focus on this task'}
-              aria-label={isFocused(task.id) ? 'End focus' : 'Focus on this task'}
+              title={isFocused(task.id) ? '结束专注' : '专注处理此任务'}
+              aria-label={isFocused(task.id) ? '结束专注' : '专注处理此任务'}
             >
               <Focus className="w-3.5 h-3.5" />
             </button>
@@ -290,7 +290,7 @@ const DailyNoteWidget: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) =
       <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark">
         <h3 className="font-semibold text-text-light-primary dark:text-text-dark-primary flex items-center gap-2">
           <FileText className="w-4 h-4 text-accent-primary" />
-          Daily Note
+          每日随记
         </h3>
       </div>
       <div className="p-4">
@@ -306,7 +306,7 @@ const DailyNoteWidget: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) =
                   {todayNote.title}
                 </p>
                 <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary line-clamp-2 mt-0.5">
-                  {todayNote.contentText.slice(0, 120) || 'No content yet'}
+                  {todayNote.contentText.slice(0, 120) || '暂无笔记内容'}
                 </p>
               </div>
               <ChevronRight className="w-4 h-4 text-text-light-tertiary dark:text-text-dark-tertiary opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
@@ -322,10 +322,10 @@ const DailyNoteWidget: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) =
             </div>
             <div className="text-left">
               <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-                Create Today's Note
+                开启今日随记
               </p>
               <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                Start capturing today's thoughts
+                捕捉今日灵感与心流沉淀
               </p>
             </div>
           </button>
@@ -535,7 +535,7 @@ export const Today: React.FC = () => {
               className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-accent-yellow/10 text-accent-yellow hover:bg-accent-yellow/20 border border-accent-yellow/20 transition-colors text-sm font-medium"
             >
               <Sun className="w-4 h-4" />
-              Start Your Day
+              开启今日序幕
             </button>
           )}
 
@@ -546,7 +546,7 @@ export const Today: React.FC = () => {
               className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-accent-purple/10 text-accent-purple hover:bg-accent-purple/20 border border-accent-purple/20 transition-colors text-sm font-medium"
             >
               <Moon className="w-4 h-4" />
-              End Your Day
+              晚间复盘总结
             </button>
           )}
 
@@ -555,7 +555,7 @@ export const Today: React.FC = () => {
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark border border-border-light dark:border-border-dark transition-colors text-sm"
           >
             <Calendar className="w-4 h-4" />
-            Full Schedule
+            完整日程安排
           </button>
         </div>
       </div>
@@ -577,13 +577,13 @@ export const Today: React.FC = () => {
           <div className="bg-surface-light dark:bg-surface-dark rounded-lg border border-border-light dark:border-border-dark overflow-hidden flex flex-col flex-1 min-h-0">
             <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark">
               <h3 className="font-semibold text-text-light-primary dark:text-text-dark-primary">
-                Today's Tasks
+                今日待办任务
               </h3>
               <button
                 onClick={() => navigate('/tasks')}
                 className="p-1.5 rounded hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated transition-colors"
-                title="Add task"
-                aria-label="Add task"
+                title="添加任务"
+                aria-label="添加任务"
               >
                 <Plus className="w-4 h-4 text-text-light-secondary dark:text-text-dark-secondary" />
               </button>

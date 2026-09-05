@@ -88,20 +88,20 @@ const log = logger.module('Settings');
  * Settings Tab Configuration
  */
 const SETTINGS_TABS = [
-  { id: 'general', label: 'General', icon: SettingsIcon },
-  { id: 'appearance', label: 'Appearance', icon: Palette },
-  { id: 'editor', label: 'Editor', icon: PenTool },
-  { id: 'projects', label: 'Projects', icon: FolderTree },
-  { id: 'time', label: 'Time Tracking', icon: Clock },
-  { id: 'tasks', label: 'Tasks', icon: CheckSquare },
-  { id: 'notes', label: 'Notes & Calendar', icon: FileText },
-  { id: 'notifications', label: 'Notifications', icon: Bell },
-  { id: 'data', label: 'Data Management', icon: Database },
-  { id: 'backup', label: 'Backup & Data', icon: HardDrive },
-  { id: 'shortcuts', label: 'Keyboard Shortcuts', icon: Keyboard },
-  { id: 'ai', label: 'AI Providers', icon: Bot },
-  { id: 'advanced', label: 'Advanced', icon: Sliders },
-  { id: 'about', label: 'About', icon: Info },
+  { id: 'general', label: '常规通用', icon: SettingsIcon },
+  { id: 'appearance', label: '外观主题', icon: Palette },
+  { id: 'editor', label: '编辑器偏好', icon: PenTool },
+  { id: 'projects', label: '项目管理', icon: FolderTree },
+  { id: 'time', label: '工时追踪', icon: Clock },
+  { id: 'tasks', label: '任务与看板', icon: CheckSquare },
+  { id: 'notes', label: '笔记与日历', icon: FileText },
+  { id: 'notifications', label: '系统通知', icon: Bell },
+  { id: 'data', label: '数据管理', icon: Database },
+  { id: 'backup', label: '备份与还原', icon: HardDrive },
+  { id: 'shortcuts', label: '快捷键绑定', icon: Keyboard },
+  { id: 'ai', label: 'AI 模型引擎', icon: Bot },
+  { id: 'advanced', label: '高级配置', icon: Sliders },
+  { id: 'about', label: '关于系统', icon: Info },
 ] as const;
 
 type SettingsTabId = (typeof SETTINGS_TABS)[number]['id'];
@@ -121,10 +121,10 @@ const AdvancedCustomizationSection: React.FC = () => {
         <Code className="w-5 h-5 text-accent-primary" />
         <div className="flex-1">
           <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Advanced Customization
+            进阶样式定制
           </h2>
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-0.5">
-            Inject custom CSS for power users
+            为高级用户提供自定义 CSS 注入能力
           </p>
         </div>
         <ChevronDown
@@ -437,7 +437,7 @@ export const Settings: React.FC = () => {
               onClick={() => handleExport(preferences.compressionEnabled)}
               className="mt-2 text-sm underline hover:no-underline"
             >
-              Create Backup Now
+              立即创建备份
             </button>
           </div>
         </motion.div>
@@ -612,8 +612,8 @@ export const Settings: React.FC = () => {
                   {/* Privacy Notice */}
                   <div className="p-4 rounded-lg bg-status-success-bg dark:bg-status-success-bg-dark border border-status-success-border dark:border-status-success-border-dark">
                     <p className="text-sm text-status-success-text dark:text-status-success-text-dark">
-                      <strong>🔒 100% Private:</strong> All data stored locally in your browser using IndexedDB (50GB+ capacity).
-                      No cloud dependencies, no tracking, no third-party services.
+                      <strong>🔒 100% 本地私密：</strong> 所有数据皆保存在您当前浏览器的 IndexedDB 本地数据库中（可支持 50GB+ 存储容量）。
+                      无云端依赖、无追踪探针、不接入第三方服务。
                     </p>
                   </div>
 
@@ -628,17 +628,17 @@ export const Settings: React.FC = () => {
                         <span className="text-3xl flex-shrink-0">⚠️</span>
                         <div className="flex-1">
                           <h3 className="text-xl font-bold text-status-warning-text dark:text-status-warning-text-dark mb-2">
-                            First Time in This Browser?
+                            首次在此浏览器中使用？
                           </h3>
                           <p className="text-sm text-status-warning-text dark:text-status-warning-text-dark mb-3">
-                            Your data is stored locally in each browser. Export from your other browser and import here.
+                            NeumanOS 数据存储于各浏览器本地。若在其他设备或浏览器已有数据，请先在原处导出 .brain 备份包并在此导入。
                           </p>
                           <div className="flex flex-wrap gap-2">
                             <button
                               onClick={() => setShowNewBrowserWarning(false)}
                               className="px-4 py-2 bg-status-warning text-white rounded-lg font-medium transition-colors"
                             >
-                              Got It
+                              我知道了
                             </button>
                             <button
                               onClick={() => {
@@ -647,7 +647,7 @@ export const Settings: React.FC = () => {
                               }}
                               className="px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated text-text-light-primary dark:text-text-dark-primary rounded-lg font-medium transition-colors border border-border-light dark:border-border-dark"
                             >
-                              Don't Show Again
+                              不再提示
                             </button>
                           </div>
                         </div>
@@ -703,7 +703,7 @@ export const Settings: React.FC = () => {
                     <div className="flex items-center gap-3 mb-4">
                       <span className="text-2xl">🏷️</span>
                       <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-                        Custom Fields
+                        自定义字段管理
                       </h2>
                     </div>
                     <CustomFieldsSettings />
@@ -713,7 +713,7 @@ export const Settings: React.FC = () => {
                     <div className="flex items-center gap-3 mb-4">
                       <span className="text-2xl">👥</span>
                       <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-                        Team Members
+                        团队成员配置
                       </h2>
                     </div>
                     <MemberSettings />

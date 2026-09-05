@@ -19,10 +19,10 @@ export const TaskManagementSettings: React.FC = () => {
   return (
     <div className="bento-card p-6">
       <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
-        Task Management
+        任务与依赖行为偏好
       </h2>
       <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-4">
-        Configure how tasks and dependencies behave in your projects.
+        配置看板中任务日期变更联动规则与在制品（WIP）限制约束强度。
       </p>
 
       <div className="space-y-4">
@@ -40,10 +40,10 @@ export const TaskManagementSettings: React.FC = () => {
               htmlFor="auto-shift-tasks"
               className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary cursor-pointer"
             >
-              Automatically shift dependent tasks when dates change
+              前置任务日期变更时，自动顺延依赖任务
             </label>
             <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
-              When you move a task's dates, dependent tasks will be automatically shifted based on their dependency types (Finish-to-Start, Start-to-Start, etc.). A confirmation dialog will be shown before applying shifts.
+              当您调整前置任务的起止日期时，系统将依据依赖关系类型（完成-开始、开始-开始等）智能联动顺延后续依赖任务。在真正应用调整前，会弹出确认对话框供您复核。
             </p>
           </div>
         </div>
@@ -62,10 +62,10 @@ export const TaskManagementSettings: React.FC = () => {
               htmlFor="enforce-wip-limits"
               className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary cursor-pointer"
             >
-              Enforce WIP limits strictly (prevent moves into full columns)
+              严格执行在制品（WIP）上限（达到上限时禁止拖入新任务）
             </label>
             <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
-              When enabled, you cannot drag tasks into columns that have reached their WIP (Work In Progress) limit. When disabled (default), warnings are shown but moves are allowed. Set WIP limits in Kanban board via column settings.
+              开启后，当某一列任务数量达到该列设定的 WIP 上限时，将严格阻止继续拖入任务；关闭状态下（默认），达到上限仅作醒目视觉提醒，依然允许拖入。可在看板各列菜单中配置 WIP 限制值。
             </p>
           </div>
         </div>

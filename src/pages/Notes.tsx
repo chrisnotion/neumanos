@@ -44,9 +44,9 @@ const VALID_TABS: NotesTabType[] = ['notes', 'daily', 'graph'];
 
 // Tab configuration for TabNavigation component
 const NOTES_TABS: Tab[] = [
-  { id: 'notes', label: 'Notes', icon: FileText },
-  { id: 'daily', label: 'Daily Notes', icon: CalendarIcon },
-  { id: 'graph', label: 'Graph', icon: Network },
+  { id: 'notes', label: '文档笔记', icon: FileText },
+  { id: 'daily', label: '每日随记', icon: CalendarIcon },
+  { id: 'graph', label: '知识图谱', icon: Network },
 ];
 
 // Loading fallback for GraphView
@@ -55,7 +55,7 @@ const GraphViewLoader = () => (
     <div className="text-center">
       <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-accent-primary border-r-transparent" />
       <p className="mt-4 text-sm text-text-light-secondary dark:text-text-dark-secondary">
-        Loading Graph...
+        正在载入知识图谱...
       </p>
     </div>
   </div>
@@ -303,11 +303,11 @@ export const Notes: React.FC = () => {
           isOpen={true}
           onClose={handleCancelTitle}
           onConfirm={handleConfirmTitle}
-          title="Enter Note Title"
-          message={`Create a note from template "${selectedTemplate.name}". Please enter a title:`}
+          title="输入笔记标题"
+          message={`基于模板 "${selectedTemplate.name}" 创建新笔记。请输入标题：`}
           defaultValue={titleInput}
-          placeholder="Note title"
-          confirmText="Create Note"
+          placeholder="例如：产品构想、晨间复盘..."
+          confirmText="创建笔记"
         />
       )}
 

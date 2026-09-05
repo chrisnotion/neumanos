@@ -28,7 +28,7 @@ export const StorageInfoSection: React.FC<StorageInfoSectionProps> = ({ storageI
         className="w-full flex items-center justify-between text-left hover:opacity-80 transition-opacity"
       >
         <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-          Storage & Browser Info
+          存储空间与运行环境检测
         </h2>
         <span className="text-2xl text-text-light-secondary dark:text-text-dark-secondary">
           {showDetails ? '▼' : '▶'}
@@ -45,13 +45,13 @@ export const StorageInfoSection: React.FC<StorageInfoSectionProps> = ({ storageI
           {storageInfo && (
             <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-text-light-secondary dark:text-text-dark-secondary">Used:</span>
+                <span className="text-text-light-secondary dark:text-text-dark-secondary">已占用容量：</span>
                 <span className="font-semibold text-text-light-primary dark:text-text-dark-primary">
                   {storageInfo.usageFormatted}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-text-light-secondary dark:text-text-dark-secondary">Available:</span>
+                <span className="text-text-light-secondary dark:text-text-dark-secondary">可用总限额：</span>
                 <span className="font-semibold text-text-light-primary dark:text-text-dark-primary">
                   {storageInfo.availableFormatted}
                 </span>
@@ -67,20 +67,20 @@ export const StorageInfoSection: React.FC<StorageInfoSectionProps> = ({ storageI
                 />
               </div>
               <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                {storageInfo.percentUsed.toFixed(1)}% used
+                已使用 {storageInfo.percentUsed.toFixed(1)}%
               </p>
             </div>
           )}
 
           <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-text-light-secondary dark:text-text-dark-secondary">IndexedDB:</span>
-              <span className="font-semibold text-accent-green">✅ Supported</span>
+              <span className="text-text-light-secondary dark:text-text-dark-secondary">IndexedDB 本地数据库：</span>
+              <span className="font-semibold text-accent-green">✅ 环境完美支持</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-text-light-secondary dark:text-text-dark-secondary">File System Access:</span>
+              <span className="text-text-light-secondary dark:text-text-dark-secondary">文件系统直写 API：</span>
               <span className={`font-semibold ${isFileSystemAccessSupported() ? 'text-accent-green' : 'text-accent-yellow'}`}>
-                {isFileSystemAccessSupported() ? '✅ Supported' : '⚠️ Not Supported'}
+                {isFileSystemAccessSupported() ? '✅ 环境完美支持' : '⚠️ 当前环境不支持'}
               </span>
             </div>
           </div>

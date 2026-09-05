@@ -243,7 +243,7 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
             projectIds: [],
             order: 0,
           });
-          addToast('success', `Task created: ${parsedAction.title}`);
+          addToast('success', `已创建任务：${parsedAction.title}`);
           break;
         }
         case 'event': {
@@ -252,7 +252,7 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
           calendarStore.addEvent(dateKey, parsedAction.title, '', {
             startTime: parsedAction.startTime,
           });
-          addToast('success', `Event created: ${parsedAction.title}`);
+          addToast('success', `已创建日程：${parsedAction.title}`);
           break;
         }
         case 'note': {
@@ -261,11 +261,11 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
             title: parsedAction.title,
             contentText: parsedAction.content || '',
           });
-          addToast('success', `Note created: ${parsedAction.title}`);
+          addToast('success', `已创建笔记：${parsedAction.title}`);
           break;
         }
         default:
-          addToast('warning', 'Could not determine action type. Try adding #tags or starting with "note:" or "meeting".');
+          addToast('warning', '未能识别操作类型。可尝试添加 #标签，或以“笔记:”、“会议”开头。');
           return;
       }
 
@@ -273,7 +273,7 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
       setParsedAction(null);
       onClose();
     } catch (error) {
-      addToast('error', 'Failed to create item');
+      addToast('error', '创建失败，请重试');
     }
   }, [parsedAction, input, addToast, onClose]);
 
@@ -293,13 +293,13 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
   const getTypeLabel = (type: ParsedActionType) => {
     switch (type) {
       case 'task':
-        return 'Task';
+        return '任务';
       case 'event':
-        return 'Event';
+        return '日程';
       case 'note':
-        return 'Note';
+        return '笔记';
       default:
-        return 'Unknown';
+        return '事项';
     }
   };
 
@@ -333,8 +333,8 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
             }}
             placeholder={
               voiceInput.isListening
-                ? (voiceInput.interimTranscript || 'Listening...')
-                : 'Try: "meeting with team tomorrow at 3pm" or "buy milk #errands !high due friday"'
+                ? (voiceInput.interimTranscript || '正在聆听...')
+                : '输入自然语言，例如：“明天下午3点和团队开会” 或 “购买牛奶 #生活 !high 周五前”'
             }
             className="flex-1 bg-transparent text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-tertiary outline-none text-sm"
             autoComplete="off"
@@ -348,8 +348,8 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
                   ? 'text-accent-red voice-pulse'
                   : 'text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-red hover:bg-accent-red/10'
               }`}
-              title={voiceInput.isListening ? 'Stop voice input' : 'Start voice input'}
-              aria-label={voiceInput.isListening ? 'Stop voice input' : 'Start voice input'}
+              title={voiceInput.isListening ? '停止语音输入' : '开启语音输入'}
+              aria-label={voiceInput.isListening ? '停止语音输入' : '开启语音输入'}
             >
               <Mic size={16} />
             </button>
@@ -369,10 +369,10 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
               <div className="flex items-center gap-2">
                 {getTypeIcon(parsedAction.type)}
                 <span className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary">
-                  Create {getTypeLabel(parsedAction.type)}
+                  创建{getTypeLabel(parsedAction.type)}
                 </span>
                 {parsedAction.confidence < 0.8 && (
-                  <span className="text-[10px] text-text-dark-tertiary">(best guess)</span>
+                  <span className="text-[10px] text-text-dark-tertiary">（智能推断）</span>
                 )}
               </div>
               <div className="flex items-center gap-1">
@@ -384,7 +384,7 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
                       : 'text-text-dark-tertiary hover:bg-surface-dark'
                   }`}
                 >
-                  Task
+                  任务
                 </button>
                 <button
                   onClick={() => forceType('event')}
@@ -394,7 +394,7 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
                       : 'text-text-dark-tertiary hover:bg-surface-dark'
                   }`}
                 >
-                  Event
+                  日程
                 </button>
                 <button
                   onClick={() => forceType('note')}
@@ -404,7 +404,7 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
                       : 'text-text-dark-tertiary hover:bg-surface-dark'
                   }`}
                 >
-                  Note
+                  笔记
                 </button>
               </div>
             </div>
@@ -429,17 +429,17 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
                       ? 'bg-accent-red/10 text-accent-red'
                       : 'bg-accent-green/10 text-accent-green'
                   }`}>
-                    {parsedAction.priority}
+                    {parsedAction.priority === 'high' ? '高优先级' : '低优先级'}
                   </span>
                 )}
                 {parsedAction.dueDate && (
                   <span className="px-1.5 py-0.5 bg-accent-orange/10 text-accent-orange rounded">
-                    {parsedAction.dueDate}
+                    截止: {parsedAction.dueDate}
                   </span>
                 )}
                 {parsedAction.startTime && (
                   <span className="px-1.5 py-0.5 bg-accent-green/10 text-accent-green rounded">
-                    {parsedAction.startTime}
+                    时间: {parsedAction.startTime}
                   </span>
                 )}
                 {parsedAction.assignees && parsedAction.assignees.length > 0 && (
@@ -463,7 +463,7 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
               onClick={handleSubmit}
               className="mt-3 w-full flex items-center justify-center gap-2 px-4 py-2 bg-accent-primary hover:bg-accent-primary/90 text-white rounded-lg text-sm font-medium transition-colors"
             >
-              Create {getTypeLabel(parsedAction.type)}
+              创建{getTypeLabel(parsedAction.type)}
               <ArrowRight size={14} />
             </button>
           </div>
@@ -475,15 +475,15 @@ export const NaturalLanguageBar: React.FC<NaturalLanguageBarProps> = ({ isOpen, 
             <div className="grid grid-cols-3 gap-2 text-[11px] text-text-light-secondary dark:text-text-dark-tertiary">
               <div className="flex items-center gap-1.5">
                 <CheckSquare size={12} className="text-accent-blue" />
-                <span>#tag !priority due day @name ^project</span>
+                <span>#标签 !优先级 截止 @成员 ^项目</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Calendar size={12} className="text-accent-green" />
-                <span>meeting/event at time</span>
+                <span>会议/事项 于 具体时间</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <FileText size={12} className="text-accent-yellow" />
-                <span>note: your text</span>
+                <span>note: 灵感随笔</span>
               </div>
             </div>
           </div>

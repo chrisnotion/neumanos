@@ -46,9 +46,9 @@ export const ChecklistTabContent: React.FC<ChecklistTabContentProps> = ({
       {checklist && checklist.length > 0 && (
         <div>
           <div className="flex justify-between text-sm mb-2">
-            <span className="font-medium text-text-light-primary dark:text-text-dark-primary">Progress</span>
+            <span className="font-medium text-text-light-primary dark:text-text-dark-primary">清单进度</span>
             <span className="text-text-light-secondary dark:text-text-dark-secondary">
-              {completedCount} of {totalCount}
+              已完成 {completedCount} / 共 {totalCount} 项
             </span>
           </div>
           <div className="w-full bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-full h-2">
@@ -84,7 +84,7 @@ export const ChecklistTabContent: React.FC<ChecklistTabContentProps> = ({
                 <button
                   onClick={() => onDelete(item.id)}
                   className="opacity-0 group-hover:opacity-100 text-accent-red hover:text-accent-red-hover transition-opacity px-2"
-                  aria-label="Delete item"
+                  aria-label="删除清单项"
                 >
                   ✕
                 </button>
@@ -92,7 +92,7 @@ export const ChecklistTabContent: React.FC<ChecklistTabContentProps> = ({
             ))
         ) : (
           <div className="text-center py-2 text-text-light-secondary dark:text-text-dark-secondary text-xs">
-            ✓ No checklist items
+            ✓ 暂无清单事项
           </div>
         )}
       </div>
@@ -104,14 +104,14 @@ export const ChecklistTabContent: React.FC<ChecklistTabContentProps> = ({
           value={newItemText}
           onChange={(e) => setNewItemText(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Add item..."
+          placeholder="添加清单事项..."
           className="flex-1 px-3 py-2 text-sm border border-border-light dark:border-border-dark rounded-lg bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue outline-none"
         />
         <button
           onClick={handleAddItem}
           className="px-4 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white text-sm font-medium rounded-lg transition-colors"
         >
-          Add
+          添加
         </button>
       </div>
     </div>

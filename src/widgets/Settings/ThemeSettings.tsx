@@ -14,9 +14,9 @@ import { getThemesByCategory, THEME_REGISTRY } from '../../config/themes/registr
 import type { ColorMode } from '../../config/themes/types';
 
 const COLOR_MODES: { id: ColorMode; label: string; icon: React.FC<{ className?: string }> }[] = [
-  { id: 'light', label: 'Light', icon: Sun },
-  { id: 'dark', label: 'Dark', icon: Moon },
-  { id: 'system', label: 'System', icon: Monitor },
+  { id: 'light', label: '浅色明朗', icon: Sun },
+  { id: 'dark', label: '深色沉浸', icon: Moon },
+  { id: 'system', label: '跟随系统', icon: Monitor },
 ];
 
 export const ThemeSettings: React.FC = () => {
@@ -31,16 +31,16 @@ export const ThemeSettings: React.FC = () => {
   return (
     <div className="bento-card p-6">
       <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-1">
-        Appearance
+        外观与主题
       </h2>
       <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-6">
-        Choose your color mode and brand theme
+        挑选符合心境的色彩模式与专属品牌主题风格
       </p>
 
       {/* Color Mode Selector */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-3">
-          Color Mode
+          色彩明暗模式
         </label>
         <div className="grid grid-cols-3 gap-2">
           {COLOR_MODES.map(({ id, label, icon: Icon }) => {
@@ -67,7 +67,7 @@ export const ThemeSettings: React.FC = () => {
       {/* Default Theme */}
       <div className="mb-4">
         <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-3">
-          Theme
+          核心主题
         </label>
         <ThemeCard
           themeId="default"

@@ -10,26 +10,26 @@ const log = logger.module('AI:Settings');
 const QUICK_NOTE_MODES: { value: QuickNoteMode; label: string; description: string }[] = [
   {
     value: 'permanent',
-    label: 'Permanent',
-    description: 'One Quick Note forever. Manually move content when ready.',
+    label: '持久便签',
+    description: '单张便签长期保留，就绪后可手动转存至对应模块。',
   },
   {
     value: 'daily',
-    label: 'Daily',
-    description: 'New Quick Note each day. Old ones become regular notes.',
+    label: '每日便签',
+    description: '每日自动创建新便签，历史便签归档为普通笔记。',
   },
   {
     value: 'auto-archive',
-    label: 'Auto-Archive',
-    description: 'Entries older than X days auto-move to Daily Notes.',
+    label: '自动归档',
+    description: '超出指定天数的记录自动移入对应的「每日随记」。',
   },
 ];
 
 const AUTO_ARCHIVE_OPTIONS = [
-  { value: 3, label: '3 days' },
-  { value: 7, label: '7 days' },
-  { value: 14, label: '14 days' },
-  { value: 30, label: '30 days' },
+  { value: 3, label: '3 天' },
+  { value: 7, label: '7 天' },
+  { value: 14, label: '14 天' },
+  { value: 30, label: '30 天' },
 ];
 
 /**
@@ -101,10 +101,10 @@ export const AITerminalSettingsSection: React.FC = () => {
           <span className="text-2xl">🤖</span>
           <div>
             <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-              AI Terminal
+              AI 终端助手
             </h2>
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-              Multi-provider AI assistant with 8 providers
+              支持 8 家主流大模型服务商的多模型协同架构
             </p>
           </div>
         </div>
@@ -112,20 +112,20 @@ export const AITerminalSettingsSection: React.FC = () => {
           onClick={() => setShowProviderSettings(true)}
           className="px-4 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white text-sm font-medium rounded-lg transition-colors"
         >
-          Configure Providers
+          配置模型服务商
         </button>
       </div>
 
       {/* Provider Status */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg">
-          <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1">Configured Providers</p>
+          <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1">已就绪服务商</p>
           <p className="text-2xl font-semibold text-text-light-primary dark:text-text-dark-primary">
             {configuredCount} <span className="text-sm font-normal text-text-light-secondary dark:text-text-dark-secondary">/ 8</span>
           </p>
         </div>
         <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg">
-          <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1">Active Provider</p>
+          <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-1">当前主选模型</p>
           <p className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary truncate">
             {activeProvider ? (
               <>
@@ -137,7 +137,7 @@ export const AITerminalSettingsSection: React.FC = () => {
                 )}
               </>
             ) : (
-              <span className="text-text-light-secondary dark:text-text-dark-secondary">Not selected</span>
+              <span className="text-text-light-secondary dark:text-text-dark-secondary">尚未选择</span>
             )}
           </p>
         </div>
@@ -146,13 +146,13 @@ export const AITerminalSettingsSection: React.FC = () => {
       {/* Features */}
       <div className="mb-6 p-4 bg-status-info-bg dark:bg-status-info-bg-dark border border-status-info-border dark:border-status-info-border-dark rounded-lg">
         <p className="text-sm text-status-info-text dark:text-status-info-text-dark mb-2">
-          <strong>🎯 Multi-Provider System</strong>
+          <strong>🎯 多模型服务矩阵特性</strong>
         </p>
         <ul className="text-xs text-status-info-text dark:text-status-info-text-dark space-y-1">
-          <li>• 8 AI providers (OpenRouter, Groq, HuggingFace, Mistral, Gemini, OpenAI, Claude, Grok)</li>
-          <li>• Free models available on most providers</li>
-          <li>• Automatic fallback if primary provider fails</li>
-          <li>• Encrypted API key storage with password protection</li>
+          <li>• 支持 8 大服务商（OpenRouter, Groq, HuggingFace, Mistral, Gemini, OpenAI, Claude, Grok）</li>
+          <li>• 多数服务商提供充裕的免费模型额度，即开即用</li>
+          <li>• 主服务商响应异常或限流时，自动无缝降级切换</li>
+          <li>• 采用独立高强度加密算法存储密钥，安全隐私皆在本地</li>
         </ul>
       </div>
 
@@ -161,14 +161,14 @@ export const AITerminalSettingsSection: React.FC = () => {
         <div className="flex items-center gap-2 mb-4">
           <span className="text-lg">⚡</span>
           <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Quick Note Settings
+            快速便签设置
           </h3>
         </div>
 
         {/* Mode Selection */}
         <div className="mb-4">
           <label className="block text-xs text-text-light-secondary dark:text-text-dark-secondary mb-2">
-            Quick Note Mode
+            便签工作模式
           </label>
           <div className="space-y-2">
             {QUICK_NOTE_MODES.map((mode) => (
@@ -205,7 +205,7 @@ export const AITerminalSettingsSection: React.FC = () => {
         {quickNoteMode === 'auto-archive' && (
           <div className="mt-4 pt-4 border-t border-border-light dark:border-border-dark">
             <label className="block text-xs text-text-light-secondary dark:text-text-dark-secondary mb-2">
-              Archive entries older than
+              自动归档超出天数的便签
             </label>
             <select
               value={autoArchiveDays}
@@ -219,7 +219,7 @@ export const AITerminalSettingsSection: React.FC = () => {
               ))}
             </select>
             <p className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary mt-2">
-              Entries older than {autoArchiveDays} days will be automatically moved to their respective Daily Notes.
+              凡是记录时间超过 {autoArchiveDays} 天的条目，将自动移入其对应日期的「每日随记」中。
             </p>
           </div>
         )}
@@ -228,27 +228,27 @@ export const AITerminalSettingsSection: React.FC = () => {
       {/* Chat History Privacy Note */}
       <div className="mb-6 p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg border border-border-light dark:border-border-dark">
         <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-          <strong>Privacy note:</strong> Chat history is stored locally in plaintext. Clear history anytime from the AI Terminal.
+          <strong>隐私承诺：</strong> 对话记录仅保存在本地设备中。您可随时在 AI 终端面板中一键清空全部历史记录。
         </p>
       </div>
 
       {/* Free Provider Links */}
       <div className="p-4 bg-status-success-bg dark:bg-status-success-bg-dark border border-status-success-border dark:border-status-success-border-dark rounded-lg">
         <p className="text-sm font-semibold text-status-success-text dark:text-status-success-text-dark mb-2">
-          Get Free API Keys:
+          获取免费 API 密钥：
         </p>
         <div className="grid grid-cols-2 gap-2 text-sm text-status-success-text dark:text-status-success-text-dark">
           <a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-80">
-            OpenRouter →
+            OpenRouter 密钥 →
           </a>
           <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-80">
-            Groq →
+            Groq 控制台 →
           </a>
           <a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-80">
-            HuggingFace →
+            HuggingFace 令牌 →
           </a>
           <a href="https://console.mistral.ai/api-keys/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-80">
-            Mistral →
+            Mistral 控制台 →
           </a>
         </div>
       </div>

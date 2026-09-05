@@ -7,8 +7,8 @@ import { PageHeader } from '../components/PageHeader';
 type TimeOfDay = 'morning' | 'afternoon' | 'evening';
 
 const ENERGY_FACES = ['😴', '😩', '😐', '😐', '🙂', '🙂', '😊', '😄', '💪', '⚡'];
-const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const FULL_DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const DAY_NAMES = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+const FULL_DAY_NAMES = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
 
 function getDateKey(date: Date): string {
   const y = date.getFullYear();
@@ -46,15 +46,21 @@ function EnergyLogForm() {
 
   const face = ENERGY_FACES[level - 1] || '😐';
 
+  const TIME_LABELS: Record<TimeOfDay, { icon: string; label: string }> = {
+    morning: { icon: '🌅', label: '早晨' },
+    afternoon: { icon: '☀️', label: '午后' },
+    evening: { icon: '🌙', label: '夜晚' },
+  };
+
   return (
     <form onSubmit={handleSubmit} className="p-4 rounded-xl bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark space-y-4">
       <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary">
-        Log Current Energy
+        记录此刻精力状态
       </h3>
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-text-light-secondary dark:text-text-dark-secondary">Level</span>
+          <span className="text-sm text-text-light-secondary dark:text-text-dark-secondary">精力指数</span>
           <span className="text-2xl">{face} <span className="text-sm font-medium">{level}/10</span></span>
         </div>
         <input
@@ -89,8 +95,7 @@ function EnergyLogForm() {
               }
             `}
           >
-            {tod === 'morning' ? '🌅' : tod === 'afternoon' ? '☀️' : '🌙'}{' '}
-            {tod.charAt(0).toUpperCase() + tod.slice(1)}
+            {TIME_LABELS[tod].icon} {TIME_LABELS[tod].label}
           </button>
         ))}
       </div>
@@ -99,7 +104,7 @@ function EnergyLogForm() {
         type="text"
         value={note}
         onChange={(e) => setNote(e.target.value)}
-        placeholder="Optional note (e.g., slept well, coffee)"
+        placeholder="备注随感（例如：睡眠充足、刚喝过咖啡）"
         className="w-full px-3 py-2 rounded-lg text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark text-text-light-primary dark:text-text-dark-primary placeholder:text-text-light-secondary/50 dark:placeholder:text-text-dark-secondary/50"
       />
 
@@ -107,7 +112,7 @@ function EnergyLogForm() {
         type="submit"
         className="w-full px-4 py-2 rounded-lg text-sm font-medium bg-accent-blue text-white hover:bg-accent-blue/90 transition-colors"
       >
-        Log Energy
+        保存精力记录
       </button>
     </form>
   );
@@ -117,15 +122,15 @@ function EnergyLogForm() {
 
 function WeeklyHeatmap({ patterns }: { patterns: EnergyPattern[] }) {
   const times: Array<{ key: TimeOfDay; label: string }> = [
-    { key: 'morning', label: 'Morning' },
-    { key: 'afternoon', label: 'Afternoon' },
-    { key: 'evening', label: 'Evening' },
+    { key: 'morning', label: '早晨' },
+    { key: 'afternoon', label: '午后' },
+    { key: 'evening', label: '夜晚' },
   ];
 
   return (
     <div className="p-4 rounded-xl bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark">
       <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-        Weekly Energy Patterns
+        每周精力节律规律
       </h3>
       <div className="overflow-x-auto">
         <table className="w-full">
@@ -169,7 +174,7 @@ function WeeklyHeatmap({ patterns }: { patterns: EnergyPattern[] }) {
         </table>
       </div>
       <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-2">
-        Based on 4-week rolling average
+        基于过去 4 周移动平均值统计
       </p>
     </div>
   );
@@ -202,14 +207,14 @@ function EnergyTrendChart({ logs }: { logs: EnergyLog[] }) {
   return (
     <div className="p-4 rounded-xl bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark">
       <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-        30-Day Energy Trend
+        近 30 天精力走势分析
       </h3>
       <div className="h-32 flex items-end gap-px">
         {dailyAverages.map((day) => (
           <div
             key={day.date}
             className="flex-1 flex flex-col items-center justify-end"
-            title={`${day.label}: ${day.avg > 0 ? day.avg + '/10' : 'No data'}`}
+            title={`${day.label}: ${day.avg > 0 ? day.avg + '/10' : '无记录'}`}
           >
             <div
               className={`w-full rounded-t-sm transition-all ${
@@ -273,10 +278,9 @@ function BurnoutAlert({ logs }: { logs: EnergyLog[] }) {
       <div className="flex items-start gap-3">
         <span className="text-xl">🔥</span>
         <div>
-          <h4 className="text-sm font-semibold text-red-400">Burnout Alert</h4>
+          <h4 className="text-sm font-semibold text-red-400">身心疲劳预警</h4>
           <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
-            Your energy has been below 4/10 for {alert.days} consecutive days. Consider taking a break,
-            adjusting your workload, or scheduling lighter tasks.
+            检测到您的精力指数已连续 {alert.days} 天低于 4/10。建议及时休憩、适当放宽日常负荷，或安排较轻松的事务以恢复状态。
           </p>
         </div>
       </div>
@@ -321,9 +325,15 @@ function TaskSuggestions({ patterns }: { patterns: EnergyPattern[] }) {
     const highEnergyTasks = activeTasks.filter((t) => (t.energyCost ?? 0) >= 4);
     const lowEnergyTasks = activeTasks.filter((t) => (t.energyCost ?? 0) <= 2);
 
+    const TIME_MAP: Record<TimeOfDay, string> = {
+      morning: '早晨',
+      afternoon: '午后',
+      evening: '夜晚',
+    };
+
     return {
       peakDay: FULL_DAY_NAMES[peakDay],
-      peakTime,
+      peakTime: TIME_MAP[peakTime],
       peakAvg,
       highEnergyTasks: highEnergyTasks.slice(0, 3),
       lowEnergyTasks: lowEnergyTasks.slice(0, 3),
@@ -334,10 +344,10 @@ function TaskSuggestions({ patterns }: { patterns: EnergyPattern[] }) {
     return (
       <div className="p-4 rounded-xl bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark">
         <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-2">
-          Task Suggestions
+          任务规划建议
         </h3>
         <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-          Add energy costs to tasks and log your energy for a few weeks to get personalized scheduling suggestions.
+          为任务标注所需精力消耗，并坚持记录数周精力状态，即可获取专属的个性化排期建议。
         </p>
       </div>
     );
@@ -346,17 +356,17 @@ function TaskSuggestions({ patterns }: { patterns: EnergyPattern[] }) {
   return (
     <div className="p-4 rounded-xl bg-surface-light dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark space-y-3">
       <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary">
-        Task Suggestions
+        任务规划建议
       </h3>
 
       <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-        Your peak energy is typically on <span className="font-medium text-green-400">{suggestions.peakDay} {suggestions.peakTime}</span> ({suggestions.peakAvg}/10)
+        您的精力峰值通常出现在 <span className="font-medium text-green-400">{suggestions.peakDay} {suggestions.peakTime}</span>（平均 {suggestions.peakAvg}/10）
       </div>
 
       {suggestions.highEnergyTasks.length > 0 && (
         <div>
           <p className="text-xs font-medium text-orange-400 mb-1">
-            Schedule for high-energy times:
+            适合在精力充沛时集中攻坚：
           </p>
           <ul className="space-y-1">
             {suggestions.highEnergyTasks.map((task) => (
@@ -364,7 +374,7 @@ function TaskSuggestions({ patterns }: { patterns: EnergyPattern[] }) {
                 <span className="text-orange-400">●</span>
                 {task.title}
                 <span className="text-text-light-secondary/50 dark:text-text-dark-secondary/50">
-                  (cost: {task.energyCost}/5)
+                  (精力消耗: {task.energyCost}/5)
                 </span>
               </li>
             ))}
@@ -375,7 +385,7 @@ function TaskSuggestions({ patterns }: { patterns: EnergyPattern[] }) {
       {suggestions.lowEnergyTasks.length > 0 && (
         <div>
           <p className="text-xs font-medium text-blue-400 mb-1">
-            Good for low-energy periods:
+            适合在精力平缓或低落时轻松处理：
           </p>
           <ul className="space-y-1">
             {suggestions.lowEnergyTasks.map((task) => (

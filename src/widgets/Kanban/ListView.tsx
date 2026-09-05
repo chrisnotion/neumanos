@@ -218,31 +218,31 @@ export const ListView: React.FC<ListViewProps> = ({ tasks, columns, onTaskClick 
       {selectedTaskIds.size > 0 && (
         <div className="mb-4 p-3 bg-accent-blue/10 dark:bg-accent-blue/20 border border-accent-blue rounded-lg flex items-center gap-3 flex-wrap">
           <span className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-            {selectedTaskIds.size} selected
+            已选中 {selectedTaskIds.size} 项任务
           </span>
           <button
             onClick={() => setShowStatusDialog(true)}
             className="px-3 py-1.5 text-sm bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated transition-colors"
           >
-            Change Status
+            变更状态
           </button>
           <button
             onClick={() => setShowPriorityDialog(true)}
             className="px-3 py-1.5 text-sm bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated transition-colors"
           >
-            Change Priority
+            设置优先级
           </button>
           <button
             onClick={() => setShowDeleteDialog(true)}
             className="px-3 py-1.5 text-sm bg-status-error text-white rounded hover:opacity-80 transition-opacity"
           >
-            Delete
+            批量删除
           </button>
           <button
             onClick={handleExportCSV}
             className="px-3 py-1.5 text-sm bg-accent-blue text-white rounded hover:bg-accent-blue-hover transition-colors ml-auto"
           >
-            Export CSV
+            导出 CSV
           </button>
         </div>
       )}
@@ -267,34 +267,34 @@ export const ListView: React.FC<ListViewProps> = ({ tasks, columns, onTaskClick 
                 className="p-3 text-left font-semibold text-text-light-primary dark:text-text-dark-primary cursor-pointer hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors"
                 onClick={() => handleSort('title')}
               >
-                Title{getSortIndicator('title')}
+                任务标题{getSortIndicator('title')}
               </th>
               <th
                 className="p-3 text-left font-semibold text-text-light-primary dark:text-text-dark-primary cursor-pointer hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors"
                 onClick={() => handleSort('status')}
               >
-                Status{getSortIndicator('status')}
+                状态{getSortIndicator('status')}
               </th>
               <th
                 className="p-3 text-left font-semibold text-text-light-primary dark:text-text-dark-primary cursor-pointer hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors"
                 onClick={() => handleSort('priority')}
               >
-                Priority{getSortIndicator('priority')}
+                优先级{getSortIndicator('priority')}
               </th>
               <th
                 className="p-3 text-left font-semibold text-text-light-primary dark:text-text-dark-primary cursor-pointer hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors"
                 onClick={() => handleSort('dueDate')}
               >
-                Due Date{getSortIndicator('dueDate')}
+                截止日期{getSortIndicator('dueDate')}
               </th>
               <th className="p-3 text-left font-semibold text-text-light-primary dark:text-text-dark-primary">
-                Tags
+                标签
               </th>
               <th className="p-3 text-left font-semibold text-text-light-primary dark:text-text-dark-primary">
-                Progress
+                进度
               </th>
               <th className="p-3 text-center font-semibold text-text-light-primary dark:text-text-dark-primary w-12">
-                Timer
+                计时
               </th>
               {/* Custom Field Columns (P1 Feature) */}
               {visibleFieldDefinitions.map(field => (
@@ -370,7 +370,7 @@ export const ListView: React.FC<ListViewProps> = ({ tasks, columns, onTaskClick 
                             ? 'bg-accent-blue text-white'
                             : 'bg-surface-light-elevated dark:bg-surface-dark text-text-light-secondary dark:text-text-dark-secondary'
                         }`}>
-                          ✓ {completedSubtasks}/{totalSubtasks} subtasks
+                          ✓ 已完成 {completedSubtasks}/{totalSubtasks} 项子任务
                         </span>
                       )}
                     </td>
@@ -396,7 +396,7 @@ export const ListView: React.FC<ListViewProps> = ({ tasks, columns, onTaskClick 
             ) : (
               <tr>
                 <td colSpan={8 + visibleFieldDefinitions.length} className="p-12 text-center text-text-light-secondary dark:text-text-dark-secondary">
-                  No tasks to display
+                  暂无任务可显示
                 </td>
               </tr>
             )}
@@ -409,7 +409,7 @@ export const ListView: React.FC<ListViewProps> = ({ tasks, columns, onTaskClick 
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-surface-light dark:bg-surface-dark rounded-lg p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold mb-4 text-text-light-primary dark:text-text-dark-primary">
-              Change Status ({selectedTaskIds.size} tasks)
+              更改状态（共 {selectedTaskIds.size} 项任务）
             </h3>
             <div className="space-y-2 mb-6">
               {columns.map(column => (
@@ -427,7 +427,7 @@ export const ListView: React.FC<ListViewProps> = ({ tasks, columns, onTaskClick 
               onClick={() => setShowStatusDialog(false)}
               className="w-full px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark rounded hover:opacity-80 transition-opacity"
             >
-              Cancel
+              取消
             </button>
           </div>
         </div>
@@ -438,17 +438,21 @@ export const ListView: React.FC<ListViewProps> = ({ tasks, columns, onTaskClick 
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-surface-light dark:bg-surface-dark rounded-lg p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold mb-4 text-text-light-primary dark:text-text-dark-primary">
-              Change Priority ({selectedTaskIds.size} tasks)
+              调整优先级（共 {selectedTaskIds.size} 项任务）
             </h3>
             <div className="space-y-2 mb-6">
-              {(['low', 'medium', 'high'] as TaskPriority[]).map(priority => (
+              {([
+                { key: 'high', label: '高优先级 (High)' },
+                { key: 'medium', label: '中优先级 (Medium)' },
+                { key: 'low', label: '低优先级 (Low)' },
+              ] as const).map(({ key, label }) => (
                 <button
-                  key={priority}
-                  onClick={() => handleBulkPriorityChange(priority)}
+                  key={key}
+                  onClick={() => handleBulkPriorityChange(key as TaskPriority)}
                   className="w-full text-left px-4 py-2 rounded hover:bg-surface-light-elevated dark:hover:bg-surface-dark transition-colors"
                 >
-                  <span className={`font-medium ${priorityColors[priority]}`}>
-                    {priority.charAt(0).toUpperCase() + priority.slice(1)}
+                  <span className={`font-medium ${priorityColors[key]}`}>
+                    {label}
                   </span>
                 </button>
               ))}
@@ -457,7 +461,7 @@ export const ListView: React.FC<ListViewProps> = ({ tasks, columns, onTaskClick 
               onClick={() => setShowPriorityDialog(false)}
               className="w-full px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark rounded hover:opacity-80 transition-opacity"
             >
-              Cancel
+              取消
             </button>
           </div>
         </div>
@@ -468,8 +472,10 @@ export const ListView: React.FC<ListViewProps> = ({ tasks, columns, onTaskClick 
         isOpen={showDeleteDialog}
         onClose={() => setShowDeleteDialog(false)}
         onConfirm={handleBulkDelete}
-        title="Delete Tasks"
-        message={`Are you sure you want to delete ${selectedTaskIds.size} task(s)? This action cannot be undone.`}
+        title="批量删除任务"
+        message={`确定要彻底删除选中的 ${selectedTaskIds.size} 项任务吗？此操作无法撤销。`}
+        confirmText="确认删除"
+        cancelText="取消"
         variant="danger"
       />
     </div>

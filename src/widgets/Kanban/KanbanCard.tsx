@@ -165,21 +165,21 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
           type="text"
           value={editedTask.title}
           onChange={(e) => setEditedTask({ ...editedTask, title: e.target.value })}
-          placeholder="Task title"
+          placeholder="任务标题"
           className="w-full mb-2 px-2 py-1 text-sm border border-border-light dark:border-border-dark rounded bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue focus:outline-none"
           autoFocus
         />
         <textarea
           value={editedTask.description}
           onChange={(e) => setEditedTask({ ...editedTask, description: e.target.value })}
-          placeholder="Description (optional)"
+          placeholder="详细描述（选填）"
           rows={2}
           className="w-full mb-2 px-2 py-1 text-sm border border-border-light dark:border-border-dark rounded bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue focus:outline-none resize-none"
         />
 
         <div className="grid grid-cols-2 gap-2 mb-2">
           <div>
-            <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">Start Date</label>
+            <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">开始日期</label>
             <input
               type="date"
               value={editedTask.startDate}
@@ -188,7 +188,7 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
             />
           </div>
           <div>
-            <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">Due Date</label>
+            <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">截止日期</label>
             <input
               type="date"
               value={editedTask.dueDate}
@@ -199,7 +199,7 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
         </div>
 
         <div className="mb-2">
-          <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">Priority</label>
+          <label className="text-xs text-text-light-secondary dark:text-text-dark-secondary">优先级</label>
           <select
             value={editedTask.priority}
             onChange={(e) =>
@@ -207,9 +207,9 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
             }
             className="w-full px-2 py-1 text-sm border border-border-light dark:border-border-dark rounded bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary"
           >
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
+            <option value="low">低优先级</option>
+            <option value="medium">中优先级</option>
+            <option value="high">高优先级</option>
           </select>
         </div>
 
@@ -218,13 +218,13 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
             onClick={handleSave}
             className="flex-1 px-3 py-1 text-sm bg-accent-blue text-white rounded hover:bg-accent-blue-hover transition-colors"
           >
-            Save
+            保存
           </button>
           <button
             onClick={() => setIsEditing(false)}
             className="px-3 py-1 text-sm bg-surface-dark text-white rounded hover:opacity-80 transition-opacity"
           >
-            Cancel
+            取消
           </button>
         </div>
       </div>
@@ -278,23 +278,23 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
           <h4 className="font-medium text-text-light-primary dark:text-text-dark-primary text-sm inline flex items-center gap-1.5">
             {/* Phase 1.6: Milestone indicator */}
             {task.isMilestone && (
-              <span className="shrink-0 text-sm" title="Milestone">📍</span>
+              <span className="shrink-0 text-sm" title="里程碑任务">📍</span>
             )}
             {task.title}
           </h4>
           {/* Phase 1.3: Critical path indicator */}
           {isCritical && (
             <span className="ml-1 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-status-error-bg dark:bg-status-error-bg-dark text-status-error-text dark:text-status-error-text-dark border border-status-error-border dark:border-status-error-border-dark">
-              🔴 CRITICAL
+              🔴 关键路径
             </span>
           )}
           {/* P1: Overdue blocker warning */}
           {overdueBlockers.length > 0 && (
             <span
               className="ml-1 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-status-warning-bg dark:bg-status-warning-bg-dark text-status-warning-text dark:text-status-warning-text-dark border border-status-warning-border dark:border-status-warning-border-dark"
-              title={`Blocked by ${overdueBlockers.length} overdue task${overdueBlockers.length > 1 ? 's' : ''}: ${overdueBlockers.map(b => b.title).join(', ')}`}
+              title={`受 ${overdueBlockers.length} 个逾期前置任务阻塞: ${overdueBlockers.map(b => b.title).join(', ')}`}
             >
-              ⚠️ {overdueBlockers.length} overdue
+              ⚠️ {overdueBlockers.length} 项已逾期
             </span>
           )}
         </div>
@@ -319,7 +319,7 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
                 }}
                 className="block w-full text-left px-4 py-2 text-sm hover:bg-surface-light-elevated dark:hover:bg-surface-dark text-text-light-secondary dark:text-text-dark-secondary"
               >
-                Edit
+                编辑任务
               </button>
               {!task.linkedHabitId && (
                 <button
@@ -330,7 +330,7 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
                   }}
                   className="block w-full text-left px-4 py-2 text-sm hover:bg-surface-light-elevated dark:hover:bg-surface-dark text-text-light-secondary dark:text-text-dark-secondary"
                 >
-                  Track as Habit
+                  转为习惯打卡
                 </button>
               )}
               <button
@@ -340,7 +340,7 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
                 }}
                 className="block w-full text-left px-4 py-2 text-sm hover:bg-surface-light-elevated dark:hover:bg-surface-dark text-text-light-secondary dark:text-text-dark-secondary"
               >
-                📦 Archive
+                📦 归档任务
               </button>
               <button
                 onClick={(e) => {
@@ -349,7 +349,7 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
                 }}
                 className="block w-full text-left px-4 py-2 text-sm hover:bg-surface-light-elevated dark:hover:bg-surface-dark text-status-error"
               >
-                Delete
+                删除任务
               </button>
             </div>
           )}
@@ -395,11 +395,11 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
             className="text-xs px-2 py-0.5 rounded bg-accent-blue/10 dark:bg-accent-blue/20 text-accent-blue dark:text-accent-blue-hover font-medium"
             title={
               task.isRecurringParent
-                ? `Recurring task (${task.recurrence?.frequency})${task.nextOccurrence ? ` • Next: ${task.nextOccurrence}` : ''}`
-                : 'Instance of recurring task'
+                ? `循环任务 (${task.recurrence?.frequency})${task.nextOccurrence ? ` • 下次: ${task.nextOccurrence}` : ''}`
+                : '循环任务生成实例'
             }
           >
-            🔁 {task.isRecurringParent ? 'Recurring' : 'Instance'}
+            🔁 {task.isRecurringParent ? '周期循环' : '循环实例'}
           </span>
         )}
 

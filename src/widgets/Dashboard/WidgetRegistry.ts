@@ -140,8 +140,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
   // Core App Widgets (always useful, enabled by default)
   myday: {
     id: 'myday',
-    name: 'My Day',
-    description: 'Unified view of today\'s tasks and events',
+    name: '今日全景',
+    description: '聚合呈现今日待办任务与日程活动',
     icon: '☀️',
     category: 'core',
     defaultEnabled: true,
@@ -149,8 +149,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   taskssummary: {
     id: 'taskssummary',
-    name: 'Tasks Summary',
-    description: 'Task counts and overview',
+    name: '任务概览',
+    description: '待办任务数量统计与状态进度概览',
     icon: '📊',
     category: 'core',
     defaultEnabled: true,
@@ -158,8 +158,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   tasksquickadd: {
     id: 'tasksquickadd',
-    name: 'Quick Add Task',
-    description: 'Quickly add tasks to Kanban',
+    name: '极速新建任务',
+    description: '无需切换页面，快速添加任务至看板',
     icon: '➕',
     category: 'core',
     defaultEnabled: true,
@@ -167,8 +167,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   upcomingevents: {
     id: 'upcomingevents',
-    name: 'Upcoming Events',
-    description: 'Your next calendar events',
+    name: '近期日程',
+    description: '即将到来的日历活动与事件提醒',
     icon: '📅',
     category: 'core',
     defaultEnabled: true,
@@ -176,8 +176,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   recentnotes: {
     id: 'recentnotes',
-    name: 'Recent Notes',
-    description: 'Recently updated notes',
+    name: '近期笔记',
+    description: '快速访问最近编辑或更新的灵感笔记',
     icon: '📝',
     category: 'core',
     defaultEnabled: true,
@@ -185,8 +185,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   habitsummary: {
     id: 'habitsummary',
-    name: 'Habit Tracker',
-    description: 'Track daily habits and streaks',
+    name: '习惯追踪',
+    description: '记录日常习惯打卡状态与连续达标天数',
     icon: '🎯',
     category: 'core',
     defaultEnabled: true,
@@ -194,8 +194,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   quote: {
     id: 'quote',
-    name: 'Daily Quote',
-    description: 'Inspirational quotes to start your day',
+    name: '每日格言',
+    description: '启迪思维、唤醒动力的每日励志金句',
     icon: '💭',
     category: 'productivity',
     apiUrl: 'https://api.quotable.io/random',
@@ -205,8 +205,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   crypto: {
     id: 'crypto',
-    name: 'Crypto Tracker',
-    description: 'BTC, ETH, SOL prices with 24h change',
+    name: '加密货币行情',
+    description: '实时追踪 BTC、ETH、SOL 等币种行情与 24h 涨跌幅',
     icon: '₿',
     category: 'finance',
     apiUrl: 'https://api.coingecko.com/api/v3/simple/price',
@@ -215,8 +215,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   hackernews: {
     id: 'hackernews',
-    name: 'Hacker News',
-    description: 'Top tech stories from HN',
+    name: 'Hacker News 动态',
+    description: '精选来自 Hacker News 的热门极客科技资讯',
     icon: '📰',
     category: 'news',
     apiUrl: 'https://hacker-news.firebaseio.com/v0',
@@ -225,8 +225,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   facts: {
     id: 'facts',
-    name: 'Random Facts',
-    description: 'Interesting facts and trivia',
+    name: '趣味冷知识',
+    description: '发现令人耳目一新的趣味科普与生活百科',
     icon: '🧠',
     category: 'fun',
     apiUrl: 'https://uselessfacts.jsph.pl/random.json',
@@ -235,8 +235,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   github: {
     id: 'github',
-    name: 'GitHub Activity',
-    description: 'Your contributions and trending repos',
+    name: 'GitHub 动态看板',
+    description: '个人代码贡献热力图与关注的趋势仓库动态',
     icon: '🐙',
     category: 'dev',
     apiUrl: 'https://api.github.com',
@@ -246,8 +246,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   joke: {
     id: 'joke',
-    name: 'Developer Jokes',
-    description: 'Programming jokes for a laugh',
+    name: '极客幽默',
+    description: '程序员专属趣味笑话与代码梗，工作之余会心一笑',
     icon: '😄',
     category: 'fun',
     apiUrl: 'https://v2.jokeapi.dev/joke/Programming',
@@ -256,8 +256,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   unsplash: {
     id: 'unsplash',
-    name: 'Photo of the Day',
-    description: 'Beautiful photography from Unsplash',
+    name: '每日精选壁纸',
+    description: '来自 Unsplash 社区的高清艺术摄影与自然风光',
     icon: '📸',
     category: 'visual',
     apiUrl: 'https://source.unsplash.com/random',
@@ -266,8 +266,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   pomodoro: {
     id: 'pomodoro',
-    name: 'Pomodoro Timer',
-    description: 'Focus timer for productivity',
+    name: '番茄时钟',
+    description: '基于经典番茄工作法的沉浸式专注与间歇休息计时',
     icon: '⏱️',
     category: 'productivity',
     defaultEnabled: false,
@@ -276,8 +276,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
   // News & Info Widgets
   reddit: {
     id: 'reddit',
-    name: 'Reddit Posts',
-    description: 'Hot posts from programming subreddits',
+    name: 'Reddit 热门热帖',
+    description: '聚焦编程与开发者社区的即时热门技术讨论',
     icon: '📰',
     category: 'news',
     apiUrl: 'https://www.reddit.com/r/programming/hot.json',
@@ -286,8 +286,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   devto: {
     id: 'devto',
-    name: 'Dev.to Articles',
-    description: 'Latest dev articles from Dev.to',
+    name: 'Dev.to 精选技术文章',
+    description: '来自全球前沿开发者社区的高质量技术博文精选',
     icon: '📝',
     category: 'news',
     apiUrl: 'https://dev.to/api/articles',
@@ -297,8 +297,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
   // Productivity Widgets
   wordofday: {
     id: 'wordofday',
-    name: 'Word of the Day',
-    description: 'Expand your vocabulary',
+    name: '每日一词',
+    description: '每日拓展词汇储备与例句解析',
     icon: '📖',
     category: 'productivity',
     apiUrl: 'https://api.dictionaryapi.dev/api/v2/entries/en',
@@ -307,8 +307,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   currency: {
     id: 'currency',
-    name: 'Currency Exchange',
-    description: 'Real-time exchange rates',
+    name: '全球汇率换算',
+    description: '主要国家与地区货币的实时汇率换算与走势',
     icon: '💱',
     category: 'productivity',
     apiUrl: 'https://api.exchangerate-api.com/v4/latest/USD',
@@ -317,8 +317,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   worldclock: {
     id: 'worldclock',
-    name: 'World Clock',
-    description: 'Time in multiple timezones',
+    name: '全球时区时钟',
+    description: '跨时区团队协作利器，一览全球主要城市即时时间',
     icon: '🌍',
     category: 'productivity',
     defaultEnabled: false,
@@ -327,8 +327,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
   // Utility Widgets
   ipinfo: {
     id: 'ipinfo',
-    name: 'IP Information',
-    description: 'Your IP address and location',
+    name: 'IP 归属地查询',
+    description: '查看当前网络公网 IP 地址与地理定位信息',
     icon: '🌐',
     category: 'utility',
     apiUrl: 'https://ipapi.co/json/',
@@ -337,8 +337,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   qrcode: {
     id: 'qrcode',
-    name: 'QR Code Generator',
-    description: 'Generate QR codes instantly',
+    name: '二维码生成器',
+    description: '快速将任意文本或网址链接生成可扫描二维码',
     icon: '📱',
     category: 'utility',
     defaultEnabled: false,
@@ -346,8 +346,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   colorpalette: {
     id: 'colorpalette',
-    name: 'Color Palette',
-    description: 'Random color combinations',
+    name: '灵感调色盘',
+    description: '随机生成和谐美观的设计配色方案与色值',
     icon: '🎨',
     category: 'utility',
     defaultEnabled: false,
@@ -356,8 +356,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
   // Visual Widgets
   weathermap: {
     id: 'weathermap',
-    name: 'Weather & Map',
-    description: 'Interactive weather map with current conditions & 5-day forecast',
+    name: '气象雷达与天气',
+    description: '交互式气象卫星图、即时天气状况与 5 日逐日天气预报',
     icon: '🗺️',
     category: 'visual',
     apiUrl: 'https://api.open-meteo.com/v1/forecast',
@@ -367,8 +367,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
   // Utility Widgets (New)
   calculator: {
     id: 'calculator',
-    name: 'Calculator',
-    description: 'Basic calculator with memory functions',
+    name: '科学计算器',
+    description: '支持基础四则运算与数值记忆存储的轻便计算器',
     icon: '🔢',
     category: 'utility',
     defaultEnabled: false,
@@ -376,8 +376,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   unitconverter: {
     id: 'unitconverter',
-    name: 'Unit Converter',
-    description: 'Convert temperature, length, and weight units',
+    name: '单位换算器',
+    description: '支持温度、长度、面积与重量等常用物理单位快速换算',
     icon: '📏',
     category: 'utility',
     defaultEnabled: false,
@@ -385,8 +385,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   countdown: {
     id: 'countdown',
-    name: 'Countdown Timer',
-    description: 'Track countdowns to important events',
+    name: '倒计时纪念日',
+    description: '追踪距离重要里程碑、考试或发版日期的倒计时',
     icon: '⏳',
     category: 'productivity',
     defaultEnabled: false,
@@ -394,8 +394,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   shortcuts: {
     id: 'shortcuts',
-    name: 'Keyboard Shortcuts',
-    description: 'Quick reference for app shortcuts',
+    name: '快捷键速查表',
+    description: '随时查阅平台核心功能操作的高效快捷键',
     icon: '⌨️',
     category: 'utility',
     defaultEnabled: false,
@@ -403,8 +403,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   stockmarket: {
     id: 'stockmarket',
-    name: 'Stock Market',
-    description: 'Real-time stock prices (AAPL, GOOGL, TSLA)',
+    name: '美股行情看板',
+    description: '追踪 AAPL、GOOGL、TSLA 等标杆科技股即时走势',
     icon: '📈',
     category: 'finance',
     apiUrl: 'https://finnhub.io/api/v1/quote',
@@ -413,8 +413,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   wikipedia: {
     id: 'wikipedia',
-    name: 'Wikipedia',
-    description: 'Random Wikipedia articles for daily learning',
+    name: '维基百科精读',
+    description: '每日随机推荐精选维基百科知识条目',
     icon: '📚',
     category: 'news',
     apiUrl: 'https://en.wikipedia.org/api/rest_v1/page/random/summary',
@@ -424,8 +424,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
   // Phase 2: Simple API Widgets
   bored: {
     id: 'bored',
-    name: 'Bored?',
-    description: 'Random activity suggestions when you\'re bored',
+    name: '灵感探索',
+    description: '无聊放空时的奇思妙想与趣味活动建议',
     icon: '🎲',
     category: 'fun',
     apiUrl: 'https://www.boredapi.com/api/activity',
@@ -434,8 +434,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   dictionary: {
     id: 'dictionary',
-    name: 'Dictionary',
-    description: 'Look up word definitions and synonyms',
+    name: '双语词典',
+    description: '快速检索词汇详尽释义、同义词辨析与发音',
     icon: '📖',
     category: 'utility',
     apiUrl: 'https://api.dictionaryapi.dev/api/v2/entries/en',
@@ -447,8 +447,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   ainews: {
     id: 'ainews',
-    name: 'AI Research',
-    description: 'Latest AI research papers from arXiv',
+    name: 'AI 前沿论文',
+    description: '追踪来自 arXiv 的最新人工智能学术论文与研究突破',
     icon: '🤖',
     category: 'news',
     apiUrl: 'https://export.arxiv.org/api/query',
@@ -457,8 +457,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   airquality: {
     id: 'airquality',
-    name: 'Air Quality',
-    description: 'Current air quality index for your location',
+    name: '空气质量指数',
+    description: '实时查看当前所在城市的空气质量指数 (AQI) 与健康提示',
     icon: '🌫️',
     category: 'productivity',
     apiUrl: 'https://api.waqi.info',
@@ -467,8 +467,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   packagestats: {
     id: 'packagestats',
-    name: 'NPM Stats',
-    description: 'NPM package download statistics',
+    name: 'NPM 包热度统计',
+    description: '查询开源 NPM 工具包的下载量走势与生态热度',
     icon: '📦',
     category: 'dev',
     apiUrl: 'https://api.npmjs.org/downloads',
@@ -478,8 +478,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
   // Phase 3: Creative & Utility Widgets
   pixelart: {
     id: 'pixelart',
-    name: 'Pixel Art',
-    description: 'Simple pixel art drawing tool',
+    name: '像素画板',
+    description: '充满复古趣味的极简网格像素绘画创作工具',
     icon: '🎨',
     category: 'fun',
     defaultEnabled: false,
@@ -487,8 +487,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   typingtest: {
     id: 'typingtest',
-    name: 'Typing Test',
-    description: 'Test your typing speed (WPM)',
+    name: '打字测速挑战',
+    description: '测试键盘盲打速度 (WPM) 与输入准确率',
     icon: '⌨️',
     category: 'fun',
     defaultEnabled: false,
@@ -496,8 +496,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   memorygame: {
     id: 'memorygame',
-    name: 'Memory Game',
-    description: 'Classic memory matching card game',
+    name: '翻牌记忆挑战',
+    description: '经典的图形翻牌配对益智小游戏，训练短期记忆',
     icon: '🧠',
     category: 'fun',
     defaultEnabled: false,
@@ -505,8 +505,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   motivational: {
     id: 'motivational',
-    name: 'Daily Motivation',
-    description: 'Inspirational quotes with beautiful images',
+    name: '心力赋能',
+    description: '搭配意境美图的励志箴言，为日常注入专注能量',
     icon: '✨',
     category: 'productivity',
     defaultEnabled: false,
@@ -515,8 +515,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
   // Phase 3: Complex API Widgets
   githubtrending: {
     id: 'githubtrending',
-    name: 'GitHub Trending',
-    description: 'Top trending repositories on GitHub',
+    name: 'GitHub 趋势榜',
+    description: '查看 GitHub 社区每日与每周飙升热门开源项目',
     icon: '🔥',
     category: 'dev',
     apiUrl: 'https://api.github.com/search/repositories',
@@ -525,8 +525,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   awesomelists: {
     id: 'awesomelists',
-    name: 'Awesome Lists',
-    description: 'Curated awesome lists (highest stars)',
+    name: '精选资源清单 (Awesome)',
+    description: '汇集技术圈最高星标的 Awesome 优质知识清单',
     icon: '📋',
     category: 'dev',
     apiUrl: 'https://api.github.com/search/repositories',
@@ -535,8 +535,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   repostats: {
     id: 'repostats',
-    name: 'Repo Stats',
-    description: 'GitHub repository statistics',
+    name: '仓库健康度剖析',
+    description: '深度分析 GitHub 仓库的 Star、Fork 与 Issue 状态',
     icon: '📊',
     category: 'dev',
     apiUrl: 'https://api.github.com/repos',
@@ -546,8 +546,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   sports: {
     id: 'sports',
-    name: 'NBA Scores',
-    description: 'Live NBA scores and game status',
+    name: 'NBA 实时比分',
+    description: '关注 NBA 实时赛况、比分直播与焦点对决',
     icon: '🏀',
     category: 'news',
     apiUrl: 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard',
@@ -557,8 +557,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   twitch: {
     id: 'twitch',
-    name: 'Twitch',
-    description: 'Track your favorite Twitch streamers',
+    name: 'Twitch 关注流',
+    description: '追踪喜爱的 Twitch 游戏主播开播状态与直播动态',
     icon: '🎮',
     category: 'fun',
     requiresAuth: true,
@@ -567,8 +567,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   youtube: {
     id: 'youtube',
-    name: 'YouTube',
-    description: 'Track YouTube channels',
+    name: 'YouTube 频道追踪',
+    description: '追踪 YouTube 关注创作者的最新投稿动态',
     icon: '📺',
     category: 'fun',
     requiresAuth: true,
@@ -577,8 +577,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   analytics: {
     id: 'analytics',
-    name: 'Analytics',
-    description: 'Website analytics tracker',
+    name: '网站流量统计',
+    description: '连接站长统计服务，即时监控网站 PV 与活跃访客',
     icon: '📈',
     category: 'utility',
     requiresAuth: true,
@@ -587,8 +587,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   clipboard: {
     id: 'clipboard',
-    name: 'Clipboard',
-    description: 'Clipboard history manager',
+    name: '剪贴板历史',
+    description: '管理最近复制的多条历史记录，支持一键重用',
     icon: '📋',
     category: 'utility',
     defaultEnabled: false,
@@ -596,8 +596,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   tabmanager: {
     id: 'tabmanager',
-    name: 'Tab Manager',
-    description: 'Manage browser tabs and quick links',
+    name: '标签页与书签集',
+    description: '管理常用浏览器标签页集合与快速跳转链接',
     icon: '🗂️',
     category: 'utility',
     requiresAuth: true,
@@ -606,8 +606,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   uptime: {
     id: 'uptime',
-    name: 'Uptime Monitor',
-    description: 'Monitor website uptime status',
+    name: '服务在线监控',
+    description: '持续监控关键站点与 API 服务的可用性与正常运行时间',
     icon: '🔔',
     category: 'utility',
     requiresAuth: true,
@@ -616,8 +616,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   forms: {
     id: 'forms',
-    name: 'Forms',
-    description: 'Quick access to forms and responses',
+    name: '表单协作',
+    description: '快速创建问卷收集表单并查看反馈回复数据',
     icon: '📋',
     category: 'core',
     defaultEnabled: true,
@@ -625,8 +625,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   bookmarks: {
     id: 'bookmarks',
-    name: 'Bookmarks',
-    description: 'Save and organize quick links to your favorite sites',
+    name: '常用书签导航',
+    description: '整理与分组收藏最常访问的常用高频工具网站',
     icon: '🔖',
     category: 'productivity',
     defaultEnabled: false,
@@ -634,8 +634,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   activityfeed: {
     id: 'activityfeed',
-    name: 'Activity Feed',
-    description: 'Recent activity across all modules',
+    name: '全局动态流',
+    description: '跨模块聚合展示近期创建、编辑与完成的操作足迹',
     icon: '📊',
     category: 'core',
     defaultEnabled: false,
@@ -643,8 +643,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   aibriefing: {
     id: 'aibriefing',
-    name: 'AI Daily Briefing',
-    description: 'AI-generated morning summary with events, tasks, and habits',
+    name: 'AI 晨间简报',
+    description: 'AI 智能提炼今日日程、重点待办与打卡习惯的早报',
     icon: '🌅',
     category: 'productivity',
     defaultEnabled: false,
@@ -652,8 +652,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   flashcard: {
     id: 'flashcard',
-    name: 'Flashcards',
-    description: 'Spaced repetition flashcard review with SM-2 algorithm',
+    name: '间隔记忆卡片',
+    description: '基于经典 SM-2 科学遗忘曲线算法的高效卡片复习',
     icon: '🧠',
     category: 'productivity',
     defaultEnabled: false,
@@ -661,8 +661,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   dailyquests: {
     id: 'dailyquests',
-    name: 'Daily Quests',
-    description: 'Gamified daily habit challenges with XP rewards',
+    name: '每日英雄冒险',
+    description: '游戏化习惯挑战，完成日常任务收获经验值与成就',
     icon: '📜',
     category: 'productivity',
     defaultEnabled: false,
@@ -670,8 +670,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   energytracker: {
     id: 'energytracker',
-    name: 'Energy Tracker',
-    description: 'Track your energy levels and find optimal work times',
+    name: '精力状态追踪',
+    description: '记录全天身心精力起伏曲线，找到高能心流创作时段',
     icon: '⚡',
     category: 'productivity',
     defaultEnabled: false,
@@ -679,8 +679,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   portfolio: {
     id: 'portfolio',
-    name: 'Portfolio',
-    description: 'Cross-project health overview with task counts',
+    name: '项目投资组合',
+    description: '跨项目全局健康度看板，直观掌控各项目推进进度',
     icon: '📂',
     category: 'productivity',
     defaultEnabled: false,
@@ -688,8 +688,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   weeklyinsights: {
     id: 'weeklyinsights',
-    name: 'Weekly Insights',
-    description: 'Productivity score, top win, and improvement from your weekly retrospective',
+    name: '每周效能复盘',
+    description: '提炼每周综合生产力评分、高光战果与持续改进洞见',
     icon: '📊',
     category: 'productivity',
     defaultEnabled: false,
@@ -698,8 +698,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   weatherforecast: {
     id: 'weatherforecast',
-    name: 'Weather Forecast',
-    description: 'Multi-day weather forecast with temperature, conditions, and precipitation',
+    name: '多日天气预报',
+    description: '未来多日详细气温起伏、降水概率与天气状况展望',
     icon: '🌤️',
     category: 'utility',
     defaultEnabled: false,
@@ -707,8 +707,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   quickadd: {
     id: 'quickadd',
-    name: 'Quick Add',
-    description: 'Quickly create notes, tasks, and events from a single widget',
+    name: '全能随手记',
+    description: '单一入口极速创建笔记灵感、任务待办或日程事件',
     icon: '⚡',
     category: 'core',
     defaultEnabled: false,
@@ -717,8 +717,8 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
 
   productivitykarma: {
     id: 'productivitykarma',
-    name: 'Productivity Karma',
-    description: 'Unified productivity score combining tasks, habits, time tracking, and energy',
+    name: '生产力 Karma 综合指数',
+    description: '融合任务达成、习惯打卡、专注工时与充沛精力的全维度效能积分',
     icon: '🔮',
     category: 'productivity',
     defaultEnabled: false,

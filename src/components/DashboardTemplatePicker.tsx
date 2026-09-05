@@ -22,8 +22,8 @@ interface DashboardTemplate {
 const TEMPLATES: DashboardTemplate[] = [
   {
     id: 'productivity',
-    name: 'Productivity Focus',
-    description: 'Tasks, calendar, pomodoro, and notes for getting things done',
+    name: '高效专注型',
+    description: '聚合任务待办、日程安排、番茄钟与速记笔记，专注即时行动',
     icon: '💼',
     widgets: ['weathermap', 'taskssummary', 'tasksquickadd', 'upcomingevents', 'recentnotes', 'pomodoro'],
     sizes: {
@@ -37,8 +37,8 @@ const TEMPLATES: DashboardTemplate[] = [
   },
   {
     id: 'developer',
-    name: 'Developer',
-    description: 'GitHub, Hacker News, calculator, and tasks for developers',
+    name: '极客开发型',
+    description: '集成 GitHub 动态、Hacker News、快捷键与计算器，专为工程师打造',
     icon: '🔧',
     widgets: ['weathermap', 'taskssummary', 'hackernews', 'recentnotes', 'shortcuts', 'calculator'],
     sizes: {
@@ -52,8 +52,8 @@ const TEMPLATES: DashboardTemplate[] = [
   },
   {
     id: 'minimal',
-    name: 'Minimal',
-    description: 'Weather and tasks - just the essentials',
+    name: '极简纯粹型',
+    description: '仅保留核心天气、快捷记事与每日格言，回归纯净视野',
     icon: '✨',
     widgets: ['weathermap', 'tasksquickadd', 'quote'],
     sizes: {
@@ -64,8 +64,8 @@ const TEMPLATES: DashboardTemplate[] = [
   },
   {
     id: 'information',
-    name: 'Information Hub',
-    description: 'News, crypto, weather, and world clock for staying informed',
+    name: '前沿资讯中枢',
+    description: '聚合技术资讯、加密行情、全球时钟与每日百科，洞悉世界脉搏',
     icon: '📰',
     widgets: ['weathermap', 'hackernews', 'crypto', 'worldclock', 'quote', 'wikipedia'],
     sizes: {
@@ -114,10 +114,10 @@ export const DashboardTemplatePicker: React.FC<DashboardTemplatePickerProps> = (
       </div>
 
       <h2 className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary mb-2">
-        Set Up Your Dashboard
+        配置您的专属仪表盘
       </h2>
       <p className="text-text-light-secondary dark:text-text-dark-secondary mb-8 max-w-md mx-auto">
-        Choose a starter template or customize from scratch. You can always change your layout later.
+        选择一份新手布局方案，或从零自由搭配组件。您可以随时调整布局与显示次序。
       </p>
 
       {/* Template Grid */}
@@ -137,7 +137,7 @@ export const DashboardTemplatePicker: React.FC<DashboardTemplatePickerProps> = (
                   {template.name}
                 </h3>
                 <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                  {template.widgets.length} widgets
+                  共 {template.widgets.length} 个组件
                 </p>
               </div>
             </div>
@@ -159,7 +159,7 @@ export const DashboardTemplatePicker: React.FC<DashboardTemplatePickerProps> = (
               })}
               {template.widgets.length > 5 && (
                 <span className="text-xs px-2 py-0.5 rounded-full bg-surface-light-elevated dark:bg-surface-dark text-text-light-tertiary dark:text-text-dark-tertiary">
-                  +{template.widgets.length - 5} more
+                  +{template.widgets.length - 5} 更多
                 </span>
               )}
             </div>
@@ -172,7 +172,7 @@ export const DashboardTemplatePicker: React.FC<DashboardTemplatePickerProps> = (
         onClick={onCustomize}
         className="px-6 py-3 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-button font-medium transition-all duration-standard ease-smooth"
       >
-        Or customize from scratch...
+        或者从头自由自选组件...
       </button>
     </div>
   );

@@ -8,19 +8,19 @@ interface BottomNavItem {
 }
 
 const mainItems: BottomNavItem[] = [
-  { icon: '\u{1F3E0}', label: 'Home', path: '/' },
-  { icon: '\u2713', label: 'Tasks', path: '/tasks' },
-  { icon: '\u{1F4DD}', label: 'Notes', path: '/notes' },
-  { icon: '\u{1F4C5}', label: 'Calendar', path: '/schedule' },
+  { icon: '\u{1F3E0}', label: '中枢', path: '/' },
+  { icon: '\u2713', label: '任务', path: '/tasks' },
+  { icon: '\u{1F4DD}', label: '笔记', path: '/notes' },
+  { icon: '\u{1F4C5}', label: '日程', path: '/schedule' },
 ];
 
 const moreItems: BottomNavItem[] = [
-  { icon: '\u{1F4CA}', label: 'Activity', path: '/activity' },
-  { icon: '\u{1F517}', label: 'Links', path: '/links' },
-  { icon: '\u2728', label: 'Create', path: '/create' },
-  { icon: '\u{1F3AF}', label: 'Focus', path: '/focus' },
-  { icon: '\u2699\uFE0F', label: 'Settings', path: '/settings' },
-  { icon: '\u{1F4C6}', label: 'Today', path: '/today' },
+  { icon: '\u{1F4CA}', label: '动态', path: '/activity' },
+  { icon: '\u{1F517}', label: '书签', path: '/links' },
+  { icon: '\u2728', label: '创作', path: '/create' },
+  { icon: '\u{1F3AF}', label: '专注', path: '/focus' },
+  { icon: '\u2699\uFE0F', label: '设置', path: '/settings' },
+  { icon: '\u{1F4C6}', label: '今日', path: '/today' },
 ];
 
 export const BottomNav: React.FC = () => {
@@ -162,7 +162,7 @@ export const BottomNav: React.FC = () => {
             <span className="text-lg" aria-hidden="true">
               {showMore ? '\u2715' : '\u2022\u2022\u2022'}
             </span>
-            <span className="text-[10px] font-medium leading-tight">More</span>
+            <span className="text-[10px] font-medium leading-tight">更多</span>
           </button>
         </div>
 

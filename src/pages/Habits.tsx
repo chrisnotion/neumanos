@@ -65,17 +65,17 @@ function shouldTrackToday(habit: Habit): boolean {
 function getFrequencyLabel(habit: Habit): string {
   switch (habit.frequency) {
     case 'daily':
-      return 'Every day';
+      return '每天坚持';
     case 'weekdays':
-      return 'Weekdays';
+      return '仅工作日';
     case 'weekends':
-      return 'Weekends';
+      return '仅周末';
     case 'specific-days': {
-      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      return habit.targetDays?.map((d) => days[d]).join(', ') ?? '';
+      const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      return habit.targetDays?.map((d) => days[d]).join('、') ?? '';
     }
     case 'times-per-week':
-      return `${habit.timesPerWeek}x per week`;
+      return `每周 ${habit.timesPerWeek} 次`;
     default:
       return '';
   }
@@ -83,16 +83,16 @@ function getFrequencyLabel(habit: Habit): string {
 
 // Category configuration
 const CATEGORY_CONFIG: Record<HabitCategory, { label: string; icon: string }> = {
-  health: { label: 'Health', icon: '🏥' },
-  productivity: { label: 'Productivity', icon: '⚡' },
-  learning: { label: 'Learning', icon: '📖' },
-  social: { label: 'Social', icon: '👥' },
-  mindfulness: { label: 'Mindfulness', icon: '🧘' },
-  fitness: { label: 'Fitness', icon: '💪' },
-  nutrition: { label: 'Nutrition', icon: '🥗' },
-  creative: { label: 'Creative', icon: '🎨' },
-  finance: { label: 'Finance', icon: '💰' },
-  uncategorized: { label: 'Uncategorized', icon: '📌' },
+  health: { label: '身心健康', icon: '🏥' },
+  productivity: { label: '高效产出', icon: '⚡' },
+  learning: { label: '学海深造', icon: '📖' },
+  social: { label: '人际社交', icon: '👥' },
+  mindfulness: { label: '正念冥想', icon: '🧘' },
+  fitness: { label: '运动健身', icon: '💪' },
+  nutrition: { label: '健康膳食', icon: '🥗' },
+  creative: { label: '艺术创意', icon: '🎨' },
+  finance: { label: '财务理财', icon: '💰' },
+  uncategorized: { label: '未分类', icon: '📌' },
 };
 
 const ALL_CATEGORIES: HabitCategory[] = [
@@ -102,10 +102,10 @@ const ALL_CATEGORIES: HabitCategory[] = [
 
 // Difficulty configuration
 const DIFFICULTY_CONFIG: Record<HabitDifficulty, { label: string; xp: number; color: string }> = {
-  trivial: { label: 'Trivial', xp: 5, color: '#9ca3af' },
-  easy: { label: 'Easy', xp: 10, color: '#22c55e' },
-  medium: { label: 'Medium', xp: 20, color: '#f97316' },
-  hard: { label: 'Hard', xp: 40, color: '#ef4444' },
+  trivial: { label: '顺手之劳', xp: 5, color: '#9ca3af' },
+  easy: { label: '轻松达成', xp: 10, color: '#22c55e' },
+  medium: { label: '适度挑战', xp: 20, color: '#f97316' },
+  hard: { label: '砥砺克己', xp: 40, color: '#ef4444' },
 };
 
 const ALL_DIFFICULTIES: HabitDifficulty[] = ['trivial', 'easy', 'medium', 'hard'];
@@ -187,19 +187,19 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
         <form onSubmit={handleSubmit}>
           <div className="p-6">
             <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
-              {habit ? 'Edit Habit' : 'New Habit'}
+              {habit ? '编辑习惯' : '新建习惯'}
             </h2>
 
             {/* Title */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Title
+                习惯名称
               </label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g., Meditate for 10 minutes"
+                placeholder="例如：每日晨读 20 分钟"
                 className="w-full px-3 py-2 rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
                 autoFocus
                 required
@@ -209,12 +209,12 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
             {/* Description */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Description (optional)
+                详细说明（可选）
               </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Why this habit matters to you..."
+                placeholder="这项习惯对你的长期意义是什么..."
                 rows={2}
                 className="w-full px-3 py-2 rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary resize-none"
               />
@@ -223,7 +223,7 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
             {/* Category */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Category
+                分类领域
               </label>
               <select
                 value={category}
@@ -241,7 +241,7 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
             {/* Icon */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Icon
+                个性图标
               </label>
               <div className="flex flex-wrap gap-2">
                 {HABIT_ICONS.map((i) => (
@@ -264,7 +264,7 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
             {/* Color */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Color
+                主题色彩
               </label>
               <div className="flex flex-wrap gap-2">
                 {HABIT_COLORS.map((c) => (
@@ -284,18 +284,18 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
             {/* Frequency */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Frequency
+                执行频率
               </label>
               <select
                 value={frequency}
                 onChange={(e) => setFrequency(e.target.value as HabitFrequency)}
                 className="w-full px-3 py-2 rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
               >
-                <option value="daily">Every day</option>
-                <option value="weekdays">Weekdays only</option>
-                <option value="weekends">Weekends only</option>
-                <option value="specific-days">Specific days</option>
-                <option value="times-per-week">X times per week</option>
+                <option value="daily">每天坚持</option>
+                <option value="weekdays">仅工作日</option>
+                <option value="weekends">仅周末</option>
+                <option value="specific-days">指定日期</option>
+                <option value="times-per-week">每周固定次数</option>
               </select>
             </div>
 
@@ -303,10 +303,10 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
             {frequency === 'specific-days' && (
               <div className="mb-4">
                 <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                  Select days
+                  选择执行星期
                 </label>
                 <div className="flex gap-1">
-                  {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, idx) => (
+                  {['日', '一', '二', '三', '四', '五', '六'].map((day, idx) => (
                     <button
                       key={idx}
                       type="button"
@@ -328,7 +328,7 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
             {frequency === 'times-per-week' && (
               <div className="mb-4">
                 <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                  Times per week
+                  每周目标次数
                 </label>
                 <input
                   type="number"
@@ -344,7 +344,7 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
             {/* Difficulty */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                Difficulty (affects XP earned)
+                难度级别（影响完成后获得的经验值 XP）
               </label>
               <div className="flex gap-2">
                 {ALL_DIFFICULTIES.map((d) => {
@@ -373,7 +373,7 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
             <div className="mb-4">
               <div className="flex items-center justify-between mb-1">
                 <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary">
-                  Daily Reminder
+                  每日提醒
                 </label>
                 <button
                   type="button"
@@ -385,7 +385,7 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
                   }`}
                 >
                   {reminderEnabled ? <Bell className="w-3 h-3" /> : <BellOff className="w-3 h-3" />}
-                  {reminderEnabled ? 'On' : 'Off'}
+                  {reminderEnabled ? '已开启' : '已关闭'}
                 </button>
               </div>
               {reminderEnabled && (
@@ -402,7 +402,7 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
             <div className="mb-4">
               <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
                 <Snowflake className="w-3.5 h-3.5 inline mr-1" />
-                Streak Freezes per Week
+                每周连胜保护卡（冻结次数）
               </label>
               <div className="flex items-center gap-2">
                 <input
@@ -414,7 +414,7 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
                   className="w-20 px-3 py-2 rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
                 />
                 <span className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-                  Auto-applied when a day is missed to preserve streaks
+                  漏签时自动使用以延续连续记录
                 </span>
               </div>
             </div>
@@ -424,7 +424,7 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
               <div className="flex items-center justify-between mb-1">
                 <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary">
                   <span className="mr-1">🍅</span>
-                  Track via Pomodoro
+                  通过番茄钟联动打卡
                 </label>
                 <button
                   type="button"
@@ -435,13 +435,13 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
                       : 'bg-surface-light-alt dark:bg-surface-dark text-text-light-tertiary dark:text-text-dark-tertiary'
                   }`}
                 >
-                  {trackViaPomodoro ? 'On' : 'Off'}
+                  {trackViaPomodoro ? '已开启' : '已关闭'}
                 </button>
               </div>
               {trackViaPomodoro && (
                 <div className="flex items-center gap-2">
                   <label className="text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-                    Sessions required:
+                    所需完成番茄钟数：
                   </label>
                   <input
                     type="number"
@@ -460,7 +460,7 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
               <div className="mb-4">
                 <label className="block text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
                   <Link2 className="w-3.5 h-3.5 inline mr-1" />
-                  Required Habits (must complete first)
+                  前置关联习惯（需先完成以下习惯才能解锁打卡）
                 </label>
                 <div className="space-y-1 max-h-32 overflow-y-auto">
                   {availableForDep.map((h) => (
@@ -493,14 +493,14 @@ function HabitModal({ habit, initialTemplate, allHabits, onClose, onSave }: Habi
               onClick={onClose}
               className="px-4 py-2 text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-alt dark:hover:bg-surface-dark rounded-lg transition-colors"
             >
-              Cancel
+              取消
             </button>
             <button
               type="submit"
               disabled={!title.trim()}
               className="px-4 py-2 bg-accent-primary text-white rounded-lg hover:bg-accent-primary/90 transition-colors disabled:opacity-50"
             >
-              {habit ? 'Save Changes' : 'Create Habit'}
+              {habit ? '保存修改' : '创建习惯'}
             </button>
           </div>
         </form>
@@ -674,28 +674,28 @@ function HabitCard({
                         className="w-full px-3 py-2 text-left text-sm hover:bg-surface-light-alt dark:hover:bg-surface-dark flex items-center gap-2"
                       >
                         <BarChart3 className="w-4 h-4" />
-                        Statistics
+                        数据统计
                       </button>
                       <button
                         onClick={() => { setShowMenu(false); onViewJournal(); }}
                         className="w-full px-3 py-2 text-left text-sm hover:bg-surface-light-alt dark:hover:bg-surface-dark flex items-center gap-2"
                       >
                         <MessageSquare className="w-4 h-4" />
-                        Journal
+                        心得日志
                       </button>
                       <button
                         onClick={() => { setShowMenu(false); onViewStreakCalendar(); }}
                         className="w-full px-3 py-2 text-left text-sm hover:bg-surface-light-alt dark:hover:bg-surface-dark flex items-center gap-2"
                       >
                         <Target className="w-4 h-4" />
-                        Streak Calendar
+                        连胜日历
                       </button>
                       <button
                         onClick={() => { setShowMenu(false); onEdit(); }}
                         className="w-full px-3 py-2 text-left text-sm hover:bg-surface-light-alt dark:hover:bg-surface-dark flex items-center gap-2"
                       >
                         <Edit2 className="w-4 h-4" />
-                        Edit
+                        编辑
                       </button>
                       {!habit.linkedTaskId && (
                         <button
@@ -703,13 +703,13 @@ function HabitCard({
                           className="w-full px-3 py-2 text-left text-sm hover:bg-surface-light-alt dark:hover:bg-surface-dark flex items-center gap-2"
                         >
                           <Link2 className="w-4 h-4" />
-                          Convert to Task
+                          转为看板任务
                         </button>
                       )}
                       {habit.linkedTaskId && (
                         <div className="px-3 py-2 text-xs text-accent-primary flex items-center gap-2">
                           <Link2 className="w-3.5 h-3.5" />
-                          Linked to task
+                          已关联至任务
                         </div>
                       )}
                       <button
@@ -717,14 +717,14 @@ function HabitCard({
                         className="w-full px-3 py-2 text-left text-sm hover:bg-surface-light-alt dark:hover:bg-surface-dark flex items-center gap-2"
                       >
                         <Archive className="w-4 h-4" />
-                        Archive
+                        归档
                       </button>
                       <button
                         onClick={() => { setShowMenu(false); onDelete(); }}
                         className="w-full px-3 py-2 text-left text-sm text-status-error hover:bg-status-error/10 flex items-center gap-2"
                       >
                         <Trash2 className="w-4 h-4" />
-                        Delete
+                        彻底删除
                       </button>
                     </div>
                   </>
@@ -1105,7 +1105,7 @@ export function HabitsContent() {
         <div className="bg-surface-light dark:bg-surface-dark-elevated rounded-xl p-4 border border-border-light dark:border-border-dark">
           <div className="flex items-center gap-2 text-accent-primary mb-1">
             <Target className="w-5 h-5" />
-            <span className="text-sm font-medium">Today</span>
+            <span className="text-sm font-medium">今日进度</span>
           </div>
           <div className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
             {todayProgress.completed}/{todayProgress.total}
@@ -1115,17 +1115,17 @@ export function HabitsContent() {
         <div className="bg-surface-light dark:bg-surface-dark-elevated rounded-xl p-4 border border-border-light dark:border-border-dark">
           <div className="flex items-center gap-2 text-accent-orange mb-1">
             <Flame className="w-5 h-5" />
-            <span className="text-sm font-medium">Total Streak</span>
+            <span className="text-sm font-medium">累计连胜天数</span>
           </div>
           <div className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
-            {totalStreakDays} days
+            {totalStreakDays} 天
           </div>
         </div>
 
         <div className="bg-surface-light dark:bg-surface-dark-elevated rounded-xl p-4 border border-border-light dark:border-border-dark">
           <div className="flex items-center gap-2 text-accent-yellow mb-1">
             <Trophy className="w-5 h-5" />
-            <span className="text-sm font-medium">Achievements</span>
+            <span className="text-sm font-medium">已获成就勋章</span>
           </div>
           <div className="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary">
             {achievements.length}
@@ -1144,7 +1144,7 @@ export function HabitsContent() {
           }`}
         >
           <Target className="w-4 h-4" />
-          Habits
+          日常习惯
         </button>
         <button
           onClick={() => setActiveTab('routines')}
@@ -1155,7 +1155,7 @@ export function HabitsContent() {
           }`}
         >
           <Repeat className="w-4 h-4" />
-          Routines
+          习惯例程
           {routines.length > 0 && (
             <span className="px-1.5 py-0.5 text-xs rounded-full bg-accent-primary/10 text-accent-primary">
               {routines.length}
@@ -1170,7 +1170,7 @@ export function HabitsContent() {
           {/* Routine actions */}
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-              Your Routines ({routines.length})
+              我的例程组合 ({routines.length})
             </h2>
             <div className="flex items-center gap-2">
               <button
@@ -1178,14 +1178,14 @@ export function HabitsContent() {
                 className="flex items-center gap-2 px-3 py-2 text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-alt dark:hover:bg-surface-dark rounded-lg transition-colors border border-border-light dark:border-border-dark"
               >
                 <BookTemplate className="w-4 h-4" />
-                Templates
+                例程模板
               </button>
               <button
                 onClick={() => { setEditingRoutine(null); setShowRoutineBuilder(true); }}
                 className="flex items-center gap-2 px-4 py-2 bg-accent-primary text-white rounded-lg hover:bg-accent-primary/90 transition-colors"
               >
                 <Plus className="w-4 h-4" />
-                Create Routine
+                新建例程
               </button>
             </div>
           </div>
@@ -1195,10 +1195,10 @@ export function HabitsContent() {
             <div className="text-center py-12 bg-surface-light dark:bg-surface-dark-elevated rounded-xl border border-border-light dark:border-border-dark">
               <Repeat className="w-12 h-12 mx-auto text-text-light-tertiary dark:text-text-dark-tertiary mb-3" />
               <p className="text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                No routines yet
+                暂无习惯例程
               </p>
               <p className="text-sm text-text-light-tertiary dark:text-text-dark-tertiary mb-4">
-                Chain habits together into daily routines for consistent execution.
+                将多个微习惯串联为连贯的早晚或工作流例程，轻松自动化生活秩序。
               </p>
               <div className="flex items-center justify-center gap-3">
                 <button
@@ -1206,14 +1206,14 @@ export function HabitsContent() {
                   className="inline-flex items-center gap-2 px-4 py-2 border border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary rounded-lg hover:bg-surface-light-alt dark:hover:bg-surface-dark transition-colors"
                 >
                   <BookTemplate className="w-4 h-4" />
-                  Use Template
+                  使用推荐模板
                 </button>
                 <button
                   onClick={() => { setEditingRoutine(null); setShowRoutineBuilder(true); }}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary text-white rounded-lg hover:bg-accent-primary/90 transition-colors"
                 >
                   <Plus className="w-4 h-4" />
-                  Create Custom
+                  自定义创建
                 </button>
               </div>
             </div>
@@ -1221,7 +1221,7 @@ export function HabitsContent() {
             <div className="space-y-3">
               {routines.map((routine) => {
                 const progress = getRoutineProgress(routine.id);
-                const timeLabel = { morning: '🌅 Morning', afternoon: '☀️ Afternoon', evening: '🌙 Evening', anytime: '🕐 Anytime' }[routine.timeOfDay];
+                const timeLabel = { morning: '🌅 晨间', afternoon: '☀️ 午后', evening: '🌙 晚间', anytime: '🕐 随时' }[routine.timeOfDay];
                 return (
                   <div
                     key={routine.id}
@@ -1239,10 +1239,10 @@ export function HabitsContent() {
                             <span className="text-border-light dark:text-border-dark">|</span>
                             <span className="flex items-center gap-1">
                               <Clock className="w-3 h-3" />
-                              {routine.estimatedMinutes} min
+                              约 {routine.estimatedMinutes} 分钟
                             </span>
                             <span className="text-border-light dark:text-border-dark">|</span>
-                            <span>{routine.habitIds.length} habits</span>
+                            <span>包含 {routine.habitIds.length} 项习惯</span>
                           </div>
                           {routine.description && (
                             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-1">
@@ -1252,7 +1252,7 @@ export function HabitsContent() {
                           {/* Progress bar */}
                           <div className="mt-3">
                             <div className="flex items-center justify-between text-xs text-text-light-tertiary dark:text-text-dark-tertiary mb-1">
-                              <span>{progress.completed}/{progress.total} today</span>
+                              <span>今日完成 {progress.completed}/{progress.total} 项</span>
                               <span>{progress.percentage}%</span>
                             </div>
                             <div className="w-full h-1.5 bg-surface-light-alt dark:bg-surface-dark rounded-full overflow-hidden">
@@ -1273,17 +1273,19 @@ export function HabitsContent() {
                           className="flex items-center gap-1.5 px-3 py-1.5 bg-accent-primary text-white rounded-lg text-sm font-medium hover:bg-accent-primary/90 transition-colors"
                         >
                           <Play className="w-3.5 h-3.5" />
-                          Start
+                          开始执行
                         </button>
                         <button
                           onClick={() => { setEditingRoutine(routine); setShowRoutineBuilder(true); }}
                           className="p-1.5 rounded hover:bg-surface-light-alt dark:hover:bg-surface-dark text-text-light-tertiary dark:text-text-dark-tertiary"
+                          title="编辑例程"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => deleteRoutine(routine.id)}
                           className="p-1.5 rounded hover:bg-status-error/10 text-text-light-tertiary dark:text-text-dark-tertiary hover:text-status-error"
+                          title="删除例程"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -1301,7 +1303,7 @@ export function HabitsContent() {
               <div className="bg-surface-light dark:bg-surface-dark-elevated rounded-lg shadow-xl w-full max-w-lg mx-4 max-h-[80vh] overflow-y-auto">
                 <div className="flex items-center justify-between p-6 pb-4">
                   <h2 className="text-xl font-semibold text-text-light-primary dark:text-text-dark-primary">
-                    Routine Templates
+                    习惯例程模板库
                   </h2>
                   <button
                     onClick={() => setShowRoutineTemplatePicker(false)}
@@ -1329,8 +1331,8 @@ export function HabitsContent() {
                         </div>
                       </div>
                       <div className="flex items-center gap-4 text-xs text-text-light-tertiary dark:text-text-dark-tertiary">
-                        <span>{template.habits.length} habits</span>
-                        <span>{template.estimatedMinutes} min</span>
+                        <span>{template.habits.length} 项微习惯</span>
+                        <span>预计 {template.estimatedMinutes} 分钟</span>
                         <span className="flex items-center gap-1">
                           {template.habits.map((h) => h.icon).join(' ')}
                         </span>
@@ -1379,7 +1381,7 @@ export function HabitsContent() {
               }`}
             >
               <Grid3X3 className="w-4 h-4" />
-              Heatmap
+              打卡热力图
             </button>
             <button
               onClick={() => setShowRewards(!showRewards)}
@@ -1390,14 +1392,14 @@ export function HabitsContent() {
               }`}
             >
               <Star className="w-4 h-4" />
-              XP & Rewards
+              经验与奖励
             </button>
             <button
               onClick={() => setShowAnalytics(true)}
               className="flex items-center gap-2 text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors"
             >
               <TrendingUp className="w-4 h-4" />
-              Analytics
+              深度统计洞察
             </button>
             <button
               onClick={() => setShowAchievements(!showAchievements)}
@@ -1408,7 +1410,7 @@ export function HabitsContent() {
               }`}
             >
               <Award className="w-4 h-4" />
-              Badges
+              成就徽章
             </button>
             <button
               onClick={() => setShowNoteSearch(!showNoteSearch)}
@@ -1419,14 +1421,14 @@ export function HabitsContent() {
               }`}
             >
               <Search className="w-4 h-4" />
-              Notes
+              打卡心得检索
             </button>
             <button
               onClick={() => setShowFlashcardReview(true)}
               className="flex items-center gap-2 text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors"
             >
               <Brain className="w-4 h-4" />
-              Flashcards
+              记忆卡复习
               {flashcardDueCount > 0 && (
                 <span className="px-1.5 py-0.5 text-xs rounded-full bg-accent-primary/10 text-accent-primary">
                   {flashcardDueCount}
@@ -1453,7 +1455,7 @@ export function HabitsContent() {
                   type="text"
                   value={noteSearchQuery}
                   onChange={(e) => setNoteSearchQuery(e.target.value)}
-                  placeholder="Search completion notes..."
+                  placeholder="搜索历史打卡心得或备注..."
                   className="flex-1 px-3 py-1.5 text-sm rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-1 focus:ring-accent-primary"
                 />
               </div>
@@ -1461,7 +1463,7 @@ export function HabitsContent() {
                 <div className="space-y-2 max-h-60 overflow-y-auto">
                   {noteSearchResults.length === 0 ? (
                     <p className="text-sm text-text-light-tertiary dark:text-text-dark-tertiary text-center py-4">
-                      No notes found
+                      未找到相关打卡心得
                     </p>
                   ) : (
                     noteSearchResults.map((result) => (
@@ -1492,7 +1494,7 @@ export function HabitsContent() {
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-3">
           <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary">
-            Your Habits ({activeHabits.length})
+            我的习惯清单 ({activeHabits.length})
           </h2>
           {activeHabits.length > 0 && habitsByCategory.length > 1 && (
             <button
@@ -1503,7 +1505,7 @@ export function HabitsContent() {
                   : 'bg-surface-light-alt dark:bg-surface-dark text-text-light-tertiary dark:text-text-dark-tertiary'
               }`}
             >
-              Categories
+              按分类分组
             </button>
           )}
         </div>
@@ -1513,7 +1515,7 @@ export function HabitsContent() {
             className="flex items-center gap-2 px-3 py-2 text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-alt dark:hover:bg-surface-dark rounded-lg transition-colors border border-border-light dark:border-border-dark"
           >
             <BookTemplate className="w-4 h-4" />
-            Templates
+            习惯模板
           </button>
           <button
             onClick={() => {
@@ -1524,7 +1526,7 @@ export function HabitsContent() {
             className="flex items-center gap-2 px-4 py-2 bg-accent-primary text-white rounded-lg hover:bg-accent-primary/90 transition-colors"
           >
             <Plus className="w-4 h-4" />
-            Add Habit
+            添加新习惯
           </button>
         </div>
       </div>
@@ -1534,7 +1536,7 @@ export function HabitsContent() {
         <div className="text-center py-12 bg-surface-light dark:bg-surface-dark-elevated rounded-xl border border-border-light dark:border-border-dark">
           <Target className="w-12 h-12 mx-auto text-text-light-tertiary dark:text-text-dark-tertiary mb-3" />
           <p className="text-text-light-secondary dark:text-text-dark-secondary mb-4">
-            No habits yet. Start building positive routines!
+            暂无习惯记录。从微习惯开始，循序渐进塑造更优秀的自己！
           </p>
           <div className="flex items-center justify-center gap-3">
             <button
@@ -1542,7 +1544,7 @@ export function HabitsContent() {
               className="inline-flex items-center gap-2 px-4 py-2 border border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary rounded-lg hover:bg-surface-light-alt dark:hover:bg-surface-dark transition-colors"
             >
               <BookTemplate className="w-4 h-4" />
-              Use Template
+              使用精选模板
             </button>
             <button
               onClick={() => {
@@ -1553,7 +1555,7 @@ export function HabitsContent() {
               className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary text-white rounded-lg hover:bg-accent-primary/90 transition-colors"
             >
               <Plus className="w-4 h-4" />
-              Create Custom
+              创建自定义习惯
             </button>
           </div>
         </div>
@@ -1582,7 +1584,7 @@ export function HabitsContent() {
             className="flex items-center gap-2 text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary mb-4"
           >
             <Archive className="w-4 h-4" />
-            Archived ({archivedHabits.length})
+            已归档习惯 ({archivedHabits.length})
           </button>
 
           {showArchived && (
@@ -1602,14 +1604,14 @@ export function HabitsContent() {
                     <button
                       onClick={() => restoreHabit(habit.id)}
                       className="p-2 hover:bg-surface-light-alt dark:hover:bg-surface-dark rounded-lg text-text-light-tertiary dark:text-text-dark-tertiary"
-                      title="Restore"
+                      title="恢复此习惯"
                     >
                       <RotateCcw className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDeleteHabit(habit.id)}
                       className="p-2 hover:bg-status-error/10 rounded-lg text-status-error"
-                      title="Delete permanently"
+                      title="彻底删除"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -1677,9 +1679,9 @@ export function HabitsContent() {
         isOpen={habitToDelete !== null}
         onClose={() => setHabitToDelete(null)}
         onConfirm={confirmDeleteHabit}
-        title="Delete Habit"
-        message="Permanently delete this habit? This cannot be undone."
-        confirmText="Delete"
+        title="删除习惯"
+        message="确定要彻底删除该习惯吗？此操作无法撤销，所有相关打卡历史也将一并移除。"
+        confirmText="删除"
         variant="danger"
       />
     </>

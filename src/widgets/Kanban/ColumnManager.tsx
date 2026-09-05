@@ -299,31 +299,31 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({ isOpen, onClose, i
   const activeColumn = columns.find((col) => col.id === activeId);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Manage Columns" maxWidth="lg">
+    <Modal isOpen={isOpen} onClose={onClose} title="管理状态列" maxWidth="lg">
       <div className="space-y-6">
         {/* Templates */}
         <div>
           <h4 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-            Templates
+            分栏预设模板
           </h4>
           <div className="grid grid-cols-3 gap-2">
             <button
               onClick={() => applyTemplate('dev')}
               className="px-3 py-2 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-lg hover:border-accent-blue transition-colors text-text-light-primary dark:text-text-dark-primary"
             >
-              Development
+              研发流程 (Development)
             </button>
             <button
               onClick={() => applyTemplate('pm')}
               className="px-3 py-2 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-lg hover:border-accent-blue transition-colors text-text-light-primary dark:text-text-dark-primary"
             >
-              Project Management
+              项目管理 (Project Management)
             </button>
             <button
               onClick={() => applyTemplate('marketing')}
               className="px-3 py-2 text-sm bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-lg hover:border-accent-blue transition-colors text-text-light-primary dark:text-text-dark-primary"
             >
-              Marketing
+              运营宣发 (Marketing)
             </button>
           </div>
         </div>
@@ -332,14 +332,14 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({ isOpen, onClose, i
         <div>
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary">
-              Columns ({columns.length})
+              已有状态列 ({columns.length})
             </h4>
             {!showAddForm && (
               <button
                 onClick={() => setShowAddForm(true)}
                 className="text-sm text-accent-blue hover:text-accent-blue-hover"
               >
-                + Add Column
+                + 添加新状态列
               </button>
             )}
           </div>
@@ -349,13 +349,13 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({ isOpen, onClose, i
             <form onSubmit={handleSubmit} className="mb-4 p-4 bg-surface-light dark:bg-surface-dark rounded-lg border-2 border-accent-blue space-y-3">
               <div>
                 <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                  Column Name
+                  列名称
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="e.g., In Progress"
+                  placeholder="例如：进行中、已部署"
                   className="w-full px-3 py-2 text-sm border border-border-light dark:border-border-dark rounded bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue focus:outline-none"
                   autoFocus
                 />
@@ -363,7 +363,7 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({ isOpen, onClose, i
 
               <div>
                 <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                  Color
+                  色彩标识
                 </label>
                 <div className="flex gap-2 flex-wrap">
                   {COLOR_OPTIONS.map((option) => (
@@ -384,7 +384,7 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({ isOpen, onClose, i
 
               <div>
                 <label className="block text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-1">
-                  WIP Limit (Optional)
+                  在制品上限 (WIP Limit，选填)
                 </label>
                 <input
                   type="number"
@@ -395,12 +395,12 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({ isOpen, onClose, i
                       wipLimit: e.target.value ? parseInt(e.target.value) : undefined,
                     })
                   }
-                  placeholder="e.g., 5"
+                  placeholder="例如：5"
                   min="1"
                   className="w-full px-3 py-2 text-sm border border-border-light dark:border-border-dark rounded bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:ring-2 focus:ring-accent-blue focus:outline-none"
                 />
                 <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
-                  Maximum number of tasks allowed in this column
+                  该列允许容纳的最大任务卡片数，超出将告警提示
                 </p>
               </div>
 
@@ -409,14 +409,14 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({ isOpen, onClose, i
                   type="submit"
                   className="flex-1 px-4 py-2 text-sm bg-accent-blue text-white rounded-lg hover:bg-accent-blue-hover transition-colors"
                 >
-                  {editingColumn ? 'Update Column' : 'Add Column'}
+                  {editingColumn ? '更新状态列' : '确认添加'}
                 </button>
                 <button
                   type="button"
                   onClick={handleCancel}
                   className="px-4 py-2 text-sm bg-text-light-secondary dark:bg-text-dark-secondary text-white rounded-lg hover:opacity-80 transition-opacity"
                 >
-                  Cancel
+                  取消
                 </button>
               </div>
             </form>
@@ -464,12 +464,12 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({ isOpen, onClose, i
 
         {/* Help Text */}
         <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary bg-surface-light-elevated dark:bg-surface-dark-elevated p-3 rounded-lg">
-          <p className="font-medium mb-1">Tips:</p>
+          <p className="font-medium mb-1">使用提示：</p>
           <ul className="space-y-1 list-disc list-inside">
-            <li>Drag columns to reorder them on the board</li>
-            <li>Set WIP limits to prevent overload in any column</li>
-            <li>Deleting a column moves all tasks to Backlog</li>
-            <li>Templates replace all current columns</li>
+            <li>可直接上下拖拽调整状态列在看板上的排列次序</li>
+            <li>设置 WIP 限制有助于聚焦精力，防止在办任务积压</li>
+            <li>删除某状态列时，该列中的所有任务将自动归入 Backlog 待办池</li>
+            <li>套用预设模板将整体覆盖当前看板的列配置</li>
           </ul>
         </div>
       </div>
@@ -480,10 +480,10 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({ isOpen, onClose, i
           isOpen={true}
           onClose={cancelDelete}
           onConfirm={confirmDelete}
-          title="Delete Column"
-          message={`Are you sure you want to delete "${pendingDeleteColumn.title}"? All tasks in this column will be moved to Backlog.`}
-          confirmText="Delete"
-          cancelText="Cancel"
+          title="删除状态列"
+          message={`确定要删除“${pendingDeleteColumn.title}”列吗？该列内的所有任务将自动移至 Backlog。`}
+          confirmText="确认删除"
+          cancelText="取消"
           variant="danger"
         />
       )}
@@ -494,10 +494,10 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({ isOpen, onClose, i
           isOpen={true}
           onClose={cancelTemplate}
           onConfirm={confirmTemplate}
-          title="Apply Template"
-          message={`This will replace all current columns with the ${pendingTemplate === 'dev' ? 'Development' : pendingTemplate === 'pm' ? 'Project Management' : 'Marketing'} template. This action cannot be undone.`}
-          confirmText="Apply Template"
-          cancelText="Cancel"
+          title="套用分栏模板"
+          message={`此操作将把当前看板所有列替换为${pendingTemplate === 'dev' ? '“研发流程”' : pendingTemplate === 'pm' ? '“项目管理”' : '“运营宣发”'}预设模板，且不可撤销。是否继续？`}
+          confirmText="确认套用"
+          cancelText="取消"
           variant="warning"
         />
       )}

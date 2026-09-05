@@ -38,69 +38,69 @@ const SUPPORT_EMAIL = 'os@neuman.dev';
 const FAQS: FAQ[] = [
   // Getting Started
   {
-    question: 'Where is my data stored?',
-    answer: 'All your data is stored locally in your browser\'s IndexedDB storage. Nothing leaves your device unless you explicitly export it. This means your notes, tasks, and settings stay private and work offline.',
+    question: '我的个人数据存放在哪里？',
+    answer: '您的所有数据都完整保存在当前浏览器的本地 IndexedDB 存储中。除非您主动点击导出，否则没有任何数据会离开您的设备。这意味着您的笔记、任务和偏好设置拥有绝对的隐私保护，且支持完全离线使用。',
   },
   {
-    question: 'How do I backup my data?',
-    answer: 'Go to Settings → Backup & Restore, then click "Export Brain" to download a .brain file. You can restore this file on any browser by clicking "Import Brain". For automatic backups, set up Auto-Save to a cloud folder like Dropbox or Google Drive.',
+    question: '如何备份我的数据？',
+    answer: '前往“系统设置 → 备份与恢复”，点击“导出脑图/数据资产 (Export Brain)”即可下载 .brain 备份文件。您可以在任何浏览器中通过“导入脑图/数据资产 (Import Brain)”一键恢复。如需自动备份，可配置本地自动归档到您的坚果云、Dropbox、Google Drive 等同步盘目录。',
   },
   {
-    question: 'What happens if I clear my browser data?',
-    answer: 'Clearing browser data will delete your locally stored information. Always export a backup before clearing browser data or switching browsers. You can restore from a .brain file anytime.',
+    question: '如果我清理了浏览器缓存与数据会怎样？',
+    answer: '清理浏览器本地存储数据会导致本地保存的内容丢失。在清理浏览器数据或更换设备前，请务必先导出 .brain 备份文件。有了备份文件，随时可以完整恢复。',
   },
   // Notes
   {
-    question: 'How do I export notes to markdown?',
-    answer: 'Open the Notes page, click the Export button in the header (or press Cmd/Ctrl+Shift+E), then select your export scope and click Export. Your notes will be downloaded as .md files in a ZIP archive.',
+    question: '如何将笔记批量导出为 Markdown？',
+    answer: '进入“灵感笔记”页面，点击右上角的操作菜单中的“导出”按钮（或按快捷键 Ctrl+Shift+E），选择您希望导出的范围，即可一键打包下载包含 .md 文件的 ZIP 压缩包。',
   },
   {
-    question: 'What are wiki links and how do I use them?',
-    answer: 'Wiki links are connections between notes using [[Note Title]] syntax. Type [[ in the note editor to see a list of all notes. Clicking a wiki link navigates to that note. Use the Graph View to visualize all connections between your notes.',
+    question: '什么是双链 (Wiki Links)，如何使用？',
+    answer: '双链是笔记之间的双向网状连接，采用 [[笔记标题]] 语法。在编辑器中输入 [[ 即可唤起所有笔记的快捷联想列表。点击双链可无缝跳转至对应笔记，亦可在“知识图谱”视图中直观浏览笔记间的关联拓扑。',
   },
   {
-    question: 'Can I organize notes into folders?',
-    answer: 'Yes! Notes can be organized into folders. Click the folder icon in the Notes sidebar to create folders. You can also use tags for cross-cutting organization—add tags to any note and filter by them.',
+    question: '是否支持将笔记整理到文件夹中？',
+    answer: '完全支持！您可以在笔记侧栏中点击文件夹图标新建目录，自由拖拽归类。同时支持多标签系统，为笔记打上任意标签并进行灵活筛选。',
   },
   // Tasks
   {
-    question: 'How do I create recurring tasks?',
-    answer: 'Create or edit a task, then scroll to the "Recurrence" section. Select your recurrence pattern (Daily, Weekly, Monthly, Yearly, or Custom), set the interval, and optionally set an end date.',
+    question: '如何创建周期性/循环任务？',
+    answer: '创建或编辑任务时，向下滚动至“循环周期”设置区域。选择您的循环模式（每天、每周、每月、每年或自定义间隔），设定步长及可选的截止结束日期。',
   },
   {
-    question: 'What is the Kanban board?',
-    answer: 'The Kanban board displays tasks in columns (To Do, In Progress, Done). Drag tasks between columns to update their status. You can also create custom columns and filter by project, priority, or tags.',
+    question: '什么是看板视图 (Kanban)？',
+    answer: '看板视图以直观的分栏（待处理、进行中、已完成等）展示任务流动。拖拽卡片即可实时推进任务进度。您还可以自定义专属列，或按项目、优先级、标签进行多维过滤。',
   },
   {
-    question: 'How do task dependencies work?',
-    answer: 'When editing a task, you can add dependencies—tasks that must be completed before this one. The Critical Path feature (toggle in task view) highlights which tasks are blocking others.',
+    question: '任务依赖关系是如何运作的？',
+    answer: '在任务详情中，您可以添加“前置依赖任务”——即必须先完成前置项方可启动当前项。“关键路径 (Critical Path)”功能可醒目高亮展示制约整体交付的核心阻塞任务链路。',
   },
   // Dashboard & Widgets
   {
-    question: 'How do I customize the dashboard widgets?',
-    answer: 'Click the Dashboard link in the sidebar, then click the gear icon (⚙) to open Widget Manager. Toggle widgets on/off, reorder them by dragging, and click the settings icon on individual widgets to configure them.',
+    question: '如何自定义控制台/仪表盘的组件？',
+    answer: '在仪表盘页面右上角点击齿轮图标（⚙）打开“组件中心 (Widget Manager)”。您可以自由开启/关闭组件、拖拽调整顺序，或点击单个组件的配置项进行个性化定制。',
   },
   {
-    question: 'What widgets are available?',
-    answer: 'Over 44 widgets including: Weather, News feeds, Calculator, World Clock, Pomodoro Timer, Quick Notes, Calendar, Task Summary, Time Tracking stats, Bookmarks, and many more. New widgets are added regularly.',
+    question: '目前提供了哪些实用组件？',
+    answer: '拥有超过 60 款多元组件：包括天气、资讯流、科学计算器、世界时钟、番茄钟、便签速记、日程概览、任务摘要、工时统计、快捷书签等，覆盖工作与生活方方面面。',
   },
   // Time Tracking & Calendar
   {
-    question: 'How does time tracking work?',
-    answer: 'Go to Time Tracking in the sidebar. Start the timer when you begin work, assign it to a project, and stop when done. View daily/weekly stats, generate reports, and export to CSV for invoicing.',
+    question: '工时追踪 (Time Tracking) 如何工作？',
+    answer: '在侧栏进入“工时追踪”。开始工作时一键启动计时器，将其归属到特定项目，完成后停止。支持查看每日/每周工时报表，并可导出为 CSV 用于核算与复盘。',
   },
   {
-    question: 'Can I import calendar events?',
-    answer: 'Yes! The Calendar page supports ICS file import. Click the import button and select your .ics file. You can also export your events to ICS format for use in other calendar apps.',
+    question: '是否支持导入外部日历日程？',
+    answer: '支持！日程页面支持标准 ICS 日历文件导入。点击导入按钮选取您的 .ics 文件即可。同样，您也可以将日程导出为 ICS 格式与主流日历软件无缝协同。',
   },
   // Shortcuts & Tips
   {
-    question: 'What keyboard shortcuts are available?',
-    answer: 'Press F1 or Ctrl+/ to open Help. On the Notes page, Ctrl+K focuses search. In the notes editor, use Ctrl+B for bold, Ctrl+I for italic, Ctrl+Shift+E to export, and type / for slash commands. Ctrl+B toggles the sidebar, Ctrl+D creates a daily note.',
+    question: '有哪些常用的高效快捷键？',
+    answer: '随时按下 F1 或 Ctrl+/ 唤起帮助；在笔记页面按 Ctrl+K 聚焦检索；编辑笔记时 Ctrl+B 粗体、Ctrl+I 斜体、Ctrl+Shift+E 导出、输入 / 唤起斜杠指令菜单；按 Ctrl+B 可展开/收起左侧栏，Ctrl+D 快速创建今日日记。',
   },
   {
-    question: 'How do I use slash commands in notes?',
-    answer: 'Type "/" in the note editor to see available commands: /heading, /bullet, /checkbox, /code, /quote, /divider, and more. This is the fastest way to format your notes.',
+    question: '如何在笔记中使用斜杠命令 (Slash Commands)？',
+    answer: '在笔记编辑器任意新行输入 "/" 即可浏览所有快捷排版指令：/heading 标题、/bullet 无序列表、/checkbox 待办清单、/code 代码块、/quote 引用、/divider 分割线等，让排版行云流水。',
   },
 ];
 
@@ -122,12 +122,12 @@ function KeyboardShortcutsSection() {
   );
 
   const contextLabels: Record<string, string> = {
-    global: 'Global',
-    kanban: 'Tasks/Kanban',
-    notes: 'Notes',
-    calendar: 'Calendar',
-    diagram: 'Diagrams',
-    modal: 'Modals',
+    global: '全局快捷键',
+    kanban: '任务与看板',
+    notes: '灵感笔记',
+    calendar: '日程历程',
+    diagram: '脑图与图表',
+    modal: '弹窗交互',
   };
 
   return (
@@ -135,7 +135,7 @@ function KeyboardShortcutsSection() {
       <div className="flex items-center gap-2 mb-3">
         <Keyboard className="w-4 h-4 text-accent-blue" />
         <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary">
-          Keyboard Shortcuts
+          键盘快捷键速查
         </h3>
       </div>
 
@@ -176,7 +176,7 @@ function KeyboardShortcutsSection() {
 
         {shortcuts.length === 0 && (
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary italic">
-            No shortcuts registered yet. Shortcuts will appear here as you use the app.
+            暂未注册任何快捷键。随着您使用各项功能，快捷键将在此处呈现。
           </p>
         )}
       </div>
@@ -184,16 +184,16 @@ function KeyboardShortcutsSection() {
       {/* Editor shortcuts (hardcoded since they're from Lexical) */}
       <div className="mt-4">
         <h4 className="text-xs font-medium text-text-light-secondary dark:text-text-dark-secondary mb-2 uppercase tracking-wide">
-          Notes Editor
+          笔记编辑器专属
         </h4>
         <div className="bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg border border-border-light dark:border-border-dark overflow-hidden">
           {[
-            { keys: ['mod', 'b'], label: 'Bold' },
-            { keys: ['mod', 'i'], label: 'Italic' },
-            { keys: ['mod', 'u'], label: 'Underline' },
-            { keys: ['mod', 'shift', 'e'], label: 'Export notes' },
-            { keys: ['/'], label: 'Slash commands menu' },
-            { keys: ['[['], label: 'Wiki link autocomplete' },
+            { keys: ['mod', 'b'], label: '加粗' },
+            { keys: ['mod', 'i'], label: '斜体' },
+            { keys: ['mod', 'u'], label: '下划线' },
+            { keys: ['mod', 'shift', 'e'], label: '导出笔记' },
+            { keys: ['/'], label: '唤起斜杠指令菜单' },
+            { keys: ['[['], label: '双链自动补全' },
           ].map((shortcut, index, arr) => (
             <div
               key={shortcut.label}
@@ -333,7 +333,7 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
   }, [message]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Help & Support" maxWidth="2xl">
+    <Modal isOpen={isOpen} onClose={onClose} title="帮助与支持" maxWidth="2xl">
       {/* Tabs */}
       <div className="flex gap-2 mb-6 border-b border-border-light dark:border-border-dark">
         <button
@@ -346,7 +346,7 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
         >
           <div className="flex items-center gap-2">
             <Mail className="w-4 h-4" />
-            <span>Report Issue</span>
+            <span>反馈问题</span>
           </div>
         </button>
 
@@ -360,7 +360,7 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
         >
           <div className="flex items-center gap-2">
             <HelpCircle className="w-4 h-4" />
-            <span>Get Help</span>
+            <span>获取帮助</span>
           </div>
         </button>
 
@@ -374,7 +374,7 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
         >
           <div className="flex items-center gap-2">
             <Book className="w-4 h-4" />
-            <span>Documentation</span>
+            <span>文档与说明</span>
           </div>
         </button>
       </div>
@@ -398,37 +398,37 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
       {activeTab === 'report' && (
         <div className="space-y-4">
           <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-            Experiencing a problem? Send us a diagnostic report to help us troubleshoot.
+            遇到使用困扰或异常状况？您可以将诊断日志发送给我们，以便我们快速排查与解决。
           </p>
 
           {/* Issue Type */}
           <div>
             <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-              Issue Type
+              问题类型
             </label>
             <select
               value={issueType}
               onChange={(e) => setIssueType(e.target.value)}
               className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
             >
-              <option value="bug">Bug Report</option>
-              <option value="feature">Feature Request</option>
-              <option value="performance">Performance Issue</option>
-              <option value="data-loss">Data Loss/Corruption</option>
-              <option value="ui-feedback">UI/UX Feedback</option>
-              <option value="other">Other</option>
+              <option value="bug">缺陷报错 (Bug Report)</option>
+              <option value="feature">功能建议 (Feature Request)</option>
+              <option value="performance">运行卡顿/性能 (Performance)</option>
+              <option value="data-loss">数据丢失或损坏 (Data Loss/Corruption)</option>
+              <option value="ui-feedback">界面与交互体验反馈 (UI/UX Feedback)</option>
+              <option value="other">其他问题 (Other)</option>
             </select>
           </div>
 
           {/* Description */}
           <div>
             <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-              Description <span className="text-status-error">*</span>
+              问题描述 <span className="text-status-error">*</span>
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Please describe the issue you're experiencing..."
+              placeholder="请详细描述您遇到的问题现象、复现步骤或改进建议..."
               rows={6}
               className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-2 focus:ring-accent-primary resize-none"
             />
@@ -445,10 +445,10 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
             />
             <div className="flex-1">
               <label htmlFor="include-diagnostics" className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary cursor-pointer">
-                Include diagnostic report (recommended)
+                附带系统诊断报告（强烈推荐）
               </label>
               <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">
-                Provides system info, storage stats, and error logs to help us troubleshoot. No personal data included.
+                包含环境架构、本地存储用量与异常日志，有助于快速定位根因。绝不收集个人隐私数据。
               </p>
             </div>
           </div>
@@ -461,7 +461,7 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
                 className="flex items-center gap-2 text-sm font-medium text-accent-primary hover:text-accent-primary-hover transition-colors"
               >
                 {showDiagnosticPreview ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                <span>Preview Diagnostic Report</span>
+                <span>预览系统诊断报告</span>
               </button>
 
               {showDiagnosticPreview && (
@@ -483,7 +483,7 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
             >
               <div className="flex items-center justify-center gap-2">
                 <Mail className="w-4 h-4" />
-                <span>Open Email Client</span>
+                <span>唤起邮件客户端发送</span>
               </div>
             </button>
 
@@ -491,8 +491,8 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
               onClick={handleCopyDiagnosticReport}
               disabled={!diagnosticReport || isGeneratingReport}
               className="px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-lg font-medium transition-colors border border-border-light dark:border-border-dark disabled:opacity-50 disabled:cursor-not-allowed"
-              title="Copy diagnostic report to clipboard"
-              aria-label="Copy diagnostic report to clipboard"
+              title="复制诊断报告到剪贴板"
+              aria-label="复制诊断报告到剪贴板"
             >
               <Copy className="w-4 h-4" />
             </button>
@@ -501,8 +501,8 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
               onClick={handleDownloadDiagnosticReport}
               disabled={!diagnosticReport || isGeneratingReport}
               className="px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark text-text-light-primary dark:text-text-dark-primary rounded-lg font-medium transition-colors border border-border-light dark:border-border-dark disabled:opacity-50 disabled:cursor-not-allowed"
-              title="Download diagnostic report"
-              aria-label="Download diagnostic report"
+              title="下载诊断报告文件"
+              aria-label="下载诊断报告文件"
             >
               <Download className="w-4 h-4" />
             </button>
@@ -518,7 +518,7 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
           {/* FAQs */}
           <div>
             <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-              Frequently Asked Questions
+              常见问题解答 (FAQ)
             </h3>
             <div className="space-y-2">
               {FAQS.map((faq, index) => (
@@ -559,16 +559,16 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
           {/* Build Info */}
           <div>
             <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-              Build Information
+              版本与构建信息
             </h3>
             <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg border border-border-light dark:border-border-dark">
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-text-light-secondary dark:text-text-dark-secondary">Current Build:</span>
+                  <span className="text-text-light-secondary dark:text-text-dark-secondary">当前版本构建：</span>
                   <span className="font-mono text-text-light-primary dark:text-text-dark-primary">{BUILD_HASH}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-text-light-secondary dark:text-text-dark-secondary">Build Date:</span>
+                  <span className="text-text-light-secondary dark:text-text-dark-secondary">构建生成时间：</span>
                   <span className="text-text-light-primary dark:text-text-dark-primary">{formatBuildTimestamp()}</span>
                 </div>
               </div>
@@ -578,7 +578,7 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
           {/* External Links */}
           <div>
             <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-              External Documentation
+              参考与外部文档
             </h3>
             <div className="space-y-2">
               <a
@@ -588,7 +588,7 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
                 className="flex items-center justify-between px-4 py-3 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark rounded-lg border border-border-light dark:border-border-dark transition-colors group"
               >
                 <span className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-                  GitHub Repository
+                  GitHub 开源代码仓库
                 </span>
                 <ExternalLink className="w-4 h-4 text-text-light-secondary dark:text-text-dark-secondary group-hover:text-text-light-primary dark:group-hover:text-text-dark-primary transition-colors" />
               </a>
@@ -600,7 +600,7 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
                 className="flex items-center justify-between px-4 py-3 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark rounded-lg border border-border-light dark:border-border-dark transition-colors group"
               >
                 <span className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-                  User Manual (README)
+                  用户指南与说明 (README)
                 </span>
                 <ExternalLink className="w-4 h-4 text-text-light-secondary dark:text-text-dark-secondary group-hover:text-text-light-primary dark:group-hover:text-text-dark-primary transition-colors" />
               </a>
@@ -612,7 +612,7 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
                 className="flex items-center justify-between px-4 py-3 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-border-light dark:hover:bg-border-dark rounded-lg border border-border-light dark:border-border-dark transition-colors group"
               >
                 <span className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">
-                  Issue Tracker
+                  Issue 反馈追踪器
                 </span>
                 <ExternalLink className="w-4 h-4 text-text-light-secondary dark:text-text-dark-secondary group-hover:text-text-light-primary dark:group-hover:text-text-dark-primary transition-colors" />
               </a>
@@ -622,24 +622,24 @@ export function SupportModal({ isOpen, onClose, initialTab = 'report' }: Support
           {/* Privacy & License */}
           <div>
             <h3 className="text-sm font-semibold text-text-light-primary dark:text-text-dark-primary mb-3">
-              Privacy & License
+              隐私宗旨与开源协议
             </h3>
             <div className="p-4 bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg border border-border-light dark:border-border-dark">
               <div className="space-y-3 text-sm">
                 <div>
                   <div className="font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-                    Privacy Policy
+                    隐私政策
                   </div>
                   <p className="text-text-light-secondary dark:text-text-dark-secondary">
-                    All data stored locally in your browser. No telemetry, no analytics, no third-party services.
+                    所有数据完整存储于您的浏览器本地。无任何遥测注入、无隐私收集追踪、无第三方违规服务。
                   </p>
                 </div>
                 <div>
                   <div className="font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
-                    License
+                    软件许可证
                   </div>
                   <p className="text-text-light-secondary dark:text-text-dark-secondary">
-                    MIT License - Free and open source software
+                    MIT 许可证 - 自由、开放、透明的开源软件
                   </p>
                 </div>
               </div>

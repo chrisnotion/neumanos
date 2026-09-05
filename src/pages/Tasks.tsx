@@ -27,10 +27,10 @@ const VALID_TABS: TabType[] = ['tasks', 'timeline', 'habits', 'resources'];
 
 // Tab configuration for TabNavigation component
 const TASKS_TABS: Tab[] = [
-  { id: 'tasks', label: 'Tasks', icon: LayoutGrid },
-  { id: 'timeline', label: 'Timeline', icon: ChartGantt },
-  { id: 'habits', label: 'Habits', icon: Target },
-  { id: 'resources', label: 'Resources', icon: Users },
+  { id: 'tasks', label: '看板任务', icon: LayoutGrid },
+  { id: 'timeline', label: '时间线与甘特图', icon: ChartGantt },
+  { id: 'habits', label: '习惯打卡', icon: Target },
+  { id: 'resources', label: '人员与资源', icon: Users },
 ];
 
 /**
@@ -87,7 +87,7 @@ export const Tasks: React.FC = () => {
           tabs={TASKS_TABS}
           activeTab={activeTab}
           onTabChange={(tabId) => handleTabChange(tabId as TabType)}
-          ariaLabel="Tasks navigation"
+          ariaLabel="任务视图切换"
         />
 
         {/* Export Button - only show for tasks/timeline tabs */}
@@ -95,10 +95,10 @@ export const Tasks: React.FC = () => {
           <button
             onClick={() => setShowExportModal(true)}
             className="flex items-center gap-2 px-4 py-2 rounded-button border border-border-light dark:border-border-dark text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated transition-colors"
-            title="Export tasks to markdown"
+            title="将任务导出为 Markdown"
           >
             <FileDown className="w-4 h-4" />
-            Export
+            导出
           </button>
         )}
       </div>
@@ -124,11 +124,11 @@ export const Tasks: React.FC = () => {
         {activeTab === 'resources' && (
           <div className="bento-card p-6">
             <h2 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
-              Resource Utilization
+              成员负荷与资源利用率
             </h2>
             <ResourceUtilizationChart height={400} />
             <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-4">
-              Manage resources in Settings. Assign resources to tasks in the task detail panel.
+              可在“系统设置”中管理成员与团队。在任务详情面板中可直接为任务指派负责人与资源。
             </p>
           </div>
         )}
