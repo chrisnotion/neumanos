@@ -43,6 +43,7 @@ export const AITerminalSettingsSection: React.FC = () => {
   const activeModel = useTerminalStore((s) => s.activeModel);
   const encryptionPassword = useTerminalStore((s) => s.encryptionPassword);
   const isPasswordExpired = useTerminalStore((s) => s.isPasswordExpired);
+  const providerCustomModels = useTerminalStore((s) => s.providerCustomModels);
 
   // Quick Note settings
   const quickNoteMode = useTerminalStore((s) => s.quickNoteMode);
@@ -55,6 +56,17 @@ export const AITerminalSettingsSection: React.FC = () => {
 
   // Create router for settings (shares store with AITerminal)
   const router = useMemo(() => createDefaultRouter(), []);
+
+  // Sync custom models to router
+  useEffect(() => {
+    if (providerCustomModels) {
+      for (const [providerId, modelId] of Object.entries(providerCustomModels)) {
+        if (modelId) {
+          router.addProviderCustomModel(providerId, modelId);
+        }
+      }
+    }
+  }, [providerCustomModels, router]);
 
   // Initialize API keys and count configured providers
   useEffect(() => {

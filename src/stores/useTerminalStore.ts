@@ -146,6 +146,7 @@ interface TerminalState {
   customOpenAIBaseUrl: string; // Custom Base URL for custom-openai
   customOpenAIModel: string; // Custom model ID for custom-openai
   customOpenAIModels: string[]; // Custom model list for custom-openai
+  providerCustomModels: Record<string, string>; // Custom model ID per provider
 
   // Fallback Configuration
   fallbackEnabled: boolean;
@@ -210,6 +211,7 @@ interface TerminalState {
   setCustomOpenAIBaseUrl: (url: string) => void;
   setCustomOpenAIModel: (model: string) => void;
   setCustomOpenAIModels: (models: string[]) => void;
+  setProviderCustomModel: (providerId: string, modelId: string) => void;
 
   // Encryption Actions
   setEncryptionPassword: (password: string, passwordHash: string, duration: 'daily' | 'weekly' | 'monthly') => void;
@@ -303,6 +305,9 @@ export const useTerminalStore = create<TerminalState>()(
       customOpenAIBaseUrl: 'https://api.openai.com/v1',
       customOpenAIModel: 'gpt-4o-mini',
       customOpenAIModels: ['gpt-4o', 'gpt-4o-mini', 'deepseek-chat', 'deepseek-reasoner'],
+      providerCustomModels: {
+        xai: 'grok-2-latest',
+      },
 
       // Fallback Configuration
       fallbackEnabled: true,
@@ -440,6 +445,26 @@ export const useTerminalStore = create<TerminalState>()(
 
       setCustomOpenAIModels: (models: string[]) => {
         set({ customOpenAIModels: models });
+      },
+
+      setProviderCustomModel: (providerId: string, modelId: string) => {
+        const trimmedModel = modelId.trim();
+        set((state) => ({
+          providerCustomModels: {
+            ...state.providerCustomModels,
+            [providerId]: trimmedModel,
+          },
+          // If this provider is currently active, sync activeModel
+          activeModel:
+            state.activeProvider === providerId && trimmedModel
+              ? trimmedModel
+              : state.activeModel,
+          // If custom-openai, also keep customOpenAIModel in sync
+          customOpenAIModel:
+            providerId === 'custom-openai' && trimmedModel
+              ? trimmedModel
+              : state.customOpenAIModel,
+        }));
       },
 
       // Encryption Actions
@@ -885,6 +910,7 @@ export const useTerminalStore = create<TerminalState>()(
         customOpenAIBaseUrl: state.customOpenAIBaseUrl,
         customOpenAIModel: state.customOpenAIModel,
         customOpenAIModels: state.customOpenAIModels,
+        providerCustomModels: state.providerCustomModels,
 
         // Persist fallback configuration
         fallbackEnabled: state.fallbackEnabled,

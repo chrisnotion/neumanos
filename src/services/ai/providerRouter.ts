@@ -60,6 +60,7 @@ export class AIProviderRouter {
   private apiKeys: Map<string, string> = new Map();
   private baseUrls: Map<string, string> = new Map();
   private customModels: Map<string, AIModel[]> = new Map();
+  private providerCustomModelIds: Map<string, string> = new Map();
 
   constructor(config: ProviderRouterConfig, onFallback?: FallbackCallback) {
     this.config = config;
@@ -121,10 +122,45 @@ export class AIProviderRouter {
    * Add a single custom model for a provider
    */
   addProviderCustomModel(providerId: string, modelId: string): void {
+    const trimmedId = modelId.trim();
+    if (!trimmedId) return;
+    this.providerCustomModelIds.set(providerId, trimmedId);
+
     const loadedProvider = getLoadedProvider(providerId);
-    if (loadedProvider && loadedProvider.addCustomModel) {
-      loadedProvider.addCustomModel(modelId);
+    if (loadedProvider) {
+      if (loadedProvider.addCustomModel) {
+        loadedProvider.addCustomModel(trimmedId);
+      } else {
+        const existingIndex = loadedProvider.models.findIndex((m) => m.id === trimmedId);
+        if (existingIndex >= 0) {
+          const existing = loadedProvider.models[existingIndex];
+          loadedProvider.models.splice(existingIndex, 1);
+          loadedProvider.models = [existing, ...loadedProvider.models];
+        } else {
+          const newModel: AIModel = {
+            id: trimmedId,
+            name: trimmedId,
+            provider: providerId,
+            speedRating: 4,
+            qualityRating: 5,
+            contextWindow: 128000,
+            supportsStreaming: loadedProvider.metadata.supportsStreaming,
+            isFree: false,
+            requiresApiKey: true,
+            useCases: ['chat', 'code', 'reasoning'],
+            description: `自定义模型: ${trimmedId}`,
+          };
+          loadedProvider.models = [newModel, ...loadedProvider.models];
+        }
+      }
     }
+  }
+
+  /**
+   * Get custom model ID for a provider
+   */
+  getProviderCustomModel(providerId: string): string | null {
+    return this.providerCustomModelIds.get(providerId) ?? null;
   }
 
   /**
@@ -160,6 +196,36 @@ export class AIProviderRouter {
       const storedModels = this.customModels.get(providerId);
       if (storedModels && provider.setCustomModels) {
         provider.setCustomModels(storedModels);
+      }
+
+      // Apply single custom model if stored
+      const customModelId = this.providerCustomModelIds.get(providerId);
+      if (customModelId) {
+        if (provider.addCustomModel) {
+          provider.addCustomModel(customModelId);
+        } else {
+          const existingIndex = provider.models.findIndex((m) => m.id === customModelId);
+          if (existingIndex >= 0) {
+            const existing = provider.models[existingIndex];
+            provider.models.splice(existingIndex, 1);
+            provider.models = [existing, ...provider.models];
+          } else {
+            const newModel: AIModel = {
+              id: customModelId,
+              name: customModelId,
+              provider: providerId,
+              speedRating: 4,
+              qualityRating: 5,
+              contextWindow: 128000,
+              supportsStreaming: provider.metadata.supportsStreaming,
+              isFree: false,
+              requiresApiKey: true,
+              useCases: ['chat', 'code', 'reasoning'],
+              description: `自定义模型: ${customModelId}`,
+            };
+            provider.models = [newModel, ...provider.models];
+          }
+        }
       }
 
       // Apply stored API key if we have one
@@ -215,12 +281,29 @@ export class AIProviderRouter {
   getProviderModels(providerId: string): AIModel[] {
     // First check if provider is loaded (has accurate model list)
     const loadedProvider = getLoadedProvider(providerId);
-    if (loadedProvider) {
-      return loadedProvider.models;
+    let models = loadedProvider ? [...loadedProvider.models] : [...(PROVIDER_MODELS[providerId] ?? [])];
+
+    const customModelId = this.providerCustomModelIds.get(providerId);
+    if (customModelId && !models.some((m) => m.id === customModelId)) {
+      models = [
+        {
+          id: customModelId,
+          name: customModelId,
+          provider: providerId,
+          speedRating: 4,
+          qualityRating: 5,
+          contextWindow: 128000,
+          supportsStreaming: PROVIDER_METADATA[providerId]?.supportsStreaming ?? true,
+          isFree: false,
+          requiresApiKey: true,
+          useCases: ['chat', 'code', 'reasoning'],
+          description: `自定义模型: ${customModelId}`,
+        },
+        ...models,
+      ];
     }
 
-    // Fall back to static model list (may be incomplete for some providers)
-    return PROVIDER_MODELS[providerId] ?? [];
+    return models;
   }
 
   /**

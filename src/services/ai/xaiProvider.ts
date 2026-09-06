@@ -47,8 +47,54 @@ const METADATA: AIProviderMetadata = {
  */
 const PAID_MODELS: AIModel[] = [
   {
+    id: 'grok-2-latest',
+    name: 'Grok 2 (Latest)',
+    provider: 'xai',
+    speedRating: 4,
+    qualityRating: 5,
+    contextWindow: 131072,
+    maxOutputTokens: 8192,
+    supportsStreaming: true,
+    isFree: false,
+    costPer1MTokens: 5.0,
+    requiresApiKey: true,
+    useCases: ['chat', 'analysis', 'real-time-info', 'reasoning'],
+    description: 'xAI 旗舰 Grok 2 模型，具备强大推理能力与实时信息获取。',
+  },
+  {
+    id: 'grok-2',
+    name: 'Grok 2 (Stable)',
+    provider: 'xai',
+    speedRating: 4,
+    qualityRating: 5,
+    contextWindow: 131072,
+    maxOutputTokens: 8192,
+    supportsStreaming: true,
+    isFree: false,
+    costPer1MTokens: 5.0,
+    requiresApiKey: true,
+    useCases: ['chat', 'analysis', 'real-time-info'],
+    description: 'xAI Grok 2 稳定版本。',
+  },
+  {
+    id: 'grok-2-vision-1212',
+    name: 'Grok 2 Vision',
+    provider: 'xai',
+    speedRating: 4,
+    qualityRating: 5,
+    contextWindow: 32768,
+    maxOutputTokens: 8192,
+    supportsStreaming: true,
+    supportsVision: true,
+    isFree: false,
+    costPer1MTokens: 5.0,
+    requiresApiKey: true,
+    useCases: ['chat', 'multimodal', 'analysis'],
+    description: 'Grok 2 视觉多模态模型，支持图像理解。',
+  },
+  {
     id: 'grok-beta',
-    name: 'Grok Beta',
+    name: 'Grok Beta (Legacy)',
     provider: 'xai',
     speedRating: 3,
     qualityRating: 4,
@@ -56,14 +102,14 @@ const PAID_MODELS: AIModel[] = [
     maxOutputTokens: 4096,
     supportsStreaming: true,
     isFree: false,
-    costPer1MTokens: 5.0, // Estimated, check current pricing
+    costPer1MTokens: 5.0,
     requiresApiKey: true,
     useCases: ['chat', 'analysis', 'real-time-info'],
-    description: 'xAI\'s Grok model with unique personality and real-time information access.',
+    description: 'xAI 早期 Grok 测试模型（部分地区可能已下线）。',
   },
   {
     id: 'grok-vision-beta',
-    name: 'Grok Vision Beta',
+    name: 'Grok Vision Beta (Legacy)',
     provider: 'xai',
     speedRating: 3,
     qualityRating: 4,
@@ -72,10 +118,10 @@ const PAID_MODELS: AIModel[] = [
     supportsStreaming: true,
     supportsVision: true,
     isFree: false,
-    costPer1MTokens: 5.0, // Estimated, check current pricing
+    costPer1MTokens: 5.0,
     requiresApiKey: true,
     useCases: ['chat', 'multimodal', 'analysis'],
-    description: 'Grok with vision capabilities for image understanding.',
+    description: 'Grok 早期视觉测试模型。',
   },
 ];
 
@@ -85,7 +131,7 @@ const PAID_MODELS: AIModel[] = [
  */
 export class XAIProvider implements AIProvider {
   metadata = METADATA;
-  models = PAID_MODELS;
+  models: AIModel[] = [...PAID_MODELS];
 
   private client: OpenAI | null = null;
   private apiKey: string | null = null;
@@ -152,10 +198,52 @@ export class XAIProvider implements AIProvider {
   }
 
   /**
+   * Set custom models
+   */
+  setCustomModels(models: AIModel[]): void {
+    if (models && models.length > 0) {
+      this.models = models;
+    }
+  }
+
+  /**
+   * Add custom model
+   */
+  addCustomModel(modelId: string, name?: string): void {
+    const trimmedId = modelId.trim();
+    if (!trimmedId) return;
+
+    const existingIndex = this.models.findIndex((m) => m.id === trimmedId);
+    if (existingIndex >= 0) {
+      const existing = this.models[existingIndex];
+      this.models.splice(existingIndex, 1);
+      this.models = [existing, ...this.models];
+      return;
+    }
+
+    const newModel: AIModel = {
+      id: trimmedId,
+      name: name?.trim() || trimmedId,
+      provider: 'xai',
+      speedRating: 4,
+      qualityRating: 5,
+      contextWindow: 131072,
+      maxOutputTokens: 8192,
+      supportsStreaming: true,
+      isFree: false,
+      requiresApiKey: true,
+      useCases: ['chat', 'analysis', 'real-time-info', 'reasoning'],
+      description: `xAI 自定义模型: ${trimmedId}`,
+    };
+
+    this.models = [newModel, ...this.models];
+  }
+
+  /**
    * Get default model
    */
   getDefaultModel(): AIModel {
-    return PAID_MODELS[0]; // Grok Beta
+    return this.models[0] || PAID_MODELS[0];
   }
 
   /**

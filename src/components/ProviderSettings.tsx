@@ -20,6 +20,19 @@ import { useTerminalStore } from '../stores/useTerminalStore';
 import { AIProviderRouter, PROVIDER_METADATA } from '../services/ai/providerRouter';
 import { toast } from '../stores/useToastStore';
 
+const DEFAULT_PROVIDER_PLACEHOLDERS: Record<string, string> = {
+  xai: 'grok-2-latest',
+  openai: 'gpt-4o',
+  anthropic: 'claude-3-5-sonnet-20241022',
+  gemini: 'gemini-1.5-flash',
+  deepseek: 'deepseek-chat',
+  groq: 'llama-3.3-70b-versatile',
+  mistral: 'mistral-large-latest',
+  openrouter: 'google/gemini-2.0-flash-exp:free',
+  huggingface: 'mistralai/Mistral-7B-Instruct-v0.2',
+  'custom-openai': 'gpt-4o-mini',
+};
+
 interface ProviderSettingsProps {
   isOpen: boolean;
   onClose: () => void;
@@ -42,6 +55,8 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
     setCustomOpenAIBaseUrl,
     customOpenAIModel,
     setCustomOpenAIModel,
+    providerCustomModels,
+    setProviderCustomModel,
   } = useTerminalStore();
 
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
@@ -49,6 +64,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
   const [apiKeyInputs, setApiKeyInputs] = useState<Record<string, string>>({});
   const [baseUrlInput, setBaseUrlInput] = useState<string>(customOpenAIBaseUrl || 'https://api.openai.com/v1');
   const [customModelInput, setCustomModelInput] = useState<string>(customOpenAIModel || 'gpt-4o-mini');
+  const [modelInputs, setModelInputs] = useState<Record<string, string>>({});
   const [showApiKeys, setShowApiKeys] = useState<Record<string, boolean>>({});
   const [validating, setValidating] = useState<Record<string, boolean>>({});
   const [validationResults, setValidationResults] = useState<Record<string, boolean | null>>({});
@@ -70,6 +86,25 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
     }
   }, [customOpenAIBaseUrl, customOpenAIModel]);
 
+  // Sync modelInputs with store values
+  useEffect(() => {
+    setModelInputs((prev) => {
+      const next = { ...prev };
+      for (const pid of Object.keys(providerMetadataList)) {
+        if (next[pid] === undefined) {
+          if (providerCustomModels?.[pid]) {
+            next[pid] = providerCustomModels[pid];
+          } else if (pid === 'custom-openai' && customOpenAIModel) {
+            next[pid] = customOpenAIModel;
+          } else {
+            next[pid] = '';
+          }
+        }
+      }
+      return next;
+    });
+  }, [providerCustomModels, customOpenAIModel, providerMetadataList]);
+
   // Check if password is needed
   useEffect(() => {
     if (!encryptionPassword || isPasswordExpired()) {
@@ -84,19 +119,61 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
 
     // If user was trying to save a provider, save it now
     if (selectedProvider && apiKeyInputs[selectedProvider]) {
-      saveProviderKey(selectedProvider, apiKeyInputs[selectedProvider], password);
+      const customModel = (modelInputs[selectedProvider] ?? '').trim();
+      saveProviderKeyAndModel(selectedProvider, apiKeyInputs[selectedProvider], password, customModel);
     }
   };
 
-  const saveProviderKey = async (providerId: string, apiKey: string, password: string) => {
+  const updateProviderModelOnly = async (providerId: string, customModel: string) => {
     try {
       if (providerId === 'custom-openai') {
         const trimmedBaseUrl = baseUrlInput.trim() || 'https://api.openai.com/v1';
-        const trimmedModel = customModelInput.trim() || 'gpt-4o-mini';
+        const modelToSave = customModel || 'gpt-4o-mini';
         setCustomOpenAIBaseUrl(trimmedBaseUrl);
-        setCustomOpenAIModel(trimmedModel);
+        setCustomOpenAIModel(modelToSave);
         router.setProviderBaseUrl(providerId, trimmedBaseUrl);
-        router.addProviderCustomModel(providerId, trimmedModel);
+        router.addProviderCustomModel(providerId, modelToSave);
+      }
+
+      setProviderCustomModel(providerId, customModel);
+      if (customModel) {
+        router.addProviderCustomModel(providerId, customModel);
+      }
+
+      const provider = await router.getProvider(providerId);
+      const effectiveModel = customModel || (provider ? provider.getDefaultModel().id : DEFAULT_PROVIDER_PLACEHOLDERS[providerId] || 'default');
+
+      const currentActive = useTerminalStore.getState().activeProvider;
+      if (currentActive === providerId) {
+        setActiveProvider(providerId, effectiveModel);
+      }
+
+      toast.success('设置已更新', `${providerMetadataList[providerId]?.displayName || providerId} 模型配置已保存 [${effectiveModel}]`);
+    } catch (error) {
+      console.error('Failed to update provider model:', error);
+      toast.error('更新失败', '无法保存模型设置');
+    }
+  };
+
+  const saveProviderKeyAndModel = async (
+    providerId: string,
+    apiKey: string,
+    password: string,
+    customModel: string
+  ) => {
+    try {
+      if (providerId === 'custom-openai') {
+        const trimmedBaseUrl = baseUrlInput.trim() || 'https://api.openai.com/v1';
+        const modelToSave = customModel || 'gpt-4o-mini';
+        setCustomOpenAIBaseUrl(trimmedBaseUrl);
+        setCustomOpenAIModel(modelToSave);
+        router.setProviderBaseUrl(providerId, trimmedBaseUrl);
+        router.addProviderCustomModel(providerId, modelToSave);
+      }
+
+      setProviderCustomModel(providerId, customModel);
+      if (customModel) {
+        router.addProviderCustomModel(providerId, customModel);
       }
 
       await setProviderApiKey(providerId, apiKey, password);
@@ -109,34 +186,34 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
       // Try to load provider and set as active
       const provider = await router.getProvider(providerId);
       if (provider) {
-        if (providerId === 'custom-openai') {
-          const trimmedModel = customModelInput.trim() || 'gpt-4o-mini';
-          setActiveProvider(providerId, trimmedModel);
-        } else {
-          const defaultModel = provider.getDefaultModel();
-          if (defaultModel) {
-            setActiveProvider(providerId, defaultModel.id);
-          }
-        }
+        const effectiveModel = customModel || provider.getDefaultModel().id;
+        setActiveProvider(providerId, effectiveModel);
       }
+
+      toast.success('服务商配置成功', `${providerMetadataList[providerId]?.displayName || providerId} 已保存并设置为当前活跃服务商。`);
     } catch (error) {
       console.error('Failed to save API key:', error);
-      toast.error('Failed to save API key', 'Please try again.');
+      toast.error('保存失败', '请检查加密主密码或重新尝试。');
     }
   };
 
   const handleSaveApiKey = (providerId: string) => {
-    const apiKey = apiKeyInputs[providerId];
-    if (!apiKey || !apiKey.trim()) return;
+    const apiKey = apiKeyInputs[providerId]?.trim();
+    const customModel = (modelInputs[providerId] ?? '').trim();
+    const isConfigured = providerStatus[providerId]?.configured || false;
 
-    // Check if password is needed
-    if (!encryptionPassword || isPasswordExpired()) {
-      setSelectedProvider(providerId);
-      setShowPasswordPrompt(true);
-      return;
+    if (apiKey) {
+      // Check if password is needed
+      if (!encryptionPassword || isPasswordExpired()) {
+        setSelectedProvider(providerId);
+        setShowPasswordPrompt(true);
+        return;
+      }
+      saveProviderKeyAndModel(providerId, apiKey, encryptionPassword, customModel);
+    } else if (isConfigured) {
+      // Already configured, update model or baseUrl only
+      updateProviderModelOnly(providerId, customModel);
     }
-
-    saveProviderKey(providerId, apiKey, encryptionPassword);
   };
 
   const handleClearApiKey = (providerId: string) => {
@@ -153,9 +230,19 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
   };
 
   const handleTestApiKey = async (providerId: string) => {
-    const apiKey = apiKeyInputs[providerId];
-    if (!apiKey || !apiKey.trim()) {
-      toast.warning('Please enter an API key first');
+    let apiKey = apiKeyInputs[providerId]?.trim();
+    if (!apiKey && providerStatus[providerId]?.configured) {
+      if (encryptionPassword && !isPasswordExpired()) {
+        try {
+          const savedKey = await useTerminalStore.getState().getProviderApiKey(providerId, encryptionPassword);
+          if (savedKey) apiKey = savedKey;
+        } catch {
+          // ignore decrypt failure
+        }
+      }
+    }
+    if (!apiKey) {
+      toast.warning('请先输入 API 密钥', '需要输入 API Key 以便进行连通性测试。');
       return;
     }
 
@@ -165,6 +252,11 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
       if (providerId === 'custom-openai') {
         const trimmedBaseUrl = baseUrlInput.trim() || 'https://api.openai.com/v1';
         router.setProviderBaseUrl(providerId, trimmedBaseUrl);
+      }
+
+      const customModel = (modelInputs[providerId] ?? '').trim();
+      if (customModel) {
+        router.addProviderCustomModel(providerId, customModel);
       }
 
       // Load provider SDK on-demand for validation
@@ -177,15 +269,15 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
       setValidationResults((prev) => ({ ...prev, [providerId]: isValid }));
 
       if (isValid) {
-        toast.success('API key valid', `${providerStatus[providerId]?.name} is ready to use.`);
+        toast.success('API 密钥有效', `${providerStatus[providerId]?.name} 连通性测试成功。`);
       } else {
-        toast.error('API key invalid', `Please check your ${providerStatus[providerId]?.name} key.`);
+        toast.error('API 密钥无效', `请检查您的 ${providerStatus[providerId]?.name} 密钥配置。`);
       }
     } catch (error: unknown) {
       console.error('API key validation error:', error);
       setValidationResults((prev) => ({ ...prev, [providerId]: false }));
-      const message = error instanceof Error ? error.message : 'Unknown error';
-      toast.error('Validation error', message);
+      const message = error instanceof Error ? error.message : '未知错误';
+      toast.error('连通测试失败', message);
     } finally {
       setValidating((prev) => ({ ...prev, [providerId]: false }));
     }
@@ -375,37 +467,53 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                   {/* API Key Input & Base URL */}
                   <div className="space-y-1.5">
                     {providerId === 'custom-openai' && (
-                      <div className="space-y-1.5">
-                        <div className="space-y-1">
-                          <label className="block text-[11px] font-medium text-text-light-secondary dark:text-text-dark-secondary">
-                            Base URL (兼容 OpenAI 接口地址)
-                          </label>
-                          <input
-                            type="text"
-                            value={baseUrlInput}
-                            onChange={(e) => setBaseUrlInput(e.target.value)}
-                            placeholder="例如: https://api.your-proxy.com/v1"
-                            className="w-full px-2.5 py-1.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary text-xs"
-                          />
-                          <p className="text-[10px] text-text-light-tertiary dark:text-text-dark-tertiary leading-tight">
-                            ⚠️ 提示：OpenAI 官方域名 (api.openai.com) 禁用浏览器直接跨域访问；需使用支持 CORS 的第三方代理/中转 URL，且必须与本站同为 HTTPS 协议。
-                          </p>
-                        </div>
-
-                        <div className="space-y-1">
-                          <label className="block text-[11px] font-medium text-text-light-secondary dark:text-text-dark-secondary">
-                            模型 ID (Model ID)
-                          </label>
-                          <input
-                            type="text"
-                            value={customModelInput}
-                            onChange={(e) => setCustomModelInput(e.target.value)}
-                            placeholder="例如: gpt-4o-mini, deepseek-chat, qwen-max, claude-3-5-sonnet 等"
-                            className="w-full px-2.5 py-1.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary text-xs"
-                          />
-                        </div>
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-medium text-text-light-secondary dark:text-text-dark-secondary">
+                          Base URL (兼容 OpenAI 接口地址)
+                        </label>
+                        <input
+                          type="text"
+                          value={baseUrlInput}
+                          onChange={(e) => setBaseUrlInput(e.target.value)}
+                          placeholder="例如: https://api.your-proxy.com/v1"
+                          className="w-full px-2.5 py-1.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary text-xs"
+                        />
+                        <p className="text-[10px] text-text-light-tertiary dark:text-text-dark-tertiary leading-tight">
+                          ⚠️ 提示：OpenAI 官方域名 (api.openai.com) 禁用浏览器直接跨域访问；需使用支持 CORS 的第三方代理/中转 URL，且必须与本站同为 HTTPS 协议。
+                        </p>
                       </div>
                     )}
+
+                    {/* Model ID Input for all providers */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <label className="block text-[11px] font-medium text-text-light-secondary dark:text-text-dark-secondary">
+                          模型 ID (Model ID)
+                        </label>
+                        {providerCustomModels?.[providerId] && (
+                          <span className="text-[10px] text-accent-blue font-mono">
+                            当前: {providerCustomModels[providerId]}
+                          </span>
+                        )}
+                      </div>
+                      <input
+                        type="text"
+                        value={modelInputs[providerId] ?? ''}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setModelInputs((prev) => ({ ...prev, [providerId]: val }));
+                          if (providerId === 'custom-openai') {
+                            setCustomModelInput(val);
+                          }
+                        }}
+                        placeholder={
+                          DEFAULT_PROVIDER_PLACEHOLDERS[providerId]
+                            ? `默认: ${DEFAULT_PROVIDER_PLACEHOLDERS[providerId]} (选填，留空使用内置默认)`
+                            : '例如: gpt-4o-mini, grok-2-latest 等 (选填)'
+                        }
+                        className="w-full px-2.5 py-1.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary text-xs font-mono"
+                      />
+                    </div>
 
                     <div className="flex gap-1.5">
                       <div className="flex-1 relative">
@@ -437,7 +545,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                     <div className="flex flex-wrap items-center gap-1.5">
                       <button
                         onClick={() => handleSaveApiKey(providerId)}
-                        disabled={!apiKeyInputs[providerId]?.trim()}
+                        disabled={!apiKeyInputs[providerId]?.trim() && !isConfigured}
                         className="px-2.5 py-1 bg-accent-blue hover:bg-accent-blue-hover disabled:bg-surface-light-elevated dark:disabled:bg-surface-dark-elevated disabled:text-text-light-tertiary dark:disabled:text-text-dark-tertiary disabled:cursor-not-allowed text-white rounded-button text-xs transition-all duration-standard ease-smooth"
                       >
                         {isConfigured ? '更新保存' : '保存'}
@@ -455,7 +563,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
                       ) : (
                         <button
                           onClick={() => handleTestApiKey(providerId)}
-                          disabled={!apiKeyInputs[providerId]?.trim() || validating[providerId]}
+                          disabled={(!apiKeyInputs[providerId]?.trim() && !isConfigured) || validating[providerId]}
                           className="px-2.5 py-1 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark disabled:opacity-50 disabled:cursor-not-allowed border border-border-light dark:border-border-dark rounded-button text-xs text-text-light-primary dark:text-text-dark-primary transition-all duration-standard ease-smooth"
                         >
                           {validating[providerId] ? '检测中...' : '测试连通性'}

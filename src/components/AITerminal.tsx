@@ -115,6 +115,7 @@ export const AITerminal: React.FC = () => {
     customSystemPrompt,
     recordTokenUsage,
     customOpenAIBaseUrl,
+    providerCustomModels,
   } = useTerminalStore();
 
   const [input, setInput] = useState('');
@@ -419,6 +420,16 @@ export const AITerminal: React.FC = () => {
       router.setProviderBaseUrl('custom-openai', customOpenAIBaseUrl);
     }
   }, [customOpenAIBaseUrl, router]);
+
+  useEffect(() => {
+    if (providerCustomModels) {
+      for (const [providerId, modelId] of Object.entries(providerCustomModels)) {
+        if (modelId) {
+          router.addProviderCustomModel(providerId, modelId);
+        }
+      }
+    }
+  }, [providerCustomModels, router]);
 
   useEffect(() => {
     const initializeApiKeys = async () => {
