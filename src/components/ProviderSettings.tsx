@@ -653,7 +653,33 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
           </div>
 
           {/* Footer Actions */}
-          <div className="flex justify-end pt-3 border-t border-border-light dark:border-border-dark">
+          <div className="flex items-center justify-between pt-3 border-t border-border-light dark:border-border-dark">
+            <div className="flex items-center gap-2">
+              {passwordHash && (
+                <>
+                  {(!encryptionPassword || isPasswordExpired()) ? (
+                    <button
+                      onClick={() => setShowPasswordPrompt(true)}
+                      className="px-2.5 py-1 bg-accent-yellow/10 hover:bg-accent-yellow/20 border border-accent-yellow/30 text-accent-yellow rounded-button text-xs transition-all duration-standard ease-smooth flex items-center gap-1"
+                      title="输入主密码解锁已加密的 API 密钥"
+                    >
+                      🔓 解锁 API 密钥
+                    </button>
+                  ) : (
+                    <span className="text-[11px] text-accent-green flex items-center gap-1">
+                      🔒 已解锁并处于解密状态
+                    </span>
+                  )}
+                  <button
+                    onClick={() => setShowResetConfirm(true)}
+                    className="px-2.5 py-1 bg-surface-light dark:bg-surface-dark hover:bg-accent-red/10 border border-border-light dark:border-border-dark hover:border-accent-red/30 text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-red rounded-button text-xs transition-all duration-standard ease-smooth"
+                    title="重置主加密密码及所有本地已加密服务商密钥"
+                  >
+                    重置主密码
+                  </button>
+                </>
+              )}
+            </div>
             <button
               onClick={onClose}
               className="px-3 py-1.5 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button text-xs transition-all duration-standard ease-smooth"

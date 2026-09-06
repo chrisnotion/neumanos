@@ -7,21 +7,21 @@ import type { Task, TaskStatus, KanbanSection as KanbanSectionType } from '../..
 
 // ─── Column title localization ───────────────────────────────────────────────
 const COLUMN_TITLE_I18N: Record<string, string> = {
-  Backlog: '待办池 (Backlog)',
-  'To Do': '待处理 (To Do)',
-  'In Progress': '进行中 (In Progress)',
-  'In Review': '评审中 (In Review)',
-  Done: '已完成 (Done)',
-  Ideas: '创意点子 (Ideas)',
-  Planned: '已规划 (Planned)',
-  Active: '进行中 (Active)',
-  Blocked: '已受阻 (Blocked)',
-  Complete: '已完成 (Complete)',
-  Ideation: '概念构思 (Ideation)',
-  Draft: '初稿编写 (Draft)',
-  Review: '审核评审 (Review)',
-  Scheduled: '计划排期 (Scheduled)',
-  Published: '已发布 (Published)',
+  Backlog: '待办池',
+  'To Do': '待处理',
+  'In Progress': '进行中',
+  'In Review': '评审中',
+  Done: '已完成',
+  Ideas: '创意点子',
+  Planned: '已规划',
+  Active: '进行中',
+  Blocked: '已受阻',
+  Complete: '已完成',
+  Ideation: '概念构思',
+  Draft: '初稿编写',
+  Review: '审核评审',
+  Scheduled: '计划排期',
+  Published: '已发布',
 };
 
 export const getLocalizedColumnTitle = (title: string): string => {

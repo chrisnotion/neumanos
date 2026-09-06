@@ -909,7 +909,7 @@ export const useTerminalStore = create<TerminalState>()(
       name: 'ai-terminal',
       partialize: (state) => ({
         // Persist provider configurations (with encrypted keys)
-        providers: state.exportEncryptedKeys ? state.providers : {},
+        providers: state.providers,
 
         // Persist UI state for deferred loading optimization
         hasOpenedTerminal: state.hasOpenedTerminal,

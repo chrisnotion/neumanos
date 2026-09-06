@@ -17,6 +17,7 @@ import { useNotesStore } from '../stores/useNotesStore';
 import { useFoldersStore } from '../stores/useFoldersStore';
 import { createDefaultRouter } from '../services/ai/providerRouter';
 import { ProviderSettings } from './ProviderSettings';
+import { PasswordPrompt } from './PasswordPrompt';
 import { ModelSelector } from './ModelSelector';
 import { UsageTracker } from './UsageTracker';
 import { TerminalHelpModal } from './TerminalHelpModal';
@@ -116,11 +117,14 @@ export const AITerminal: React.FC = () => {
     recordTokenUsage,
     customOpenAIBaseUrl,
     providerCustomModels,
+    passwordHash,
+    setEncryptionPassword,
   } = useTerminalStore();
 
   const [input, setInput] = useState('');
   const [streamingContent, setStreamingContent] = useState('');
   const [showProviderSettings, setShowProviderSettings] = useState(false);
+  const [showUnlockPrompt, setShowUnlockPrompt] = useState(false);
   const [showModelSelector, setShowModelSelector] = useState(false);
   const [showUsageTracker, setShowUsageTracker] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
@@ -131,6 +135,15 @@ export const AITerminal: React.FC = () => {
   const [fallbackNotification, setFallbackNotification] = useState<string | null>(null);
   const [terminalMode, setTerminalMode] = useState<TerminalMode>('chat');
   const [configuredProviderCount, setConfiguredProviderCount] = useState(0);
+
+  // Check if there are encrypted providers saved locally that need password unlock
+  const hasLockedProviders = useMemo(() => {
+    const hasEncryptedKeys = Object.values(providers).some(
+      (p) => Boolean(p.encryptedApiKey) || p.isConfigured
+    );
+    const isLocked = !encryptionPassword || isPasswordExpired();
+    return hasEncryptedKeys && isLocked;
+  }, [providers, encryptionPassword, isPasswordExpired]);
 
   // Phantom Shell state
   const phantomStore = usePhantomShellStore();
@@ -743,11 +756,23 @@ export const AITerminal: React.FC = () => {
           <div className="flex items-center gap-2 font-mono text-xs">
             {terminalMode === 'chat' && (
               <>
-                <span className="text-accent-green">
-                  {configuredProviderCount > 0
-                    ? `${activeProvider}/${activeModel}`
-                    : '未配置服务商'}
-                </span>
+                {configuredProviderCount > 0 ? (
+                  <span className="text-accent-green">
+                    {`${activeProvider}/${activeModel}`}
+                  </span>
+                ) : hasLockedProviders ? (
+                  <button
+                    onClick={() => setShowUnlockPrompt(true)}
+                    className="text-accent-yellow hover:underline flex items-center gap-1 text-left"
+                    title="点击输入密码解锁已保存的服务商"
+                  >
+                    🔒 点击解锁已配置的服务商
+                  </button>
+                ) : (
+                  <span className="text-text-dark-secondary">
+                    未配置服务商
+                  </span>
+                )}
                 {fallbackEnabled && configuredProviderCount > 1 && (
                   <span className="bg-accent-green/20 px-1.5 py-0.5 rounded text-accent-green" title="已启用多模型自动容灾回退">
                     🔄
@@ -928,25 +953,48 @@ export const AITerminal: React.FC = () => {
             )}
 
             {messages.length === 0 && configuredProviderCount === 0 && (
-              <div className="text-center py-12 text-text-light-secondary dark:text-text-dark-secondary">
-                <p className="text-lg font-semibold mb-2">欢迎使用 AI 智能终端！</p>
-                <p className="text-sm mb-4">
-                  配置 AI 模型服务商即可开启探索。支持 8 大主流模型平台，包含完全免费的优质模型！
-                </p>
-                <button
-                  onClick={() => setShowProviderSettings(true)}
-                  className="px-4 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button transition-all duration-standard ease-smooth"
-                >
-                  ⚙️ 配置服务商
-                </button>
-                <div className="mt-4 text-xs space-y-1">
-                  <p className="font-medium">内置支持的免费服务商：</p>
-                  <p>• OpenRouter (包含 Llama 3.3, Gemini 2.0 等免费模型)</p>
-                  <p>• Groq (极速毫秒级推理响应)</p>
-                  <p>• HuggingFace (海量开源模型库)</p>
-                  <p>• Mistral (欧洲顶级开源模型)</p>
+              hasLockedProviders ? (
+                <div className="text-center py-12 text-text-light-secondary dark:text-text-dark-secondary">
+                  <p className="text-lg font-semibold mb-2">欢迎回来</p>
+                  <p className="text-sm mb-4">
+                    检测到您已保存过 AI 服务商配置。请输入主密码解锁以立即启用。
+                  </p>
+                  <div className="flex justify-center gap-3">
+                    <button
+                      onClick={() => setShowUnlockPrompt(true)}
+                      className="px-4 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button transition-all duration-standard ease-smooth flex items-center gap-1.5"
+                    >
+                      🔒 立即解锁服务商
+                    </button>
+                    <button
+                      onClick={() => setShowProviderSettings(true)}
+                      className="px-4 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated hover:bg-surface-light dark:hover:bg-surface-dark text-text-light-primary dark:text-text-dark-primary rounded-button transition-all duration-standard ease-smooth flex items-center gap-1.5"
+                    >
+                      ⚙️ 服务商设置
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="text-center py-12 text-text-light-secondary dark:text-text-dark-secondary">
+                  <p className="text-lg font-semibold mb-2">欢迎使用 AI 智能终端！</p>
+                  <p className="text-sm mb-4">
+                    配置 AI 模型服务商即可开启探索。支持 8 大主流模型平台，包含完全免费的优质模型！
+                  </p>
+                  <button
+                    onClick={() => setShowProviderSettings(true)}
+                    className="px-4 py-2 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-button transition-all duration-standard ease-smooth"
+                  >
+                    ⚙️ 配置服务商
+                  </button>
+                  <div className="mt-4 text-xs space-y-1">
+                    <p className="font-medium">内置支持的免费服务商：</p>
+                    <p>• OpenRouter (包含 Llama 3.3, Gemini 2.0 等免费模型)</p>
+                    <p>• Groq (极速毫秒级推理响应)</p>
+                    <p>• HuggingFace (海量开源模型库)</p>
+                    <p>• Mistral (欧洲顶级开源模型)</p>
+                  </div>
+                </div>
+              )
             )}
 
             {messages.length === 0 && configuredProviderCount > 0 && (
@@ -1138,15 +1186,24 @@ export const AITerminal: React.FC = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
+                onClick={() => {
+                  if (configuredProviderCount === 0 && hasLockedProviders) {
+                    setShowUnlockPrompt(true);
+                  }
+                }}
                 placeholder={
                   voiceInput.isListening
                     ? (voiceInput.interimTranscript || 'Listening...')
                     : configuredProviderCount > 0
                     ? 'user@neumanos:~$ _'
-                    : 'Configure providers first...'
+                    : hasLockedProviders
+                    ? '点击输入密码解锁服务商...'
+                    : '请先配置 AI 服务商...'
                 }
                 disabled={configuredProviderCount === 0 || isStreaming}
-                className="flex-1 px-3 py-2 rounded-button font-mono text-sm bg-white dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark text-text-light-primary dark:text-white placeholder-text-light-secondary dark:placeholder-text-dark-secondary focus:ring-2 focus:ring-accent-blue dark:focus:ring-accent-green focus:border-transparent resize-none"
+                className={`flex-1 px-3 py-2 rounded-button font-mono text-sm bg-white dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark text-text-light-primary dark:text-white placeholder-text-light-secondary dark:placeholder-text-dark-secondary focus:ring-2 focus:ring-accent-blue dark:focus:ring-accent-green focus:border-transparent resize-none ${
+                  configuredProviderCount === 0 && hasLockedProviders ? 'cursor-pointer' : ''
+                }`}
                 rows={1}
               />
               {voiceInput.isSupported && (
@@ -1565,6 +1622,22 @@ export const AITerminal: React.FC = () => {
       {showSaveConversation && (
         <SaveConversationModal onClose={() => setShowSaveConversation(false)} />
       )}
+
+      {/* Unlock Password Prompt Modal */}
+      <PasswordPrompt
+        isOpen={showUnlockPrompt}
+        onSubmit={(password, hash, duration) => {
+          setEncryptionPassword(password, hash, duration);
+          setShowUnlockPrompt(false);
+        }}
+        onCancel={() => setShowUnlockPrompt(false)}
+        onResetPassword={() => {
+          setShowUnlockPrompt(false);
+          setShowProviderSettings(true);
+        }}
+        mode={passwordHash ? 'unlock' : 'setup'}
+        existingPasswordHash={passwordHash || undefined}
+      />
 
       {/* Portal target for modals that need to be positioned within the AI Terminal */}
       <div
