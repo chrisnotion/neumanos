@@ -50,7 +50,7 @@ describe('KanbanCard', () => {
       </DndContext>
     );
 
-    expect(screen.getByText('High')).toBeInTheDocument();
+    expect(screen.getByText('高')).toBeInTheDocument();
   });
 
   it('should display due date', () => {

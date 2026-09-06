@@ -13,12 +13,13 @@
 
 import { useState } from 'react';
 import { Modal } from './Modal';
-import { validatePassword, hashPassword } from '../services/encryption';
+import { validatePassword, hashPassword, verifyPassword } from '../services/encryption';
 
 interface PasswordPromptProps {
   isOpen: boolean;
   onSubmit: (password: string, passwordHash: string, duration: 'daily' | 'weekly' | 'monthly') => void;
   onCancel: () => void;
+  onResetPassword?: () => void;
   mode: 'setup' | 'unlock';
   existingPasswordHash?: string;
 }
@@ -27,6 +28,7 @@ export function PasswordPrompt({
   isOpen,
   onSubmit,
   onCancel,
+  onResetPassword,
   mode,
   existingPasswordHash,
 }: PasswordPromptProps) {
@@ -40,15 +42,14 @@ export function PasswordPrompt({
     e.preventDefault();
     setError(null);
 
-    // Validate password
-    const validation = validatePassword(password);
-    if (!validation.valid) {
-      setError(validation.message);
-      return;
-    }
-
-    // Setup mode: Check password confirmation
+    // Setup mode: Check password strength and confirmation
     if (mode === 'setup') {
+      const validation = validatePassword(password);
+      if (!validation.valid) {
+        setError(validation.message);
+        return;
+      }
+
       if (password !== confirmPassword) {
         setError('两次输入的密码不一致，请重新输入。');
         return;
@@ -58,14 +59,21 @@ export function PasswordPrompt({
       const hash = await hashPassword(password);
       onSubmit(password, hash, duration);
     } else {
-      // Unlock mode: Verify password against existing hash (async for WebCrypto)
-      const hash = await hashPassword(password);
-      if (hash !== existingPasswordHash) {
-        setError('密码错误，请重试。');
+      if (!password) {
+        setError('请输入加密密码。');
         return;
       }
 
-      onSubmit(password, hash, duration);
+      // Unlock mode: Verify password against existing hash (async for WebCrypto)
+      if (existingPasswordHash) {
+        const isValid = await verifyPassword(password, existingPasswordHash);
+        if (!isValid) {
+          setError('密码错误，请重试。');
+          return;
+        }
+      }
+
+      onSubmit(password, existingPasswordHash || '', duration);
     }
 
     // Reset form
@@ -137,7 +145,7 @@ export function PasswordPrompt({
               className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-button focus:outline-none focus:ring-2 focus:ring-accent-blue text-text-light-primary dark:text-text-dark-primary transition-all duration-standard ease-smooth"
               placeholder={mode === 'setup' ? '输入高强度主密码' : '输入您的加密密码'}
               required
-              minLength={12}
+              minLength={mode === 'setup' ? 12 : 1}
               autoFocus
               autoComplete={mode === 'setup' ? 'new-password' : 'current-password'}
             />
@@ -213,8 +221,22 @@ export function PasswordPrompt({
 
         {/* Error Message */}
         {error && (
-          <div className="p-3 bg-accent-red/10 border border-accent-red/20 rounded-button">
+          <div className="p-3 bg-accent-red/10 border border-accent-red/20 rounded-button space-y-1">
             <p className="text-sm text-accent-red">{error}</p>
+            {mode === 'unlock' && onResetPassword && (
+              <div className="pt-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleCancel();
+                    onResetPassword();
+                  }}
+                  className="text-xs text-accent-blue hover:underline cursor-pointer"
+                >
+                  忘记密码或之前设置失败？点此重置主密码
+                </button>
+              </div>
+            )}
           </div>
         )}
 

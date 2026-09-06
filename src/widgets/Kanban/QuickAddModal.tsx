@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useKanbanStore } from '../../stores/useKanbanStore';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { NaturalLanguageDateInput } from '../../components/NaturalLanguageDateInput';
+import { getLocalizedColumnTitle } from './KanbanColumn';
 import type { TaskPriority, TaskStatus } from '../../types';
 
 interface QuickAddModalProps {
@@ -221,7 +222,7 @@ export function QuickAddModal({ isOpen, onClose, defaultColumn }: QuickAddModalP
                 >
                   {columns.map((col) => (
                     <option key={col.id} value={col.id}>
-                      {col.title}
+                      {getLocalizedColumnTitle(col.title)}
                     </option>
                   ))}
                 </select>

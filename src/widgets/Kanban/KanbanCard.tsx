@@ -92,9 +92,9 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
   };
 
   const priorityLabels = {
-    low: 'Low',
-    medium: 'Med',
-    high: 'High',
+    low: '低',
+    medium: '中',
+    high: '高',
   };
 
   // Format seconds to hours with 1 decimal (e.g., "2.5h")
@@ -528,7 +528,7 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
                   : 'bg-surface-light-elevated dark:bg-surface-dark text-text-light-secondary dark:text-text-dark-secondary hover:bg-surface-light dark:hover:bg-surface-dark-elevated'
               }`}
             >
-              ✓ {completedCount}/{totalCount} subtasks
+              ✓ {completedCount}/{totalCount} 子任务
             </span>
           );
         })()}
@@ -552,7 +552,7 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
             {assignedMembers.length > 3 && (
               <div
                 className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium bg-surface-light-elevated dark:bg-surface-dark text-text-light-secondary dark:text-text-dark-secondary border-2 border-surface-light dark:border-surface-dark-elevated"
-                title={`+${assignedMembers.length - 3} more`}
+                title={`+${assignedMembers.length - 3} 位其他责任人`}
               >
                 +{assignedMembers.length - 3}
               </div>
@@ -564,7 +564,7 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
         {task.attachments && task.attachments.length > 0 && (
           <span
             className="flex items-center gap-1 text-xs text-text-light-secondary dark:text-text-dark-secondary"
-            title={`${task.attachments.length} attachment${task.attachments.length > 1 ? 's' : ''}`}
+            title={`${task.attachments.length} 个附件`}
           >
             <Paperclip className="w-3.5 h-3.5" />
             {task.attachments.length}
@@ -579,8 +579,10 @@ const KanbanCardComponent: React.FC<KanbanCardProps> = ({
           isOpen={true}
           onClose={cancelDelete}
           onConfirm={confirmDelete}
-          title="Delete Task"
-          message={`Are you sure you want to delete "${task.title}"? This action cannot be undone.`}
+          title="删除任务"
+          message={`确定要删除“${task.title}”吗？此操作不可撤销。`}
+          confirmText="确认删除"
+          cancelText="取消"
           variant="danger"
         />
       )}

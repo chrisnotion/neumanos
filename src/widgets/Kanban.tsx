@@ -679,8 +679,10 @@ export const Kanban: React.FC = () => {
           isOpen={true}
           onClose={cancelDelete}
           onConfirm={confirmDelete}
-          title="Delete Task"
-          message={`Are you sure you want to delete "${pendingDeleteTask.title}"? This action cannot be undone.`}
+          title="删除任务"
+          message={`确定要删除“${pendingDeleteTask.title}”吗？此操作不可撤销。`}
+          confirmText="确认删除"
+          cancelText="取消"
           variant="danger"
         />
       )}

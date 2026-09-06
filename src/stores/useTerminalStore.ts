@@ -216,6 +216,7 @@ interface TerminalState {
   // Encryption Actions
   setEncryptionPassword: (password: string, passwordHash: string, duration: 'daily' | 'weekly' | 'monthly') => void;
   clearEncryptionPassword: () => void;
+  resetMasterPassword: () => void;
   isPasswordExpired: () => boolean;
   setExportEncryptedKeys: (shouldExport: boolean) => void;
 
@@ -497,6 +498,15 @@ export const useTerminalStore = create<TerminalState>()(
         set({
           encryptionPassword: null,
           passwordExpiry: null,
+        });
+      },
+
+      resetMasterPassword: () => {
+        set({
+          encryptionPassword: null,
+          passwordHash: null,
+          passwordExpiry: null,
+          providers: {},
         });
       },
 

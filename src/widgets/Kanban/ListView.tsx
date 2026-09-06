@@ -4,6 +4,7 @@ import { CustomFieldDisplay } from '../../components/CustomFieldDisplay';
 import { TaskTimerButton } from '../../components/tasks/TaskTimerButton';
 import { useKanbanStore } from '../../stores/useKanbanStore';
 import { useSettingsStore } from '../../stores/useSettingsStore';
+import { getLocalizedColumnTitle } from './KanbanColumn';
 import type { Task, KanbanColumn, TaskPriority, TaskStatus } from '../../types';
 import type { FieldDefinition } from '../../types/customFields';
 
@@ -336,7 +337,7 @@ export const ListView: React.FC<ListViewProps> = ({ tasks, columns, onTaskClick 
                     </td>
                     <td className="p-3">
                       <span className={`px-2 py-1 text-xs rounded ${statusColumn?.color || 'bg-surface-light-elevated dark:bg-surface-dark'} text-white`}>
-                        {statusColumn?.title || task.status}
+                        {getLocalizedColumnTitle(statusColumn?.title || task.status)}
                       </span>
                     </td>
                     <td className="p-3">

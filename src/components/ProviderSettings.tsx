@@ -48,6 +48,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
     setProviderApiKey,
     clearProviderApiKey,
     setEncryptionPassword,
+    resetMasterPassword,
     setActiveProvider,
     enableCrossModuleContext,
     setEnableCrossModuleContext,
@@ -60,6 +61,7 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
   } = useTerminalStore();
 
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<string | null>(null);
   const [apiKeyInputs, setApiKeyInputs] = useState<Record<string, string>>({});
   const [baseUrlInput, setBaseUrlInput] = useState<string>(customOpenAIBaseUrl || 'https://api.openai.com/v1');
@@ -227,6 +229,16 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
       setValidationResults((prev) => ({ ...prev, [providerToClear]: null }));
       setProviderToClear(null);
     }
+  };
+
+  const confirmResetMasterPassword = () => {
+    resetMasterPassword();
+    setShowResetConfirm(false);
+    toast.success('主密码已重置', '旧密码已清除，请重新输入并设置您的加密主密码。');
+    // Reopen password prompt in setup mode if user had a provider selected
+    setTimeout(() => {
+      setShowPasswordPrompt(true);
+    }, 100);
   };
 
   const handleTestApiKey = async (providerId: string) => {
@@ -660,8 +672,24 @@ export function ProviderSettings({ isOpen, onClose, router }: ProviderSettingsPr
           setShowPasswordPrompt(false);
           setSelectedProvider(null);
         }}
+        onResetPassword={() => {
+          setShowPasswordPrompt(false);
+          setShowResetConfirm(true);
+        }}
         mode={passwordHash ? 'unlock' : 'setup'}
         existingPasswordHash={passwordHash || undefined}
+      />
+
+      {/* Confirm Reset Master Password Dialog */}
+      <ConfirmDialog
+        isOpen={showResetConfirm}
+        onClose={() => setShowResetConfirm(false)}
+        onConfirm={confirmResetMasterPassword}
+        title="重置主加密密码"
+        message="重置加密主密码将清除已存储在本地加密区的所有 API 密钥（您需要重新输入并设置新密码）。确定要重置吗？"
+        confirmText="重置密码"
+        cancelText="取消"
+        variant="danger"
       />
 
       {/* Confirm Clear API Key Dialog */}

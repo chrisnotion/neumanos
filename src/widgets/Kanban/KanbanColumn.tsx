@@ -5,6 +5,29 @@ import { KanbanSectionDivider } from './KanbanSectionDivider';
 import { useKanbanStore } from '../../stores/useKanbanStore';
 import type { Task, TaskStatus, KanbanSection as KanbanSectionType } from '../../types';
 
+// ─── Column title localization ───────────────────────────────────────────────
+const COLUMN_TITLE_I18N: Record<string, string> = {
+  Backlog: '待办池 (Backlog)',
+  'To Do': '待处理 (To Do)',
+  'In Progress': '进行中 (In Progress)',
+  'In Review': '评审中 (In Review)',
+  Done: '已完成 (Done)',
+  Ideas: '创意点子 (Ideas)',
+  Planned: '已规划 (Planned)',
+  Active: '进行中 (Active)',
+  Blocked: '已受阻 (Blocked)',
+  Complete: '已完成 (Complete)',
+  Ideation: '概念构思 (Ideation)',
+  Draft: '初稿编写 (Draft)',
+  Review: '审核评审 (Review)',
+  Scheduled: '计划排期 (Scheduled)',
+  Published: '已发布 (Published)',
+};
+
+export const getLocalizedColumnTitle = (title: string): string => {
+  return COLUMN_TITLE_I18N[title] || title;
+};
+
 // ─── Section sub-component with its own batch state ──────────────────────────
 
 interface KanbanSectionRowProps {
@@ -68,7 +91,7 @@ const KanbanSectionRow: React.FC<KanbanSectionRowProps> = ({
               onClick={() => setVisibleCount((c) => c + BATCH_SIZE)}
               className="w-full mt-3 py-2 text-xs text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-primary transition-colors text-center rounded border border-dashed border-border-light dark:border-border-dark hover:border-accent-primary"
             >
-              Show {Math.min(hiddenCount, BATCH_SIZE)} more ({hiddenCount} remaining)
+              展开更多 ({Math.min(hiddenCount, BATCH_SIZE)} 项，剩余 {hiddenCount} 项)
             </button>
           )}
         </>
@@ -188,7 +211,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
           <div className="flex items-center gap-2">
             <div className={`w-3 h-3 rounded-full ${color}`}></div>
             <h3 className="font-semibold text-text-light-primary dark:text-text-dark-primary">
-              {title}
+              {getLocalizedColumnTitle(title)}
             </h3>
             <span
               className={`text-sm font-medium ${
@@ -196,7 +219,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
                   ? 'text-status-error dark:text-status-error'
                   : 'text-text-light-secondary dark:text-text-dark-secondary'
               }`}
-              title={wipLimit ? `WIP Limit: ${wipLimit}` : undefined}
+              title={wipLimit ? `WIP 限制: ${wipLimit}` : undefined}
             >
               ({tasks.length}{wipLimit ? `/${wipLimit}` : ''})
             </span>
@@ -208,15 +231,15 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
               <button
                 onClick={() => onEditColumn(id)}
                 className="p-1 text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-blue dark:hover:text-accent-blue transition-colors"
-                title="Edit column"
-                aria-label="Edit column"
+                title="编辑状态列"
+                aria-label="编辑状态列"
               >
                 ✏️
               </button>
               <button
                 className="p-1 text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary cursor-grab transition-colors"
-                title="Drag to reorder"
-                aria-label="Drag to reorder column"
+                title="拖拽调整排序"
+                aria-label="拖拽调整排序"
               >
                 ⋮⋮
               </button>
@@ -268,7 +291,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
       <div className="column-tasks flex-1 p-4 space-y-3 overflow-y-auto">
         {tasks.length === 0 && columnSections.length === 0 ? (
           <div className="text-center py-8 text-text-light-secondary dark:text-text-dark-secondary text-sm">
-            {isOver ? 'Drop task here' : 'No tasks'}
+            {isOver ? '松开以移入此列' : '暂无任务'}
           </div>
         ) : (
           <>
@@ -289,7 +312,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
                 onClick={() => setVisibleUnsectionedCount((c) => c + BATCH_SIZE)}
                 className="w-full py-2 text-xs text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-primary transition-colors text-center rounded border border-dashed border-border-light dark:border-border-dark hover:border-accent-primary"
               >
-                Show {Math.min(hiddenUnsectionedCount, BATCH_SIZE)} more ({hiddenUnsectionedCount} remaining)
+                展开更多 ({Math.min(hiddenUnsectionedCount, BATCH_SIZE)} 项，剩余 {hiddenUnsectionedCount} 项)
               </button>
             )}
 
@@ -316,7 +339,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
             onClick={() => setShowAddSection(true)}
             className="w-full text-left text-xs text-text-light-tertiary dark:text-text-dark-tertiary hover:text-accent-primary transition-colors mt-2"
           >
-            + Add section
+            + 添加分组 (Section)
           </button>
         ) : (
           <form
@@ -334,13 +357,13 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
               type="text"
               value={newSectionTitle}
               onChange={(e) => setNewSectionTitle(e.target.value)}
-              placeholder="Section name..."
+              placeholder="分组名称..."
               className="w-full px-2 py-1 text-xs border border-border-light dark:border-border-dark rounded bg-surface-light dark:bg-surface-dark text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-1 focus:ring-accent-primary"
               autoFocus
             />
             <div className="flex gap-1">
-              <button type="submit" className="px-2 py-0.5 text-xs bg-accent-primary text-white rounded hover:opacity-80">Add</button>
-              <button type="button" onClick={() => { setShowAddSection(false); setNewSectionTitle(''); }} className="px-2 py-0.5 text-xs text-text-light-secondary dark:text-text-dark-secondary rounded hover:opacity-80">Cancel</button>
+              <button type="submit" className="px-2 py-0.5 text-xs bg-accent-primary text-white rounded hover:opacity-80">添加</button>
+              <button type="button" onClick={() => { setShowAddSection(false); setNewSectionTitle(''); }} className="px-2 py-0.5 text-xs text-text-light-secondary dark:text-text-dark-secondary rounded hover:opacity-80">取消</button>
             </div>
           </form>
         )}
