@@ -1257,10 +1257,10 @@ export const AITerminal: React.FC = () => {
               /* Note View/Edit Mode */
               <>
                 {/* Note Header */}
-                <div className="flex items-center gap-2 px-3 py-2 bg-surface-dark-elevated border-b border-border-dark flex-shrink-0">
+                <div className="flex items-center gap-2 px-3 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated border-b border-border-light dark:border-border-dark flex-shrink-0">
                   <button
                     onClick={handleBackToList}
-                    className="p-1.5 hover:bg-surface-dark rounded transition-all text-text-dark-secondary hover:text-white"
+                    className="p-1.5 hover:bg-surface-light dark:hover:bg-surface-dark rounded transition-all text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-white"
                     title="Back to list"
                     aria-label="Back to notes list"
                   >
@@ -1269,7 +1269,7 @@ export const AITerminal: React.FC = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-base">{selectedNote.icon || '📄'}</span>
-                      <h3 className="text-sm font-medium text-text-dark-primary truncate">
+                      <h3 className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary truncate">
                         {selectedNote.title}
                       </h3>
                     </div>
@@ -1281,7 +1281,7 @@ export const AITerminal: React.FC = () => {
                         {selectedNote.isQuickNote && selectedText && (
                           <button
                             onClick={handleMoveToDaily}
-                            className="px-2 py-1 text-xs bg-accent-orange/20 text-accent-orange hover:bg-accent-orange/30 rounded transition-all"
+                            className="px-2 py-1 text-xs bg-accent-orange/20 text-accent-orange hover:bg-accent-orange/30 rounded transition-all font-medium"
                             title="Move selected text to Daily Note"
                           >
                             📅 Move to Daily
@@ -1289,7 +1289,7 @@ export const AITerminal: React.FC = () => {
                         )}
                         <button
                           onClick={handleSaveNote}
-                          className="px-2 py-1 text-xs bg-accent-green/20 text-accent-green hover:bg-accent-green/30 rounded transition-all"
+                          className="px-2 py-1 text-xs bg-accent-green/20 text-accent-green hover:bg-accent-green/30 rounded transition-all font-medium"
                           title="Save changes"
                         >
                           ✓ Save
@@ -1298,7 +1298,7 @@ export const AITerminal: React.FC = () => {
                     ) : (
                       <button
                         onClick={handleStartEditing}
-                        className="px-2 py-1 text-xs bg-accent-blue/20 text-accent-blue hover:bg-accent-blue/30 rounded transition-all"
+                        className="px-2 py-1 text-xs bg-accent-blue/20 text-accent-blue hover:bg-accent-blue/30 rounded transition-all font-medium"
                         title="Edit note"
                       >
                         ✎ Edit
@@ -1306,7 +1306,7 @@ export const AITerminal: React.FC = () => {
                     )}
                     <button
                       onClick={() => navigate(`/notes?note=${selectedNote.id}`)}
-                      className="px-2 py-1 text-xs bg-surface-dark hover:bg-surface-dark-elevated text-text-dark-secondary hover:text-white rounded transition-all"
+                      className="px-2 py-1 text-xs bg-surface-light dark:bg-surface-dark hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-white rounded transition-all"
                       title="Open in full Notes page"
                       aria-label="Open note in full Notes page"
                     >
@@ -1326,12 +1326,12 @@ export const AITerminal: React.FC = () => {
                       onSelect={handleTextSelection}
                       onMouseUp={handleTextSelection}
                       onKeyUp={handleTextSelection}
-                      className="w-full h-full p-4 bg-black text-text-dark-primary text-sm font-mono resize-none focus:outline-none"
+                      className="w-full h-full p-4 bg-white dark:bg-black text-text-light-primary dark:text-text-dark-primary text-sm font-mono resize-none focus:outline-none placeholder-text-light-secondary dark:placeholder-text-dark-secondary"
                       placeholder="Start writing..."
                     />
                   ) : (
                     /* View Mode - Rendered Markdown */
-                    <div className="p-4 prose prose-sm prose-invert max-w-none">
+                    <div className="p-4 prose prose-sm dark:prose-invert max-w-none text-text-light-primary dark:text-text-dark-primary">
                       <ReactMarkdown rehypePlugins={[[rehypeSanitize, sanitizeSchema]]}>
                         {selectedNote.contentText || '*No content yet*'}
                       </ReactMarkdown>
@@ -1340,8 +1340,8 @@ export const AITerminal: React.FC = () => {
                 </div>
 
                 {/* Note Footer */}
-                <div className="px-4 py-2 border-t border-border-dark bg-surface-dark-elevated flex-shrink-0">
-                  <div className="flex items-center justify-between text-[10px] text-text-dark-tertiary">
+                <div className="px-4 py-2 border-t border-border-light dark:border-border-dark bg-surface-light-elevated dark:bg-surface-dark-elevated flex-shrink-0">
+                  <div className="flex items-center justify-between text-[10px] text-text-light-secondary dark:text-text-dark-tertiary">
                     <span>
                       Updated {new Date(selectedNote.updatedAt).toLocaleDateString('en-US', {
                         month: 'short',
@@ -1366,14 +1366,14 @@ export const AITerminal: React.FC = () => {
               /* Notes List Mode */
               <>
                 {/* Notes Header with Sort */}
-                <div className="flex items-center justify-between px-3 py-2 bg-surface-dark-elevated border-b border-border-dark flex-shrink-0">
+                <div className="flex items-center justify-between px-3 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated border-b border-border-light dark:border-border-dark flex-shrink-0">
                   {/* Sort Dropdown */}
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-text-dark-secondary">排序：</span>
+                    <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">排序：</span>
                     <select
                       value={notesSortField}
                       onChange={(e) => handleSortChange(e.target.value as NotesSortField)}
-                      className="text-xs bg-surface-dark border border-border-dark rounded px-2 py-1 text-text-dark-primary focus:outline-none focus:ring-1 focus:ring-accent-blue"
+                      className="text-xs bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded px-2 py-1 text-text-light-primary dark:text-text-dark-primary focus:outline-none focus:ring-1 focus:ring-accent-blue"
                     >
                       <option value="updatedAt">按更新时间</option>
                       <option value="createdAt">按创建时间</option>
@@ -1381,7 +1381,7 @@ export const AITerminal: React.FC = () => {
                     </select>
                     <button
                       onClick={() => setNotesSortOrder(notesSortOrder === 'desc' ? 'asc' : 'desc')}
-                      className="text-xs text-text-dark-secondary hover:text-text-dark-primary transition-colors"
+                      className="text-xs text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors"
                       title={notesSortOrder === 'desc' ? '降序' : '升序'}
                       aria-label={notesSortOrder === 'desc' ? '降序排列' : '升序排列'}
                     >
@@ -1390,7 +1390,7 @@ export const AITerminal: React.FC = () => {
                   </div>
                   <button
                     onClick={() => navigate('/notes')}
-                    className="px-2 py-1 text-xs bg-accent-blue/20 text-accent-blue hover:bg-accent-blue/30 rounded transition-all"
+                    className="px-2 py-1 text-xs bg-accent-blue/20 text-accent-blue hover:bg-accent-blue/30 rounded transition-all font-medium"
                     title="前往完整笔记管理页面"
                   >
                     完整笔记 →
@@ -1403,15 +1403,15 @@ export const AITerminal: React.FC = () => {
                   <div className="p-2">
                     <button
                       onClick={handleOpenQuickNote}
-                      className="w-full text-left p-3 rounded-lg bg-gradient-to-r from-accent-yellow/10 to-accent-orange/10 hover:from-accent-yellow/20 hover:to-accent-orange/20 border border-accent-yellow/30 hover:border-accent-yellow/50 transition-all group"
+                      className="w-full text-left p-3 rounded-lg bg-gradient-to-r from-accent-yellow/15 to-accent-orange/15 hover:from-accent-yellow/25 hover:to-accent-orange/25 border border-accent-yellow/40 hover:border-accent-yellow/60 transition-all group"
                     >
                       <div className="flex items-start gap-2">
                         <span className="text-lg flex-shrink-0">⚡</span>
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-sm font-medium text-text-dark-primary group-hover:text-accent-yellow transition-colors">
+                          <h4 className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary group-hover:text-accent-yellow transition-colors">
                             闪念便签 (Quick Note)
                           </h4>
-                          <p className="text-xs text-text-dark-tertiary mt-0.5">
+                          <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-0.5">
                             {quickNoteSummary.entryCount > 0 ? (
                               <>
                                 共 {quickNoteSummary.entryCount} 条记录
@@ -1440,10 +1440,10 @@ export const AITerminal: React.FC = () => {
                   {aiTerminalNotes.length === 0 && !quickNote ? (
                     <div className="flex flex-col items-center justify-center p-4 text-center">
                       <div className="text-4xl mb-3">📝</div>
-                      <p className="text-sm font-medium text-text-dark-primary mb-1">
+                      <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-1">
                         暂无笔记
                       </p>
-                      <p className="text-xs text-text-dark-secondary mb-3">
+                      <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-3">
                         将会话转存为笔记，或在下方记录即时闪念
                       </p>
                       <button
@@ -1459,21 +1459,21 @@ export const AITerminal: React.FC = () => {
                         <button
                           key={note.id}
                           onClick={() => handleOpenNote(note.id)}
-                          className="w-full text-left p-3 rounded-lg bg-surface-dark hover:bg-surface-dark-elevated border border-border-dark hover:border-accent-blue/50 transition-all group"
+                          className="w-full text-left p-3 rounded-lg bg-surface-light dark:bg-surface-dark hover:bg-surface-light-elevated dark:hover:bg-surface-dark-elevated border border-border-light dark:border-border-dark hover:border-accent-blue/50 transition-all group"
                         >
                           <div className="flex items-start gap-2">
                             <span className="text-lg flex-shrink-0">
                               {note.icon || '📄'}
                             </span>
                             <div className="flex-1 min-w-0">
-                              <h4 className="text-sm font-medium text-text-dark-primary truncate group-hover:text-accent-blue transition-colors">
+                              <h4 className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary truncate group-hover:text-accent-blue transition-colors">
                                 {note.title}
                               </h4>
-                              <p className="text-xs text-text-dark-tertiary mt-0.5 line-clamp-2">
+                              <p className="text-xs text-text-light-secondary dark:text-text-dark-tertiary mt-0.5 line-clamp-2">
                                 {note.contentText?.substring(0, 100) || '无内容'}
                               </p>
                               <div className="flex items-center gap-2 mt-1.5">
-                                <span className="text-[10px] text-text-dark-tertiary">
+                                <span className="text-[10px] text-text-light-secondary dark:text-text-dark-tertiary">
                                   {new Date(note.updatedAt).toLocaleDateString('zh-CN', {
                                     month: 'numeric',
                                     day: 'numeric',
@@ -1496,7 +1496,7 @@ export const AITerminal: React.FC = () => {
                 </div>
 
                 {/* Quick Input Footer */}
-                <div className="px-3 py-2 border-t border-border-dark bg-surface-dark-elevated flex-shrink-0">
+                <div className="px-3 py-2 border-t border-border-light dark:border-border-dark bg-surface-light-elevated dark:bg-surface-dark-elevated flex-shrink-0">
                   <div className="flex items-center gap-2">
                     <span className="text-lg flex-shrink-0">⚡</span>
                     <input
@@ -1512,19 +1512,19 @@ export const AITerminal: React.FC = () => {
                       }}
                       placeholder="记录瞬间闪念..."
                       disabled={isAddingQuickNote}
-                      className="flex-1 px-3 py-1.5 text-sm bg-surface-dark border border-border-dark rounded text-text-dark-primary placeholder-text-dark-tertiary focus:outline-none focus:ring-1 focus:ring-accent-yellow focus:border-accent-yellow"
+                      className="flex-1 px-3 py-1.5 text-sm bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-tertiary focus:outline-none focus:ring-1 focus:ring-accent-yellow focus:border-accent-yellow"
                     />
                     <button
                       onClick={handleQuickNoteSubmit}
                       disabled={!quickNoteInput.trim() || isAddingQuickNote}
-                      className="px-3 py-1.5 text-sm bg-accent-yellow/20 text-accent-yellow hover:bg-accent-yellow/30 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-all"
+                      className="px-3 py-1.5 text-sm bg-accent-yellow/20 text-accent-yellow hover:bg-accent-yellow/30 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-all font-medium"
                       title="添加到闪念便签"
                       aria-label="添加到闪念便签"
                     >
                       {isAddingQuickNote ? '...' : '+'}
                     </button>
                   </div>
-                  <p className="text-[10px] text-text-dark-tertiary mt-1.5 text-center">
+                  <p className="text-[10px] text-text-light-secondary dark:text-text-dark-tertiary mt-1.5 text-center">
                     共 {aiTerminalNotes.length} 篇笔记 + 闪念便签
                   </p>
                 </div>

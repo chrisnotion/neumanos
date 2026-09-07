@@ -476,15 +476,15 @@ describe('searchComments', () => {
         id: 'task-1',
         title: 'Task 1',
         comments: [
-          { id: 'c1', taskId: 'task-1', text: 'Meeting notes from Monday', author: 'You', createdAt: new Date().toISOString() },
-          { id: 'c2', taskId: 'task-1', text: 'Follow up needed', author: 'You', createdAt: new Date().toISOString() },
+          { id: 'c1', taskId: 'task-1', text: 'Meeting notes from Monday', author: 'You', createdAt: '2026-01-02T10:00:00.000Z' },
+          { id: 'c2', taskId: 'task-1', text: 'Follow up needed', author: 'You', createdAt: '2026-01-01T10:00:00.000Z' },
         ],
       }),
       createMockTask({
         id: 'task-2',
         title: 'Task 2',
         comments: [
-          { id: 'c3', taskId: 'task-2', text: 'Another meeting scheduled', author: 'You', createdAt: new Date().toISOString() },
+          { id: 'c3', taskId: 'task-2', text: 'Another meeting scheduled', author: 'You', createdAt: '2026-01-01T09:00:00.000Z' },
         ],
       }),
     ];
