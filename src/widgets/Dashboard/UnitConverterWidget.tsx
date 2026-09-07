@@ -43,21 +43,25 @@ export const UnitConverterWidget: React.FC = () => {
   const [inputValue, setInputValue] = useState('0');
   const [result, setResult] = useState('0');
 
-  useEffect(() => {
-    // Reset units when category changes
-    const units = Object.keys(conversionRules[category]);
-    setFromUnit(units[0]);
-    setToUnit(units[1]);
-  }, [category]);
+  const handleCategoryChange = (newCategory: UnitCategory) => {
+    const newUnits = Object.keys(conversionRules[newCategory]);
+    setCategory(newCategory);
+    setFromUnit(newUnits[0]);
+    setToUnit(newUnits[1]);
+  };
 
   useEffect(() => {
-    // Convert value
+    // Convert value safely
     const value = parseFloat(inputValue) || 0;
     const categoryRules = conversionRules[category];
-    const fromUnitRules = categoryRules[fromUnit as keyof typeof categoryRules];
-    const converter = fromUnitRules[toUnit as keyof typeof fromUnitRules] as (v: number) => number;
-    const convertedValue = converter(value);
-    setResult(convertedValue.toFixed(2));
+    const fromUnitRules = categoryRules ? categoryRules[fromUnit as keyof typeof categoryRules] : null;
+    const converter = fromUnitRules ? (fromUnitRules[toUnit as keyof typeof fromUnitRules] as ((v: number) => number) | undefined) : null;
+    if (typeof converter === 'function') {
+      const convertedValue = converter(value);
+      setResult(convertedValue.toFixed(2));
+    } else {
+      setResult(value.toFixed(2));
+    }
   }, [inputValue, fromUnit, toUnit, category]);
 
   const units = Object.keys(conversionRules[category]);
@@ -76,7 +80,7 @@ export const UnitConverterWidget: React.FC = () => {
           {(['temperature', 'length', 'weight'] as UnitCategory[]).map((cat) => (
             <button
               key={cat}
-              onClick={() => setCategory(cat)}
+              onClick={() => handleCategoryChange(cat)}
               className={`
                 flex-1 px-3 py-1.5 rounded-button text-sm font-medium transition-all duration-standard ease-smooth
                 ${category === cat
