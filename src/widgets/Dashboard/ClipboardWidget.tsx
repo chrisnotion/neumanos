@@ -3,14 +3,22 @@
  */
 
 import React, { useState } from 'react';
+import { Copy, Check } from 'lucide-react';
 import { BaseWidget } from './BaseWidget';
 
 export const ClipboardWidget: React.FC = () => {
   const [history, setHistory] = useState<string[]>([]);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  const copyToClipboard = async (text: string) => {
+  const copyToClipboard = async (text: string, index?: number) => {
     try {
       await navigator.clipboard.writeText(text);
+      if (typeof index === 'number') {
+        setCopiedIndex(index);
+        setTimeout(() => {
+          setCopiedIndex(prev => (prev === index ? null : prev));
+        }, 1500);
+      }
     } catch (err) {
       console.error('Failed to copy:', err);
     }
@@ -43,15 +51,40 @@ export const ClipboardWidget: React.FC = () => {
 
         <div className="space-y-2 max-h-64 overflow-y-auto">
           {history.map((item, idx) => (
-            <button
+            <div
               key={idx}
-              onClick={() => copyToClipboard(item)}
-              className="w-full text-left p-2 bg-surface-light-elevated dark:bg-surface-dark rounded-button hover:bg-surface-light dark:hover:bg-surface-dark-elevated transition-all duration-standard ease-smooth"
+              onClick={() => copyToClipboard(item, idx)}
+              className="group flex items-center justify-between gap-2 p-2 bg-surface-light-elevated dark:bg-surface-dark rounded-button hover:bg-surface-light dark:hover:bg-surface-dark-elevated transition-all duration-standard ease-smooth cursor-pointer"
             >
-              <p className="text-sm text-text-light-primary dark:text-text-dark-primary line-clamp-2">
+              <p className="flex-1 text-sm text-text-light-primary dark:text-text-dark-primary line-clamp-2">
                 {item}
               </p>
-            </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  copyToClipboard(item, idx);
+                }}
+                className={`px-2 py-1 rounded flex items-center gap-1 text-xs shrink-0 transition-all ${
+                  copiedIndex === idx
+                    ? 'text-emerald-500 bg-emerald-500/10'
+                    : 'text-text-light-secondary dark:text-text-dark-secondary hover:text-accent-blue hover:bg-accent-blue/10'
+                }`}
+                title={copiedIndex === idx ? '已复制' : '一键复制'}
+              >
+                {copiedIndex === idx ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-500" />
+                    <span className="text-xs font-medium text-emerald-500">已复制</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    <span className="text-xs font-medium">复制</span>
+                  </>
+                )}
+              </button>
+            </div>
           ))}
         </div>
 
