@@ -64,6 +64,10 @@ export const lexicalToMarkdown = (content: string): string => {
           result += `[${linkText}](${node.url})`;
           break;
 
+        case 'image':
+          result += `![${node.altText || 'image'}](${node.src || ''})\n\n`;
+          break;
+
         case 'text':
           return node.text || '';
 
@@ -138,6 +142,10 @@ export const lexicalToPlainText = (content: string): string => {
     const processNode = (node: any): string => {
       if (node.text) {
         return node.text;
+      }
+
+      if (node.type === 'image') {
+        return `[${node.altText || '图片'}]`;
       }
 
       if (node.children) {

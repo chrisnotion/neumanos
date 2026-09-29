@@ -3,7 +3,7 @@
  * Supports image upload, resize, alt text, and delete
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { DecoratorNode } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { indexedDBService } from '../../services/indexedDB';
@@ -124,6 +124,15 @@ export class ImageNode extends DecoratorNode<React.ReactElement> {
     return this.__src;
   }
 
+  setSrc(src: string): void {
+    const writable = this.getWritable();
+    writable.__src = src;
+  }
+
+  getImageId(): string {
+    return this.__imageId;
+  }
+
   getAltText(): string {
     return this.__altText;
   }
@@ -155,7 +164,7 @@ export class ImageNode extends DecoratorNode<React.ReactElement> {
 
 /**
  * Image Component with Controls
- * Handles resize, alt text editing, and delete
+ * Handles resize, alt text editing, delete, and persistence recovery from IndexedDB
  */
 function ImageComponent({
   src,
@@ -179,6 +188,68 @@ function ImageComponent({
   const [showAltEditor, setShowAltEditor] = useState(false);
   const [editedAltText, setEditedAltText] = useState(altText);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [imageSrc, setImageSrc] = useState<string>(src);
+  const [isLoading, setIsLoading] = useState<boolean>(() => Boolean(imageId));
+  const [hasError, setHasError] = useState<boolean>(false);
+
+  // Restore image from IndexedDB whenever imageId is present
+  useEffect(() => {
+    let isMounted = true;
+    let objectUrlToRevoke: string | null = null;
+
+    if (!imageId) {
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    indexedDBService
+      .getImage(imageId)
+      .then((blob) => {
+        if (!isMounted) return;
+        if (blob) {
+          const newUrl = URL.createObjectURL(blob);
+          objectUrlToRevoke = newUrl;
+          setImageSrc(newUrl);
+          setHasError(false);
+
+          // Update Lexical node with fresh working URL
+          editor.update(() => {
+            const node = editor.getEditorState().read(() => {
+              return editor.getEditorState()._nodeMap.get(nodeKey);
+            });
+            if (node && node instanceof ImageNode && node.getSrc() !== newUrl) {
+              node.setSrc(newUrl);
+            }
+          });
+        } else {
+          // If blob not found in IndexedDB, fallback to original src if it's not a dead blob
+          if (!src || src.startsWith('blob:')) {
+            setHasError(true);
+          }
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to load image from IndexedDB:', err);
+        if (isMounted) {
+          if (!src || src.startsWith('blob:')) {
+            setHasError(true);
+          }
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+      if (objectUrlToRevoke) {
+        URL.revokeObjectURL(objectUrlToRevoke);
+      }
+    };
+  }, [imageId, editor, nodeKey, src]);
 
   const handleDeleteClick = useCallback(() => {
     setShowDeleteConfirm(true);
@@ -191,8 +262,13 @@ function ImageComponent({
         await indexedDBService.deleteImage(imageId);
       }
 
-      // Revoke blob URL
-      URL.revokeObjectURL(src);
+      // Revoke blob URLs
+      if (imageSrc && imageSrc.startsWith('blob:')) {
+        URL.revokeObjectURL(imageSrc);
+      }
+      if (src && src.startsWith('blob:') && src !== imageSrc) {
+        URL.revokeObjectURL(src);
+      }
 
       // Remove node from editor
       editor.update(() => {
@@ -210,7 +286,7 @@ function ImageComponent({
     } finally {
       setShowDeleteConfirm(false);
     }
-  }, [imageId, src, editor, nodeKey]);
+  }, [imageId, imageSrc, src, editor, nodeKey]);
 
   const handleSaveAltText = () => {
     editor.update(() => {
@@ -239,17 +315,47 @@ function ImageComponent({
           resize: 'both',
         }}
       >
-        <img
-          src={src}
-          alt={altText}
-          style={{
-            width: width === 'inherit' ? '100%' : width,
-            height: height === 'inherit' ? 'auto' : height,
-            display: 'block',
-          }}
-          className="max-w-full h-auto rounded-lg pointer-events-none"
-          draggable={false}
-        />
+        {isLoading ? (
+          <div
+            className="flex items-center justify-center bg-surface-light-elevated dark:bg-surface-dark-elevated rounded-lg animate-pulse border border-border-light dark:border-border-dark p-6"
+            style={{
+              width: width === 'inherit' ? '320px' : width,
+              height: height === 'inherit' ? '180px' : height,
+              maxWidth: maxWidth,
+            }}
+          >
+            <div className="flex items-center gap-2 text-sm text-text-light-secondary dark:text-text-dark-secondary">
+              <span className="w-4 h-4 border-2 border-accent-blue border-t-transparent rounded-full animate-spin" />
+              <span>加载图片中...</span>
+            </div>
+          </div>
+        ) : hasError ? (
+          <div
+            className="flex flex-col items-center justify-center p-6 bg-surface-light-elevated dark:bg-surface-dark-elevated border border-dashed border-border-light dark:border-border-dark rounded-lg text-text-light-tertiary dark:text-text-dark-tertiary"
+            style={{
+              width: width === 'inherit' ? '320px' : width,
+              maxWidth: maxWidth,
+            }}
+          >
+            <span className="text-2xl mb-1">🖼️</span>
+            <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
+              {altText || '图片加载失败'}
+            </span>
+          </div>
+        ) : (
+          <img
+            src={imageSrc}
+            alt={altText}
+            style={{
+              width: width === 'inherit' ? '100%' : width,
+              height: height === 'inherit' ? 'auto' : height,
+              display: 'block',
+            }}
+            className="max-w-full h-auto rounded-lg pointer-events-none"
+            draggable={false}
+            onError={() => setHasError(true)}
+          />
+        )}
       </div>
 
       {/* Hover controls - positioned below image with proper spacing */}
@@ -258,16 +364,16 @@ function ImageComponent({
           <button
             onClick={() => setShowAltEditor(true)}
             className="px-3 py-1 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary hover:bg-accent-blue hover:text-white transition-colors shadow-elevated"
-            title="Edit alt text"
+            title="编辑描述 (Alt text)"
           >
-            ✏️ Alt text
+            ✏️ 图片描述
           </button>
           <button
             onClick={handleDeleteClick}
             className="px-3 py-1 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary hover:bg-accent-red hover:text-white transition-colors shadow-elevated"
-            title="Delete image"
+            title="删除图片"
           >
-            🗑️ Delete
+            🗑️ 删除
           </button>
         </div>
       )}
@@ -276,9 +382,9 @@ function ImageComponent({
         isOpen={showDeleteConfirm}
         onClose={() => setShowDeleteConfirm(false)}
         onConfirm={confirmDelete}
-        title="Delete Image"
-        message="Delete this image? This cannot be undone."
-        confirmText="Delete"
+        title="删除图片"
+        message="确定删除此图片吗？此操作无法撤销。"
+        confirmText="删除"
         variant="danger"
       />
 
@@ -287,13 +393,13 @@ function ImageComponent({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-surface-dark/50" onClick={() => setShowAltEditor(false)}>
           <div className="bg-surface-light dark:bg-surface-dark rounded-lg shadow-elevated p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-lg font-semibold text-text-light-primary dark:text-text-dark-primary mb-4">
-              Edit Alt Text
+              编辑图片描述 (Alt Text)
             </h3>
             <textarea
               value={editedAltText}
               onChange={(e) => setEditedAltText(e.target.value)}
               className="w-full h-24 px-3 py-2 bg-surface-light-elevated dark:bg-surface-dark-elevated border border-border-light dark:border-border-dark rounded-lg text-text-light-primary dark:text-text-dark-primary resize-none focus:outline-none focus:ring-2 focus:ring-accent-blue"
-              placeholder="Describe this image for screen readers..."
+              placeholder="为屏幕阅读器或无障碍访问提供图片描述..."
               autoFocus
             />
             <div className="flex items-center justify-end gap-2 mt-4">
@@ -301,13 +407,13 @@ function ImageComponent({
                 onClick={() => setShowAltEditor(false)}
                 className="px-4 py-2 text-sm text-text-light-secondary dark:text-text-dark-secondary hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors"
               >
-                Cancel
+                取消
               </button>
               <button
                 onClick={handleSaveAltText}
                 className="px-4 py-2 bg-accent-blue text-white rounded-lg text-sm hover:bg-accent-blue-hover transition-colors"
               >
-                Save
+                保存
               </button>
             </div>
           </div>
