@@ -19,6 +19,7 @@ import type {
 } from '../types/notes';
 import { NOTE_CONSTANTS } from '../types/notes';
 import { createSyncedStorage } from '../lib/syncedStorage';
+import { indexedDBService } from '../services/indexedDB';
 import { useUndoStore } from './useUndoStore';
 import { useActivityStore } from './useActivityStore';
 import { extractWikiLinks, resolveLinksToIds, getBacklinks as getBacklinksUtil } from '../utils/backlinks';
@@ -401,10 +402,8 @@ export const useNotesStore = create<NotesStore>()(
         });
 
         // Delete associated images from IndexedDB (async, fire-and-forget)
-        import('../services/indexedDB').then(({ indexedDBService }) => {
-          indexedDBService.deleteNoteImages(id).catch((err) => {
-            log.error('Failed to delete note images', { id, error: err });
-          });
+        indexedDBService.deleteNoteImages(id).catch((err) => {
+          log.error('Failed to delete note images', { id, error: err });
         });
 
         // Add undo action
@@ -466,11 +465,9 @@ export const useNotesStore = create<NotesStore>()(
         log.debug('Deleted notes', { count: ids.length });
 
         // Delete associated images from IndexedDB (async, fire-and-forget)
-        import('../services/indexedDB').then(({ indexedDBService }) => {
-          ids.forEach((id) => {
-            indexedDBService.deleteNoteImages(id).catch((err) => {
-              log.error('Failed to delete images for note', { id, error: err });
-            });
+        ids.forEach((id) => {
+          indexedDBService.deleteNoteImages(id).catch((err) => {
+            log.error('Failed to delete images for note', { id, error: err });
           });
         });
       },

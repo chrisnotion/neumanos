@@ -136,12 +136,16 @@ export default defineConfig({
         type: 'module'
       }
     }),
-    visualizer({
-      open: false, // Don't auto-open browser (manual check via stats.html)
-      filename: 'dist/stats.html',
-      gzipSize: true,
-      brotliSize: true,
-    })
+    ...(process.env.ANALYZE === 'true'
+      ? [
+          visualizer({
+            open: false,
+            filename: 'dist/stats.html',
+            gzipSize: true,
+            brotliSize: true,
+          }),
+        ]
+      : []),
   ],
 
   // CSS configuration with PostCSS

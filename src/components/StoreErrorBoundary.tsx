@@ -12,6 +12,7 @@
 
 import { Component, type ReactNode, type ErrorInfo } from 'react';
 import { logger } from '../services/logger';
+import { indexedDBService } from '../services/indexedDB';
 
 const log = logger.module('StoreErrorBoundary');
 
@@ -68,8 +69,6 @@ export class StoreErrorBoundary extends Component<Props, State> {
 
     // Clear the specific store's data from IndexedDB
     try {
-      const { indexedDBService } = await import('../services/indexedDB');
-
       // Map store names to their IndexedDB keys
       const storeKeyMap: Record<string, string[]> = {
         calendar: ['calendar-events'],
