@@ -416,16 +416,22 @@ class IndexedDBService {
    * - Returns image ID (key)
    */
   async storeImage(noteId: string, imageFile: File | Blob): Promise<string> {
-    // Check quota before upload
+    // Check quota before upload if quota info is available
     const quota = await this.getQuota();
-    const MIN_AVAILABLE = 10 * 1024 * 1024; // 10MB minimum
+    const MIN_AVAILABLE = 1024 * 1024; // 1MB minimum
 
-    if (quota.available < MIN_AVAILABLE) {
-      throw new Error(`Insufficient storage: ${quota.availableFormatted} remaining. Need at least 10MB.`);
+    if (quota.quota > 0 && quota.available < MIN_AVAILABLE) {
+      throw new Error(`Insufficient storage: ${quota.availableFormatted} remaining. Need at least 1MB.`);
     }
 
-    // Compress image
-    const compressedBlob = await this.compressImage(imageFile);
+    // Compress image with fallback to original file
+    let compressedBlob: Blob = imageFile;
+    try {
+      compressedBlob = await this.compressImage(imageFile);
+    } catch (compressErr) {
+      log.warn('Image compression skipped, using original file', { error: compressErr });
+      compressedBlob = imageFile;
+    }
 
     // Generate unique image ID
     const imageId = `image_${noteId}_${Date.now()}_${Math.random().toString(36).substring(7)}`;
@@ -441,8 +447,8 @@ class IndexedDBService {
   /**
    * Retrieve an image blob by ID
    */
-  async getImage(imageId: string): Promise<Blob | null> {
-    const blob = await this.getObject<Blob>(imageId);
+  async getImage(imageId: string): Promise<Blob | string | null> {
+    const blob = await this.getObject<Blob | string>(imageId);
     return blob;
   }
 
@@ -476,7 +482,12 @@ class IndexedDBService {
    * Returns compressed JPEG blob
    */
   private async compressImage(file: File | Blob): Promise<Blob> {
-    return new Promise((resolve, reject) => {
+    // SVGs do not need compression and canvas rasterization destroys vector quality
+    if (file.type === 'image/svg+xml') {
+      return file;
+    }
+
+    return new Promise((resolve) => {
       const img = new Image();
       const objectUrl = URL.createObjectURL(file);
 
@@ -505,33 +516,36 @@ class IndexedDBService {
         const ctx = canvas.getContext('2d');
         if (!ctx) {
           URL.revokeObjectURL(objectUrl);
-          reject(new Error('Failed to get canvas context'));
+          resolve(file); // Fallback to original
           return;
         }
 
         // Draw image to canvas
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Convert to blob with 85% quality
+        const isPng = file.type === 'image/png';
+        const outputMime = isPng ? 'image/png' : 'image/jpeg';
+        const quality = isPng ? undefined : 0.85;
+
         canvas.toBlob(
           (blob) => {
             URL.revokeObjectURL(objectUrl);
 
             if (!blob) {
-              reject(new Error('Failed to compress image'));
+              resolve(file);
               return;
             }
 
             resolve(blob);
           },
-          'image/jpeg',
-          0.85 // 85% quality
+          outputMime,
+          quality
         );
       };
 
       img.onerror = () => {
         URL.revokeObjectURL(objectUrl);
-        reject(new Error('Failed to load image'));
+        resolve(file); // Fallback to original file instead of rejecting
       };
 
       img.src = objectUrl;

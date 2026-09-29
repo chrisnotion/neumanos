@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { DecoratorNode } from 'lexical';
+import { DecoratorNode, $getNodeByKey } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { indexedDBService } from '../../services/indexedDB';
 import { ConfirmDialog } from '../../components/ConfirmDialog';
@@ -163,6 +163,24 @@ export class ImageNode extends DecoratorNode<React.ReactElement> {
 }
 
 /**
+ * Helper to convert Blob to Data URL
+ */
+function blobToDataUrl(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result);
+      } else {
+        reject(new Error('Failed to convert blob to data URL'));
+      }
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+/**
  * Image Component with Controls
  * Handles resize, alt text editing, delete, and persistence recovery from IndexedDB
  */
@@ -188,68 +206,72 @@ function ImageComponent({
   const [showAltEditor, setShowAltEditor] = useState(false);
   const [editedAltText, setEditedAltText] = useState(altText);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  // If initial src is already a valid data URL or external URL, display it immediately
+  const isDataOrExternal = src && !src.startsWith('blob:');
   const [imageSrc, setImageSrc] = useState<string>(src);
-  const [isLoading, setIsLoading] = useState<boolean>(() => Boolean(imageId));
+  const [isLoading, setIsLoading] = useState<boolean>(() => Boolean(imageId && !isDataOrExternal));
   const [hasError, setHasError] = useState<boolean>(false);
 
   // Restore image from IndexedDB whenever imageId is present
   useEffect(() => {
     let isMounted = true;
-    let objectUrlToRevoke: string | null = null;
 
     if (!imageId) {
       setIsLoading(false);
       return;
     }
 
-    setIsLoading(true);
+    // If src is an expired blob URL or empty, indicate loading
+    if (!src || src.startsWith('blob:')) {
+      setIsLoading(true);
+    }
+    setHasError(false);
+
     indexedDBService
       .getImage(imageId)
-      .then((blob) => {
+      .then(async (data) => {
         if (!isMounted) return;
-        if (blob) {
-          const newUrl = URL.createObjectURL(blob);
-          objectUrlToRevoke = newUrl;
-          setImageSrc(newUrl);
-          setHasError(false);
+        if (data) {
+          let resolvedSrc: string;
+          if (typeof data === 'string') {
+            resolvedSrc = data;
+          } else {
+            resolvedSrc = await blobToDataUrl(data);
+          }
 
-          // Update Lexical node with fresh working URL
-          editor.update(() => {
-            const node = editor.getEditorState().read(() => {
-              return editor.getEditorState()._nodeMap.get(nodeKey);
-            });
-            if (node && node instanceof ImageNode && node.getSrc() !== newUrl) {
-              node.setSrc(newUrl);
-            }
-          });
+          if (!isMounted) return;
+          setImageSrc(resolvedSrc);
+          setHasError(false);
+          setIsLoading(false);
         } else {
-          // If blob not found in IndexedDB, fallback to original src if it's not a dead blob
-          if (!src || src.startsWith('blob:')) {
+          // If blob not found in IndexedDB, fallback to original src if it's a data URL
+          if (src && !src.startsWith('blob:')) {
+            setImageSrc(src);
+            setHasError(false);
+          } else {
             setHasError(true);
           }
+          setIsLoading(false);
         }
       })
       .catch((err) => {
-        console.error('Failed to load image from IndexedDB:', err);
+        console.error('[ImageNode] Failed to load image from IndexedDB:', err);
         if (isMounted) {
-          if (!src || src.startsWith('blob:')) {
+          if (src && !src.startsWith('blob:')) {
+            setImageSrc(src);
+            setHasError(false);
+          } else {
             setHasError(true);
           }
-        }
-      })
-      .finally(() => {
-        if (isMounted) {
           setIsLoading(false);
         }
       });
 
     return () => {
       isMounted = false;
-      if (objectUrlToRevoke) {
-        URL.revokeObjectURL(objectUrlToRevoke);
-      }
     };
-  }, [imageId, editor, nodeKey, src]);
+  }, [imageId, src]);
 
   const handleDeleteClick = useCallback(() => {
     setShowDeleteConfirm(true);
@@ -262,7 +284,7 @@ function ImageComponent({
         await indexedDBService.deleteImage(imageId);
       }
 
-      // Revoke blob URLs
+      // Revoke any blob URL if present
       if (imageSrc && imageSrc.startsWith('blob:')) {
         URL.revokeObjectURL(imageSrc);
       }
@@ -270,11 +292,9 @@ function ImageComponent({
         URL.revokeObjectURL(src);
       }
 
-      // Remove node from editor
+      // Remove node from editor using $getNodeByKey
       editor.update(() => {
-        const node = editor.getEditorState().read(() => {
-          return editor.getEditorState()._nodeMap.get(nodeKey);
-        });
+        const node = $getNodeByKey(nodeKey);
         if (node) {
           node.remove();
         }
@@ -290,9 +310,7 @@ function ImageComponent({
 
   const handleSaveAltText = () => {
     editor.update(() => {
-      const node = editor.getEditorState().read(() => {
-        return editor.getEditorState()._nodeMap.get(nodeKey);
-      });
+      const node = $getNodeByKey(nodeKey);
       if (node && node instanceof ImageNode) {
         node.setAltText(editedAltText);
       }

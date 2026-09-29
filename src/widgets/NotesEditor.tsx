@@ -195,19 +195,31 @@ const ImageUploadPlugin: React.FC<{ noteId: string }> = ({ noteId }) => {
         return;
       }
 
-      // Create blob URL for rendering
-      const blobUrl = URL.createObjectURL(blob);
+      // Convert blob to Data URL for instant, persistent rendering
+      const dataUrl = await new Promise<string>((resolve) => {
+        if (typeof blob === 'string') {
+          resolve(blob);
+        } else {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(blob);
+        }
+      });
 
       // Insert image node into editor
       editor.update(() => {
+        const imageNode = $createImageNode({
+          altText: file.name,
+          src: dataUrl,
+          imageId: imageId,
+        });
+
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
-          const imageNode = $createImageNode({
-            altText: file.name,
-            src: blobUrl,
-            imageId: imageId,
-          });
           selection.insertNodes([imageNode]);
+        } else {
+          const root = $getRoot();
+          root.append(imageNode);
         }
       });
 
@@ -704,19 +716,31 @@ const EditorToolbar: React.FC<{
         return;
       }
 
-      // Create blob URL for rendering
-      const blobUrl = URL.createObjectURL(blob);
+      // Convert blob to Data URL for instant, persistent rendering
+      const dataUrl = await new Promise<string>((resolve) => {
+        if (typeof blob === 'string') {
+          resolve(blob);
+        } else {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(blob);
+        }
+      });
 
       // Insert image node into editor
       editor.update(() => {
+        const imageNode = $createImageNode({
+          altText: file.name,
+          src: dataUrl,
+          imageId: imageId,
+        });
+
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
-          const imageNode = $createImageNode({
-            altText: file.name,
-            src: blobUrl,
-            imageId: imageId,
-          });
           selection.insertNodes([imageNode]);
+        } else {
+          const root = $getRoot();
+          root.append(imageNode);
         }
       });
 
@@ -934,8 +958,9 @@ const AutoSavePlugin: React.FC<{ noteId: string }> = ({ noteId }) => {
   const updateNote = useNotesStore((state) => state.updateNote);
   const announce = useAnnounce();
 
-  // Track timeout ID and last saved content to prevent redundant saves
+  // Track timeout ID, pending save function, and last saved content to prevent redundant saves
   const timeoutIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingSaveRef = useRef<(() => void) | null>(null);
   const existingNote = useNotesStore.getState().notes[noteId];
   const lastContentRef = useRef<string>(existingNote?.content || '');
   const lastTextRef = useRef<string>(existingNote?.contentText || '');
@@ -958,8 +983,7 @@ const AutoSavePlugin: React.FC<{ noteId: string }> = ({ noteId }) => {
         clearTimeout(timeoutIdRef.current);
       }
 
-      // Debounced save with error handling
-      timeoutIdRef.current = setTimeout(() => {
+      const doSave = () => {
         setIsSaving(true);
 
         try {
@@ -1003,15 +1027,27 @@ const AutoSavePlugin: React.FC<{ noteId: string }> = ({ noteId }) => {
           // Error will be handled by IndexedDB quota monitoring system
           // User will be alerted if quota is exceeded via Settings page
         }
+      };
+
+      pendingSaveRef.current = doSave;
+
+      // Debounced save with error handling
+      timeoutIdRef.current = setTimeout(() => {
+        doSave();
+        pendingSaveRef.current = null;
       }, NOTE_CONSTANTS.AUTOSAVE_DEBOUNCE_MS);
     });
   }, [noteId, updateNote, announce]);
 
-  // Cleanup timeout on unmount
+  // Flush pending save immediately on unmount so closing the note doesn't discard changes
   useEffect(() => {
     return () => {
       if (timeoutIdRef.current) {
         clearTimeout(timeoutIdRef.current);
+      }
+      if (pendingSaveRef.current) {
+        pendingSaveRef.current();
+        pendingSaveRef.current = null;
       }
     };
   }, []);
